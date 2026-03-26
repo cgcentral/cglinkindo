@@ -1103,18 +1103,28 @@ const Footer = () => {
             <p className="text-neutral-400 max-w-md text-lg leading-relaxed mb-8">
               Mitra strategis terdepan dalam membangun bisnis yang profesional, berdaya saing, dan berkelanjutan.
             </p>
-            <div className="rounded-2xl overflow-hidden border border-white/10 h-48 w-full max-w-md">
+            <a 
+              href="https://www.google.com/maps/place/CGLINK+Indonesia/data=!4m2!3m1!1s0x0:0xa427427426dcf26f?sa=X&ved=1t:2428&ictx=111" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="block rounded-2xl overflow-hidden border border-white/10 h-48 w-full max-w-md relative group cursor-pointer"
+            >
+              <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors z-10 flex items-center justify-center opacity-0 group-hover:opacity-100">
+                <span className="bg-white text-black px-4 py-2 rounded-full text-sm font-bold shadow-lg flex items-center gap-2">
+                  <MapPin className="w-4 h-4" />
+                  Buka di Google Maps
+                </span>
+              </div>
               <iframe 
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3966.012345678901!2d106.7765432!3d-6.2765432!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69f1c2c3d4e5f6%3A0x1234567890abcdef!2sCGLINK%20Indonesia!5e0!3m2!1sen!2sid!4v1234567890123!5m2!1sen!2sid" 
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3966.012345678901!2d106.7725!3d-6.2731!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xa427427426dcf26f%3A0xa427427426dcf26f!2sCGLINK%20Indonesia!5e0!3m2!1sen!2sid!4v1711440000000!5m2!1sen!2sid" 
                 width="100%" 
                 height="100%" 
-                style={{ border: 0 }} 
-                allowFullScreen={true} 
+                style={{ border: 0, pointerEvents: 'none' }} 
                 loading="lazy" 
                 referrerPolicy="no-referrer-when-downgrade"
                 title="CGLINK Indonesia Location"
               ></iframe>
-            </div>
+            </a>
           </div>
 
           <div>
