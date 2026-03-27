@@ -5,8 +5,8 @@ import {
   ArrowLeft,
   MessageCircle,
   TrendingUp,
+  Heart,
   Share2,
-  HeartHandshake,
   Briefcase,
   Network,
   ShieldCheck,
@@ -610,17 +610,17 @@ const CoreValues = () => {
     {
       icon: <TrendingUp className="w-6 h-6" />,
       title: "Grow",
-      desc: "Meningkatkan kapabilitas melalui pengetahuan, sikap, dan mentalitas."
+      desc: "Meningkatkan kapabilitas melalui pengetahuan, sikap, dan mentalitas berlandaskan kepercayaan dan profesionalisme."
     },
     {
-      icon: <Share2 className="w-6 h-6" />,
+      icon: <Users className="w-6 h-6" />,
       title: "Share",
-      desc: "Berbagi cerita, pengalaman, dan solusi lintas tim dengan integritas."
+      desc: "Berbagi cerita, pengalaman, dan solusi dengan klien, mitra dan masyarakat secara adil, transparan, dan bertanggung jawab."
     },
     {
-      icon: <HeartHandshake className="w-6 h-6" />,
+      icon: <Heart className="w-6 h-6" />,
       title: "Contribute",
-      desc: "Melayani masyarakat melalui inisiatif sosial dan lingkungan."
+      desc: "Menciptakan dampak positif bagi klien, ekonomi, dan masyarakat melalui kegiatan yang berkelanjutan."
     }
   ];
 
@@ -660,9 +660,9 @@ const VisionMission = () => {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
           >
-            <h2 className="text-4xl md:text-5xl font-display font-bold mb-8">Vision</h2>
+            <h2 className="text-4xl md:text-5xl font-display font-bold mb-8">Visi</h2>
             <p className="text-xl md:text-2xl text-neutral-300 leading-relaxed font-light italic">
-              "Menjadi jembatan utama bagi para pelaku bisnis di Indonesia untuk mencapai potensi maksimal mereka di pasar domestik dan global."
+              "Menjadi mitra kolaborasi bisnis yang berlandaskan prinsip legal, logis, dan halal melalui produk, jasa, serta pengembangan bisnis profesional untuk menciptakan pertumbuhan dan manfaat berkelanjutan bagi seluruh pihak."
             </p>
           </motion.div>
           
@@ -671,14 +671,14 @@ const VisionMission = () => {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
           >
-            <h2 className="text-4xl md:text-5xl font-display font-bold mb-8">Mission</h2>
+            <h2 className="text-4xl md:text-5xl font-display font-bold mb-8">Misi</h2>
             <ul className="space-y-8">
               {[
-                "Merumuskan strategi bisnis adaptif yang memastikan klien tetap relevan dan kompetitif.",
-                "Mengoptimalkan struktur keuangan, manajemen risiko, dan perencanaan modal secara presisi.",
-                "Membangun kehadiran merek digital yang kuat melalui strategi pemasaran berbasis data.",
-                "Mengidentifikasi dan mempercepat penetrasi peluang pasar baru bagi bisnis klien.",
-                "Menghubungkan titik-titik potensi melalui jejaring kemitraan strategis yang saling menguntungkan."
+                "Menyelenggarakan produk dan jasa bisnis yang legal, logis, dan halal.",
+                "Menjadi mitra kolaborasi bisnis yang profesional dan saling menguntungkan.",
+                "Memberikan layanan konsultasi dan solusi bisnis yang bernilai tambah.",
+                "Mengembangkan bisnis dan peluang usaha baru secara profesional dan berkelanjutan.",
+                "Menciptakan pertumbuhan dan manfaat yang berkelanjutan bagi seluruh pihak."
               ].map((m, i) => (
                 <li key={i} className="flex gap-6 items-start">
                   <div className="mt-1 w-8 h-8 rounded-full bg-white/10 flex items-center justify-center shrink-0 text-sm font-mono font-bold">
@@ -698,29 +698,19 @@ const VisionMission = () => {
 const ServicesSection: React.FC<{ setCurrentPage: (page: PageType) => void }> = ({ setCurrentPage }) => {
   const services = [
     {
-      id: 'service-fundamental',
-      title: "Strategy & Operations",
-      desc: "Membangun fondasi kokoh untuk pertumbuhan tanpa batas melalui penyusunan model bisnis dan SOP yang efisien."
+      id: 'about-funding',
+      title: "Funding Partnership",
+      desc: "Pendanaan syariah berbasis syirkah, transparan dan berkeadilan, untuk mendukung pertumbuhan usaha."
     },
     {
-      id: 'service-digital',
-      title: "Digital & Marketing",
-      desc: "Menggabungkan seni pemasaran kreatif dengan presisi data untuk mengakselerasi skala bisnis Anda."
+      id: 'about-pillars',
+      title: "Business Consulting",
+      desc: "Konsultan bisnis yang membantu perusahaan menata pondasi usaha, mengelola keuangan & SDM, serta mengembangkan strategi digital untuk pertumbuhan berkelanjutan."
     },
     {
-      id: 'service-partnerships',
-      title: "Innovation & Development",
-      desc: "Membangun jembatan dan membuka peluang melalui aliansi strategis dan ekspansi pasar."
-    },
-    {
-      id: 'service-finance',
-      title: "Finance & Tax",
-      desc: "Presisi finansial untuk keputusan strategis yang tak tergoyahkan dan optimalisasi struktur modal."
-    },
-    {
-      id: 'service-hc',
-      title: "Human Capital",
-      desc: "Menemukan talenta terbaik dan membangun budaya pemenang untuk mengeksekusi strategi bisnis Anda."
+      id: 'about-funding',
+      title: "Funding Acquisition",
+      desc: "Pendanaan syariah untuk mengembangkan usaha baru maupun masuk ke bisnis yang sudah berjalan, dengan strategi ekspansi yang terukur."
     }
   ];
 
@@ -728,7 +718,7 @@ const ServicesSection: React.FC<{ setCurrentPage: (page: PageType) => void }> = 
     <section id="services" className="py-24 relative z-10 bg-neutral-950">
       <div className="container mx-auto px-6 md:px-12">
         <div className="text-center max-w-3xl mx-auto mb-20">
-          <h2 className="text-4xl md:text-6xl font-display font-bold mb-6">Business Consulting</h2>
+          <h2 className="text-4xl md:text-6xl font-display font-bold mb-6">Layanan Utama</h2>
           <p className="text-xl text-neutral-400">Solusi komprehensif untuk pertumbuhan bisnis Anda.</p>
         </div>
 
@@ -1241,7 +1231,7 @@ const AboutUs: React.FC<{ onBack: () => void }> = ({ onBack }) => {
                 Kami percaya pada Profesionalitas Tanpa Kompromi. Tim kami terdiri dari para ahli yang berdedikasi tinggi untuk membantu klien menavigasi kompleksitas dunia usaha. Dengan filosofi kerja yang transparan dan berorientasi pada hasil, kami memastikan setiap langkah yang kita ambil bersama membawa Anda lebih dekat ke puncak kesuksesan.
               </p>
               <blockquote className="border-l-4 border-indigo-500 pl-6 py-2 my-8 bg-white/5 rounded-r-xl italic text-lg text-white/90">
-                "Visi kami adalah menjadi jembatan (Link) utama bagi para pelaku bisnis di Indonesia untuk mencapai potensi maksimal mereka di pasar global."
+                "Menjadi mitra kolaborasi bisnis yang berlandaskan prinsip legal, logis, dan halal melalui produk, jasa, serta pengembangan bisnis profesional untuk menciptakan pertumbuhan dan manfaat berkelanjutan bagi seluruh pihak."
               </blockquote>
               <p className="text-xl text-white font-medium mt-12 text-center">
                 Siap untuk membawa bisnis Anda ke level selanjutnya? Mari berdiskusi bagaimana CGLINK Indonesia dapat membantu menyempurnakan strategi Anda hari ini.

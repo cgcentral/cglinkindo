@@ -136,7 +136,7 @@ export const VisionMissionPage: React.FC<PageProps> = ({ onBack }) => {
           </motion.section>
         </div>
 
-        {/* Visi & Misi Section */}
+          {/* Visi & Misi Section */}
         <div className="grid lg:grid-cols-2 gap-8 mb-32">
           {/* Visi */}
           <motion.div 
@@ -147,12 +147,9 @@ export const VisionMissionPage: React.FC<PageProps> = ({ onBack }) => {
               <h2 className="text-7xl md:text-9xl font-display font-bold mb-8 opacity-10 absolute -top-10 -left-6">Visi</h2>
               <h2 className="text-5xl font-display font-bold mb-12 relative">Visi</h2>
               <p className="text-2xl md:text-3xl font-medium leading-tight mb-12">
-                "Menjadi jembatan utama bagi para pelaku bisnis di Indonesia untuk mencapai potensi maksimal mereka di pasar domestik dan global."
+                "Menjadi mitra kolaborasi bisnis yang berlandaskan prinsip legal, logis, dan halal melalui produk, jasa, serta pengembangan bisnis profesional untuk menciptakan pertumbuhan dan manfaat berkelanjutan bagi seluruh pihak."
               </p>
               <div className="h-px w-24 bg-black/20 mb-12"></div>
-              <p className="text-neutral-600 italic">
-                "Visi kami adalah menjadi jembatan (Link) utama bagi para pelaku bisnis di Indonesia untuk mencapai potensi maksimal mereka di pasar global."
-              </p>
             </div>
             <div className="mt-12">
               <h3 className="text-3xl font-display font-black leading-none tracking-tighter">
@@ -171,11 +168,11 @@ export const VisionMissionPage: React.FC<PageProps> = ({ onBack }) => {
             <h2 className="text-5xl font-display font-bold mb-12">Misi</h2>
             <div className="space-y-8">
               {[
-                "Merumuskan strategi bisnis adaptif yang memastikan klien tetap relevan dan kompetitif.",
-                "Mengoptimalkan struktur keuangan, manajemen risiko, dan perencanaan modal secara presisi.",
-                "Membangun kehadiran merek digital yang kuat melalui strategi pemasaran berbasis data.",
-                "Mengidentifikasi dan mempercepat penetrasi peluang pasar baru bagi bisnis klien.",
-                "Menghubungkan titik-titik potensi melalui jejaring kemitraan strategis yang saling menguntungkan."
+                "Menyelenggarakan produk dan jasa bisnis yang legal, logis, dan halal.",
+                "Menjadi mitra kolaborasi bisnis yang profesional dan saling menguntungkan.",
+                "Memberikan layanan konsultasi dan solusi bisnis yang bernilai tambah.",
+                "Mengembangkan bisnis dan peluang usaha baru secara profesional dan berkelanjutan.",
+                "Menciptakan pertumbuhan dan manfaat yang berkelanjutan bagi seluruh pihak."
               ].map((misi, idx) => (
                 <div key={idx} className="flex gap-6 items-start group">
                   <div className="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center shrink-0 font-mono text-sm group-hover:bg-white group-hover:text-black transition-colors">
@@ -194,28 +191,41 @@ export const VisionMissionPage: React.FC<PageProps> = ({ onBack }) => {
         <motion.div variants={itemVariants} className="mb-32">
           <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-4">
             <h2 className="text-5xl md:text-7xl font-display font-bold tracking-tighter">Nilai-Nilai</h2>
-            <p className="text-neutral-500 max-w-xs text-right">Prinsip dasar yang menjiwai setiap langkah kolaborasi kami.</p>
+            <div className="text-right">
+              <p className="text-indigo-400 font-display font-bold text-2xl mb-2">GRACE</p>
+              <p className="text-neutral-500 max-w-xs">Grow • Share • Contribute</p>
+            </div>
           </div>
           
-          <div className="grid md:grid-cols-3 lg:grid-cols-5 gap-4">
+          <div className="grid md:grid-cols-3 gap-8">
             {[
-              { title: "Kolaborasi", icon: <Users className="w-6 h-6" />, desc: "Semangat kolaborasi mendorong setiap kemitraan — tumbuh bersama adalah tujuan kami." },
-              { title: "Inovasi", icon: <Lightbulb className="w-6 h-6" />, desc: "Data, pengalaman industri, dan kreativitas untuk solusi yang adaptif." },
-              { title: "Orientasi Hasil", icon: <Target className="w-6 h-6" />, desc: "Setiap langkah dirancang untuk membawa dampak nyata dan terukur bagi klien." },
-              { title: "Transparansi", icon: <Search className="w-6 h-6" />, desc: "Filosofi kerja yang jujur dan terbuka — klien selalu tahu apa yang kami lakukan." },
-              { title: "Profesionalitas", icon: <Award className="w-6 h-6" />, desc: "Standar kerja tinggi tanpa kompromi dalam setiap layanan yang kami berikan." }
+              { 
+                title: "Grow", 
+                icon: <TrendingUp className="w-6 h-6" />, 
+                desc: "Meningkatkan kapabilitas melalui pengetahuan, sikap, dan mentalitas berlandaskan kepercayaan dan profesionalisme." 
+              },
+              { 
+                title: "Share", 
+                icon: <Users className="w-6 h-6" />, 
+                desc: "Berbagi cerita, pengalaman, dan solusi dengan klien, mitra dan masyarakat secara adil, transparan, dan bertanggung jawab." 
+              },
+              { 
+                title: "Contribute", 
+                icon: <Heart className="w-6 h-6" />, 
+                desc: "Menciptakan dampak positif bagi klien, ekonomi, dan masyarakat melalui kegiatan yang berkelanjutan" 
+              }
             ].map((item, idx) => (
-              <div key={idx} className="glass-panel p-8 rounded-2xl border border-white/5 hover:border-white/20 transition-all group">
-                <div className="w-12 h-12 rounded-xl bg-white/5 flex items-center justify-center mb-6 group-hover:bg-white group-hover:text-black transition-all">
+              <div key={idx} className="glass-panel p-10 rounded-3xl border border-white/5 hover:border-white/20 transition-all group">
+                <div className="w-14 h-14 rounded-2xl bg-white/5 flex items-center justify-center mb-8 group-hover:bg-white group-hover:text-black transition-all">
                   {item.icon}
                 </div>
-                <h4 className="font-bold text-lg mb-3">{item.title}</h4>
-                <p className="text-sm text-neutral-500 leading-relaxed group-hover:text-neutral-300 transition-colors">{item.desc}</p>
+                <h4 className="font-display font-bold text-2xl mb-4">{item.title}</h4>
+                <p className="text-neutral-400 leading-relaxed group-hover:text-neutral-200 transition-colors">{item.desc}</p>
               </div>
             ))}
           </div>
         </motion.div>
-
+        
         {/* Mengapa CGLINK Consulting? Section */}
         <motion.div variants={itemVariants} className="mb-32">
           <div className="bg-neutral-900 rounded-[3rem] p-12 md:p-20 border border-white/5 relative overflow-hidden">
@@ -355,47 +365,128 @@ export const PilarBisnisPage: React.FC<PageProps> = ({ onBack }) => {
           </div>
         </motion.div>
 
-        {/* Business Consulting Section */}
+        {/* Pilar Bisnis Section */}
         <motion.div variants={itemVariants} className="mb-32">
-          <h2 className="text-3xl md:text-5xl font-display font-bold mb-16 border-l-4 border-indigo-500 pl-6">Business Consulting</h2>
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {[
-              { 
-                title: "Strategy & Operations", 
-                icon: <Target className="w-6 h-6" />, 
-                desc: "Roadmap adaptif untuk bisnis Anda agar tetap relevan dan kompetitif di tengah dinamika pasar." 
-              },
-              { 
-                title: "Finance & Tax", 
-                icon: <FileText className="w-6 h-6" />, 
-                desc: "Optimalisasi modal, manajemen risiko, perencanaan keuangan, pembukuan akuntansi dan pajak yang presisi dan terukur." 
-              },
-              { 
-                title: "Digital & Marketing", 
-                icon: <Globe className="w-6 h-6" />, 
-                desc: "Kehadiran merek digital yang kuat melalui strategi pemasaran berbasis data untuk konversi maksimal." 
-              },
-              { 
-                title: "Innovation & Development", 
-                icon: <Lightbulb className="w-6 h-6" />, 
-                desc: "Identifikasi peluang pasar baru dan percepatan penetrasi produk atau layanan Anda." 
-              },
-              { 
-                title: "Human Capital", 
-                icon: <Users className="w-6 h-6" />, 
-                desc: "Pengembangan SDM, design struktur organisasi serta nomenklatur jabatan yang tepat, sistem payroll hingga mekanisme remunerasi." 
-              }
-            ].map((item, idx) => (
-              <div key={idx} className="glass-panel p-8 rounded-2xl border border-white/5 hover:border-white/20 transition-all group">
-                <div className="flex items-center gap-4 mb-6">
-                  <div className="w-12 h-12 rounded-xl bg-white/5 flex items-center justify-center group-hover:bg-white group-hover:text-black transition-all">
-                    {item.icon}
-                  </div>
-                  <h4 className="text-xl font-bold">{item.title}</h4>
+          <h2 className="text-3xl md:text-5xl font-display font-bold mb-16 border-l-4 border-indigo-500 pl-6">Pilar Bisnis</h2>
+          <div className="space-y-12">
+            {/* BTW Mister Catur */}
+            <div className="glass-panel p-8 md:p-12 rounded-[2.5rem] border border-white/5 relative overflow-hidden group">
+              <div className="grid lg:grid-cols-2 gap-12 items-center">
+                <div>
+                  <h3 className="text-3xl md:text-4xl font-display font-bold mb-6">BTW Mister Catur</h3>
+                  <p className="text-neutral-300 text-lg leading-relaxed mb-8">
+                    Kanal media digital yang fokus pada konten bisnis, motivasi, dan nilai kehidupan. Melalui platform ini, kami tidak hanya membagikan insight praktis, tetapi juga membuka peluang kolaborasi dan sponsorship dengan mitra yang ingin menjangkau audiens yang relevan.
+                  </p>
+                  <ul className="grid sm:grid-cols-2 gap-4 mb-10">
+                    {[
+                      "Fokus pada bisnis, motivasi, dan nilai Islami.",
+                      "Jangkauan audiens luas melalui YouTube & media sosial.",
+                      "Sudah tampil di beberapa podcast & media coverage",
+                      "Terbuka untuk kolaborasi & sponsorship."
+                    ].map((bullet, i) => (
+                      <li key={i} className="flex gap-3 items-start text-neutral-400">
+                        <CheckCircle2 className="w-5 h-5 text-indigo-400 shrink-0 mt-0.5" />
+                        <span className="text-sm">{bullet}</span>
+                      </li>
+                    ))}
+                  </ul>
+                  <a 
+                    href="https://btwmistercatur.com" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-3 px-8 py-4 bg-white text-black rounded-full font-bold hover:bg-neutral-200 transition-all group/btn"
+                  >
+                    Visit btwmistercatur.com
+                    <ArrowRight className="w-5 h-5 group-hover/btn:translate-x-1 transition-transform" />
+                  </a>
                 </div>
-                <p className="text-neutral-500 leading-relaxed group-hover:text-neutral-300 transition-colors">{item.desc}</p>
+                <div className="relative aspect-video rounded-3xl overflow-hidden border border-white/10">
+                  <img 
+                    src="https://cglinkindonesia.com/wp-content/uploads/2026/03/Desain-tanpa-judul-2.png" 
+                    alt="BTW Mister Catur" 
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                    referrerPolicy="no-referrer"
+                  />
+                </div>
               </div>
-            ))}
+            </div>
+
+            {/* CG Tour & Travel */}
+            <div className="glass-panel p-8 md:p-12 rounded-[2.5rem] border border-white/5 group">
+              <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-8 mb-8">
+                <div>
+                  <h3 className="text-3xl font-display font-bold mb-2">CG Tour & Travel</h3>
+                  <p className="text-indigo-400 font-medium">Layanan Perjalanan Umroh Amanah</p>
+                </div>
+                <a 
+                  href="https://cgtourtravel.com" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="px-6 py-3 border border-white/20 rounded-full hover:bg-white hover:text-black transition-all flex items-center gap-2"
+                >
+                  cgtourtravel.com <ArrowRight className="w-4 h-4" />
+                </a>
+              </div>
+              <p className="text-neutral-400 text-lg leading-relaxed mb-8 max-w-3xl">
+                Layanan perjalanan umroh yang amanah, nyaman, dan terpercaya. Kami mendampingi jamaah dengan manajemen perjalanan profesional serta dukungan mitra resmi untuk memastikan ibadah berjalan lancar.
+              </p>
+              <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                {[
+                  "Amanah & sesuai syariah.",
+                  "Fasilitas perjalanan modern.",
+                  "Pendampingan jamaah profesional.",
+                  "Jaringan mitra resmi & terpercaya."
+                ].map((bullet, i) => (
+                  <div key={i} className="p-6 rounded-2xl bg-white/5 border border-white/5 hover:bg-white/10 transition-colors">
+                    <p className="text-neutral-300 font-medium">{bullet}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="grid md:grid-cols-2 gap-8">
+              {/* Program Affiliate */}
+              <div className="glass-panel p-10 rounded-[2.5rem] border border-white/5">
+                <h3 className="text-2xl font-display font-bold mb-6">Program Affiliate</h3>
+                <p className="text-neutral-400 leading-relaxed mb-8">
+                  CGLINK membuka peluang bagi mitra untuk memperluas distribusi produk melalui program affiliate. Dengan sistem yang terstruktur, kami membantu partner mencapai pasar yang lebih luas dan meningkatkan penjualan secara berkelanjutan.
+                </p>
+                <ul className="space-y-4">
+                  {[
+                    "Mudah bergabung & transparan.",
+                    "Dukungan sistem penjualan digital.",
+                    "Jaringan distribusi luas.",
+                    "Potensi income tambahan."
+                  ].map((bullet, i) => (
+                    <li key={i} className="flex gap-3 items-center text-neutral-500">
+                      <div className="w-1.5 h-1.5 rounded-full bg-indigo-500"></div>
+                      {bullet}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              {/* Yayasan Amal Soleh */}
+              <div className="glass-panel p-10 rounded-[2.5rem] border border-white/5">
+                <h3 className="text-2xl font-display font-bold mb-6">Yayasan Amal Soleh</h3>
+                <p className="text-neutral-400 leading-relaxed mb-8">
+                  CGLINK berkomitmen untuk tidak hanya membangun bisnis, tetapi juga memberikan kontribusi nyata bagi masyarakat. Melalui Yayasan Amal Soleh CGLINK (YASCI), kami hadir dalam berbagai program sosial, pendidikan, dan pemberdayaan.
+                </p>
+                <ul className="space-y-4">
+                  {[
+                    "Program pendidikan & literasi.",
+                    "Dukungan sosial & kemanusiaan.",
+                    "Pemberdayaan ekonomi masyarakat.",
+                    "Kolaborasi dengan mitra sosial."
+                  ].map((bullet, i) => (
+                    <li key={i} className="flex gap-3 items-center text-neutral-500">
+                      <div className="w-1.5 h-1.5 rounded-full bg-indigo-500"></div>
+                      {bullet}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
           </div>
         </motion.div>
 
