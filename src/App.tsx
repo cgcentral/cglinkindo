@@ -1134,9 +1134,9 @@ const Footer = () => {
                 <Phone className="w-5 h-5 shrink-0 text-white" />
                 (021) 1234 5678
               </a>
-              <a href="mailto:cglinkmultimedia@gmail.com" className="flex gap-4 hover:text-white transition-colors items-center">
+              <a href="mailto:businesspartner@cglinkindonesia.com" className="flex gap-4 hover:text-white transition-colors items-center">
                 <Mail className="w-5 h-5 shrink-0 text-white" />
-                cglinkmultimedia@gmail.com
+                businesspartner@cglinkindonesia.com
               </a>
               <a href="https://cglinkindonesia.com" className="flex gap-4 hover:text-white transition-colors items-center">
                 <Globe className="w-5 h-5 shrink-0 text-white" />
@@ -1249,7 +1249,7 @@ const AboutUs: React.FC<{ onBack: () => void }> = ({ onBack }) => {
               />
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <a 
-                  href="mailto:cglinkmultimedia@gmail.com"
+                  href="mailto:businesspartner@cglinkindonesia.com"
                   className="flex items-center justify-center gap-3 px-8 py-4 bg-white text-black rounded-full font-bold hover:bg-neutral-200 transition-all hover:scale-105 active:scale-95"
                 >
                   <Mail className="w-5 h-5" />
@@ -1370,7 +1370,7 @@ const ContactPage: React.FC<{ onBack: () => void }> = ({ onBack }) => {
                     </div>
                     <div>
                       <h4 className="text-white font-bold mb-1">Korespondensi Email</h4>
-                      <a href="mailto:cglinkmultimedia@gmail.com" className="text-neutral-400 hover:text-indigo-400 transition-colors">cglinkmultimedia@gmail.com</a>
+                      <a href="mailto:businesspartner@cglinkindonesia.com" className="text-neutral-400 hover:text-indigo-400 transition-colors">businesspartner@cglinkindonesia.com</a>
                       <p className="text-sm text-neutral-500 mt-1">Kami berkomitmen membalas pesan Anda dalam waktu &lt; 24 jam kerja.</p>
                     </div>
                   </div>

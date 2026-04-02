@@ -66,11 +66,11 @@ export const CareersPage: React.FC<{ onBack: () => void }> = ({ onBack }) => {
           <div className="bg-indigo-900/20 border border-indigo-500/30 rounded-xl p-8 text-center">
             <p className="text-white mb-6">Kirimkan CV, Portofolio, dan Cover Letter singkat Anda ke:</p>
             <a 
-              href="mailto:recruitment@cglink.id"
+              href="mailto:businesspartner@cglinkindonesia.com"
               className="inline-flex items-center justify-center gap-3 px-8 py-4 bg-white text-black rounded-full font-bold hover:bg-neutral-200 transition-all hover:scale-105 active:scale-95"
             >
               <Mail className="w-5 h-5" />
-              recruitment@cglink.id
+              businesspartner@cglinkindonesia.com
             </a>
             <p className="text-neutral-400 mt-6 text-sm">Subjek: [Posisi yang Dilamar] - [Nama Anda]</p>
           </div>

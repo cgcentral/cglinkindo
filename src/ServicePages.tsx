@@ -13,7 +13,7 @@ const CTASection = () => (
     />
     <div className="flex flex-col sm:flex-row gap-4 justify-center">
       <a 
-        href="mailto:cglinkmultimedia@gmail.com"
+        href="mailto:businesspartner@cglinkindonesia.com"
         className="flex items-center justify-center gap-3 px-8 py-4 bg-white text-black rounded-full font-bold hover:bg-neutral-200 transition-all hover:scale-105 active:scale-95"
       >
         <Mail className="w-5 h-5" />
