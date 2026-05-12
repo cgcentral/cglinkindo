@@ -84,19 +84,19 @@ const Navbar = ({ currentPage, setCurrentPage }: { currentPage: PageType, setCur
 
   return (
     <nav 
-      className={`fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 md:px-12 h-[88px] transition-all duration-700 ${scrolled ? 'bg-white/90 backdrop-blur-2xl border-b border-neutral-100 shadow-[0_4px_30px_rgba(0,0,0,0.05)]' : 'bg-transparent'}`}
+      className={`fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 md:px-16 h-[88px] transition-all duration-700 ${scrolled ? 'bg-black/95 backdrop-blur-2xl border-b border-white/5 shadow-[0_10px_50px_rgba(0,0,0,0.3)]' : 'bg-transparent'}`}
       onMouseLeave={() => {
         setIsServicesMenuOpen(false);
         setIsAboutMenuOpen(false);
       }}
     >
-      <div className={`absolute bottom-0 left-0 h-[1px] bg-gradient-to-r from-transparent via-indigo-500/50 to-transparent transition-all duration-1000 ${scrolled ? 'w-full opacity-100' : 'w-0 opacity-0'}`} />
+      <div className={`absolute bottom-0 left-0 h-[1px] bg-gradient-to-r from-transparent via-neutral-400 to-transparent transition-all duration-1000 ${scrolled ? 'w-full opacity-100' : 'w-0 opacity-0'}`} />
       
       <div 
         className="flex items-center gap-3 cursor-pointer group"
         onClick={() => { setCurrentPage('home'); window.scrollTo(0, 0); setIsMobileMenuOpen(false); }}
       >
-        <div className={`w-11 h-11 rounded-xl overflow-hidden border transition-all duration-500 flex items-center justify-center ${scrolled ? 'border-neutral-100 bg-white shadow-sm' : 'border-neutral-200 bg-white shadow-sm'} group-hover:scale-105`}>
+        <div className={`w-11 h-11 rounded-xl overflow-hidden border transition-all duration-500 flex items-center justify-center ${scrolled ? 'border-white/10 bg-white/5 shadow-2xl' : 'border-neutral-200 bg-white shadow-sm'} group-hover:scale-105 group-hover:border-neutral-900`}>
           <img 
             src="https://cglinkindonesia.com/wp-content/uploads/2026/03/WhatsApp-Image-2026-03-26-at-14.55.49.jpeg" 
             alt="CGLINK Logo" 
@@ -104,18 +104,20 @@ const Navbar = ({ currentPage, setCurrentPage }: { currentPage: PageType, setCur
             referrerPolicy="no-referrer"
           />
         </div>
-        <span className={`font-display font-black text-2xl tracking-tighter uppercase transition-colors duration-500 ${scrolled ? 'text-neutral-900' : 'text-neutral-900'} group-hover:text-indigo-600`}>CGLINK</span>
+        <span className={`font-display font-black text-2xl tracking-tighter uppercase transition-colors duration-500 ${scrolled ? 'text-white' : 'text-neutral-900'} group-hover:text-neutral-400 flex items-center gap-2`}>
+          CGLINK <Globe className={`w-4 h-4 ${scrolled ? 'text-white' : 'text-neutral-900'} animate-spin-slow`} />
+        </span>
       </div>
       
       {/* Desktop Menu */}
-      <div className={`hidden md:flex items-center h-full gap-8 text-[11px] font-black uppercase tracking-[0.2em] transition-colors duration-500 ${scrolled ? 'text-neutral-500' : 'text-neutral-500'}`}>
+      <div className={`hidden md:flex items-center h-full gap-8 text-[11px] font-black uppercase tracking-[0.2em] transition-colors duration-500 ${scrolled ? 'text-neutral-400' : 'text-neutral-500'}`}>
         <div className="h-full flex items-center relative">
           <button 
             onMouseEnter={() => {
               setIsAboutMenuOpen(true);
               setIsServicesMenuOpen(false);
             }}
-            className={`flex items-center gap-1 transition-colors h-full ${scrolled ? 'hover:text-indigo-600' : 'hover:text-indigo-600'} ${isAboutMenuOpen || (currentPage.startsWith('about-')) ? 'text-indigo-600' : ''}`}
+            className={`flex items-center gap-1 transition-colors h-full ${scrolled ? 'hover:text-white' : 'hover:text-neutral-900'} ${isAboutMenuOpen || (currentPage.startsWith('about-')) ? (scrolled ? 'text-white' : 'text-neutral-900') : ''}`}
           >
             About Us <ChevronDown className={`w-3 h-3 transition-transform ${isAboutMenuOpen ? 'rotate-180' : ''}`} />
           </button>
@@ -126,19 +128,19 @@ const Navbar = ({ currentPage, setCurrentPage }: { currentPage: PageType, setCur
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: 10 }}
-                className={`absolute top-full left-0 w-64 border shadow-2xl rounded-b-3xl overflow-hidden ${scrolled ? 'bg-white border-neutral-100' : 'bg-white border-neutral-100'}`}
+                className={`absolute top-full left-0 w-64 border shadow-2xl rounded-b-3xl overflow-hidden ${scrolled ? 'bg-black border-white/5' : 'bg-white border-neutral-100'}`}
                 onMouseLeave={() => setIsAboutMenuOpen(false)}
               >
                 <div className="flex flex-col py-3">
                   <button
                     onClick={() => { setCurrentPage('about-vision'); window.scrollTo(0, 0); setIsAboutMenuOpen(false); }}
-                    className={`text-left px-8 py-4 transition-colors border-b ${scrolled ? 'hover:bg-neutral-50 text-neutral-500 hover:text-indigo-600 border-neutral-50' : 'hover:bg-neutral-50 text-neutral-500 hover:text-indigo-600 border-neutral-50'}`}
+                    className={`text-left px-8 py-4 transition-colors border-b ${scrolled ? 'hover:bg-white/5 text-neutral-400 hover:text-white border-white/5' : 'hover:bg-neutral-50 text-neutral-500 hover:text-neutral-900 border-neutral-50'}`}
                   >
                     Visi dan Misi
                   </button>
                   <button
                     onClick={() => { setCurrentPage('about-pillars'); window.scrollTo(0, 0); setIsAboutMenuOpen(false); }}
-                    className={`text-left px-8 py-4 transition-colors ${scrolled ? 'hover:bg-neutral-50 text-neutral-500 hover:text-indigo-600' : 'hover:bg-neutral-50 text-neutral-500 hover:text-indigo-600'}`}
+                    className={`text-left px-8 py-4 transition-colors ${scrolled ? 'hover:bg-white/5 text-neutral-400 hover:text-white' : 'hover:bg-neutral-50 text-neutral-500 hover:text-neutral-900'}`}
                   >
                     Pilar Bisnis
                   </button>
@@ -154,7 +156,7 @@ const Navbar = ({ currentPage, setCurrentPage }: { currentPage: PageType, setCur
               setIsServicesMenuOpen(true);
               setIsAboutMenuOpen(false);
             }}
-            className={`flex items-center gap-1 transition-colors h-full ${scrolled ? 'hover:text-indigo-600' : 'hover:text-indigo-600'} ${isServicesMenuOpen || (currentPage.startsWith('service-')) ? 'text-indigo-600' : ''}`}
+            className={`flex items-center gap-1 transition-colors h-full ${scrolled ? 'hover:text-white' : 'hover:text-neutral-900'} ${isServicesMenuOpen || (currentPage.startsWith('service-')) ? (scrolled ? 'text-white' : 'text-neutral-900') : ''}`}
           >
             Capabilities <ChevronDown className={`w-3 h-3 transition-transform ${isServicesMenuOpen ? 'rotate-180' : ''}`} />
           </button>
@@ -162,14 +164,14 @@ const Navbar = ({ currentPage, setCurrentPage }: { currentPage: PageType, setCur
 
         <button 
           onClick={() => { setCurrentPage('about-funding'); window.scrollTo(0, 0); }}
-          className={`${currentPage === 'about-funding' ? 'text-indigo-600' : ''} ${scrolled ? 'hover:text-indigo-600' : 'hover:text-indigo-600'} transition-colors h-full flex items-center`}
+          className={`${currentPage === 'about-funding' ? (scrolled ? 'text-white' : 'text-neutral-900') : ''} ${scrolled ? 'hover:text-white' : 'hover:text-neutral-900'} transition-colors h-full flex items-center`}
         >
           Portfolio
         </button>
 
         <button 
           onClick={() => { setCurrentPage('careers'); window.scrollTo(0, 0); }}
-          className={`${currentPage === 'careers' ? 'text-indigo-600' : ''} ${scrolled ? 'hover:text-indigo-600' : 'hover:text-indigo-600'} transition-colors h-full flex items-center`}
+          className={`${currentPage === 'careers' ? (scrolled ? 'text-white' : 'text-neutral-900') : ''} ${scrolled ? 'hover:text-white' : 'hover:text-neutral-900'} transition-colors h-full flex items-center`}
         >
           Careers
         </button>
@@ -177,7 +179,7 @@ const Navbar = ({ currentPage, setCurrentPage }: { currentPage: PageType, setCur
 
       <button 
         onClick={() => { setCurrentPage('contact'); window.scrollTo(0, 0); }}
-        className={`hidden md:block px-8 py-3 rounded-full text-[10px] font-black uppercase tracking-widest transition-all hover:scale-105 active:scale-95 ${scrolled ? 'bg-indigo-600 text-white hover:bg-indigo-700' : 'bg-neutral-900 text-white hover:bg-black/80'}`}
+        className={`hidden md:block px-8 py-3 rounded-full text-[10px] font-black uppercase tracking-widest transition-all hover:scale-105 active:scale-95 ${scrolled ? 'bg-white text-black hover:bg-neutral-200 shadow-[0_0_20px_rgba(255,255,255,0.2)]' : 'bg-neutral-900 text-white hover:bg-black/80'}`}
       >
         Work with us
       </button>
@@ -190,17 +192,17 @@ const Navbar = ({ currentPage, setCurrentPage }: { currentPage: PageType, setCur
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 10 }}
             transition={{ duration: 0.3, ease: [0.23, 1, 0.32, 1] }}
-            className={`absolute top-full left-0 w-full border-b shadow-2xl cursor-default pb-12 ${scrolled ? 'bg-white border-neutral-100' : 'bg-white border-neutral-100'}`}
+            className={`absolute top-full left-0 w-full border-b shadow-2xl cursor-default pb-20 ${scrolled ? 'bg-black border-white/5' : 'bg-white border-neutral-100'}`}
             onMouseEnter={() => setIsServicesMenuOpen(true)}
             onMouseLeave={() => setIsServicesMenuOpen(false)}
           >
-            <div className="container mx-auto px-6 md:px-12 pt-16 flex gap-20">
+            <div className="w-full px-6 md:px-16 pt-16 flex gap-24">
               <div className="w-4/12">
-                <div className="mb-10">
-                  <h3 className={`text-4xl font-display font-black uppercase tracking-tighter mb-4 ${scrolled ? 'text-neutral-900' : 'text-neutral-900'}`}>CAPABILITIES</h3>
-                  <p className={`font-medium max-w-xs ${scrolled ? 'text-neutral-500' : 'text-neutral-500'}`}>Solusi strategis untuk transformasi bisnis Anda di era digital.</p>
+                <div className="mb-12">
+                  <h3 className={`text-4xl font-display font-black uppercase tracking-tighter mb-4 ${scrolled ? 'text-white' : 'text-neutral-900'}`}>CAPABILITIES</h3>
+                  <p className={`font-medium max-w-xs ${scrolled ? 'text-neutral-400' : 'text-neutral-500'}`}>Solusi strategis untuk transformasi bisnis Anda di era digital.</p>
                 </div>
-                <div className={`flex flex-col gap-1 border-l-2 ${scrolled ? 'border-neutral-100' : 'border-neutral-100'}`}>
+                <div className={`flex flex-col gap-1 border-l ${scrolled ? 'border-white/5' : 'border-neutral-100'}`}>
                   {servicesData.map(s => (
                     <button
                       key={s.id}
@@ -210,7 +212,7 @@ const Navbar = ({ currentPage, setCurrentPage }: { currentPage: PageType, setCur
                         window.scrollTo(0, 0);
                         setIsServicesMenuOpen(false);
                       }}
-                      className={`text-left px-8 py-4 transition-all text-[11px] font-black uppercase tracking-widest ${activeService === s.id ? 'text-indigo-600 border-l-2 border-indigo-600 -ml-[2px]' : (scrolled ? 'text-neutral-400 hover:text-indigo-600' : 'text-neutral-400 hover:text-indigo-600')}`}
+                      className={`text-left px-8 py-4 transition-all text-[11px] font-black uppercase tracking-widest ${activeService === s.id ? (scrolled ? 'text-white border-l-2 border-white -ml-[1px]' : 'text-neutral-900 border-l-2 border-neutral-900 -ml-[1px]') : (scrolled ? 'text-neutral-500 hover:text-white' : 'text-neutral-400 hover:text-neutral-900')}`}
                     >
                       {s.title}
                     </button>
@@ -219,18 +221,18 @@ const Navbar = ({ currentPage, setCurrentPage }: { currentPage: PageType, setCur
               </div>
 
               <div className="w-8/12 flex items-center">
-                <div className={`p-12 rounded-[3.5rem] border w-full relative overflow-hidden group ${scrolled ? 'bg-neutral-50 border-neutral-100' : 'bg-neutral-50 border-neutral-100'}`}>
-                  <div className={`absolute top-0 right-0 w-64 h-64 bg-indigo-500/5 blur-[100px] rounded-full -mr-32 -mt-32`}></div>
+                <div className={`p-16 rounded-[4rem] border w-full relative overflow-hidden group ${scrolled ? 'bg-white/5 border-white/5' : 'bg-neutral-50 border-neutral-100'}`}>
+                  <div className={`absolute top-0 right-0 w-80 h-80 ${scrolled ? 'bg-white/5' : 'bg-neutral-900/5'} blur-[100px] rounded-full -mr-40 -mt-40`}></div>
                   <motion.div
                     key={activeService}
                     initial={{ opacity: 0, x: 20 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ duration: 0.4 }}
                   >
-                    <h4 className={`text-3xl font-display font-black mb-6 uppercase tracking-tighter ${scrolled ? 'text-neutral-900' : 'text-neutral-900'}`}>
+                    <h4 className={`text-3xl font-display font-black mb-6 uppercase tracking-tighter ${scrolled ? 'text-white' : 'text-neutral-900'}`}>
                       {servicesData.find(s => s.id === activeService)?.title}
                     </h4>
-                    <p className={`text-xl leading-relaxed font-medium mb-10 max-w-2xl ${scrolled ? 'text-neutral-500' : 'text-neutral-500'}`}>
+                    <p className={`text-xl leading-relaxed font-medium mb-12 max-w-2xl ${scrolled ? 'text-neutral-300' : 'text-neutral-500'}`}>
                       {servicesData.find(s => s.id === activeService)?.desc}
                     </p>
                     <button 
@@ -239,7 +241,7 @@ const Navbar = ({ currentPage, setCurrentPage }: { currentPage: PageType, setCur
                         window.scrollTo(0, 0);
                         setIsServicesMenuOpen(false);
                       }}
-                      className={`px-8 py-4 rounded-2xl font-black uppercase tracking-widest text-[10px] transition-all flex items-center gap-3 ${scrolled ? 'bg-indigo-600 text-white hover:bg-indigo-700' : 'bg-neutral-900 text-white hover:bg-black/80'}`}
+                      className={`px-10 py-5 rounded-2xl font-black uppercase tracking-widest text-[10px] transition-all flex items-center gap-3 ${scrolled ? 'bg-white text-black hover:bg-neutral-200' : 'bg-neutral-900 text-white hover:bg-black/80'}`}
                     >
                       Learn More <ArrowRight className="w-4 h-4" />
                     </button>
@@ -310,7 +312,7 @@ const BusinessStats = () => {
 
   return (
     <section className="py-20 relative z-10 bg-white border-y border-neutral-100">
-      <div className="container mx-auto px-6 md:px-12">
+      <div className="w-full px-6 md:px-16">
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-0 divide-y md:divide-y-0 md:divide-x divide-neutral-100">
           {stats.map((s, i) => (
             <motion.div
@@ -321,9 +323,9 @@ const BusinessStats = () => {
               transition={{ delay: i * 0.1, duration: 0.8 }}
               className="px-8 py-12 md:py-16 text-center group"
             >
-              <div className="text-6xl md:text-8xl font-display font-black text-neutral-900 tracking-tighter mb-4 group-hover:text-indigo-600 transition-colors duration-500">{s.value}</div>
+              <div className="text-6xl md:text-8xl font-display font-black text-neutral-900 tracking-tighter mb-4 group-hover:text-neutral-900 transition-colors duration-500">{s.value}</div>
               <div className="flex items-center justify-center gap-3">
-                <span className="text-indigo-600">{s.icon}</span>
+                <span className="text-neutral-900">{s.icon}</span>
                 <span className="text-[10px] font-black text-neutral-400 uppercase tracking-[0.2em]">{s.label}</span>
               </div>
             </motion.div>
@@ -352,7 +354,7 @@ const LatestInsights = ({ setCurrentPage }: { setCurrentPage: (p: PageType) => v
 
   return (
     <section className="py-32 relative z-10 bg-white">
-      <div className="container mx-auto px-6 md:px-12">
+      <div className="w-full px-6 md:px-16">
         <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
           <div className="max-w-2xl text-left">
             <h2 className="text-4xl md:text-7xl font-display font-black tracking-tighter mb-8 text-neutral-900">LATEST INSIGHTS</h2>
@@ -405,7 +407,7 @@ const InvestorRelations = ({ setCurrentPage }: { setCurrentPage: (p: PageType) =
   return (
     <section className="py-24 relative z-10 bg-white text-black overflow-hidden group">
       <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-neutral-100 rounded-full blur-[120px] -mr-32 -mt-32 transition-transform duration-1000 group-hover:scale-110" />
-      <div className="container mx-auto px-6 md:px-12 relative z-10">
+      <div className="w-full px-6 md:px-16 relative z-10">
         <div className="grid lg:grid-cols-2 gap-16 items-center">
           <div>
             <h2 className="text-4xl md:text-7xl font-display font-black tracking-tighter mb-8 leading-none">
@@ -510,7 +512,7 @@ const BentoGridServices = ({ setCurrentPage }: { setCurrentPage: (p: PageType) =
 
   return (
     <section id="services-bento" className="py-32 bg-white relative z-10">
-      <div className="container mx-auto px-6 md:px-12">
+      <div className="w-full px-6 md:px-16">
         <div className="max-w-3xl mb-20">
           <h2 className="text-5xl md:text-8xl font-display font-black tracking-tighter text-neutral-900 mb-8 uppercase leading-[0.85]">
             CORE <br />CAPABILITIES
@@ -554,24 +556,54 @@ const Hero = ({ setCurrentPage }: { setCurrentPage: (p: PageType) => void }) => 
     <section className="relative min-h-screen flex items-center pt-32 pb-24 overflow-hidden bg-white">
       {/* Background Decor */}
       <div className="bg-grid opacity-60" />
-      <div className="absolute top-1/4 right-[10%] w-[600px] h-[600px] bg-indigo-100/50 rounded-full blur-[120px] -z-10 animate-pulse" />
-      <div className="absolute bottom-1/4 left-[5%] w-[400px] h-[400px] bg-indigo-50/30 rounded-full blur-[100px] -z-10" />
+      <div className="absolute top-1/4 right-[10%] w-[600px] h-[600px] bg-neutral-100/50 rounded-full blur-[120px] -z-10 animate-pulse" />
+      <div className="absolute bottom-1/4 left-[5%] w-[400px] h-[400px] bg-neutral-50/30 rounded-full blur-[100px] -z-10" />
+      
+      {/* Large Hero Globe Animation */}
+      <div className="absolute right-0 top-1/2 -translate-y-1/2 w-[800px] h-[800px] opacity-10 pointer-events-none -z-10 overflow-hidden hidden lg:block">
+        <motion.div
+          animate={{ rotateY: 360 }}
+          transition={{ duration: 60, repeat: Infinity, ease: "linear" }}
+          className="w-full h-full border border-neutral-900/10 rounded-full flex items-center justify-center [perspective:1000px]"
+        >
+          <div className="w-[80%] h-[80%] border border-neutral-900/10 rounded-full flex items-center justify-center">
+            <div className="w-[60%] h-[60%] border border-neutral-900/10 rounded-full flex items-center justify-center">
+              <Globe className="w-96 h-96 text-neutral-900" />
+            </div>
+          </div>
+        </motion.div>
+        
+        {/* Orbital Dots */}
+        {[...Array(6)].map((_, i) => (
+          <motion.div
+            key={i}
+            animate={{ rotate: 360 }}
+            transition={{ duration: 15 + i * 5, repeat: Infinity, ease: "linear" }}
+            className="absolute inset-0 flex items-center justify-center"
+          >
+            <div 
+              className="w-2 h-2 bg-neutral-900 rounded-full"
+              style={{ marginLeft: `${300 + i * 40}px` }}
+            />
+          </motion.div>
+        ))}
+      </div>
 
-      <div className="container mx-auto px-6 md:px-12 relative z-10">
-        <div className="max-w-5xl mx-auto text-center">
+      <div className="w-full px-6 md:px-16 relative z-10">
+        <div className="w-full text-center">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease: [0.23, 1, 0.32, 1] }}
           >
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-indigo-50 border border-indigo-100 text-[10px] font-black uppercase tracking-[0.2em] text-indigo-600 mb-8">
-              <span className="w-2 h-2 rounded-full bg-indigo-600 animate-pulse" />
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-neutral-50 border border-neutral-100 text-[10px] font-black uppercase tracking-[0.2em] text-neutral-900 mb-8">
+              <span className="w-2 h-2 rounded-full bg-neutral-900 animate-pulse" />
               Partnership for sustainable growth
             </div>
             
             <h1 className="text-6xl md:text-8xl lg:text-[10rem] font-display font-black tracking-tighter leading-[0.85] mb-12 text-neutral-900 uppercase">
               BEYOND <br />
-              <span className="text-indigo-600">BUSINESS</span> <br />
+              <span className="text-neutral-400">BUSINESS</span> <br />
               VISION.
             </h1>
           </motion.div>
@@ -616,18 +648,38 @@ const Hero = ({ setCurrentPage }: { setCurrentPage: (p: PageType) => void }) => 
             initial={{ opacity: 0, y: 100 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1.2, delay: 0.7 }}
-            className="absolute left-1/2 -translate-x-1/2 top-10 w-96 p-10 rounded-[3rem] bg-indigo-600 shadow-2xl shadow-indigo-200/20 z-10"
+            className="absolute left-1/2 -translate-x-1/2 top-10 w-96 p-10 rounded-[3rem] bg-neutral-900 shadow-2xl shadow-neutral-200/20 z-10"
           >
             <div className="flex justify-between items-start mb-12">
               <div className="text-white font-display font-black text-2xl tracking-tighter uppercase">CGLINK</div>
-              <Globe className="w-6 h-6 text-indigo-200 animate-spin-slow" />
+              <div className="relative">
+                <motion.div
+                  animate={{ 
+                    rotate: 360,
+                    scale: [1, 1.1, 1],
+                    opacity: [0.4, 0.7, 0.4]
+                  }}
+                  transition={{ 
+                    rotate: { duration: 10, repeat: Infinity, ease: "linear" },
+                    scale: { duration: 4, repeat: Infinity, ease: "easeInOut" },
+                    opacity: { duration: 4, repeat: Infinity, ease: "easeInOut" }
+                  }}
+                  className="absolute inset-0 bg-white/20 rounded-full blur-xl"
+                />
+                <motion.div
+                  animate={{ rotateY: 360 }}
+                  transition={{ duration: 6, repeat: Infinity, ease: "linear" }}
+                >
+                  <Globe className="w-8 h-8 text-white relative z-10" />
+                </motion.div>
+              </div>
             </div>
             <div className="space-y-4">
               <div className="h-2 w-full bg-white/20 rounded-full" />
               <div className="h-2 w-3/4 bg-white/20 rounded-full" />
               <div className="h-2 w-1/2 bg-white/20 rounded-full" />
             </div>
-            <div className="mt-12 text-sm text-indigo-200 uppercase tracking-widest font-black">Strategic Partnership</div>
+            <div className="mt-12 text-sm text-neutral-400 uppercase tracking-widest font-black">Strategic Partnership</div>
           </motion.div>
 
           <motion.div 
@@ -657,7 +709,7 @@ const CoreValues = () => {
     {
       icon: <TrendingUp className="w-6 h-6" />,
       title: "Grow",
-      desc: "Meningkatkan kapabilitas melalui pengetahuan, sikap, dan mentalitas berlandaskan kepercayaan dan profesionalisme."
+      desc: "Meningkatkan kapabilitas melalui pengetahuan, sikap, dan mentalitas berlandaskan kepercayaan and profesionalisme."
     },
     {
       icon: <Users className="w-6 h-6" />,
@@ -673,7 +725,7 @@ const CoreValues = () => {
 
   return (
     <section className="py-32 relative z-10 bg-white">
-      <div className="container mx-auto px-6 md:px-12">
+      <div className="w-full px-6 md:px-16">
         <div className="grid md:grid-cols-3 gap-12">
           {values.map((v, i) => (
             <motion.div
@@ -700,7 +752,7 @@ const CoreValues = () => {
 const VisionMission = () => {
   return (
     <section id="about" className="py-32 relative z-10 bg-neutral-50/50">
-      <div className="container mx-auto px-6 md:px-12">
+      <div className="w-full px-6 md:px-16">
         <div className="grid lg:grid-cols-2 gap-24 items-center">
           <motion.div
             initial={{ opacity: 0, x: -20 }}
@@ -765,8 +817,8 @@ const ServicesSection: React.FC<{ setCurrentPage: (page: PageType) => void }> = 
 
   return (
     <section id="services" className="py-32 relative z-10 bg-white">
-      <div className="container mx-auto px-6 md:px-12">
-        <div className="text-center max-w-3xl mx-auto mb-20">
+      <div className="w-full px-6 md:px-16">
+        <div className="text-center mb-20">
           <h2 className="text-4xl md:text-7xl font-display font-black tracking-tighter mb-8 text-neutral-900">LAYANAN UTAMA</h2>
           <p className="text-xl text-neutral-500 font-medium">Solusi komprehensif untuk pertumbuhan bisnis Anda.</p>
         </div>
@@ -833,7 +885,7 @@ const WhyUs = () => {
 
   return (
     <section id="business-lines" className="py-32 relative z-10 bg-white">
-      <div className="container mx-auto px-6 md:px-12">
+      <div className="w-full px-6 md:px-16">
         <div className="grid lg:grid-cols-2 gap-32">
           <div>
             <h2 className="text-4xl md:text-7xl font-display font-black tracking-tighter mb-16 text-neutral-900">WHY US?</h2>
@@ -931,8 +983,8 @@ const Testimonials = () => {
 
   return (
     <section id="testimonials" className="py-32 relative z-10 bg-neutral-50/50 border-t border-neutral-100">
-      <div className="container mx-auto px-6 md:px-12">
-        <div className="text-center max-w-3xl mx-auto mb-20">
+      <div className="w-full px-6 md:px-16">
+        <div className="text-center mb-20">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -1018,7 +1070,7 @@ const BusinessCheckup = () => {
 
   return (
     <section id="contact" className="py-32 relative z-10 bg-white">
-      <div className="container mx-auto px-6 md:px-12">
+      <div className="w-full px-6 md:px-16">
         <div className="grid lg:grid-cols-2 gap-24 items-center">
           <div>
             <motion.div
@@ -1028,7 +1080,7 @@ const BusinessCheckup = () => {
             >
               <h2 className="text-4xl md:text-7xl font-display font-black tracking-tighter mb-10 text-neutral-900 leading-none uppercase">
                 BUSINESS <br/>
-                <span className="text-indigo-600">CHECK-UP</span>
+                <span className="text-neutral-900">CHECK-UP</span>
               </h2>
               <p className="text-xl text-neutral-500 leading-relaxed mb-12 font-medium">
                 Ambil langkah pertama untuk mengoptimalkan bisnis Anda. Isi form evaluasi singkat ini untuk mendapatkan insight awal mengenai potensi dan area perbaikan di perusahaan Anda.
@@ -1036,9 +1088,9 @@ const BusinessCheckup = () => {
               
               <div className="space-y-8">
                 {[
-                  { icon: <TrendingUp className="w-6 h-6 text-indigo-600" />, text: "Identifikasi hambatan pertumbuhan" },
-                  { icon: <BarChart3 className="w-6 h-6 text-indigo-600" />, text: "Dapatkan insight yang actionable" },
-                  { icon: <ShieldCheck className="w-6 h-6 text-indigo-600" />, text: "Perkuat fundamental bisnis" }
+                  { icon: <TrendingUp className="w-6 h-6 text-neutral-900" />, text: "Identifikasi hambatan pertumbuhan" },
+                  { icon: <BarChart3 className="w-6 h-6 text-neutral-900" />, text: "Dapatkan insight yang actionable" },
+                  { icon: <ShieldCheck className="w-6 h-6 text-neutral-900" />, text: "Perkuat fundamental bisnis" }
                 ].map((item, i) => (
                   <motion.div 
                     key={i}
@@ -1048,7 +1100,7 @@ const BusinessCheckup = () => {
                     transition={{ delay: i * 0.1 }}
                     className="flex items-center gap-6 text-neutral-600 group"
                   >
-                    <div className="w-16 h-16 rounded-2xl bg-neutral-50 flex items-center justify-center shrink-0 border border-neutral-100 group-hover:bg-indigo-600 group-hover:text-white transition-all duration-300">
+                    <div className="w-16 h-16 rounded-2xl bg-neutral-50 flex items-center justify-center shrink-0 border border-neutral-100 group-hover:bg-neutral-900 group-hover:text-white transition-all duration-300">
                       {item.icon}
                     </div>
                     <span className="text-xl font-bold tracking-tight">{item.text}</span>
@@ -1123,7 +1175,7 @@ const BusinessCheckup = () => {
 const Footer = () => {
   return (
     <footer className="pt-32 pb-12 relative z-10 bg-white border-t border-neutral-100">
-      <div className="container mx-auto px-6 md:px-12">
+      <div className="w-full px-6 md:px-16">
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-16 mb-24">
           <div className="lg:col-span-2">
             <div className="flex items-center gap-4 mb-10">
@@ -1204,7 +1256,7 @@ const AboutUs: React.FC<{ onBack: () => void }> = ({ onBack }) => {
       transition={{ duration: 0.5 }}
       className="pt-32 pb-24 min-h-screen bg-white text-neutral-900"
     >
-      <div className="container mx-auto px-6 md:px-12 max-w-4xl">
+      <div className="w-full px-6 md:px-16">
         <button 
           onClick={onBack} 
           className="flex items-center gap-2 text-neutral-500 hover:text-neutral-900 mb-12 transition-colors group"
@@ -1337,7 +1389,7 @@ const ContactPage: React.FC<{ onBack: () => void }> = ({ onBack }) => {
       transition={{ duration: 0.5 }}
       className="pt-32 pb-24 min-h-screen bg-white text-neutral-900"
     >
-      <div className="container mx-auto px-6 md:px-12 max-w-6xl">
+      <div className="w-full px-6 md:px-16">
         <button 
           onClick={onBack} 
           className="flex items-center gap-2 text-neutral-500 hover:text-neutral-900 mb-12 transition-colors group"

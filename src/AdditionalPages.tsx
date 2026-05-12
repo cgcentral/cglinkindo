@@ -26,9 +26,9 @@ export const CareersPage: React.FC<{ onBack: () => void }> = ({ onBack }) => {
       animate="visible"
       exit="hidden"
       variants={containerVariants}
-      className="min-h-screen bg-white text-neutral-900 pt-32 pb-24 selection:bg-indigo-100"
+      className="min-h-screen bg-white text-neutral-900 pt-32 pb-24 selection:bg-neutral-200"
     >
-      <div className="container mx-auto px-6 md:px-12">
+      <div className="w-full px-6 md:px-16">
         <motion.button 
           variants={itemVariants}
           onClick={onBack} 
@@ -38,7 +38,7 @@ export const CareersPage: React.FC<{ onBack: () => void }> = ({ onBack }) => {
           Back to Home
         </motion.button>
         
-        <div className="max-w-4xl">
+        <div className="w-full">
           <h1 className="text-5xl md:text-8xl font-display font-black mb-6 tracking-tighter text-neutral-900 leading-none">KARIR DI <br/> CGLINK</h1>
           <h2 className="text-2xl text-neutral-500 font-bold mb-8 uppercase tracking-widest text-left">"Jadilah Arsitek Perubahan dalam Lanskap Bisnis Masa Depan."</h2>
           
@@ -52,10 +52,10 @@ export const CareersPage: React.FC<{ onBack: () => void }> = ({ onBack }) => {
           <h3 className="text-2xl font-display font-black text-neutral-900 mt-16 mb-8 uppercase tracking-tighter">Mengapa Berkarir Bersama Kami?</h3>
           <p className="text-lg text-neutral-500 leading-relaxed mb-8 font-medium">Bekerja di CGLink bukan sekadar rutinitas 9-ke-5. Ini adalah perjalanan untuk mengasah ekspertis Anda di garis depan transformasi bisnis:</p>
           <ul className="space-y-6 mb-12 text-neutral-600">
-            <li className="flex gap-4"><div className="w-2 h-2 rounded-full bg-indigo-600 mt-2 shrink-0"></div><p><strong className="text-neutral-900 font-bold">Ekosistem Pertumbuhan Eksponensial:</strong> Anda akan bekerja berdampingan dengan para ahli di bidang Finance, Digital Strategy, hingga Human Capital. Setiap hari adalah kesempatan belajar dari yang terbaik.</p></li>
-            <li className="flex gap-4"><div className="w-2 h-2 rounded-full bg-indigo-600 mt-2 shrink-0"></div><p><strong className="text-neutral-900 font-bold">Budaya Inovasi & Agilitas:</strong> Kami menghargai ide-ide segar. Di sini, suara setiap anggota tim didengar, diuji, dan diwujudkan jika memberikan nilai tambah bagi klien.</p></li>
-            <li className="flex gap-4"><div className="w-2 h-2 rounded-full bg-indigo-600 mt-2 shrink-0"></div><p><strong className="text-neutral-900 font-bold">Dampak Nyata bagi Ekonomi Indonesia:</strong> Dari UMKM yang sedang berkembang hingga korporasi besar, kontribusi Anda secara langsung membantu memperkuat fondasi bisnis di tanah air.</p></li>
-            <li className="flex gap-4"><div className="w-2 h-2 rounded-full bg-indigo-600 mt-2 shrink-0"></div><p><strong className="text-neutral-900 font-bold">Kesejahteraan & Keseimbangan:</strong> Kami menyediakan lingkungan kerja modern yang mendukung produktivitas sekaligus kesehatan mental dan pengembangan diri.</p></li>
+            <li className="flex gap-4"><div className="w-2 h-2 rounded-full bg-neutral-900 mt-2 shrink-0"></div><p><strong className="text-neutral-900 font-bold">Ekosistem Pertumbuhan Eksponensial:</strong> Anda akan bekerja berdampingan dengan para ahli di bidang Finance, Digital Strategy, hingga Human Capital. Setiap hari adalah kesempatan belajar dari yang terbaik.</p></li>
+            <li className="flex gap-4"><div className="w-2 h-2 rounded-full bg-neutral-900 mt-2 shrink-0"></div><p><strong className="text-neutral-900 font-bold">Budaya Inovasi & Agilitas:</strong> Kami menghargai ide-ide segar. Di sini, suara setiap anggota tim didengar, diuji, dan diwujudkan jika memberikan nilai tambah bagi klien.</p></li>
+            <li className="flex gap-4"><div className="w-2 h-2 rounded-full bg-neutral-900 mt-2 shrink-0"></div><p><strong className="text-neutral-900 font-bold">Dampak Nyata bagi Ekonomi Indonesia:</strong> Dari UMKM yang sedang berkembang hingga korporasi besar, kontribusi Anda secara langsung membantu memperkuat fondasi bisnis di tanah air.</p></li>
+            <li className="flex gap-4"><div className="w-2 h-2 rounded-full bg-neutral-900 mt-2 shrink-0"></div><p><strong className="text-neutral-900 font-bold">Kesejahteraan & Keseimbangan:</strong> Kami menyediakan lingkungan kerja modern yang mendukung produktivitas sekaligus kesehatan mental dan pengembangan diri.</p></li>
           </ul>
 
           <h3 className="text-2xl font-display font-black text-neutral-900 mt-16 mb-8 uppercase tracking-tighter">SIAPA YANG KAMI CARI?</h3>
@@ -69,16 +69,16 @@ export const CareersPage: React.FC<{ onBack: () => void }> = ({ onBack }) => {
 
           <h3 className="text-2xl font-display font-black text-neutral-900 mt-16 mb-8 uppercase tracking-tighter">Open Roles</h3>
           <div className="bg-neutral-50 border border-neutral-100 rounded-[2.5rem] p-16 text-center mb-16">
-            <Briefcase className="w-16 h-16 text-indigo-100 mx-auto mb-6" />
+            <Briefcase className="w-16 h-16 text-neutral-200 mx-auto mb-6" />
             <p className="text-neutral-400 font-black uppercase tracking-widest text-xs">Belum ada posisi yang tersedia saat ini.</p>
           </div>
  
           <div className="bg-neutral-900 rounded-[3.5rem] p-12 md:p-20 text-center shadow-2xl relative overflow-hidden">
-            <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/20 to-transparent"></div>
+            <div className="absolute inset-0 bg-gradient-to-br from-neutral-900/10 to-transparent"></div>
             <p className="text-white text-2xl font-display font-bold mb-10 relative z-10">Mari Bergabung & Tumbuh Bersama!</p>
             <a 
               href="mailto:businesspartner@cglinkindonesia.com"
-              className="inline-flex items-center justify-center gap-4 px-10 py-5 bg-indigo-600 text-white rounded-2xl font-black uppercase tracking-widest text-sm hover:bg-indigo-700 transition-all hover:scale-105 relative z-10"
+              className="inline-flex items-center justify-center gap-4 px-10 py-5 bg-neutral-900 text-white rounded-2xl font-black uppercase tracking-widest text-sm hover:bg-black transition-all hover:scale-105 relative z-10"
             >
               <Mail className="w-5 h-5" />
               Kirim CV Anda
@@ -132,9 +132,9 @@ export const BlogPage: React.FC<{ onBack: () => void }> = ({ onBack }) => {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="min-h-screen bg-white text-neutral-900 pt-32 pb-24 selection:bg-indigo-100"
+      className="min-h-screen bg-white text-neutral-900 pt-32 pb-24 selection:bg-neutral-200"
     >
-      <div className="container mx-auto px-6 md:px-12">
+      <div className="w-full px-6 md:px-16">
         <button 
           onClick={onBack}
           className="flex items-center gap-2 text-neutral-500 hover:text-neutral-900 transition-colors mb-12 group"
@@ -154,7 +154,7 @@ export const BlogPage: React.FC<{ onBack: () => void }> = ({ onBack }) => {
           {articles.map((article) => (
             <div key={article.id} className="bg-neutral-50 border border-neutral-100 rounded-[2.5rem] p-10 hover:bg-white hover:shadow-2xl transition-all group cursor-pointer flex flex-col">
               <div className="flex items-center justify-between mb-8">
-                <span className="text-[10px] font-black uppercase tracking-widest text-indigo-600 bg-indigo-50 px-4 py-1.5 rounded-full">
+                <span className="text-[10px] font-black uppercase tracking-widest text-neutral-900 bg-neutral-50 px-4 py-1.5 rounded-full">
                   {article.category}
                 </span>
                 <span className="text-xs font-bold text-neutral-400 uppercase tracking-widest">{article.date}</span>

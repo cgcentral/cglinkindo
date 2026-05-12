@@ -39,7 +39,7 @@ const CTASection = () => (
       whileInView={{ width: "100%" }}
       viewport={{ once: true }}
       transition={{ duration: 1.5, ease: "easeInOut" }}
-      className="h-px bg-gradient-to-r from-transparent via-indigo-400 to-transparent mb-12"
+      className="h-px bg-gradient-to-r from-transparent via-neutral-400 to-transparent mb-12"
     />
     <div className="flex flex-col sm:flex-row gap-4 justify-center">
       <a 
@@ -88,9 +88,9 @@ export const VisionMissionPage: React.FC<PageProps> = ({ onBack }) => {
       animate="visible"
       exit="hidden"
       variants={containerVariants}
-      className="min-h-screen bg-white text-neutral-900 pt-32 pb-24 selection:bg-indigo-100"
+      className="min-h-screen bg-white text-neutral-900 pt-32 pb-24 selection:bg-neutral-200"
     >
-      <div className="container mx-auto px-6 md:px-12">
+      <div className="w-full px-6 md:px-16">
         <motion.button 
           variants={itemVariants}
           onClick={onBack} 
@@ -101,7 +101,7 @@ export const VisionMissionPage: React.FC<PageProps> = ({ onBack }) => {
         </motion.button>
 
         {/* Hero / Intro Section */}
-        <motion.div variants={itemVariants} className="max-w-4xl mb-32">
+        <motion.div variants={itemVariants} className="w-full mb-32">
           <h1 className="text-5xl md:text-8xl font-display font-black mb-6 tracking-tighter text-neutral-900">
             CGLINK Indonesia
           </h1>
@@ -117,7 +117,7 @@ export const VisionMissionPage: React.FC<PageProps> = ({ onBack }) => {
         <div className="grid md:grid-cols-2 gap-12 mb-32">
           <motion.section variants={itemVariants} className="bg-neutral-50 p-10 rounded-3xl border border-neutral-100">
             <h3 className="text-2xl font-display font-bold text-neutral-900 mb-6 flex items-center gap-3">
-              <Building2 className="w-6 h-6 text-indigo-600" />
+              <Building2 className="w-6 h-6 text-neutral-900" />
               Siapa Kami?
             </h3>
             <p className="text-neutral-500 leading-relaxed font-medium">
@@ -127,7 +127,7 @@ export const VisionMissionPage: React.FC<PageProps> = ({ onBack }) => {
 
           <motion.section variants={itemVariants} className="bg-neutral-50 p-10 rounded-3xl border border-neutral-100">
             <h3 className="text-2xl font-display font-bold text-neutral-900 mb-6 flex items-center gap-3">
-              <ShieldCheck className="w-6 h-6 text-indigo-600" />
+              <ShieldCheck className="w-6 h-6 text-neutral-900" />
               Mengapa Memilih CGLINK?
             </h3>
             <p className="text-neutral-500 leading-relaxed font-medium">
@@ -191,7 +191,7 @@ export const VisionMissionPage: React.FC<PageProps> = ({ onBack }) => {
           <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-4">
             <h2 className="text-5xl md:text-7xl font-display font-black tracking-tighter text-neutral-900">NILAI-NILAI</h2>
             <div className="text-right">
-              <p className="text-indigo-600 font-display font-bold text-2xl mb-2">GRACE</p>
+              <p className="text-neutral-900 font-display font-bold text-2xl mb-2">GRACE</p>
               <p className="text-neutral-400 max-w-xs font-bold uppercase tracking-widest text-xs">Grow • Share • Contribute</p>
             </div>
           </div>
@@ -215,7 +215,7 @@ export const VisionMissionPage: React.FC<PageProps> = ({ onBack }) => {
               }
             ].map((item, idx) => (
               <div key={idx} className="bg-neutral-50 p-10 rounded-3xl border border-neutral-100 hover:bg-white hover:shadow-xl transition-all group">
-                <div className="w-14 h-14 rounded-2xl bg-white shadow-sm flex items-center justify-center mb-8 text-neutral-900 group-hover:bg-indigo-600 group-hover:text-white transition-all">
+                <div className="w-14 h-14 rounded-2xl bg-white shadow-sm flex items-center justify-center mb-8 text-neutral-900 group-hover:bg-neutral-900 group-hover:text-white transition-all">
                   {item.icon}
                 </div>
                 <h4 className="font-display font-bold text-2xl mb-4 text-neutral-900">{item.title}</h4>
@@ -228,7 +228,7 @@ export const VisionMissionPage: React.FC<PageProps> = ({ onBack }) => {
         {/* Mengapa CGLINK Consulting? Section */}
         <motion.div variants={itemVariants} className="mb-32">
           <div className="bg-neutral-50 rounded-[3rem] p-12 md:p-20 border border-neutral-100 relative overflow-hidden">
-            <div className="absolute top-0 right-0 w-64 h-64 bg-indigo-500/5 blur-[100px] rounded-full -mr-32 -mt-32"></div>
+            <div className="absolute top-0 right-0 w-64 h-64 bg-neutral-900/5 blur-[100px] rounded-full -mr-32 -mt-32"></div>
             
             <h2 className="text-4xl md:text-6xl font-display font-black mb-20 text-center text-neutral-900 uppercase tracking-tighter">Mengapa CGLINK Consulting?</h2>
             
@@ -240,7 +240,7 @@ export const VisionMissionPage: React.FC<PageProps> = ({ onBack }) => {
                 { num: "04", title: "Berbasis Nilai", desc: "Filosofi bisnis yang mengintegrasikan integritas, amanah, dan dampak sosial yang nyata." }
               ].map((item, idx) => (
                 <div key={idx} className="flex gap-8 group">
-                  <span className="text-5xl font-display font-black text-neutral-200 group-hover:text-indigo-600 transition-colors">
+                  <span className="text-5xl font-display font-black text-neutral-200 group-hover:text-neutral-900 transition-colors">
                     {item.num}
                   </span>
                   <div>
@@ -310,9 +310,9 @@ export const PilarBisnisPage: React.FC<PageProps> = ({ onBack }) => {
       animate="visible"
       exit="hidden"
       variants={containerVariants}
-      className="min-h-screen bg-white text-neutral-900 pt-32 pb-24 selection:bg-indigo-100"
+      className="min-h-screen bg-white text-neutral-900 pt-32 pb-24 selection:bg-neutral-200"
     >
-      <div className="container mx-auto px-6 md:px-12">
+      <div className="w-full px-6 md:px-16">
         <motion.button 
           variants={itemVariants}
           onClick={onBack} 
@@ -322,7 +322,7 @@ export const PilarBisnisPage: React.FC<PageProps> = ({ onBack }) => {
           Back to Home
         </motion.button>
 
-        <motion.div variants={itemVariants} className="max-w-4xl mb-24">
+        <motion.div variants={itemVariants} className="w-full mb-24">
           <h1 className="text-5xl md:text-8xl font-display font-black mb-6 tracking-tighter text-neutral-900">
             PILAR BISNIS
           </h1>
@@ -332,7 +332,7 @@ export const PilarBisnisPage: React.FC<PageProps> = ({ onBack }) => {
         </motion.div>
 
         <motion.div variants={itemVariants} className="mb-32">
-          <h2 className="text-3xl md:text-5xl font-display font-black mb-16 border-l-4 border-indigo-600 pl-6 text-neutral-900 uppercase tracking-tighter">Layanan Utama</h2>
+          <h2 className="text-3xl md:text-5xl font-display font-black mb-16 border-l-4 border-neutral-900 pl-6 text-neutral-900 uppercase tracking-tighter">Layanan Utama</h2>
           <div className="grid md:grid-cols-3 gap-8">
             {[
               { 
@@ -352,7 +352,7 @@ export const PilarBisnisPage: React.FC<PageProps> = ({ onBack }) => {
               }
             ].map((item, idx) => (
               <div key={idx} className="bg-neutral-50 p-10 rounded-[2.5rem] border border-neutral-100 hover:bg-white hover:shadow-xl transition-all group relative overflow-hidden">
-                <div className="w-16 h-16 rounded-2xl bg-white shadow-sm flex items-center justify-center mb-10 text-neutral-900 group-hover:bg-indigo-600 group-hover:text-white transition-all">
+                <div className="w-16 h-16 rounded-2xl bg-white shadow-sm flex items-center justify-center mb-10 text-neutral-900 group-hover:bg-neutral-900 group-hover:text-white transition-all">
                   {item.icon}
                 </div>
                 <h3 className="text-2xl font-display font-bold mb-4 text-neutral-900">{item.title}</h3>
@@ -364,7 +364,7 @@ export const PilarBisnisPage: React.FC<PageProps> = ({ onBack }) => {
 
         {/* Pilar Bisnis Section */}
         <motion.div variants={itemVariants} className="mb-32">
-          <h2 className="text-3xl md:text-5xl font-display font-black mb-16 border-l-4 border-indigo-600 pl-6 text-neutral-900 uppercase tracking-tighter">Pilar Bisnis</h2>
+          <h2 className="text-3xl md:text-5xl font-display font-black mb-16 border-l-4 border-neutral-900 pl-6 text-neutral-900 uppercase tracking-tighter">Pilar Bisnis</h2>
           <div className="space-y-12">
             {/* BTW Mister Catur */}
             <div className="bg-neutral-50 p-8 md:p-12 rounded-[3.5rem] border border-neutral-100 relative overflow-hidden group">
@@ -413,7 +413,7 @@ export const PilarBisnisPage: React.FC<PageProps> = ({ onBack }) => {
               <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-8 mb-8">
                 <div>
                   <h3 className="text-3xl font-display font-bold mb-2 text-neutral-900">CG Tour & Travel</h3>
-                  <p className="text-indigo-600 font-bold uppercase tracking-widest text-xs">Layanan Perjalanan Umroh Amanah</p>
+                  <p className="text-neutral-900 font-bold uppercase tracking-widest text-xs">Layanan Perjalanan Umroh Amanah</p>
                 </div>
                 <a 
                   href="https://cgtourtravel.com" 
@@ -456,7 +456,7 @@ export const PilarBisnisPage: React.FC<PageProps> = ({ onBack }) => {
                     "Potensi income tambahan."
                   ].map((bullet, i) => (
                     <li key={i} className="flex gap-3 items-center text-neutral-300">
-                      <div className="w-1.5 h-1.5 rounded-full bg-indigo-400"></div>
+                      <div className="w-1.5 h-1.5 rounded-full bg-neutral-400"></div>
                       <span className="font-medium">{bullet}</span>
                     </li>
                   ))}
@@ -477,7 +477,7 @@ export const PilarBisnisPage: React.FC<PageProps> = ({ onBack }) => {
                     "Kolaborasi dengan mitra sosial."
                   ].map((bullet, i) => (
                     <li key={i} className="flex gap-3 items-center text-neutral-600">
-                      <div className="w-1.5 h-1.5 rounded-full bg-indigo-600"></div>
+                      <div className="w-1.5 h-1.5 rounded-full bg-neutral-900"></div>
                       <span className="font-bold">{bullet}</span>
                     </li>
                   ))}
@@ -524,9 +524,9 @@ export const FundingPortfolioPage: React.FC<PageProps> = ({ onBack }) => {
       animate="visible"
       exit="hidden"
       variants={containerVariants}
-      className="min-h-screen bg-white text-neutral-900 pt-32 pb-24 selection:bg-indigo-100"
+      className="min-h-screen bg-white text-neutral-900 pt-32 pb-24 selection:bg-neutral-200"
     >
-      <div className="container mx-auto px-6 md:px-12">
+      <div className="w-full px-6 md:px-16">
         <motion.button 
           variants={itemVariants}
           onClick={onBack} 
@@ -536,11 +536,11 @@ export const FundingPortfolioPage: React.FC<PageProps> = ({ onBack }) => {
           Back to Home
         </motion.button>
 
-        <motion.div variants={itemVariants} className="max-w-4xl mb-24 text-left">
+        <motion.div variants={itemVariants} className="w-full mb-24 text-left">
           <h1 className="text-5xl md:text-8xl font-display font-black mb-6 tracking-tighter text-neutral-900 leading-none">
             FUNDING <br/> PORTFOLIO
           </h1>
-          <h2 className="text-2xl md:text-3xl text-indigo-600 font-bold mb-8 uppercase tracking-widest">
+          <h2 className="text-2xl md:text-3xl text-neutral-900 font-bold mb-8 uppercase tracking-widest">
             PARTNERSHIP & ACQUISITION
           </h2>
           <p className="text-xl text-neutral-500 leading-relaxed max-w-3xl font-medium">
@@ -561,7 +561,7 @@ export const FundingPortfolioPage: React.FC<PageProps> = ({ onBack }) => {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             {sectors.map((sector, idx) => (
               <div key={idx} className="bg-neutral-50 p-12 rounded-[2.5rem] border border-neutral-100 hover:shadow-xl transition-all group text-center flex flex-col items-center gap-8">
-                <div className="w-20 h-20 rounded-2xl bg-white shadow-sm flex items-center justify-center text-neutral-400 group-hover:bg-indigo-600 group-hover:text-white transition-all">
+                <div className="w-20 h-20 rounded-2xl bg-white shadow-sm flex items-center justify-center text-neutral-400 group-hover:bg-neutral-900 group-hover:text-white transition-all">
                   {sector.icon}
                 </div>
                 <h3 className="text-2xl font-display font-bold text-neutral-900 uppercase tracking-tighter">{sector.name}</h3>
@@ -571,7 +571,7 @@ export const FundingPortfolioPage: React.FC<PageProps> = ({ onBack }) => {
         </motion.div>
 
         <motion.div variants={itemVariants} className="bg-neutral-900 p-12 md:p-20 rounded-[4rem] text-center mb-32 shadow-2xl relative overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/20 to-transparent"></div>
+          <div className="absolute inset-0 bg-gradient-to-br from-neutral-900/10 to-transparent"></div>
           <p className="text-2xl md:text-4xl text-white leading-tight max-w-4xl mx-auto font-display font-bold relative z-10">
             "Kami saat ini secara aktif memperluas sektor portofolio investasi and membuka peluang pendanaan bagi mitra potensial."
           </p>
