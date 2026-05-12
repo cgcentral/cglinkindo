@@ -268,7 +268,7 @@ const Navbar = ({ currentPage, setCurrentPage }: { currentPage: PageType, setCur
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
-            className={`absolute top-full left-0 right-0 border-b p-8 flex flex-col gap-8 md:hidden shadow-2xl max-h-[85vh] overflow-y-auto rounded-b-[2.5rem] ${scrolled ? 'bg-black border-white/5' : 'bg-white border-neutral-100'}`}
+            className={`absolute top-full left-0 right-0 border-b p-8 flex flex-col gap-8 md:hidden shadow-2xl max-h-[85vh] overflow-y-auto ${scrolled ? 'bg-black border-white/5' : 'bg-white border-neutral-100 shadow-xl'}`}
           >
              <div className="flex flex-col gap-4">
               <span className={`text-[10px] font-black uppercase tracking-widest ${scrolled ? 'text-neutral-500' : 'text-neutral-400'}`}>Main Menu</span>
@@ -458,7 +458,7 @@ const InvestorRelations = ({ setCurrentPage }: { setCurrentPage: (p: PageType) =
 };const SectorMarquee = () => {
   const sectors = ["FINANCE", "LOGISTICS", "RETAIL", "TECH", "MANUFACTURING", "HOSPITALITY", "REAL ESTATE", "ENERGY"];
   return (
-    <div className="py-12 bg-neutral-900 overflow-hidden relative">
+    <div className="w-full py-12 bg-neutral-900 overflow-hidden relative">
       <div className="absolute inset-0 bg-neutral-500/10 pointer-events-none" />
       <div className="flex animate-marquee whitespace-nowrap">
         {[...sectors, ...sectors].map((s, i) => (
@@ -553,40 +553,45 @@ const BentoGridServices = ({ setCurrentPage }: { setCurrentPage: (p: PageType) =
 
 const Hero = ({ setCurrentPage }: { setCurrentPage: (p: PageType) => void }) => {
   return (
-    <section className="relative min-h-screen flex items-center pt-32 pb-24 overflow-hidden bg-white">
+    <section className="relative min-h-[100dvh] flex items-center pt-32 pb-24 overflow-hidden bg-white">
       {/* Background Decor */}
       <div className="bg-grid opacity-60" />
       <div className="absolute top-1/4 right-[10%] w-[600px] h-[600px] bg-neutral-100/50 rounded-full blur-[120px] -z-10 animate-pulse" />
       <div className="absolute bottom-1/4 left-[5%] w-[400px] h-[400px] bg-neutral-50/30 rounded-full blur-[100px] -z-10" />
       
-      {/* Large Hero Globe Animation */}
-      <div className="absolute right-0 top-1/2 -translate-y-1/2 w-[800px] h-[800px] opacity-10 pointer-events-none -z-10 overflow-hidden hidden lg:block">
+      {/* Desktop/Tablet Hero Globe Animation */}
+      <div className="absolute right-0 top-1/2 -translate-y-1/2 w-[800px] h-[800px] pointer-events-none -z-10 overflow-hidden hidden lg:block">
+        <div className="absolute inset-0 bg-radial-gradient from-neutral-100/20 to-transparent blur-3xl" />
         <motion.div
           animate={{ rotateY: 360 }}
           transition={{ duration: 60, repeat: Infinity, ease: "linear" }}
-          className="w-full h-full border border-neutral-900/10 rounded-full flex items-center justify-center [perspective:1000px]"
+          className="w-full h-full border border-neutral-900/5 rounded-full flex items-center justify-center [perspective:1000px] opacity-20"
         >
-          <div className="w-[80%] h-[80%] border border-neutral-900/10 rounded-full flex items-center justify-center">
-            <div className="w-[60%] h-[60%] border border-neutral-900/10 rounded-full flex items-center justify-center">
+          <div className="w-[85%] h-[85%] border border-neutral-900/5 rounded-full flex items-center justify-center">
+            <div className="w-[70%] h-[70%] border border-neutral-900/5 rounded-full flex items-center justify-center">
               <Globe className="w-96 h-96 text-neutral-900" />
             </div>
           </div>
         </motion.div>
-        
-        {/* Orbital Dots */}
-        {[...Array(6)].map((_, i) => (
-          <motion.div
-            key={i}
-            animate={{ rotate: 360 }}
-            transition={{ duration: 15 + i * 5, repeat: Infinity, ease: "linear" }}
-            className="absolute inset-0 flex items-center justify-center"
-          >
-            <div 
-              className="w-2 h-2 bg-neutral-900 rounded-full"
-              style={{ marginLeft: `${300 + i * 40}px` }}
-            />
-          </motion.div>
-        ))}
+      </div>
+
+      {/* Mobile Hero Globe (Centered Background) */}
+      <div className="lg:hidden absolute inset-0 flex items-center justify-center pointer-events-none -z-10 opacity-[0.08] overflow-hidden">
+        <motion.div
+          animate={{ 
+            rotateY: 360,
+            scale: [1, 1.1, 1]
+          }}
+          transition={{ 
+            rotateY: { duration: 30, repeat: Infinity, ease: "linear" },
+            scale: { duration: 10, repeat: Infinity, ease: "easeInOut" }
+          }}
+          className="w-[140vw] h-[140vw] border border-neutral-900/10 rounded-full flex items-center justify-center [perspective:1000px]"
+        >
+          <div className="w-[85%] h-[85%] border border-neutral-900/10 rounded-full flex items-center justify-center">
+             <Globe className="w-[75vw] h-[75vw] text-neutral-900" />
+          </div>
+        </motion.div>
       </div>
 
       <div className="w-full px-6 md:px-16 relative z-10">
