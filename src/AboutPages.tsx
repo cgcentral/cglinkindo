@@ -88,13 +88,13 @@ export const VisionMissionPage: React.FC<PageProps> = ({ onBack }) => {
       animate="visible"
       exit="hidden"
       variants={containerVariants}
-      className="min-h-screen bg-[#050505] text-white pt-32 pb-24 selection:bg-white/20"
+      className="min-h-screen bg-white text-neutral-900 pt-32 pb-24 selection:bg-indigo-100"
     >
       <div className="container mx-auto px-6 md:px-12">
         <motion.button 
           variants={itemVariants}
           onClick={onBack} 
-          className="flex items-center gap-2 text-neutral-500 hover:text-white mb-12 transition-colors group"
+          className="flex items-center gap-2 text-neutral-500 hover:text-neutral-900 mb-12 transition-colors group"
         >
           <ArrowLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform" /> 
           Back to Home
@@ -102,35 +102,35 @@ export const VisionMissionPage: React.FC<PageProps> = ({ onBack }) => {
 
         {/* Hero / Intro Section */}
         <motion.div variants={itemVariants} className="max-w-4xl mb-32">
-          <h1 className="text-5xl md:text-8xl font-display font-bold mb-6 tracking-tighter">
+          <h1 className="text-5xl md:text-8xl font-display font-black mb-6 tracking-tighter text-neutral-900">
             CGLINK Indonesia
           </h1>
-          <h2 className="text-2xl md:text-4xl text-neutral-400 font-light mb-8 leading-tight">
+          <h2 className="text-2xl md:text-3xl text-neutral-500 font-medium mb-8 leading-tight">
             Membangun Masa Depan Bisnis Anda Bersama CGLINK Indonesia
           </h2>
-          <p className="text-xl text-neutral-300 leading-relaxed max-w-2xl">
+          <p className="text-xl text-neutral-400 leading-relaxed max-w-2xl font-medium">
             Di era transformasi ekonomi yang bergerak cepat, kehadiran mitra strategis bukan lagi sekadar pilihan, melainkan keharusan. CGLINK Indonesia hadir sebagai katalisator pertumbuhan bagi bisnis Anda.
           </p>
         </motion.div>
 
         {/* Siapa Kami & Mengapa Memilih Section */}
         <div className="grid md:grid-cols-2 gap-12 mb-32">
-          <motion.section variants={itemVariants} className="glass-panel p-10 rounded-3xl border border-white/5">
-            <h3 className="text-2xl font-display font-bold text-white mb-6 flex items-center gap-3">
-              <Building2 className="w-6 h-6 text-indigo-400" />
+          <motion.section variants={itemVariants} className="bg-neutral-50 p-10 rounded-3xl border border-neutral-100">
+            <h3 className="text-2xl font-display font-bold text-neutral-900 mb-6 flex items-center gap-3">
+              <Building2 className="w-6 h-6 text-indigo-600" />
               Siapa Kami?
             </h3>
-            <p className="text-neutral-400 leading-relaxed">
+            <p className="text-neutral-500 leading-relaxed font-medium">
               Didirikan pada tahun 2025 dan berbasis di jantung bisnis Jakarta Selatan, CGLINK Indonesia adalah firma konsultasi bisnis yang lahir dari semangat kolaborasi dan inovasi. Kami memahami bahwa setiap bisnis memiliki tantangan unik; itulah mengapa kami tidak hanya memberikan saran, tetapi memberikan solusi yang terukur dan berkelanjutan.
             </p>
           </motion.section>
 
-          <motion.section variants={itemVariants} className="glass-panel p-10 rounded-3xl border border-white/5">
-            <h3 className="text-2xl font-display font-bold text-white mb-6 flex items-center gap-3">
-              <ShieldCheck className="w-6 h-6 text-indigo-400" />
+          <motion.section variants={itemVariants} className="bg-neutral-50 p-10 rounded-3xl border border-neutral-100">
+            <h3 className="text-2xl font-display font-bold text-neutral-900 mb-6 flex items-center gap-3">
+              <ShieldCheck className="w-6 h-6 text-indigo-600" />
               Mengapa Memilih CGLINK?
             </h3>
-            <p className="text-neutral-400 leading-relaxed">
+            <p className="text-neutral-500 leading-relaxed font-medium">
               Kami percaya pada Profesionalitas Tanpa Kompromi. Tim kami terdiri dari para ahli yang berdedikasi tinggi untuk membantu klien menavigasi kompleksitas dunia usaha. Dengan filosofi kerja yang transparan dan berorientasi pada hasil, kami memastikan setiap langkah yang kita ambil bersama membawa Anda lebih dekat ke puncak kesuksesan.
             </p>
           </motion.section>
@@ -160,12 +160,11 @@ export const VisionMissionPage: React.FC<PageProps> = ({ onBack }) => {
             </div>
           </motion.div>
 
-          {/* Misi */}
           <motion.div 
             variants={itemVariants}
-            className="bg-neutral-900 rounded-3xl p-12 md:p-16 border border-white/5"
+            className="bg-neutral-50 rounded-3xl p-12 md:p-16 border border-neutral-100"
           >
-            <h2 className="text-5xl font-display font-bold mb-12">Misi</h2>
+            <h2 className="text-5xl font-display font-bold mb-12 text-neutral-900 uppercase tracking-tighter">Misi</h2>
             <div className="space-y-8">
               {[
                 "Menyelenggarakan produk dan jasa bisnis yang legal, logis, dan halal.",
@@ -175,10 +174,10 @@ export const VisionMissionPage: React.FC<PageProps> = ({ onBack }) => {
                 "Menciptakan pertumbuhan dan manfaat yang berkelanjutan bagi seluruh pihak."
               ].map((misi, idx) => (
                 <div key={idx} className="flex gap-6 items-start group">
-                  <div className="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center shrink-0 font-mono text-sm group-hover:bg-white group-hover:text-black transition-colors">
+                  <div className="w-10 h-10 rounded-full border border-neutral-200 flex items-center justify-center shrink-0 font-mono text-sm group-hover:bg-neutral-900 group-hover:text-white transition-colors text-neutral-400">
                     0{idx + 1}
                   </div>
-                  <p className="text-lg text-neutral-400 leading-relaxed group-hover:text-white transition-colors">
+                  <p className="text-lg text-neutral-500 leading-relaxed group-hover:text-neutral-900 transition-colors font-medium">
                     {misi}
                   </p>
                 </div>
@@ -190,10 +189,10 @@ export const VisionMissionPage: React.FC<PageProps> = ({ onBack }) => {
         {/* Nilai-Nilai Section */}
         <motion.div variants={itemVariants} className="mb-32">
           <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-4">
-            <h2 className="text-5xl md:text-7xl font-display font-bold tracking-tighter">Nilai-Nilai</h2>
+            <h2 className="text-5xl md:text-7xl font-display font-black tracking-tighter text-neutral-900">NILAI-NILAI</h2>
             <div className="text-right">
-              <p className="text-indigo-400 font-display font-bold text-2xl mb-2">GRACE</p>
-              <p className="text-neutral-500 max-w-xs">Grow • Share • Contribute</p>
+              <p className="text-indigo-600 font-display font-bold text-2xl mb-2">GRACE</p>
+              <p className="text-neutral-400 max-w-xs font-bold uppercase tracking-widest text-xs">Grow • Share • Contribute</p>
             </div>
           </div>
           
@@ -215,12 +214,12 @@ export const VisionMissionPage: React.FC<PageProps> = ({ onBack }) => {
                 desc: "Menciptakan dampak positif bagi klien, ekonomi, dan masyarakat melalui kegiatan yang berkelanjutan" 
               }
             ].map((item, idx) => (
-              <div key={idx} className="glass-panel p-10 rounded-3xl border border-white/5 hover:border-white/20 transition-all group">
-                <div className="w-14 h-14 rounded-2xl bg-white/5 flex items-center justify-center mb-8 group-hover:bg-white group-hover:text-black transition-all">
+              <div key={idx} className="bg-neutral-50 p-10 rounded-3xl border border-neutral-100 hover:bg-white hover:shadow-xl transition-all group">
+                <div className="w-14 h-14 rounded-2xl bg-white shadow-sm flex items-center justify-center mb-8 text-neutral-900 group-hover:bg-indigo-600 group-hover:text-white transition-all">
                   {item.icon}
                 </div>
-                <h4 className="font-display font-bold text-2xl mb-4">{item.title}</h4>
-                <p className="text-neutral-400 leading-relaxed group-hover:text-neutral-200 transition-colors">{item.desc}</p>
+                <h4 className="font-display font-bold text-2xl mb-4 text-neutral-900">{item.title}</h4>
+                <p className="text-neutral-500 leading-relaxed font-medium">{item.desc}</p>
               </div>
             ))}
           </div>
@@ -228,10 +227,10 @@ export const VisionMissionPage: React.FC<PageProps> = ({ onBack }) => {
         
         {/* Mengapa CGLINK Consulting? Section */}
         <motion.div variants={itemVariants} className="mb-32">
-          <div className="bg-neutral-900 rounded-[3rem] p-12 md:p-20 border border-white/5 relative overflow-hidden">
-            <div className="absolute top-0 right-0 w-64 h-64 bg-indigo-500/10 blur-[100px] rounded-full -mr-32 -mt-32"></div>
+          <div className="bg-neutral-50 rounded-[3rem] p-12 md:p-20 border border-neutral-100 relative overflow-hidden">
+            <div className="absolute top-0 right-0 w-64 h-64 bg-indigo-500/5 blur-[100px] rounded-full -mr-32 -mt-32"></div>
             
-            <h2 className="text-4xl md:text-6xl font-display font-bold mb-20 text-center">Mengapa CGLINK Consulting?</h2>
+            <h2 className="text-4xl md:text-6xl font-display font-black mb-20 text-center text-neutral-900 uppercase tracking-tighter">Mengapa CGLINK Consulting?</h2>
             
             <div className="grid md:grid-cols-2 gap-16">
               {[
@@ -241,12 +240,12 @@ export const VisionMissionPage: React.FC<PageProps> = ({ onBack }) => {
                 { num: "04", title: "Berbasis Nilai", desc: "Filosofi bisnis yang mengintegrasikan integritas, amanah, dan dampak sosial yang nyata." }
               ].map((item, idx) => (
                 <div key={idx} className="flex gap-8 group">
-                  <span className="text-5xl font-display font-black text-white/10 group-hover:text-white/40 transition-colors">
+                  <span className="text-5xl font-display font-black text-neutral-200 group-hover:text-indigo-600 transition-colors">
                     {item.num}
                   </span>
                   <div>
-                    <h4 className="text-xl font-bold mb-3">{item.title}</h4>
-                    <p className="text-neutral-500 leading-relaxed group-hover:text-neutral-300 transition-colors">{item.desc}</p>
+                    <h4 className="text-xl font-bold mb-3 text-neutral-900">{item.title}</h4>
+                    <p className="text-neutral-500 leading-relaxed group-hover:text-neutral-700 transition-colors font-medium">{item.desc}</p>
                   </div>
                 </div>
               ))}
@@ -256,7 +255,7 @@ export const VisionMissionPage: React.FC<PageProps> = ({ onBack }) => {
 
         {/* Kami Hadir untuk Anda Section */}
         <motion.div variants={itemVariants} className="mb-32">
-          <h2 className="text-4xl md:text-6xl font-display font-bold mb-20 text-center">Kami Hadir untuk Anda</h2>
+          <h2 className="text-4xl md:text-6xl font-display font-black mb-20 text-center text-neutral-900 uppercase tracking-tighter">Kami Hadir untuk Anda</h2>
           
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {[
@@ -266,12 +265,12 @@ export const VisionMissionPage: React.FC<PageProps> = ({ onBack }) => {
               { title: "UMKM", desc: "Naik ke level berikutnya dengan strategi tepat dan dukungan penuh dari tim profesional kami." }
             ].map((item, idx) => (
               <div key={idx} className="group relative">
-                <div className="absolute inset-0 bg-gradient-to-b from-indigo-500/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity rounded-3xl"></div>
-                <div className="relative glass-panel p-8 rounded-3xl border border-white/5 h-full flex flex-col">
-                  <h4 className="text-2xl font-display font-bold mb-4">{item.title}</h4>
-                  <p className="text-neutral-400 text-sm leading-relaxed">{item.desc}</p>
+                <div className="absolute inset-0 bg-gradient-to-b from-neutral-200/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity rounded-3xl"></div>
+                <div className="relative p-8 rounded-3xl border border-neutral-100 bg-neutral-50 h-full flex flex-col hover:bg-white hover:shadow-xl transition-all">
+                  <h4 className="text-2xl font-display font-bold mb-4 text-neutral-900">{item.title}</h4>
+                  <p className="text-neutral-500 text-sm leading-relaxed font-medium">{item.desc}</p>
                   <div className="mt-auto pt-6">
-                    <div className="w-8 h-8 rounded-full border border-white/10 flex items-center justify-center group-hover:bg-white group-hover:text-black transition-all">
+                    <div className="w-8 h-8 rounded-full border border-neutral-200 flex items-center justify-center group-hover:bg-neutral-900 group-hover:text-white transition-all text-neutral-400">
                       <ArrowRight className="w-4 h-4" />
                     </div>
                   </div>
@@ -311,30 +310,29 @@ export const PilarBisnisPage: React.FC<PageProps> = ({ onBack }) => {
       animate="visible"
       exit="hidden"
       variants={containerVariants}
-      className="min-h-screen bg-[#050505] text-white pt-32 pb-24 selection:bg-white/20"
+      className="min-h-screen bg-white text-neutral-900 pt-32 pb-24 selection:bg-indigo-100"
     >
       <div className="container mx-auto px-6 md:px-12">
         <motion.button 
           variants={itemVariants}
           onClick={onBack} 
-          className="flex items-center gap-2 text-neutral-500 hover:text-white mb-12 transition-colors group"
+          className="flex items-center gap-2 text-neutral-500 hover:text-neutral-900 mb-12 transition-colors group"
         >
           <ArrowLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform" /> 
           Back to Home
         </motion.button>
 
         <motion.div variants={itemVariants} className="max-w-4xl mb-24">
-          <h1 className="text-5xl md:text-8xl font-display font-bold mb-6 tracking-tighter">
-            Pilar Bisnis
+          <h1 className="text-5xl md:text-8xl font-display font-black mb-6 tracking-tighter text-neutral-900">
+            PILAR BISNIS
           </h1>
-          <p className="text-xl text-neutral-400 leading-relaxed max-w-2xl">
+          <p className="text-xl text-neutral-500 leading-relaxed max-w-2xl font-medium">
             Struktur layanan kami dirancang untuk memberikan dukungan komprehensif bagi pertumbuhan bisnis Anda melalui kemitraan strategis dan konsultasi ahli.
           </p>
         </motion.div>
 
-        {/* Layanan Utama Section */}
         <motion.div variants={itemVariants} className="mb-32">
-          <h2 className="text-3xl md:text-5xl font-display font-bold mb-16 border-l-4 border-indigo-500 pl-6">Layanan Utama</h2>
+          <h2 className="text-3xl md:text-5xl font-display font-black mb-16 border-l-4 border-indigo-600 pl-6 text-neutral-900 uppercase tracking-tighter">Layanan Utama</h2>
           <div className="grid md:grid-cols-3 gap-8">
             {[
               { 
@@ -353,13 +351,12 @@ export const PilarBisnisPage: React.FC<PageProps> = ({ onBack }) => {
                 desc: "Pendanaan syariah untuk mengembangkan usaha baru maupun masuk ke bisnis yang sudah berjalan, dengan strategi ekspansi yang terukur." 
               }
             ].map((item, idx) => (
-              <div key={idx} className="glass-panel p-10 rounded-3xl border border-white/5 hover:border-white/20 transition-all group relative overflow-hidden">
-                <div className="absolute top-0 right-0 w-32 h-32 bg-indigo-500/5 blur-3xl -mr-16 -mt-16 group-hover:bg-indigo-500/10 transition-colors"></div>
-                <div className="w-16 h-16 rounded-2xl bg-white/5 flex items-center justify-center mb-8 group-hover:bg-white group-hover:text-black transition-all">
+              <div key={idx} className="bg-neutral-50 p-10 rounded-[2.5rem] border border-neutral-100 hover:bg-white hover:shadow-xl transition-all group relative overflow-hidden">
+                <div className="w-16 h-16 rounded-2xl bg-white shadow-sm flex items-center justify-center mb-10 text-neutral-900 group-hover:bg-indigo-600 group-hover:text-white transition-all">
                   {item.icon}
                 </div>
-                <h3 className="text-2xl font-display font-bold mb-4">{item.title}</h3>
-                <p className="text-neutral-400 leading-relaxed">{item.desc}</p>
+                <h3 className="text-2xl font-display font-bold mb-4 text-neutral-900">{item.title}</h3>
+                <p className="text-neutral-500 leading-relaxed font-medium">{item.desc}</p>
               </div>
             ))}
           </div>
@@ -367,26 +364,26 @@ export const PilarBisnisPage: React.FC<PageProps> = ({ onBack }) => {
 
         {/* Pilar Bisnis Section */}
         <motion.div variants={itemVariants} className="mb-32">
-          <h2 className="text-3xl md:text-5xl font-display font-bold mb-16 border-l-4 border-indigo-500 pl-6">Pilar Bisnis</h2>
+          <h2 className="text-3xl md:text-5xl font-display font-black mb-16 border-l-4 border-indigo-600 pl-6 text-neutral-900 uppercase tracking-tighter">Pilar Bisnis</h2>
           <div className="space-y-12">
             {/* BTW Mister Catur */}
-            <div className="glass-panel p-8 md:p-12 rounded-[2.5rem] border border-white/5 relative overflow-hidden group">
-              <div className="grid lg:grid-cols-2 gap-12 items-center">
+            <div className="bg-neutral-50 p-8 md:p-12 rounded-[3.5rem] border border-neutral-100 relative overflow-hidden group">
+              <div className="grid lg:grid-cols-2 gap-12 items-center text-left">
                 <div>
-                  <h3 className="text-3xl md:text-4xl font-display font-bold mb-6">BTW Mister Catur</h3>
-                  <p className="text-neutral-300 text-lg leading-relaxed mb-8">
-                    Kanal media digital yang fokus pada konten bisnis, motivasi, dan nilai kehidupan. Melalui platform ini, kami tidak hanya membagikan insight praktis, tetapi juga membuka peluang kolaborasi dan sponsorship dengan mitra yang ingin menjangkau audiens yang relevan.
+                  <h3 className="text-3xl md:text-4xl font-display font-bold mb-6 text-neutral-900">BTW Mister Catur</h3>
+                  <p className="text-neutral-600 text-lg leading-relaxed mb-8 font-medium">
+                    Kanal media digital yang fokus pada konten bisnis, motivasi, dan nilai kehidupan. Melalui platform ini, kami tidak hanya membagikan insight praktis, tetapi juga membuka peluang kolaborasi dan sponsorship.
                   </p>
-                  <ul className="grid sm:grid-cols-2 gap-4 mb-10">
+                  <ul className="grid sm:grid-cols-2 gap-4 mb-10 text-left">
                     {[
                       "Fokus pada bisnis, motivasi, dan nilai Islami.",
                       "Jangkauan audiens luas melalui YouTube & media sosial.",
                       "Sudah tampil di beberapa podcast & media coverage",
                       "Terbuka untuk kolaborasi & sponsorship."
                     ].map((bullet, i) => (
-                      <li key={i} className="flex gap-3 items-start text-neutral-400">
-                        <CheckCircle2 className="w-5 h-5 text-indigo-400 shrink-0 mt-0.5" />
-                        <span className="text-sm">{bullet}</span>
+                      <li key={i} className="flex gap-3 items-start text-neutral-500">
+                        <CheckCircle2 className="w-5 h-5 text-neutral-900 shrink-0 mt-0.5" />
+                        <span className="text-sm font-bold">{bullet}</span>
                       </li>
                     ))}
                   </ul>
@@ -394,13 +391,13 @@ export const PilarBisnisPage: React.FC<PageProps> = ({ onBack }) => {
                     href="https://btwmistercatur.com" 
                     target="_blank" 
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-3 px-8 py-4 bg-white text-black rounded-full font-bold hover:bg-neutral-200 transition-all group/btn"
+                    className="inline-flex items-center gap-3 px-8 py-4 bg-neutral-900 text-white rounded-full font-bold hover:bg-neutral-800 transition-all group/btn"
                   >
                     Visit btwmistercatur.com
                     <ArrowRight className="w-5 h-5 group-hover/btn:translate-x-1 transition-transform" />
                   </a>
                 </div>
-                <div className="relative aspect-video rounded-3xl overflow-hidden border border-white/10">
+                <div className="relative aspect-video rounded-3xl overflow-hidden shadow-2xl border border-neutral-200">
                   <img 
                     src="https://cglinkindonesia.com/wp-content/uploads/2026/03/Desain-tanpa-judul-2.png" 
                     alt="BTW Mister Catur" 
@@ -412,22 +409,22 @@ export const PilarBisnisPage: React.FC<PageProps> = ({ onBack }) => {
             </div>
 
             {/* CG Tour & Travel */}
-            <div className="glass-panel p-8 md:p-12 rounded-[2.5rem] border border-white/5 group">
+            <div className="bg-neutral-50 p-8 md:p-12 rounded-[3.5rem] border border-neutral-100 group text-left">
               <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-8 mb-8">
                 <div>
-                  <h3 className="text-3xl font-display font-bold mb-2">CG Tour & Travel</h3>
-                  <p className="text-indigo-400 font-medium">Layanan Perjalanan Umroh Amanah</p>
+                  <h3 className="text-3xl font-display font-bold mb-2 text-neutral-900">CG Tour & Travel</h3>
+                  <p className="text-indigo-600 font-bold uppercase tracking-widest text-xs">Layanan Perjalanan Umroh Amanah</p>
                 </div>
                 <a 
                   href="https://cgtourtravel.com" 
                   target="_blank" 
                   rel="noopener noreferrer"
-                  className="px-6 py-3 border border-white/20 rounded-full hover:bg-white hover:text-black transition-all flex items-center gap-2"
+                  className="px-6 py-3 border border-neutral-900 text-neutral-900 rounded-full hover:bg-neutral-900 hover:text-white transition-all font-bold flex items-center gap-2"
                 >
                   cgtourtravel.com <ArrowRight className="w-4 h-4" />
                 </a>
               </div>
-              <p className="text-neutral-400 text-lg leading-relaxed mb-8 max-w-3xl">
+              <p className="text-neutral-500 text-lg leading-relaxed mb-8 max-w-3xl font-medium">
                 Layanan perjalanan umroh yang amanah, nyaman, dan terpercaya. Kami mendampingi jamaah dengan manajemen perjalanan profesional serta dukungan mitra resmi untuk memastikan ibadah berjalan lancar.
               </p>
               <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -437,19 +434,19 @@ export const PilarBisnisPage: React.FC<PageProps> = ({ onBack }) => {
                   "Pendampingan jamaah profesional.",
                   "Jaringan mitra resmi & terpercaya."
                 ].map((bullet, i) => (
-                  <div key={i} className="p-6 rounded-2xl bg-white/5 border border-white/5 hover:bg-white/10 transition-colors">
-                    <p className="text-neutral-300 font-medium">{bullet}</p>
+                  <div key={i} className="p-6 rounded-2xl bg-white border border-neutral-100 shadow-sm hover:shadow-md transition-all">
+                    <p className="text-neutral-600 font-bold text-sm tracking-tight">{bullet}</p>
                   </div>
                 ))}
               </div>
             </div>
 
-            <div className="grid md:grid-cols-2 gap-8">
+            <div className="grid md:grid-cols-2 gap-12 text-left">
               {/* Program Affiliate */}
-              <div className="glass-panel p-10 rounded-[2.5rem] border border-white/5">
-                <h3 className="text-2xl font-display font-bold mb-6">Program Affiliate</h3>
-                <p className="text-neutral-400 leading-relaxed mb-8">
-                  CGLINK membuka peluang bagi mitra untuk memperluas distribusi produk melalui program affiliate. Dengan sistem yang terstruktur, kami membantu partner mencapai pasar yang lebih luas dan meningkatkan penjualan secara berkelanjutan.
+              <div className="bg-neutral-900 text-white p-12 rounded-[3.5rem] shadow-2xl">
+                <h3 className="text-2xl font-display font-black mb-6 uppercase tracking-tight">Program Affiliate</h3>
+                <p className="text-neutral-400 leading-relaxed mb-8 font-medium">
+                  CGLINK membuka peluang bagi mitra untuk memperluas distribusi produk melalui program affiliate. Dengan sistem yang terstruktur, kami membantu partner mencapai pasar yang lebih luas.
                 </p>
                 <ul className="space-y-4">
                   {[
@@ -458,19 +455,19 @@ export const PilarBisnisPage: React.FC<PageProps> = ({ onBack }) => {
                     "Jaringan distribusi luas.",
                     "Potensi income tambahan."
                   ].map((bullet, i) => (
-                    <li key={i} className="flex gap-3 items-center text-neutral-500">
-                      <div className="w-1.5 h-1.5 rounded-full bg-indigo-500"></div>
-                      {bullet}
+                    <li key={i} className="flex gap-3 items-center text-neutral-300">
+                      <div className="w-1.5 h-1.5 rounded-full bg-indigo-400"></div>
+                      <span className="font-medium">{bullet}</span>
                     </li>
                   ))}
                 </ul>
               </div>
 
               {/* Yayasan Amal Soleh */}
-              <div className="glass-panel p-10 rounded-[2.5rem] border border-white/5">
-                <h3 className="text-2xl font-display font-bold mb-6">Yayasan Amal Soleh</h3>
-                <p className="text-neutral-400 leading-relaxed mb-8">
-                  CGLINK berkomitmen untuk tidak hanya membangun bisnis, tetapi juga memberikan kontribusi nyata bagi masyarakat. Melalui Yayasan Amal Soleh CGLINK (YASCI), kami hadir dalam berbagai program sosial, pendidikan, dan pemberdayaan.
+              <div className="bg-neutral-50 p-12 rounded-[3.5rem] border border-neutral-100">
+                <h3 className="text-2xl font-display font-black mb-6 uppercase tracking-tight text-neutral-900">Yayasan Amal Soleh</h3>
+                <p className="text-neutral-500 leading-relaxed mb-8 font-medium">
+                  CGLINK berkomitmen untuk tidak hanya membangun bisnis, tetapi juga memberikan kontribusi nyata bagi masyarakat melalui Yayasan Amal Soleh CGLINK (YASCI).
                 </p>
                 <ul className="space-y-4">
                   {[
@@ -479,9 +476,9 @@ export const PilarBisnisPage: React.FC<PageProps> = ({ onBack }) => {
                     "Pemberdayaan ekonomi masyarakat.",
                     "Kolaborasi dengan mitra sosial."
                   ].map((bullet, i) => (
-                    <li key={i} className="flex gap-3 items-center text-neutral-500">
-                      <div className="w-1.5 h-1.5 rounded-full bg-indigo-500"></div>
-                      {bullet}
+                    <li key={i} className="flex gap-3 items-center text-neutral-600">
+                      <div className="w-1.5 h-1.5 rounded-full bg-indigo-600"></div>
+                      <span className="font-bold">{bullet}</span>
                     </li>
                   ))}
                 </ul>
@@ -527,55 +524,56 @@ export const FundingPortfolioPage: React.FC<PageProps> = ({ onBack }) => {
       animate="visible"
       exit="hidden"
       variants={containerVariants}
-      className="min-h-screen bg-[#050505] text-white pt-32 pb-24 selection:bg-white/20"
+      className="min-h-screen bg-white text-neutral-900 pt-32 pb-24 selection:bg-indigo-100"
     >
       <div className="container mx-auto px-6 md:px-12">
         <motion.button 
           variants={itemVariants}
           onClick={onBack} 
-          className="flex items-center gap-2 text-neutral-500 hover:text-white mb-12 transition-colors group"
+          className="flex items-center gap-2 text-neutral-500 hover:text-neutral-900 mb-12 transition-colors group"
         >
           <ArrowLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform" /> 
           Back to Home
         </motion.button>
 
-        <motion.div variants={itemVariants} className="max-w-4xl mb-24">
-          <h1 className="text-5xl md:text-8xl font-display font-bold mb-6 tracking-tighter">
-            Funding Portfolio
+        <motion.div variants={itemVariants} className="max-w-4xl mb-24 text-left">
+          <h1 className="text-5xl md:text-8xl font-display font-black mb-6 tracking-tighter text-neutral-900 leading-none">
+            FUNDING <br/> PORTFOLIO
           </h1>
-          <h2 className="text-2xl md:text-4xl text-indigo-400 font-bold mb-8 uppercase tracking-widest">
-            FUNDING PARTNERSHIP & ACQUISITION
+          <h2 className="text-2xl md:text-3xl text-indigo-600 font-bold mb-8 uppercase tracking-widest">
+            PARTNERSHIP & ACQUISITION
           </h2>
-          <p className="text-xl text-neutral-300 leading-relaxed max-w-3xl">
+          <p className="text-xl text-neutral-500 leading-relaxed max-w-3xl font-medium">
             Pendanaan strategis dilakukan melalui serangkaian proses penilaian dan verifikasi untuk memastikan bahwa investasi yang dilakukan benar-benar mempertimbangkan berbagai aspek dan berdampak positif bagi penerima.
           </p>
         </motion.div>
 
         <motion.div variants={itemVariants} className="mb-32">
-          <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-4">
-            <div>
-              <h2 className="text-4xl md:text-6xl font-display font-bold tracking-tighter mb-4">Portfolio Sector</h2>
-              <p className="text-neutral-400 max-w-xl">
-                Sektor-sektor berikut dipilih berdasarkan potensi pasar, kelayakan syariah, dan kesiapan ekspansi bisnis di Indonesia.
+          <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
+            <div className="text-left">
+              <h2 className="text-4xl md:text-7xl font-display font-black tracking-tighter mb-4 text-neutral-900">PORTFOLIO SECTOR</h2>
+              <p className="text-lg text-neutral-500 max-w-xl font-medium">
+                Sektor-sektor berikut dipilih berdasarkan potensi pasar, kelayakan syariah, and kesiapan ekspansi bisnis di Indonesia.
               </p>
             </div>
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             {sectors.map((sector, idx) => (
-              <div key={idx} className="glass-panel p-10 rounded-3xl border border-white/5 hover:border-white/20 transition-all group text-center flex flex-col items-center gap-6">
-                <div className="w-20 h-20 rounded-2xl bg-white/5 flex items-center justify-center group-hover:bg-white group-hover:text-black transition-all">
+              <div key={idx} className="bg-neutral-50 p-12 rounded-[2.5rem] border border-neutral-100 hover:shadow-xl transition-all group text-center flex flex-col items-center gap-8">
+                <div className="w-20 h-20 rounded-2xl bg-white shadow-sm flex items-center justify-center text-neutral-400 group-hover:bg-indigo-600 group-hover:text-white transition-all">
                   {sector.icon}
                 </div>
-                <h3 className="text-2xl font-display font-bold">{sector.name}</h3>
+                <h3 className="text-2xl font-display font-bold text-neutral-900 uppercase tracking-tighter">{sector.name}</h3>
               </div>
             ))}
           </div>
         </motion.div>
 
-        <motion.div variants={itemVariants} className="glass-panel p-12 md:p-16 rounded-[3rem] border border-white/5 bg-neutral-900/50 text-center mb-32">
-          <p className="text-2xl md:text-3xl text-neutral-300 leading-relaxed max-w-4xl mx-auto">
-            "Kami saat ini secara aktif memperluas sektor portofolio investasi dan membuka peluang pendanaan bagi mitra potensial."
+        <motion.div variants={itemVariants} className="bg-neutral-900 p-12 md:p-20 rounded-[4rem] text-center mb-32 shadow-2xl relative overflow-hidden">
+          <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/20 to-transparent"></div>
+          <p className="text-2xl md:text-4xl text-white leading-tight max-w-4xl mx-auto font-display font-bold relative z-10">
+            "Kami saat ini secara aktif memperluas sektor portofolio investasi and membuka peluang pendanaan bagi mitra potensial."
           </p>
         </motion.div>
 

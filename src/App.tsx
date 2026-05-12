@@ -74,31 +74,29 @@ const Navbar = ({ currentPage, setCurrentPage }: { currentPage: PageType, setCur
   const [isServicesMenuOpen, setIsServicesMenuOpen] = useState(false);
   const [isAboutMenuOpen, setIsAboutMenuOpen] = useState(false);
   const [activeService, setActiveService] = useState('fundamental');
+  const [scrolled, setScrolled] = useState(false);
 
-  const handleNav = (e: React.MouseEvent<HTMLAnchorElement>, target: string) => {
-    if (currentPage !== 'home') {
-      e.preventDefault();
-      setCurrentPage('home');
-      setTimeout(() => {
-        document.getElementById(target)?.scrollIntoView({ behavior: 'smooth' });
-      }, 100);
-    }
-    setIsMobileMenuOpen(false);
-  };
+  useEffect(() => {
+    const handleScroll = () => setScrolled(window.scrollY > 50);
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   return (
     <nav 
-      className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 md:px-12 h-[88px] glass-panel border-b-0 border-x-0 border-t-0"
+      className={`fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 md:px-12 h-[88px] transition-all duration-700 ${scrolled ? 'bg-white/90 backdrop-blur-2xl border-b border-neutral-100 shadow-[0_4px_30px_rgba(0,0,0,0.05)]' : 'bg-transparent'}`}
       onMouseLeave={() => {
         setIsServicesMenuOpen(false);
         setIsAboutMenuOpen(false);
       }}
     >
+      <div className={`absolute bottom-0 left-0 h-[1px] bg-gradient-to-r from-transparent via-indigo-500/50 to-transparent transition-all duration-1000 ${scrolled ? 'w-full opacity-100' : 'w-0 opacity-0'}`} />
+      
       <div 
-        className="flex items-center gap-3 cursor-pointer"
+        className="flex items-center gap-3 cursor-pointer group"
         onClick={() => { setCurrentPage('home'); window.scrollTo(0, 0); setIsMobileMenuOpen(false); }}
       >
-        <div className="w-12 h-12 rounded-full overflow-hidden border border-white/20 flex items-center justify-center bg-white">
+        <div className={`w-11 h-11 rounded-xl overflow-hidden border transition-all duration-500 flex items-center justify-center ${scrolled ? 'border-neutral-100 bg-white shadow-sm' : 'border-neutral-200 bg-white shadow-sm'} group-hover:scale-105`}>
           <img 
             src="https://cglinkindonesia.com/wp-content/uploads/2026/03/WhatsApp-Image-2026-03-26-at-14.55.49.jpeg" 
             alt="CGLINK Logo" 
@@ -106,22 +104,20 @@ const Navbar = ({ currentPage, setCurrentPage }: { currentPage: PageType, setCur
             referrerPolicy="no-referrer"
           />
         </div>
-        <span className="font-display font-bold text-xl tracking-widest">CGLINK</span>
+        <span className={`font-display font-black text-2xl tracking-tighter uppercase transition-colors duration-500 ${scrolled ? 'text-neutral-900' : 'text-neutral-900'} group-hover:text-indigo-600`}>CGLINK</span>
       </div>
       
       {/* Desktop Menu */}
-      <div className="hidden md:flex items-center h-full gap-10 text-sm font-medium text-neutral-400">
-        {/* About Us Dropdown Trigger */}
+      <div className={`hidden md:flex items-center h-full gap-8 text-[11px] font-black uppercase tracking-[0.2em] transition-colors duration-500 ${scrolled ? 'text-neutral-500' : 'text-neutral-500'}`}>
         <div className="h-full flex items-center relative">
           <button 
-            onClick={() => setIsAboutMenuOpen(!isAboutMenuOpen)}
             onMouseEnter={() => {
               setIsAboutMenuOpen(true);
               setIsServicesMenuOpen(false);
             }}
-            className={`flex items-center gap-1 ${currentPage.startsWith('about-') || isAboutMenuOpen ? 'text-white' : ''} hover:text-white transition-colors h-full`}
+            className={`flex items-center gap-1 transition-colors h-full ${scrolled ? 'hover:text-indigo-600' : 'hover:text-indigo-600'} ${isAboutMenuOpen || (currentPage.startsWith('about-')) ? 'text-indigo-600' : ''}`}
           >
-            About Us <ChevronDown className={`w-4 h-4 transition-transform ${isAboutMenuOpen ? 'rotate-180' : ''}`} />
+            About Us <ChevronDown className={`w-3 h-3 transition-transform ${isAboutMenuOpen ? 'rotate-180' : ''}`} />
           </button>
 
           <AnimatePresence>
@@ -130,27 +126,19 @@ const Navbar = ({ currentPage, setCurrentPage }: { currentPage: PageType, setCur
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: 10 }}
-                className="absolute top-full left-0 w-64 bg-[#0a0a0a]/95 backdrop-blur-2xl border border-white/10 shadow-2xl rounded-b-2xl overflow-hidden"
+                className={`absolute top-full left-0 w-64 border shadow-2xl rounded-b-3xl overflow-hidden ${scrolled ? 'bg-white border-neutral-100' : 'bg-white border-neutral-100'}`}
                 onMouseLeave={() => setIsAboutMenuOpen(false)}
               >
-                <div className="flex flex-col py-2">
+                <div className="flex flex-col py-3">
                   <button
-                    onClick={() => {
-                      setCurrentPage('about-vision');
-                      window.scrollTo(0, 0);
-                      setIsAboutMenuOpen(false);
-                    }}
-                    className="text-left px-6 py-4 hover:bg-white/10 text-neutral-400 hover:text-white transition-colors border-b border-white/5"
+                    onClick={() => { setCurrentPage('about-vision'); window.scrollTo(0, 0); setIsAboutMenuOpen(false); }}
+                    className={`text-left px-8 py-4 transition-colors border-b ${scrolled ? 'hover:bg-neutral-50 text-neutral-500 hover:text-indigo-600 border-neutral-50' : 'hover:bg-neutral-50 text-neutral-500 hover:text-indigo-600 border-neutral-50'}`}
                   >
                     Visi dan Misi
                   </button>
                   <button
-                    onClick={() => {
-                      setCurrentPage('about-pillars');
-                      window.scrollTo(0, 0);
-                      setIsAboutMenuOpen(false);
-                    }}
-                    className="text-left px-6 py-4 hover:bg-white/10 text-neutral-400 hover:text-white transition-colors"
+                    onClick={() => { setCurrentPage('about-pillars'); window.scrollTo(0, 0); setIsAboutMenuOpen(false); }}
+                    className={`text-left px-8 py-4 transition-colors ${scrolled ? 'hover:bg-neutral-50 text-neutral-500 hover:text-indigo-600' : 'hover:bg-neutral-50 text-neutral-500 hover:text-indigo-600'}`}
                   >
                     Pilar Bisnis
                   </button>
@@ -160,47 +148,38 @@ const Navbar = ({ currentPage, setCurrentPage }: { currentPage: PageType, setCur
           </AnimatePresence>
         </div>
         
-        {/* Services Dropdown Trigger */}
         <div className="h-full flex items-center relative">
           <button 
-            onClick={() => setIsServicesMenuOpen(!isServicesMenuOpen)}
             onMouseEnter={() => {
               setIsServicesMenuOpen(true);
               setIsAboutMenuOpen(false);
             }}
-            className={`flex items-center gap-1 ${currentPage.startsWith('service-') || isServicesMenuOpen ? 'text-white' : ''} hover:text-white transition-colors h-full`}
+            className={`flex items-center gap-1 transition-colors h-full ${scrolled ? 'hover:text-indigo-600' : 'hover:text-indigo-600'} ${isServicesMenuOpen || (currentPage.startsWith('service-')) ? 'text-indigo-600' : ''}`}
           >
-            Business Consulting <ChevronDown className={`w-4 h-4 transition-transform ${isServicesMenuOpen ? 'rotate-180' : ''}`} />
+            Capabilities <ChevronDown className={`w-3 h-3 transition-transform ${isServicesMenuOpen ? 'rotate-180' : ''}`} />
           </button>
         </div>
 
         <button 
           onClick={() => { setCurrentPage('about-funding'); window.scrollTo(0, 0); }}
-          className={`${currentPage === 'about-funding' ? 'text-white' : ''} hover:text-white transition-colors h-full flex items-center`}
+          className={`${currentPage === 'about-funding' ? 'text-indigo-600' : ''} ${scrolled ? 'hover:text-indigo-600' : 'hover:text-indigo-600'} transition-colors h-full flex items-center`}
         >
-          Funding Portfolio
+          Portfolio
         </button>
 
         <button 
           onClick={() => { setCurrentPage('careers'); window.scrollTo(0, 0); }}
-          className={`${currentPage === 'careers' ? 'text-white' : ''} hover:text-white transition-colors h-full flex items-center`}
+          className={`${currentPage === 'careers' ? 'text-indigo-600' : ''} ${scrolled ? 'hover:text-indigo-600' : 'hover:text-indigo-600'} transition-colors h-full flex items-center`}
         >
           Careers
-        </button>
-
-        <button 
-          onClick={() => { setCurrentPage('blog'); window.scrollTo(0, 0); }}
-          className={`${currentPage === 'blog' ? 'text-white' : ''} hover:text-white transition-colors h-full flex items-center`}
-        >
-          Blog
         </button>
       </div>
 
       <button 
         onClick={() => { setCurrentPage('contact'); window.scrollTo(0, 0); }}
-        className="hidden md:block px-6 py-3 bg-white text-black rounded-full text-sm font-bold hover:bg-neutral-200 transition-colors"
+        className={`hidden md:block px-8 py-3 rounded-full text-[10px] font-black uppercase tracking-widest transition-all hover:scale-105 active:scale-95 ${scrolled ? 'bg-indigo-600 text-white hover:bg-indigo-700' : 'bg-neutral-900 text-white hover:bg-black/80'}`}
       >
-        Contact Us
+        Work with us
       </button>
 
       {/* Mega Menu Dropdown */}
@@ -210,34 +189,18 @@ const Navbar = ({ currentPage, setCurrentPage }: { currentPage: PageType, setCur
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 10 }}
-            transition={{ duration: 0.2 }}
-            className="absolute top-full left-0 w-full bg-[#0a0a0a]/95 backdrop-blur-2xl border-b border-white/10 shadow-2xl cursor-default"
+            transition={{ duration: 0.3, ease: [0.23, 1, 0.32, 1] }}
+            className={`absolute top-full left-0 w-full border-b shadow-2xl cursor-default pb-12 ${scrolled ? 'bg-white border-neutral-100' : 'bg-white border-neutral-100'}`}
             onMouseEnter={() => setIsServicesMenuOpen(true)}
             onMouseLeave={() => setIsServicesMenuOpen(false)}
           >
-            <div className="container mx-auto px-6 md:px-12 py-10 flex gap-12">
-              {/* Left Column: Services List */}
-              <div className="w-5/12">
-                <div className="flex justify-between items-end mb-6 border-b border-white/10 pb-4">
-                  <h3 className="text-2xl font-display font-bold text-white">Layanan</h3>
-                  <button 
-                    onClick={() => {
-                      setIsServicesMenuOpen(false);
-                      if (currentPage !== 'home') {
-                        setCurrentPage('home');
-                        setTimeout(() => {
-                          document.getElementById('services')?.scrollIntoView({ behavior: 'smooth' });
-                        }, 100);
-                      } else {
-                        document.getElementById('services')?.scrollIntoView({ behavior: 'smooth' });
-                      }
-                    }}
-                    className="text-sm text-indigo-400 hover:text-indigo-300 transition-colors"
-                  >
-                    Semua Layanan
-                  </button>
+            <div className="container mx-auto px-6 md:px-12 pt-16 flex gap-20">
+              <div className="w-4/12">
+                <div className="mb-10">
+                  <h3 className={`text-4xl font-display font-black uppercase tracking-tighter mb-4 ${scrolled ? 'text-neutral-900' : 'text-neutral-900'}`}>CAPABILITIES</h3>
+                  <p className={`font-medium max-w-xs ${scrolled ? 'text-neutral-500' : 'text-neutral-500'}`}>Solusi strategis untuk transformasi bisnis Anda di era digital.</p>
                 </div>
-                <div className="flex flex-col gap-1">
+                <div className={`flex flex-col gap-1 border-l-2 ${scrolled ? 'border-neutral-100' : 'border-neutral-100'}`}>
                   {servicesData.map(s => (
                     <button
                       key={s.id}
@@ -247,7 +210,7 @@ const Navbar = ({ currentPage, setCurrentPage }: { currentPage: PageType, setCur
                         window.scrollTo(0, 0);
                         setIsServicesMenuOpen(false);
                       }}
-                      className={`text-left px-4 py-3 rounded-lg transition-colors text-sm font-medium ${activeService === s.id ? 'bg-white/10 text-white' : 'text-neutral-400 hover:text-white hover:bg-transparent'}`}
+                      className={`text-left px-8 py-4 transition-all text-[11px] font-black uppercase tracking-widest ${activeService === s.id ? 'text-indigo-600 border-l-2 border-indigo-600 -ml-[2px]' : (scrolled ? 'text-neutral-400 hover:text-indigo-600' : 'text-neutral-400 hover:text-indigo-600')}`}
                     >
                       {s.title}
                     </button>
@@ -255,21 +218,33 @@ const Navbar = ({ currentPage, setCurrentPage }: { currentPage: PageType, setCur
                 </div>
               </div>
 
-              {/* Right Column: Description */}
-              <div className="w-7/12 pt-16 pl-8 border-l border-white/10">
-                <p className="text-neutral-300 leading-relaxed mb-6 text-lg">
-                  {servicesData.find(s => s.id === activeService)?.desc}
-                </p>
-                <button 
-                  onClick={() => { 
-                    setCurrentPage(('service-' + activeService) as PageType); 
-                    window.scrollTo(0, 0);
-                    setIsServicesMenuOpen(false);
-                  }}
-                  className="text-indigo-400 hover:text-indigo-300 font-medium flex items-center gap-2 text-sm"
-                >
-                  Selengkapnya <ArrowRight className="w-4 h-4" />
-                </button>
+              <div className="w-8/12 flex items-center">
+                <div className={`p-12 rounded-[3.5rem] border w-full relative overflow-hidden group ${scrolled ? 'bg-neutral-50 border-neutral-100' : 'bg-neutral-50 border-neutral-100'}`}>
+                  <div className={`absolute top-0 right-0 w-64 h-64 bg-indigo-500/5 blur-[100px] rounded-full -mr-32 -mt-32`}></div>
+                  <motion.div
+                    key={activeService}
+                    initial={{ opacity: 0, x: 20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.4 }}
+                  >
+                    <h4 className={`text-3xl font-display font-black mb-6 uppercase tracking-tighter ${scrolled ? 'text-neutral-900' : 'text-neutral-900'}`}>
+                      {servicesData.find(s => s.id === activeService)?.title}
+                    </h4>
+                    <p className={`text-xl leading-relaxed font-medium mb-10 max-w-2xl ${scrolled ? 'text-neutral-500' : 'text-neutral-500'}`}>
+                      {servicesData.find(s => s.id === activeService)?.desc}
+                    </p>
+                    <button 
+                      onClick={() => { 
+                        setCurrentPage(('service-' + activeService) as PageType); 
+                        window.scrollTo(0, 0);
+                        setIsServicesMenuOpen(false);
+                      }}
+                      className={`px-8 py-4 rounded-2xl font-black uppercase tracking-widest text-[10px] transition-all flex items-center gap-3 ${scrolled ? 'bg-indigo-600 text-white hover:bg-indigo-700' : 'bg-neutral-900 text-white hover:bg-black/80'}`}
+                    >
+                      Learn More <ArrowRight className="w-4 h-4" />
+                    </button>
+                  </motion.div>
+                </div>
               </div>
             </div>
           </motion.div>
@@ -278,7 +253,7 @@ const Navbar = ({ currentPage, setCurrentPage }: { currentPage: PageType, setCur
 
       {/* Mobile Menu Toggle */}
       <button 
-        className="md:hidden text-white p-2"
+        className={`md:hidden p-2 transition-colors ${scrolled ? 'text-white' : 'text-neutral-900'}`}
         onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
       >
         {isMobileMenuOpen ? <X className="w-6 h-6" /> : <MoreVertical className="w-6 h-6" />}
@@ -291,84 +266,30 @@ const Navbar = ({ currentPage, setCurrentPage }: { currentPage: PageType, setCur
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
-            className="absolute top-full left-0 right-0 bg-[#0a0a0a] border-b border-white/10 p-6 flex flex-col gap-6 md:hidden shadow-2xl max-h-[80vh] overflow-y-auto"
+            className={`absolute top-full left-0 right-0 border-b p-8 flex flex-col gap-8 md:hidden shadow-2xl max-h-[85vh] overflow-y-auto rounded-b-[2.5rem] ${scrolled ? 'bg-black border-white/5' : 'bg-white border-neutral-100'}`}
           >
-            <div className="flex flex-col gap-4">
-              <span className="text-left text-lg font-medium text-white">About Us</span>
-              <div className="flex flex-col gap-3 pl-4 border-l border-white/10">
+             <div className="flex flex-col gap-4">
+              <span className={`text-[10px] font-black uppercase tracking-widest ${scrolled ? 'text-neutral-500' : 'text-neutral-400'}`}>Main Menu</span>
+              <div className="flex flex-col gap-6">
                 <button 
-                  onClick={() => { setCurrentPage('about-vision'); window.scrollTo(0, 0); setIsMobileMenuOpen(false); }}
-                  className={`text-left text-base font-medium ${currentPage === 'about-vision' ? 'text-white' : 'text-neutral-400'}`}
+                  onClick={() => { setCurrentPage('home'); window.scrollTo(0, 0); setIsMobileMenuOpen(false); }}
+                  className={`text-left text-3xl font-display font-black uppercase tracking-tighter ${scrolled ? 'text-white' : 'text-neutral-900'}`}
                 >
-                  Visi dan Misi
+                  Home
                 </button>
-                <button 
-                  onClick={() => { setCurrentPage('about-pillars'); window.scrollTo(0, 0); setIsMobileMenuOpen(false); }}
-                  className={`text-left text-base font-medium ${currentPage === 'about-pillars' ? 'text-white' : 'text-neutral-400'}`}
-                >
-                  Pilar Bisnis
-                </button>
+                <div className="space-y-4">
+                  <div className={`text-[10px] font-black uppercase tracking-[0.2em] ${scrolled ? 'text-neutral-500' : 'text-neutral-400'}`}>About</div>
+                  <button onClick={() => { setCurrentPage('about-vision'); setIsMobileMenuOpen(false); }} className={`block text-xl font-bold ${scrolled ? 'text-neutral-300' : 'text-neutral-900'}`}>Visi & Misi</button>
+                  <button onClick={() => { setCurrentPage('about-pillars'); setIsMobileMenuOpen(false); }} className={`block text-xl font-bold ${scrolled ? 'text-neutral-300' : 'text-neutral-900'}`}>Pilar Bisnis</button>
+                </div>
+                <button onClick={() => { setCurrentPage('about-funding'); setIsMobileMenuOpen(false); }} className={`text-left text-2xl font-display font-black uppercase tracking-tighter ${scrolled ? 'text-white' : 'text-neutral-900'}`}>Portfolio</button>
+                <button onClick={() => { setCurrentPage('careers'); setIsMobileMenuOpen(false); }} className={`text-left text-2xl font-display font-black uppercase tracking-tighter ${scrolled ? 'text-white' : 'text-neutral-900'}`}>Careers</button>
+                <button onClick={() => { setCurrentPage('blog'); setIsMobileMenuOpen(false); }} className={`text-left text-2xl font-display font-black uppercase tracking-tighter ${scrolled ? 'text-white' : 'text-neutral-900'}`}>Blog</button>
               </div>
             </div>
-            <div className="flex flex-col gap-4">
-              <button 
-                onClick={() => { setCurrentPage('about-funding'); window.scrollTo(0, 0); setIsMobileMenuOpen(false); }}
-                className={`text-left text-lg font-medium ${currentPage === 'about-funding' ? 'text-white' : 'text-neutral-400'}`}
-              >
-                Funding Portfolio
-              </button>
-            </div>
-            <div className="flex flex-col gap-4">
-              <span className="text-left text-lg font-medium text-white">Business Consulting</span>
-              <div className="flex flex-col gap-3 pl-4 border-l border-white/10">
-                <button 
-                  onClick={() => { 
-                    setIsMobileMenuOpen(false);
-                    if (currentPage !== 'home') {
-                      setCurrentPage('home');
-                      setTimeout(() => {
-                        document.getElementById('services')?.scrollIntoView({ behavior: 'smooth' });
-                      }, 100);
-                    } else {
-                      document.getElementById('services')?.scrollIntoView({ behavior: 'smooth' });
-                    }
-                  }}
-                  className="text-left text-base font-medium text-indigo-400 mb-2"
-                >
-                  Semua Layanan
-                </button>
-                {servicesData.map(s => (
-                  <button 
-                    key={s.id}
-                    onClick={() => { setCurrentPage(('service-' + s.id) as PageType); window.scrollTo(0, 0); setIsMobileMenuOpen(false); }}
-                    className={`text-left text-base font-medium ${currentPage === ('service-' + s.id) ? 'text-white' : 'text-neutral-400'}`}
-                  >
-                    {s.title}
-                  </button>
-                ))}
-              </div>
-            </div>
-            <button 
-              onClick={() => { setCurrentPage('home'); window.scrollTo(0, 0); setIsMobileMenuOpen(false); }}
-              className="text-left text-lg font-medium text-neutral-400"
-            >
-              Funding
-            </button>
-            <button 
-              onClick={() => { setCurrentPage('careers'); window.scrollTo(0, 0); setIsMobileMenuOpen(false); }}
-              className={`text-left text-lg font-medium ${currentPage === 'careers' ? 'text-white' : 'text-neutral-400'}`}
-            >
-              Careers
-            </button>
-            <button 
-              onClick={() => { setCurrentPage('blog'); window.scrollTo(0, 0); setIsMobileMenuOpen(false); }}
-              className={`text-left text-lg font-medium ${currentPage === 'blog' ? 'text-white' : 'text-neutral-400'}`}
-            >
-              Blog
-            </button>
             <button 
               onClick={() => { setCurrentPage('contact'); window.scrollTo(0, 0); setIsMobileMenuOpen(false); }}
-              className="px-6 py-3 bg-white text-black rounded-full text-sm font-bold hover:bg-neutral-200 transition-colors w-full text-center"
+              className={`w-full py-5 rounded-2xl font-black uppercase tracking-widest text-xs shadow-xl ${scrolled ? 'bg-white text-black' : 'bg-neutral-900 text-white'}`}
             >
               Contact Us
             </button>
@@ -379,226 +300,352 @@ const Navbar = ({ currentPage, setCurrentPage }: { currentPage: PageType, setCur
   );
 };
 
-const Hero = ({ setCurrentPage }: { setCurrentPage: (p: 'home' | 'about' | 'services' | 'contact') => void }) => {
-  const dataNodes = [
-    { left: "20%", delay: 0, duration: 12 },
-    { left: "45%", delay: 3, duration: 15 },
-    { left: "65%", delay: 1, duration: 10 },
-    { left: "80%", delay: 5, duration: 14 },
-    { left: "35%", delay: 2, duration: 11 },
+const BusinessStats = () => {
+  const stats = [
+    { label: "Business Pillars", value: "05", icon: <Building2 className="w-4 h-4" /> },
+    { label: "Portfolio Sectors", value: "04", icon: <ShoppingCart className="w-4 h-4" /> },
+    { label: "Active Network", value: "500", icon: <Users className="w-4 h-4" /> },
+    { label: "Excellence rate", value: "100%", icon: <Zap className="w-4 h-4" /> }
   ];
 
   return (
-    <section className="relative min-h-screen flex items-center pt-20 overflow-hidden">
-      {/* Animated Background Elements - "Beyond Business" Theme */}
-      <div className="absolute inset-0 z-0 bg-[#020202] overflow-hidden pointer-events-none">
-        {/* Base Gradient */}
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-indigo-900/20 via-[#050505] to-[#050505]" />
-        
-        {/* Animated Flowing Grid */}
-        <div 
-          className="absolute inset-0 bg-grid opacity-30 animate-grid-flow" 
-          style={{ maskImage: 'linear-gradient(to bottom, black 10%, transparent 80%)' }} 
-        />
-
-        {/* GLOBAL REACH: Rotating Wireframe Globe */}
-        <motion.div
-          animate={{ rotate: 360 }}
-          transition={{ duration: 150, repeat: Infinity, ease: "linear" }}
-          className="absolute -bottom-[40%] -left-[10%] w-[800px] h-[800px] opacity-[0.15]"
-        >
-          <svg viewBox="0 0 100 100" className="w-full h-full text-white" fill="none" stroke="currentColor" strokeWidth="0.2">
-            <circle cx="50" cy="50" r="48" />
-            <ellipse cx="50" cy="50" rx="24" ry="48" />
-            <ellipse cx="50" cy="50" rx="48" ry="24" />
-            <ellipse cx="50" cy="50" rx="12" ry="48" />
-            <ellipse cx="50" cy="50" rx="48" ry="12" />
-            <path d="M 2 50 L 98 50" />
-            <path d="M 50 2 L 50 98" />
-          </svg>
-        </motion.div>
-
-        {/* GROWTH: Upward Trending Abstract Curves */}
-        <svg className="absolute inset-0 w-full h-full opacity-40" preserveAspectRatio="none">
-          <defs>
-            <linearGradient id="growth-curve" x1="0%" y1="100%" x2="100%" y2="0%">
-              <stop offset="0%" stopColor="rgba(255,255,255,0)" />
-              <stop offset="50%" stopColor="rgba(99,102,241,0.5)" />
-              <stop offset="100%" stopColor="rgba(255,255,255,0)" />
-            </linearGradient>
-          </defs>
-          <motion.path
-            d="M -100,1000 C 300,800 400,600 800,400 C 1200,200 1600,100 2000,-100"
-            fill="none"
-            stroke="url(#growth-curve)"
-            strokeWidth="1.5"
-            initial={{ pathLength: 0, opacity: 0 }}
-            animate={{ 
-              pathLength: [0, 1, 1],
-              opacity: [0, 1, 0] 
-            }}
-            transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}
-          />
-          <motion.path
-            d="M -100,1100 C 400,900 500,700 900,500 C 1300,300 1700,200 2100,0"
-            fill="none"
-            stroke="url(#growth-curve)"
-            strokeWidth="1"
-            initial={{ pathLength: 0, opacity: 0 }}
-            animate={{ 
-              pathLength: [0, 1, 1],
-              opacity: [0, 0.5, 0] 
-            }}
-            transition={{ duration: 20, repeat: Infinity, ease: "easeInOut", delay: 5 }}
-          />
-        </svg>
-
-        {/* INNOVATION: Floating Geometric Shapes (Hexagons) */}
-        <motion.div
-          animate={{ 
-            y: [0, -40, 0],
-            rotate: [0, 30, 0],
-            opacity: [0.05, 0.15, 0.05]
-          }}
-          transition={{ duration: 25, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute top-[20%] right-[35%] w-40 h-40"
-        >
-          <svg viewBox="0 0 100 100" className="w-full h-full text-indigo-300" fill="none" stroke="currentColor" strokeWidth="0.5">
-            <polygon points="50 1 95 25 95 75 50 99 5 75 5 25" />
-            <polygon points="50 10 85 30 85 70 50 90 15 70 15 30" />
-            <line x1="50" y1="1" x2="50" y2="99" />
-            <line x1="5" y1="25" x2="95" y2="75" />
-            <line x1="5" y1="75" x2="95" y2="25" />
-          </svg>
-        </motion.div>
-
-        {/* Glowing Data Streams (Vertical) */}
-        <motion.div
-          animate={{ y: ["-100%", "200%"] }}
-          transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
-          className="absolute left-[15%] top-0 w-[1px] h-[30%] bg-gradient-to-b from-transparent via-white/30 to-transparent blur-[1px]"
-        />
-        <motion.div
-          animate={{ y: ["-100%", "200%"] }}
-          transition={{ duration: 12, repeat: Infinity, ease: "linear", delay: 3 }}
-          className="absolute left-[45%] top-0 w-[2px] h-[40%] bg-gradient-to-b from-transparent via-indigo-400/20 to-transparent blur-[2px]"
-        />
-        
-        {/* Floating Data Nodes */}
-        {dataNodes.map((node, i) => (
-          <motion.div
-            key={i}
-            animate={{ 
-              y: ["100vh", "-20vh"],
-              opacity: [0, 0.8, 0]
-            }}
-            transition={{ 
-              duration: node.duration, 
-              repeat: Infinity, 
-              ease: "linear",
-              delay: node.delay
-            }}
-            className="absolute w-1 h-1 bg-white rounded-full shadow-[0_0_8px_2px_rgba(255,255,255,0.6)]"
-            style={{ left: node.left }}
-          />
-        ))}
-
-        {/* Abstract "Beyond" Rings */}
-        <motion.div
-          animate={{ rotate: 360 }}
-          transition={{ duration: 100, repeat: Infinity, ease: "linear" }}
-          className="absolute -top-[30%] -right-[10%] w-[1000px] h-[1000px] rounded-full border border-white/5 border-dashed opacity-40"
-        />
-        <motion.div
-          animate={{ rotate: -360 }}
-          transition={{ duration: 120, repeat: Infinity, ease: "linear" }}
-          className="absolute -top-[20%] -right-[5%] w-[800px] h-[800px] rounded-full border border-indigo-500/10 opacity-20"
-        />
-
-        {/* Soft Glow Orbs */}
-        <motion.div 
-          animate={{ 
-            scale: [1, 1.2, 1],
-            opacity: [0.2, 0.4, 0.2],
-          }}
-          transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-indigo-500/10 rounded-full blur-[120px]"
-        />
-        <motion.div 
-          animate={{ 
-            scale: [1, 1.5, 1],
-            opacity: [0.1, 0.3, 0.1],
-          }}
-          transition={{ duration: 20, repeat: Infinity, ease: "easeInOut", delay: 2 }}
-          className="absolute bottom-1/4 right-1/4 w-[600px] h-[600px] bg-blue-500/5 rounded-full blur-[150px]"
-        />
+    <section className="py-20 relative z-10 bg-white border-y border-neutral-100">
+      <div className="container mx-auto px-6 md:px-12">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-0 divide-y md:divide-y-0 md:divide-x divide-neutral-100">
+          {stats.map((s, i) => (
+            <motion.div
+              key={i}
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true }}
+              transition={{ delay: i * 0.1, duration: 0.8 }}
+              className="px-8 py-12 md:py-16 text-center group"
+            >
+              <div className="text-6xl md:text-8xl font-display font-black text-neutral-900 tracking-tighter mb-4 group-hover:text-indigo-600 transition-colors duration-500">{s.value}</div>
+              <div className="flex items-center justify-center gap-3">
+                <span className="text-indigo-600">{s.icon}</span>
+                <span className="text-[10px] font-black text-neutral-400 uppercase tracking-[0.2em]">{s.label}</span>
+              </div>
+            </motion.div>
+          ))}
+        </div>
       </div>
+    </section>
+  );
+};
+
+const LatestInsights = ({ setCurrentPage }: { setCurrentPage: (p: PageType) => void }) => {
+  const insights = [
+    {
+      title: "Supporting the Expansion of Indonesia's SMEs with Long-Term Strategies",
+      date: "May 10, 2024",
+      category: "Strategy",
+      image: "https://cglinkindonesia.com/wp-content/uploads/2026/03/Desain-tanpa-judul-2.png"
+    },
+    {
+      title: "Investing in Innovation: Boosting the Success of Local SMEs",
+      date: "May 08, 2024",
+      category: "Innovation",
+      image: "https://cglinkindonesia.com/wp-content/uploads/2026/03/WhatsApp-Image-2026-03-26-at-14.55.49.jpeg"
+    }
+  ];
+
+  return (
+    <section className="py-32 relative z-10 bg-white">
+      <div className="container mx-auto px-6 md:px-12">
+        <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
+          <div className="max-w-2xl text-left">
+            <h2 className="text-4xl md:text-7xl font-display font-black tracking-tighter mb-8 text-neutral-900">LATEST INSIGHTS</h2>
+            <p className="text-xl text-neutral-500 font-medium">Analisis mendalam mengenai ekosistem bisnis, investasi, dan strategi pertumbuhan UMKM di Indonesia.</p>
+          </div>
+          <button 
+            onClick={() => { setCurrentPage('blog'); window.scrollTo(0, 0); }}
+            className="group flex items-center gap-3 text-neutral-900 font-bold bg-neutral-100 px-6 py-3 rounded-full hover:bg-neutral-900 hover:text-white transition-all duration-300"
+          >
+            Read All Articles <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+          </button>
+        </div>
+
+        <div className="grid md:grid-cols-2 gap-12">
+          {insights.map((insight, i) => (
+            <motion.div
+              key={i}
+              initial={{ opacity: 0, scale: 0.98 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              className="group cursor-pointer"
+              onClick={() => { setCurrentPage('blog'); window.scrollTo(0, 0); }}
+            >
+              <div className="relative aspect-video rounded-[2.5rem] overflow-hidden mb-8 shadow-2xl border border-neutral-100">
+                <img 
+                  src={insight.image} 
+                  alt={insight.title} 
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000"
+                  referrerPolicy="no-referrer"
+                />
+                <div className="absolute top-6 left-6">
+                  <span className="px-4 py-2 bg-white/90 backdrop-blur-md rounded-full text-[10px] font-black uppercase tracking-widest text-neutral-900 border border-neutral-100">
+                    {insight.category}
+                  </span>
+                </div>
+              </div>
+              <div className="text-neutral-400 text-xs mb-3 font-bold tracking-widest uppercase">CGLINK News — {insight.date}</div>
+              <h3 className="text-2xl md:text-3xl font-display font-bold text-neutral-900 group-hover:text-black transition-colors leading-[1.1] tracking-tight">
+                {insight.title}
+              </h3>
+            </motion.div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+};
+
+const InvestorRelations = ({ setCurrentPage }: { setCurrentPage: (p: PageType) => void }) => {
+  return (
+    <section className="py-24 relative z-10 bg-white text-black overflow-hidden group">
+      <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-neutral-100 rounded-full blur-[120px] -mr-32 -mt-32 transition-transform duration-1000 group-hover:scale-110" />
+      <div className="container mx-auto px-6 md:px-12 relative z-10">
+        <div className="grid lg:grid-cols-2 gap-16 items-center">
+          <div>
+            <h2 className="text-4xl md:text-7xl font-display font-black tracking-tighter mb-8 leading-none">
+              INVESTOR <br />
+              RELATIONSHIP
+            </h2>
+            <p className="text-xl text-neutral-600 leading-relaxed mb-10 max-w-lg">
+              Kami membuka peluang bagi mitra strategis dan investor untuk berkolaborasi dalam ekosistem bisnis yang legal, logis, dan halal. Mari bersama-sama mengakselerasi pertumbuhan ekonomi melalui investasi yang berintegritas.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4">
+              <button 
+                onClick={() => { setCurrentPage('about-funding'); window.scrollTo(0, 0); }}
+                className="px-8 py-4 bg-black text-white rounded-full font-bold hover:bg-neutral-800 transition-all flex items-center justify-center gap-2"
+              >
+                Explore Portfolio <ArrowRight className="w-4 h-4" />
+              </button>
+              <button 
+                onClick={() => { setCurrentPage('contact'); window.scrollTo(0, 0); }}
+                className="px-8 py-4 border border-black/10 rounded-full font-bold hover:bg-black/5 transition-all"
+              >
+                Inquiry Partnership
+              </button>
+            </div>
+          </div>
+          <div className="relative">
+            <motion.div
+              initial={{ opacity: 0, x: 20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              className="aspect-square rounded-[3rem] overflow-hidden shadow-2xl"
+            >
+              <img 
+                src="https://cglinkindonesia.com/wp-content/uploads/2026/03/Desain-tanpa-judul-2.png" 
+                alt="Investor Relationship" 
+                className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-1000"
+                referrerPolicy="no-referrer"
+              />
+            </motion.div>
+            <div className="absolute -bottom-10 -left-10 glass-panel bg-white/10 backdrop-blur-2xl p-8 rounded-3xl border border-white/20 shadow-xl hidden md:block">
+              <div className="text-3xl font-display font-bold text-black mb-1 leading-none tracking-tighter">SYIRKAH MODEL</div>
+              <div className="text-sm text-neutral-500 uppercase tracking-widest font-bold font-mono">Islamic Partnership</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};const SectorMarquee = () => {
+  const sectors = ["FINANCE", "LOGISTICS", "RETAIL", "TECH", "MANUFACTURING", "HOSPITALITY", "REAL ESTATE", "ENERGY"];
+  return (
+    <div className="py-12 bg-neutral-900 overflow-hidden relative">
+      <div className="absolute inset-0 bg-neutral-500/10 pointer-events-none" />
+      <div className="flex animate-marquee whitespace-nowrap">
+        {[...sectors, ...sectors].map((s, i) => (
+          <span 
+            key={i} 
+            className="text-4xl md:text-7xl font-display font-black text-white/20 mx-12 tracking-tighter uppercase inline-block italic"
+          >
+            {s} •
+          </span>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+const BentoGridServices = ({ setCurrentPage }: { setCurrentPage: (p: PageType) => void }) => {
+  const items = [
+    {
+      id: 'fundamental',
+      title: 'Strategy & Ops',
+      span: 'md:col-span-2 md:row-span-2',
+      bg: 'bg-neutral-900 text-white',
+      desc: 'Membangun fondasi bisnis yang kuat dan scalable untuk pertumbuhan jangka panjang.',
+      icon: <TrendingUp className="w-8 h-8 text-white" />
+    },
+    {
+      id: 'digital',
+      title: 'Digital Growth',
+      span: 'md:col-span-1 md:row-span-1',
+      bg: 'bg-neutral-200 text-neutral-900',
+      desc: 'Akselerasi pangsa pasar melalui ekosistem digital.',
+      icon: <Globe className="w-8 h-8" />
+    },
+    {
+      id: 'finance',
+      title: 'Finance & Tax',
+      span: 'md:col-span-1 md:row-span-1',
+      bg: 'bg-neutral-50 text-neutral-900',
+      desc: 'Optimalisasi arus kas dan manajemen risiko.',
+      icon: <BarChart3 className="w-8 h-8 text-neutral-900" />
+    },
+    {
+      id: 'partnerships',
+      title: 'Strategic Innovation',
+      span: 'md:col-span-2 md:row-span-1',
+      bg: 'bg-neutral-50 text-neutral-900',
+      desc: 'Membuka peluang pasar baru melalui kemitraan strategis global.',
+      icon: <Zap className="w-8 h-8 text-neutral-900" />
+    }
+  ];
+
+  return (
+    <section id="services-bento" className="py-32 bg-white relative z-10">
+      <div className="container mx-auto px-6 md:px-12">
+        <div className="max-w-3xl mb-20">
+          <h2 className="text-5xl md:text-8xl font-display font-black tracking-tighter text-neutral-900 mb-8 uppercase leading-[0.85]">
+            CORE <br />CAPABILITIES
+          </h2>
+          <p className="text-xl text-neutral-500 font-medium max-w-xl leading-relaxed">
+            Kami mengintegrasikan keahlian lintas sektor untuk memberikan dampak nyata bagi setiap mitra bisnis kami.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 md:grid-rows-2 gap-6">
+          {items.map((item, i) => (
+            <motion.div
+              key={i}
+              initial={{ opacity: 0, scale: 0.95 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              onClick={() => { setCurrentPage(('service-' + item.id) as PageType); window.scrollTo(0, 0); }}
+              className={`${item.span} ${item.bg} p-8 md:p-12 rounded-[3.5rem] relative overflow-hidden group cursor-pointer shadow-xl hover:shadow-2xl transition-all duration-500`}
+            >
+              <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 blur-[100px] rounded-full -mr-32 -mt-32 group-hover:scale-150 transition-transform duration-1000"></div>
+              <div className="relative z-10 h-full flex flex-col justify-between">
+                <div>
+                  <div className="mb-8">{item.icon}</div>
+                  <h3 className="text-3xl font-display font-black uppercase tracking-tighter leading-none mb-4">{item.title}</h3>
+                  <p className="opacity-70 font-medium text-lg leading-relaxed">{item.desc}</p>
+                </div>
+                <div className="mt-12 flex items-center gap-3 font-black text-[10px] uppercase tracking-widest group-hover:gap-6 transition-all">
+                  View Detail <ArrowRight className="w-4 h-4" />
+                </div>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+};
+
+const Hero = ({ setCurrentPage }: { setCurrentPage: (p: PageType) => void }) => {
+  return (
+    <section className="relative min-h-screen flex items-center pt-32 pb-24 overflow-hidden bg-white">
+      {/* Background Decor */}
+      <div className="bg-grid opacity-60" />
+      <div className="absolute top-1/4 right-[10%] w-[600px] h-[600px] bg-indigo-100/50 rounded-full blur-[120px] -z-10 animate-pulse" />
+      <div className="absolute bottom-1/4 left-[5%] w-[400px] h-[400px] bg-indigo-50/30 rounded-full blur-[100px] -z-10" />
 
       <div className="container mx-auto px-6 md:px-12 relative z-10">
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
-          <div className="text-left">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, ease: "easeOut" }}
-            >
-              <h1 className="text-5xl md:text-7xl lg:text-8xl font-display font-bold tracking-tighter leading-[1.1] mb-8">
-                Go beyond <br />
-                <span className="text-gradient">business as usual.</span>
-              </h1>
-            </motion.div>
+        <div className="max-w-5xl mx-auto text-center">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, ease: [0.23, 1, 0.32, 1] }}
+          >
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-indigo-50 border border-indigo-100 text-[10px] font-black uppercase tracking-[0.2em] text-indigo-600 mb-8">
+              <span className="w-2 h-2 rounded-full bg-indigo-600 animate-pulse" />
+              Partnership for sustainable growth
+            </div>
             
-            <motion.p 
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }}
-              className="text-lg md:text-xl text-neutral-400 mb-12 max-w-xl leading-relaxed"
-            >
-              Menjadi mitra strategis terdepan dalam membangun bisnis yang profesional, berdaya saing, dan berkelanjutan.
-            </motion.p>
-
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, ease: "easeOut", delay: 0.4 }}
-              className="flex flex-col sm:flex-row items-center gap-4"
-            >
+            <h1 className="text-6xl md:text-8xl lg:text-[10rem] font-display font-black tracking-tighter leading-[0.85] mb-12 text-neutral-900 uppercase">
+              BEYOND <br />
+              <span className="text-indigo-600">BUSINESS</span> <br />
+              VISION.
+            </h1>
+          </motion.div>
+          
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="flex flex-col md:flex-row items-center justify-center gap-10"
+          >
+            <p className="text-xl md:text-2xl text-neutral-500 font-medium max-w-xl leading-relaxed text-center md:text-left">
+              Membangun masa depan bisnis melalui kolaborasi strategis yang berlandaskan prinsip legal, logis, dan halal.
+            </p>
+            <div className="w-px h-24 bg-neutral-100 hidden md:block" />
+            <div className="flex flex-col sm:flex-row items-center gap-4">
               <button 
-                onClick={() => document.getElementById('business-lines')?.scrollIntoView({ behavior: 'smooth' })}
-                className="w-full sm:w-auto px-8 py-4 bg-white text-black rounded-full font-bold flex items-center justify-center gap-2 hover:bg-neutral-200 transition-all hover:scale-105 active:scale-95"
+                onClick={() => document.getElementById('services-bento')?.scrollIntoView({ behavior: 'smooth' })}
+                className="group w-full sm:w-auto px-10 py-5 bg-neutral-900 text-white rounded-2xl font-black uppercase tracking-widest text-xs flex items-center justify-center gap-4 hover:bg-black transition-all hover:scale-105 active:scale-95 shadow-2xl shadow-neutral-200/20"
               >
-                Get Started <ArrowRight className="w-4 h-4" />
+                Our Capabilities <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
               </button>
-              <button 
-                onClick={() => document.getElementById('services')?.scrollIntoView({ behavior: 'smooth' })}
-                className="w-full sm:w-auto px-8 py-4 glass-panel rounded-full font-bold text-white hover:bg-white/10 transition-all"
-              >
-                Our Services
-              </button>
-            </motion.div>
-          </div>
+            </div>
+          </motion.div>
+        </div>
 
-          <div className="hidden lg:block relative h-[500px] perspective-[1000px]">
-            <motion.div
-              animate={{ 
-                y: [-10, 10, -10], 
-                rotateX: [5, -5, 5], 
-                rotateY: [-5, 5, -5] 
-              }}
-              transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
-              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[250px] glass-panel rounded-2xl p-8 shadow-[0_30px_60px_-15px_rgba(0,0,0,0.8)] border border-white/10 flex flex-col justify-between bg-gradient-to-br from-white/5 to-transparent"
-              style={{ transformStyle: "preserve-3d" }}
-            >
-              <div className="flex justify-between items-start">
-                <div className="font-display font-bold text-2xl tracking-widest text-white/90">CGLINK</div>
-                <div className="w-12 h-8 rounded bg-white/20" />
+        {/* Floating Cards Mockup for Hero */}
+        <div className="mt-32 relative h-[400px] hidden lg:block">
+           <motion.div 
+            initial={{ opacity: 0, x: -100 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 1.2, delay: 0.5 }}
+            className="absolute left-0 top-0 w-80 p-8 rounded-[2.5rem] bg-white border border-neutral-100 shadow-2xl shadow-neutral-200/50 rotate-[-4deg] z-20"
+          >
+            <div className="w-12 h-12 rounded-xl bg-neutral-900 flex items-center justify-center text-white mb-6">
+              <TrendingUp className="w-6 h-6" />
+            </div>
+            <div className="text-3xl font-display font-black text-neutral-900 mb-2 tracking-tighter">150%</div>
+            <div className="text-[10px] font-black text-neutral-400 uppercase tracking-widest">Growth Potential</div>
+          </motion.div>
+
+          <motion.div 
+            initial={{ opacity: 0, y: 100 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1.2, delay: 0.7 }}
+            className="absolute left-1/2 -translate-x-1/2 top-10 w-96 p-10 rounded-[3rem] bg-indigo-600 shadow-2xl shadow-indigo-200/20 z-10"
+          >
+            <div className="flex justify-between items-start mb-12">
+              <div className="text-white font-display font-black text-2xl tracking-tighter uppercase">CGLINK</div>
+              <Globe className="w-6 h-6 text-indigo-200 animate-spin-slow" />
+            </div>
+            <div className="space-y-4">
+              <div className="h-2 w-full bg-white/20 rounded-full" />
+              <div className="h-2 w-3/4 bg-white/20 rounded-full" />
+              <div className="h-2 w-1/2 bg-white/20 rounded-full" />
+            </div>
+            <div className="mt-12 text-sm text-indigo-200 uppercase tracking-widest font-black">Strategic Partnership</div>
+          </motion.div>
+
+          <motion.div 
+            initial={{ opacity: 0, x: 100 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 1.2, delay: 0.6 }}
+            className="absolute right-0 top-20 w-80 p-8 rounded-[2.5rem] bg-white border border-neutral-100 shadow-2xl shadow-neutral-200/50 rotate-[6deg] z-20"
+          >
+            <div className="flex items-center gap-4 mb-6">
+              <div className="flex -space-x-3">
+                {[1,2,3].map(i => (
+                  <div key={i} className="w-10 h-10 rounded-full bg-neutral-200 border-2 border-white" />
+                ))}
               </div>
-              <div>
-                <div className="text-sm text-neutral-400 mb-1 font-medium">Business Consultant</div>
-                <div className="font-mono text-lg tracking-widest text-white/80">**** **** **** 2024</div>
-              </div>
-            </motion.div>
-          </div>
+              <span className="text-[10px] font-black text-neutral-400 uppercase tracking-widest">Experts Network</span>
+            </div>
+            <div className="text-xl font-bold text-neutral-900 leading-tight">Expert Advisory at your fingertips.</div>
+          </motion.div>
         </div>
       </div>
     </section>
@@ -625,9 +672,9 @@ const CoreValues = () => {
   ];
 
   return (
-    <section className="py-24 relative z-10">
+    <section className="py-32 relative z-10 bg-white">
       <div className="container mx-auto px-6 md:px-12">
-        <div className="grid md:grid-cols-3 gap-8">
+        <div className="grid md:grid-cols-3 gap-12">
           {values.map((v, i) => (
             <motion.div
               key={i}
@@ -635,13 +682,13 @@ const CoreValues = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.1, duration: 0.6 }}
-              className="glass-panel p-10 rounded-3xl hover:-translate-y-2 transition-transform duration-300 group shadow-[0_20px_40px_-15px_rgba(0,0,0,0.5)]"
+              className="bg-neutral-50 p-12 rounded-[2.5rem] hover:bg-neutral-100 transition-colors duration-500 group border border-neutral-100"
             >
-              <div className="w-14 h-14 rounded-full bg-white/10 flex items-center justify-center mb-8 group-hover:bg-white group-hover:text-black transition-colors">
+              <div className="w-16 h-16 rounded-2xl bg-white shadow-sm flex items-center justify-center mb-10 text-neutral-900 group-hover:bg-black group-hover:text-white transition-all duration-500">
                 {v.icon}
               </div>
-              <h3 className="text-3xl font-display font-bold mb-4">{v.title}</h3>
-              <p className="text-neutral-400 leading-relaxed">{v.desc}</p>
+              <h3 className="text-3xl font-display font-bold mb-6 text-neutral-900 tracking-tight">{v.title}</h3>
+              <p className="text-neutral-500 leading-relaxed text-lg">{v.desc}</p>
             </motion.div>
           ))}
         </div>
@@ -652,16 +699,17 @@ const CoreValues = () => {
 
 const VisionMission = () => {
   return (
-    <section id="about" className="py-24 relative z-10 border-t border-white/5">
+    <section id="about" className="py-32 relative z-10 bg-neutral-50/50">
       <div className="container mx-auto px-6 md:px-12">
-        <div className="grid lg:grid-cols-2 gap-20">
+        <div className="grid lg:grid-cols-2 gap-24 items-center">
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
           >
-            <h2 className="text-4xl md:text-5xl font-display font-bold mb-8">Visi</h2>
-            <p className="text-xl md:text-2xl text-neutral-300 leading-relaxed font-light italic">
+            <div className="inline-block px-4 py-1 rounded-full bg-neutral-100 text-neutral-900 text-xs font-black tracking-widest uppercase mb-6">Philosophy</div>
+            <h2 className="text-5xl md:text-7xl font-display font-black tracking-tighter mb-10 leading-none text-neutral-900">VISI</h2>
+            <p className="text-2xl md:text-3xl text-neutral-600 leading-tight font-medium">
               "Menjadi mitra kolaborasi bisnis yang berlandaskan prinsip legal, logis, dan halal melalui produk, jasa, serta pengembangan bisnis profesional untuk menciptakan pertumbuhan dan manfaat berkelanjutan bagi seluruh pihak."
             </p>
           </motion.div>
@@ -670,8 +718,9 @@ const VisionMission = () => {
             initial={{ opacity: 0, x: 20 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
+            className="bg-white p-12 rounded-[3rem] shadow-xl shadow-neutral-200/50 border border-neutral-100"
           >
-            <h2 className="text-4xl md:text-5xl font-display font-bold mb-8">Misi</h2>
+            <h2 className="text-4xl md:text-5xl font-display font-bold mb-12 text-neutral-900">MISI</h2>
             <ul className="space-y-8">
               {[
                 "Menyelenggarakan produk dan jasa bisnis yang legal, logis, dan halal.",
@@ -681,10 +730,10 @@ const VisionMission = () => {
                 "Menciptakan pertumbuhan dan manfaat yang berkelanjutan bagi seluruh pihak."
               ].map((m, i) => (
                 <li key={i} className="flex gap-6 items-start">
-                  <div className="mt-1 w-8 h-8 rounded-full bg-white/10 flex items-center justify-center shrink-0 text-sm font-mono font-bold">
-                    {i + 1}
+                  <div className="mt-1 w-10 h-10 rounded-2xl bg-neutral-50 flex items-center justify-center shrink-0 text-neutral-900 font-display font-bold">
+                    0{i + 1}
                   </div>
-                  <p className="text-lg text-neutral-400 leading-relaxed">{m}</p>
+                  <p className="text-lg text-neutral-500 leading-relaxed font-medium">{m}</p>
                 </li>
               ))}
             </ul>
@@ -715,14 +764,14 @@ const ServicesSection: React.FC<{ setCurrentPage: (page: PageType) => void }> = 
   ];
 
   return (
-    <section id="services" className="py-24 relative z-10 bg-neutral-950">
+    <section id="services" className="py-32 relative z-10 bg-white">
       <div className="container mx-auto px-6 md:px-12">
         <div className="text-center max-w-3xl mx-auto mb-20">
-          <h2 className="text-4xl md:text-6xl font-display font-bold mb-6">Layanan Utama</h2>
-          <p className="text-xl text-neutral-400">Solusi komprehensif untuk pertumbuhan bisnis Anda.</p>
+          <h2 className="text-4xl md:text-7xl font-display font-black tracking-tighter mb-8 text-neutral-900">LAYANAN UTAMA</h2>
+          <p className="text-xl text-neutral-500 font-medium">Solusi komprehensif untuk pertumbuhan bisnis Anda.</p>
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           {services.map((s, i) => (
             <motion.div
               key={i}
@@ -730,13 +779,13 @@ const ServicesSection: React.FC<{ setCurrentPage: (page: PageType) => void }> = 
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.1 }}
-              className="glass-panel p-8 rounded-3xl flex flex-col h-full hover:bg-white/5 transition-colors shadow-[0_20px_40px_-15px_rgba(0,0,0,0.5)] group"
+              className="bg-neutral-50 p-10 rounded-[2.5rem] flex flex-col h-full hover:shadow-2xl transition-all duration-500 group border border-neutral-100"
             >
-              <h3 className="text-2xl font-display font-bold mb-4">{s.title}</h3>
-              <p className="text-neutral-400 leading-relaxed mb-8 flex-grow">{s.desc}</p>
+              <h3 className="text-2xl font-display font-bold mb-6 text-neutral-900 group-hover:text-black transition-colors">{s.title}</h3>
+              <p className="text-neutral-500 leading-relaxed mb-10 flex-grow font-medium">{s.desc}</p>
               <button 
                 onClick={() => { setCurrentPage(s.id as PageType); window.scrollTo(0, 0); }}
-                className="flex items-center gap-2 text-indigo-400 font-bold group-hover:text-indigo-300 transition-colors mt-auto"
+                className="flex items-center gap-2 text-neutral-900 font-black tracking-tighter uppercase text-sm group-hover:text-black transition-colors mt-auto"
               >
                 Learn More <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </button>
@@ -783,12 +832,12 @@ const WhyUs = () => {
   ];
 
   return (
-    <section id="business-lines" className="py-24 relative z-10">
+    <section id="business-lines" className="py-32 relative z-10 bg-white">
       <div className="container mx-auto px-6 md:px-12">
-        <div className="grid lg:grid-cols-2 gap-24">
+        <div className="grid lg:grid-cols-2 gap-32">
           <div>
-            <h2 className="text-4xl md:text-5xl font-display font-bold mb-12">Why Us?</h2>
-            <div className="space-y-10">
+            <h2 className="text-4xl md:text-7xl font-display font-black tracking-tighter mb-16 text-neutral-900">WHY US?</h2>
+            <div className="space-y-12">
               {reasons.map((r, i) => (
                 <motion.div 
                   key={i}
@@ -796,27 +845,27 @@ const WhyUs = () => {
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: i * 0.1 }}
-                  className="flex gap-6"
+                  className="flex gap-8 group"
                 >
-                  <div className="w-14 h-14 rounded-full glass-panel flex items-center justify-center shrink-0">
+                  <div className="w-16 h-16 rounded-2xl bg-neutral-50 flex items-center justify-center shrink-0 text-neutral-900 group-hover:bg-black group-hover:text-white transition-all duration-500 border border-neutral-100">
                     {r.icon}
                   </div>
                   <div>
-                    <h3 className="text-xl font-bold mb-2">{r.title}</h3>
-                    <p className="text-neutral-400 leading-relaxed">{r.desc}</p>
+                    <h3 className="text-2xl font-bold mb-3 text-neutral-900">{r.title}</h3>
+                    <p className="text-neutral-500 leading-relaxed text-lg">{r.desc}</p>
                   </div>
                 </motion.div>
               ))}
             </div>
           </div>
 
-          <div>
-            <h2 className="text-4xl md:text-5xl font-display font-bold mb-8">Our Business Lines</h2>
-            <p className="text-neutral-400 leading-relaxed mb-12 text-lg">
-              CGLINK mengelola beragam lini usaha untuk menjawab kebutuhan pasar yang dinamis. Mulai dari B2B dan B2C, hingga retail, wholesale, serta sektor energi. Selain itu, CGLINK juga mengembangkan media digital lewat BTW Mister Catur, layanan perjalanan umroh, dan program affiliate yang membuka peluang distribusi lebih luas.
+          <div className="bg-neutral-50 p-12 rounded-[3.5rem] border border-neutral-100">
+            <h2 className="text-4xl md:text-5xl font-display font-bold mb-8 text-neutral-900">Our Business Lines</h2>
+            <p className="text-neutral-500 leading-relaxed mb-12 text-lg font-medium">
+              CGLINK mengelola beragam lini usaha untuk menjawab kebutuhan pasar yang dinamis. Mulai dari B2B dan B2C, hingga retail, wholesale, serta sektor energi.
             </p>
             
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-6">
+            <div className="grid grid-cols-2 gap-4">
               {lines.map((l, i) => (
                 <motion.div
                   key={i}
@@ -824,12 +873,12 @@ const WhyUs = () => {
                   whileInView={{ opacity: 1, scale: 1 }}
                   viewport={{ once: true }}
                   transition={{ delay: i * 0.05 }}
-                  className="glass-panel p-8 rounded-2xl flex flex-col items-center justify-center text-center gap-4 hover:bg-white hover:text-black transition-colors group cursor-pointer shadow-[0_20px_40px_-15px_rgba(0,0,0,0.5)]"
+                  className="bg-white p-6 rounded-2xl flex items-center gap-4 hover:shadow-lg transition-all duration-300 group cursor-pointer border border-neutral-100"
                 >
                   <div className="text-neutral-400 group-hover:text-black transition-colors">
                     {l.icon}
                   </div>
-                  <span className="font-bold text-sm">{l.name}</span>
+                  <span className="font-bold text-sm text-neutral-900">{l.name}</span>
                 </motion.div>
               ))}
             </div>
@@ -881,7 +930,7 @@ const Testimonials = () => {
   ];
 
   return (
-    <section id="testimonials" className="py-24 relative z-10 bg-neutral-950/50 border-t border-white/5">
+    <section id="testimonials" className="py-32 relative z-10 bg-neutral-50/50 border-t border-neutral-100">
       <div className="container mx-auto px-6 md:px-12">
         <div className="text-center max-w-3xl mx-auto mb-20">
           <motion.div
@@ -889,12 +938,12 @@ const Testimonials = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
           >
-            <h2 className="text-4xl md:text-5xl font-display font-bold mb-6">What People Say</h2>
-            <div className="w-24 h-1 bg-gradient-to-r from-white/40 to-transparent mx-auto rounded-full" />
+            <h2 className="text-4xl md:text-7xl font-display font-black tracking-tighter mb-8 text-neutral-900">WHAT PEOPLE SAY</h2>
+            <div className="w-24 h-1 bg-black mx-auto rounded-full" />
           </motion.div>
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 auto-rows-[minmax(200px,auto)]">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 auto-rows-[minmax(200px,auto)]">
           {testimonials.map((t, i) => (
             <motion.div
               key={i}
@@ -902,31 +951,27 @@ const Testimonials = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.1, duration: 0.6 }}
-              className={`glass-panel p-8 rounded-3xl flex flex-col justify-between hover:bg-white/5 transition-all duration-500 group relative overflow-hidden ${t.colSpan} ${t.rowSpan}`}
+              className={`bg-white p-10 rounded-[2.5rem] flex flex-col justify-between hover:shadow-xl transition-all duration-500 group relative overflow-hidden border border-neutral-100 ${t.colSpan} ${t.rowSpan}`}
             >
-              {/* Subtle gradient glow on hover */}
-              <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-              
               <div className="relative z-10">
-                <Quote className="w-8 h-8 text-white/20 mb-6 group-hover:text-white/40 transition-colors" />
-                <p className="text-lg text-neutral-300 leading-relaxed mb-8 font-light">
+                <Quote className="w-10 h-10 text-neutral-100 mb-8 group-hover:text-neutral-400 transition-colors" />
+                <p className="text-xl text-neutral-600 leading-relaxed mb-10 font-medium">
                   "{t.text}"
                 </p>
               </div>
 
-              <div className="flex items-center gap-4 relative z-10 mt-auto pt-6 border-t border-white/10">
+              <div className="flex items-center gap-5 relative z-10 mt-auto pt-8 border-t border-neutral-50">
                 <img 
                   src={t.avatar} 
                   alt={t.name} 
-                  className="w-12 h-12 rounded-full object-cover border border-white/20"
+                  className="w-14 h-14 rounded-2xl object-cover border border-neutral-100"
                   referrerPolicy="no-referrer"
                 />
                 <div>
-                  <h4 className="font-bold text-white text-sm">{t.name}</h4>
+                  <h4 className="font-black text-neutral-900 text-sm tracking-tight">{t.name}</h4>
                   <div className="flex items-center gap-2 text-xs mt-1">
-                    <span className="text-neutral-400">{t.role}</span>
-                    <span className="w-1 h-1 rounded-full bg-white/30" />
-                    <span className="text-neutral-300 font-medium">{t.company}</span>
+                    <span className="text-neutral-400 font-bold uppercase tracking-wider">{t.role}</span>
+                    <span className="text-neutral-300 font-medium">@{t.company}</span>
                   </div>
                 </div>
               </div>
@@ -972,27 +1017,28 @@ const BusinessCheckup = () => {
   };
 
   return (
-    <section id="contact" className="py-24 relative z-10 border-t border-white/5 bg-[#020202]">
+    <section id="contact" className="py-32 relative z-10 bg-white">
       <div className="container mx-auto px-6 md:px-12">
-        <div className="grid lg:grid-cols-2 gap-16 items-center">
+        <div className="grid lg:grid-cols-2 gap-24 items-center">
           <div>
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
             >
-              <h2 className="text-4xl md:text-5xl font-display font-bold mb-6">
-                Business <span className="text-gradient">Check-up</span>
+              <h2 className="text-4xl md:text-7xl font-display font-black tracking-tighter mb-10 text-neutral-900 leading-none uppercase">
+                BUSINESS <br/>
+                <span className="text-indigo-600">CHECK-UP</span>
               </h2>
-              <p className="text-xl text-neutral-400 leading-relaxed mb-10 font-light">
+              <p className="text-xl text-neutral-500 leading-relaxed mb-12 font-medium">
                 Ambil langkah pertama untuk mengoptimalkan bisnis Anda. Isi form evaluasi singkat ini untuk mendapatkan insight awal mengenai potensi dan area perbaikan di perusahaan Anda.
               </p>
               
-              <div className="space-y-6">
+              <div className="space-y-8">
                 {[
-                  { icon: <TrendingUp className="w-5 h-5 text-white" />, text: "Identifikasi hambatan pertumbuhan" },
-                  { icon: <BarChart3 className="w-5 h-5 text-white" />, text: "Dapatkan insight yang actionable" },
-                  { icon: <ShieldCheck className="w-5 h-5 text-white" />, text: "Perkuat fundamental bisnis" }
+                  { icon: <TrendingUp className="w-6 h-6 text-indigo-600" />, text: "Identifikasi hambatan pertumbuhan" },
+                  { icon: <BarChart3 className="w-6 h-6 text-indigo-600" />, text: "Dapatkan insight yang actionable" },
+                  { icon: <ShieldCheck className="w-6 h-6 text-indigo-600" />, text: "Perkuat fundamental bisnis" }
                 ].map((item, i) => (
                   <motion.div 
                     key={i}
@@ -1000,12 +1046,12 @@ const BusinessCheckup = () => {
                     whileInView={{ opacity: 1, x: 0 }}
                     viewport={{ once: true }}
                     transition={{ delay: i * 0.1 }}
-                    className="flex items-center gap-5 text-neutral-300"
+                    className="flex items-center gap-6 text-neutral-600 group"
                   >
-                    <div className="w-12 h-12 rounded-full glass-panel flex items-center justify-center shrink-0">
+                    <div className="w-16 h-16 rounded-2xl bg-neutral-50 flex items-center justify-center shrink-0 border border-neutral-100 group-hover:bg-indigo-600 group-hover:text-white transition-all duration-300">
                       {item.icon}
                     </div>
-                    <span className="text-lg">{item.text}</span>
+                    <span className="text-xl font-bold tracking-tight">{item.text}</span>
                   </motion.div>
                 ))}
               </div>
@@ -1016,49 +1062,50 @@ const BusinessCheckup = () => {
             initial={{ opacity: 0, scale: 0.95 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
-            className="glass-panel p-8 md:p-10 rounded-3xl relative overflow-hidden shadow-[0_20px_40px_-15px_rgba(0,0,0,0.5)] bg-white/5"
+            className="bg-neutral-50 p-8 md:p-12 rounded-[3.5rem] relative overflow-hidden shadow-2xl border border-neutral-100"
           >
-            <form className="space-y-4" onSubmit={handleSubmit}>
-              <div className="grid grid-cols-2 gap-4">
+            <form className="space-y-6" onSubmit={handleSubmit}>
+              <div className="grid grid-cols-2 gap-6">
                 <div className="space-y-2">
-                  <label className="text-sm text-neutral-400">Nama Lengkap</label>
-                  <input type="text" name="name" required className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-indigo-500 transition-colors" placeholder="John Doe" />
+                  <label className="text-[10px] font-black uppercase tracking-widest text-neutral-400">Nama Lengkap</label>
+                  <input type="text" name="name" required className="w-full bg-white border border-neutral-200 rounded-2xl px-6 py-4 text-neutral-900 focus:outline-none focus:border-black transition-colors" placeholder="John Doe" />
                 </div>
                 <div className="space-y-2">
-                  <label className="text-sm text-neutral-400">Perusahaan</label>
-                  <input type="text" name="company" required className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-indigo-500 transition-colors" placeholder="PT Inovasi Maju" />
+                  <label className="text-[10px] font-black uppercase tracking-widest text-neutral-400">Perusahaan</label>
+                  <input type="text" name="company" required className="w-full bg-white border border-neutral-200 rounded-2xl px-6 py-4 text-neutral-900 focus:outline-none focus:border-black transition-colors" placeholder="PT Inovasi" />
                 </div>
               </div>
               <div className="space-y-2">
-                <label className="text-sm text-neutral-400">Email</label>
-                <input type="email" name="email" required className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-indigo-500 transition-colors" placeholder="john@example.com" />
+                <label className="text-[10px] font-black uppercase tracking-widest text-neutral-400">Email</label>
+                <input type="email" name="email" required className="w-full bg-white border border-neutral-200 rounded-2xl px-6 py-4 text-neutral-900 focus:outline-none focus:border-black transition-colors" placeholder="businesspartner@cglinkindonesia.com" />
               </div>
               <div className="space-y-2">
-                <label className="text-sm text-neutral-400">Pesan / Tantangan Bisnis</label>
-                <textarea name="message" required rows={4} className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-indigo-500 transition-colors resize-none" placeholder="Ceritakan singkat tentang kebutuhan Anda..."></textarea>
+                <label className="text-[10px] font-black uppercase tracking-widest text-neutral-400">Pesan Bisnis</label>
+                <textarea name="message" required rows={4} className="w-full bg-white border border-neutral-200 rounded-2xl px-6 py-4 text-neutral-900 focus:outline-none focus:border-black transition-colors resize-none" placeholder="Ceritakan singkat kebutuhan Anda..."></textarea>
               </div>
 
               {submitStatus === 'success' && (
-                <div className="p-4 bg-emerald-500/10 border border-emerald-500/20 rounded-xl text-emerald-400 text-sm flex items-start gap-3">
+                <div className="p-4 bg-emerald-500/10 border border-emerald-500/20 rounded-xl text-emerald-600 text-xs flex items-start gap-3">
                   <CheckCircle2 className="w-5 h-5 shrink-0 mt-0.5" />
-                  <p>Pesan Anda berhasil dikirim! Kami akan segera menghubungi Anda.</p>
+                  <p>Pesan terkirim! Kami akan segera menghubungi Anda melalui email/nomor tertera.</p>
                 </div>
               )}
 
               {submitStatus === 'error' && (
-                <div className="p-4 bg-red-500/10 border border-red-500/20 rounded-xl text-red-400 text-sm">
-                  Maaf, terjadi kesalahan saat mengirim pesan. Silakan coba lagi atau hubungi kami via WhatsApp.
+                <div className="p-4 bg-red-500/10 border border-red-500/20 rounded-xl text-red-600 text-xs flex items-start gap-3">
+                  <X className="w-5 h-5 shrink-0 mt-0.5" />
+                  <p>Maaf, terjadi kesalahan. Silakan coba lagi atau hubungi via WhatsApp.</p>
                 </div>
               )}
 
               <button 
                 type="submit" 
                 disabled={isSubmitting}
-                className="w-full py-4 bg-white text-black rounded-xl font-bold hover:bg-neutral-200 transition-all hover:scale-[1.02] active:scale-[0.98] mt-4 disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                className="w-full py-5 bg-neutral-900 text-white rounded-2xl font-black uppercase tracking-widest text-sm hover:bg-neutral-800 transition-all hover:scale-[1.02] active:scale-[0.98] mt-4 disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-3 shadow-xl"
               >
                 {isSubmitting ? (
                   <>
-                    <div className="w-5 h-5 border-2 border-black/20 border-t-black rounded-full animate-spin" />
+                    <div className="w-5 h-5 border-2 border-white/20 border-t-white rounded-full animate-spin" />
                     Mengirim...
                   </>
                 ) : (
@@ -1075,12 +1122,12 @@ const BusinessCheckup = () => {
 
 const Footer = () => {
   return (
-    <footer className="border-t border-white/10 pt-24 pb-12 relative z-10 bg-black">
+    <footer className="pt-32 pb-12 relative z-10 bg-white border-t border-neutral-100">
       <div className="container mx-auto px-6 md:px-12">
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-16 mb-20">
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-16 mb-24">
           <div className="lg:col-span-2">
-            <div className="flex items-center gap-3 mb-8">
-              <div className="w-16 h-16 rounded-full overflow-hidden border border-white/20 flex items-center justify-center bg-white">
+            <div className="flex items-center gap-4 mb-10">
+              <div className="w-14 h-14 rounded-2xl overflow-hidden border border-neutral-100 flex items-center justify-center bg-white shadow-sm">
                 <img 
                   src="https://cglinkindonesia.com/wp-content/uploads/2026/03/WhatsApp-Image-2026-03-26-at-14.55.49.jpeg" 
                   alt="CGLINK Logo" 
@@ -1088,69 +1135,55 @@ const Footer = () => {
                   referrerPolicy="no-referrer"
                 />
               </div>
-              <span className="font-display font-bold text-xl tracking-widest">CGLINK</span>
+              <span className="font-display font-black text-2xl tracking-tighter text-neutral-900">CGLINK</span>
             </div>
-            <p className="text-neutral-400 max-w-md text-lg leading-relaxed mb-8">
+            <p className="text-neutral-500 max-w-md text-lg leading-relaxed mb-10 font-medium">
               Mitra strategis terdepan dalam membangun bisnis yang profesional, berdaya saing, dan berkelanjutan.
             </p>
-            <a 
-              href="https://www.google.com/maps/place/CGLINK+Indonesia/data=!4m2!3m1!1s0x0:0xa427427426dcf26f?sa=X&ved=1t:2428&ictx=111" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="block rounded-2xl overflow-hidden border border-white/10 h-48 w-full max-w-md relative group cursor-pointer"
-            >
-              <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors z-10 flex items-center justify-center opacity-0 group-hover:opacity-100">
-                <span className="bg-white text-black px-4 py-2 rounded-full text-sm font-bold shadow-lg flex items-center gap-2">
-                  <MapPin className="w-4 h-4" />
-                  Buka di Google Maps
-                </span>
-              </div>
-              <iframe 
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3966.012345678901!2d106.7725!3d-6.2731!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xa427427426dcf26f%3A0xa427427426dcf26f!2sCGLINK%20Indonesia!5e0!3m2!1sen!2sid!4v1711440000000!5m2!1sen!2sid" 
-                width="100%" 
-                height="100%" 
-                style={{ border: 0, pointerEvents: 'none' }} 
-                loading="lazy" 
-                referrerPolicy="no-referrer-when-downgrade"
-                title="CGLINK Indonesia Location"
-              ></iframe>
-            </a>
+            <div className="flex gap-4">
+              <a href="https://id.linkedin.com/company/catur-gunandi-link-indonesia?trk=ppro_cprof" target="_blank" rel="noopener noreferrer" className="w-12 h-12 rounded-xl bg-neutral-50 border border-neutral-100 flex items-center justify-center text-neutral-400 hover:text-black hover:bg-neutral-100 transition-all">
+                <Linkedin className="w-5 h-5" />
+              </a>
+              <a href="https://www.instagram.com/cglink_/?hl=en" target="_blank" rel="noopener noreferrer" className="w-12 h-12 rounded-xl bg-neutral-50 border border-neutral-100 flex items-center justify-center text-neutral-400 hover:text-black hover:bg-neutral-100 transition-all">
+                <Instagram className="w-5 h-5" />
+              </a>
+            </div>
           </div>
 
           <div>
-            <h4 className="font-display font-bold text-xl mb-8">Head Office</h4>
-            <div className="space-y-4 text-neutral-400">
+            <h4 className="font-display font-black text-sm uppercase tracking-widest mb-10 text-neutral-900">HEAD OFFICE</h4>
+            <div className="space-y-4 text-neutral-500 font-medium leading-relaxed">
               <div className="flex gap-4">
-                <MapPin className="w-5 h-5 shrink-0 text-white mt-1" />
-                <p className="leading-relaxed">Jl. Ciputat Raya No. 1B Unit 4 RT01/RW08<br/>Pondok Pinang, Kebayoran Lama<br/>Jakarta Selatan 12310</p>
+                <MapPin className="w-5 h-5 shrink-0 text-neutral-900" />
+                <p>Jl. Ciputat Raya No. 1B Unit 4 RT01/RW08<br/>Pondok Pinang, Jakarta Selatan 12310</p>
               </div>
             </div>
           </div>
 
           <div>
-            <h4 className="font-display font-bold text-xl mb-8">Contact</h4>
-            <div className="space-y-6 text-neutral-400">
-              <a href="tel:02112345678" className="flex gap-4 hover:text-white transition-colors items-center">
-                <Phone className="w-5 h-5 shrink-0 text-white" />
+            <h4 className="font-display font-black text-sm uppercase tracking-widest mb-10 text-neutral-900">CONTACT</h4>
+            <div className="space-y-6 text-neutral-500 font-medium">
+              <a href="tel:02112345678" className="flex gap-4 hover:text-black transition-colors items-center">
+                <Phone className="w-5 h-5 shrink-0 text-neutral-900" />
                 (021) 1234 5678
               </a>
-              <a href="mailto:businesspartner@cglinkindonesia.com" className="flex gap-4 hover:text-white transition-colors items-center">
-                <Mail className="w-5 h-5 shrink-0 text-white" />
+              <a href="mailto:businesspartner@cglinkindonesia.com" className="flex gap-4 hover:text-black transition-colors items-center">
+                <Mail className="w-5 h-5 shrink-0 text-neutral-900" />
                 businesspartner@cglinkindonesia.com
               </a>
-              <a href="https://cglinkindonesia.com" className="flex gap-4 hover:text-white transition-colors items-center">
-                <Globe className="w-5 h-5 shrink-0 text-white" />
+              <a href="https://cglinkindonesia.com" className="flex gap-4 hover:text-black transition-colors items-center">
+                <Globe className="w-5 h-5 shrink-0 text-neutral-900" />
                 cglinkindonesia.com
               </a>
             </div>
           </div>
         </div>
 
-        <div className="border-t border-white/10 pt-8 flex flex-col md:flex-row items-center justify-between gap-6 text-sm text-neutral-500">
-          <p>© {new Date().getFullYear()} CGLINK INDONESIA. All rights reserved.</p>
-          <div className="flex gap-8">
-            <a href="#" className="hover:text-white transition-colors">Privacy Policy</a>
-            <a href="#" className="hover:text-white transition-colors">Terms of Service</a>
+        <div className="border-t border-neutral-100 pt-10 flex flex-col md:flex-row items-center justify-between gap-6 text-xs text-neutral-400 font-bold uppercase tracking-widest">
+          <p>© {new Date().getFullYear()} CGLINK INDONESIA. BEYOND BUSINESS.</p>
+          <div className="flex gap-10">
+            <a href="#" className="hover:text-neutral-900 transition-colors">Privacy</a>
+            <a href="#" className="hover:text-neutral-900 transition-colors">Terms</a>
           </div>
         </div>
       </div>
@@ -1169,22 +1202,22 @@ const AboutUs: React.FC<{ onBack: () => void }> = ({ onBack }) => {
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -20 }}
       transition={{ duration: 0.5 }}
-      className="pt-32 pb-24 min-h-screen relative z-10"
+      className="pt-32 pb-24 min-h-screen bg-white text-neutral-900"
     >
       <div className="container mx-auto px-6 md:px-12 max-w-4xl">
         <button 
           onClick={onBack} 
-          className="flex items-center gap-2 text-neutral-400 hover:text-white mb-12 transition-colors group"
+          className="flex items-center gap-2 text-neutral-500 hover:text-neutral-900 mb-12 transition-colors group"
         >
           <ArrowLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform" /> 
           Back to Home
         </button>
 
-        <div className="glass-panel p-8 md:p-12 rounded-3xl shadow-[0_20px_40px_-15px_rgba(0,0,0,0.5)]">
-          <h1 className="text-4xl md:text-6xl font-display font-bold mb-4">CGLINK Indonesia</h1>
-          <h2 className="text-xl md:text-2xl text-gradient font-light mb-12">Membangun Masa Depan Bisnis Anda Bersama CGLINK Indonesia</h2>
+        <div className="bg-neutral-50 p-8 md:p-12 rounded-[3rem] border border-neutral-100 shadow-xl shadow-neutral-200/50">
+          <h1 className="text-4xl md:text-6xl font-display font-black mb-4 text-neutral-900 uppercase tracking-tighter">CGLINK Indonesia</h1>
+          <h2 className="text-xl md:text-2xl text-neutral-500 font-bold mb-12 uppercase tracking-widest">Membangun Masa Depan Bisnis Anda Bersama CGLINK Indonesia</h2>
 
-          <div className="space-y-12 text-neutral-300 leading-relaxed">
+          <div className="space-y-12 text-neutral-500 leading-relaxed font-medium">
             <section>
               <p className="text-lg">
                 Di era transformasi ekonomi yang bergerak cepat, kehadiran mitra strategis bukan lagi sekadar pilihan, melainkan keharusan. CGLINK Indonesia hadir sebagai katalisator pertumbuhan bagi bisnis Anda.
@@ -1192,65 +1225,50 @@ const AboutUs: React.FC<{ onBack: () => void }> = ({ onBack }) => {
             </section>
 
             <section>
-              <h3 className="text-2xl font-display font-bold text-white mb-4">Siapa Kami?</h3>
+              <h3 className="text-2xl font-display font-bold text-neutral-900 mb-6 uppercase tracking-tight">Siapa Kami?</h3>
               <p>
                 Didirikan pada tahun 2025 dan berbasis di jantung bisnis Jakarta Selatan, CGLINK Indonesia adalah firma konsultasi bisnis yang lahir dari semangat kolaborasi dan inovasi. Kami memahami bahwa setiap bisnis memiliki tantangan unik; itulah mengapa kami tidak hanya memberikan saran, tetapi memberikan solusi yang terukur and berkelanjutan.
               </p>
             </section>
 
             <section>
-              <h3 className="text-2xl font-display font-bold text-white mb-4">Keahlian Utama Kami</h3>
-              <p className="mb-4">Kami menggabungkan data, pengalaman industri, dan kreativitas untuk memberikan layanan komprehensif di berbagai pilar utama:</p>
-              <ul className="space-y-4">
-                <li className="flex gap-4">
-                  <CheckCircle2 className="w-6 h-6 text-indigo-400 shrink-0" />
-                  <div><strong className="text-white">Strategi Bisnis:</strong> Merumuskan roadmap yang adaptif untuk memastikan bisnis Anda tetap relevan dan kompetitif.</div>
-                </li>
-                <li className="flex gap-4">
-                  <CheckCircle2 className="w-6 h-6 text-indigo-400 shrink-0" />
-                  <div><strong className="text-white">Manajemen Keuangan (Finance):</strong> Optimalisasi struktur modal, manajemen risiko, dan perencanaan keuangan yang presisi.</div>
-                </li>
-                <li className="flex gap-4">
-                  <CheckCircle2 className="w-6 h-6 text-indigo-400 shrink-0" />
-                  <div><strong className="text-white">Digital Marketing:</strong> Membangun kehadiran merek yang kuat melalui strategi pemasaran berbasis data untuk hasil konversi maksimal.</div>
-                </li>
-                <li className="flex gap-4">
-                  <CheckCircle2 className="w-6 h-6 text-indigo-400 shrink-0" />
-                  <div><strong className="text-white">Business Development:</strong> Mengidentifikasi peluang pasar baru dan mempercepat penetrasi produk/layanan Anda.</div>
-                </li>
-                <li className="flex gap-4">
-                  <CheckCircle2 className="w-6 h-6 text-indigo-400 shrink-0" />
-                  <div><strong className="text-white">Kemitraan Strategis (Partnerships):</strong> Menghubungkan titik-titik potensi dengan membangun jejaring yang saling menguntungkan.</div>
-                </li>
+              <h3 className="text-2xl font-display font-bold text-neutral-900 mb-6 uppercase tracking-tight">Keahlian Utama Kami</h3>
+              <p className="mb-8">Kami menggabungkan data, pengalaman industri, dan kreativitas untuk memberikan layanan komprehensif di berbagai pilar utama:</p>
+              <ul className="space-y-6">
+                {[
+                  { title: "Strategi Bisnis", desc: "Merumuskan roadmap yang adaptif untuk memastikan bisnis Anda tetap relevan dan kompetitif." },
+                  { title: "Manajemen Keuangan (Finance)", desc: "Optimalisasi struktur modal, manajemen risiko, dan perencanaan keuangan yang presisi." },
+                  { title: "Digital Marketing", desc: "Membangun kehadiran merek yang kuat melalui strategi pemasaran berbasis data untuk hasil konversi maksimal." },
+                  { title: "Business Development", desc: "Mengidentifikasi peluang pasar baru dan mempercepat penetrasi produk/layanan Anda." },
+                  { title: "Kemitraan Strategis (Partnerships)", desc: "Menghubungkan titik-titik potensi dengan membangun jejaring yang saling menguntungkan." }
+                ].map((item, idx) => (
+                  <li key={idx} className="flex gap-4">
+                    <CheckCircle2 className="w-6 h-6 text-neutral-900 shrink-0" />
+                    <div><strong className="text-neutral-900">{item.title}:</strong> {item.desc}</div>
+                  </li>
+                ))}
               </ul>
             </section>
 
             <section>
-              <h3 className="text-2xl font-display font-bold text-white mb-4">Mengapa Memilih CGLINK?</h3>
-              <p className="mb-6">
+              <h3 className="text-2xl font-display font-bold text-neutral-900 mb-6 uppercase tracking-tight">Mengapa Memilih CGLINK?</h3>
+              <p className="mb-10">
                 Kami percaya pada Profesionalitas Tanpa Kompromi. Tim kami terdiri dari para ahli yang berdedikasi tinggi untuk membantu klien menavigasi kompleksitas dunia usaha. Dengan filosofi kerja yang transparan dan berorientasi pada hasil, kami memastikan setiap langkah yang kita ambil bersama membawa Anda lebih dekat ke puncak kesuksesan.
               </p>
-              <blockquote className="border-l-4 border-indigo-500 pl-6 py-2 my-8 bg-white/5 rounded-r-xl italic text-lg text-white/90">
+              <blockquote className="border-l-8 border-black pl-8 py-4 my-10 bg-white rounded-r-2xl italic text-lg text-neutral-900 font-bold">
                 "Menjadi mitra kolaborasi bisnis yang berlandaskan prinsip legal, logis, dan halal melalui produk, jasa, serta pengembangan bisnis profesional untuk menciptakan pertumbuhan dan manfaat berkelanjutan bagi seluruh pihak."
               </blockquote>
-              <p className="text-xl text-white font-medium mt-12 text-center">
+              <p className="text-xl text-neutral-900 font-black mt-12 text-center italic">
                 Siap untuk membawa bisnis Anda ke level selanjutnya? Mari berdiskusi bagaimana CGLINK Indonesia dapat membantu menyempurnakan strategi Anda hari ini.
               </p>
             </section>
 
             {/* CTA Buttons */}
-            <div className="mt-16 pt-8">
-              <motion.div 
-                initial={{ width: 0 }}
-                whileInView={{ width: "100%" }}
-                viewport={{ once: true }}
-                transition={{ duration: 1.5, ease: "easeInOut" }}
-                className="h-px bg-gradient-to-r from-transparent via-indigo-400 to-transparent mb-12"
-              />
+            <div className="mt-16 pt-12 border-t border-neutral-100">
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <a 
                   href="mailto:businesspartner@cglinkindonesia.com"
-                  className="flex items-center justify-center gap-3 px-8 py-4 bg-white text-black rounded-full font-bold hover:bg-neutral-200 transition-all hover:scale-105 active:scale-95"
+                  className="flex items-center justify-center gap-3 px-10 py-5 bg-neutral-900 text-white rounded-2xl font-black uppercase tracking-widest text-sm hover:bg-neutral-800 transition-all hover:scale-105 active:scale-95 shadow-xl"
                 >
                   <Mail className="w-5 h-5" />
                   Email Us
@@ -1259,7 +1277,7 @@ const AboutUs: React.FC<{ onBack: () => void }> = ({ onBack }) => {
                   href="https://wa.me/62895428355681"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center justify-center gap-3 px-8 py-4 bg-white/10 border border-white/20 text-white rounded-full font-bold hover:bg-white/20 transition-all hover:scale-105 active:scale-95 shadow-[0_10px_20px_-10px_rgba(255,255,255,0.1)] backdrop-blur-md"
+                  className="flex items-center justify-center gap-3 px-10 py-5 bg-white border border-neutral-200 text-neutral-900 rounded-2xl font-black uppercase tracking-widest text-sm hover:bg-neutral-50 transition-all hover:scale-105 active:scale-95 shadow-sm"
                 >
                   <MessageCircle className="w-5 h-5" />
                   WhatsApp
@@ -1317,12 +1335,12 @@ const ContactPage: React.FC<{ onBack: () => void }> = ({ onBack }) => {
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -20 }}
       transition={{ duration: 0.5 }}
-      className="pt-32 pb-24 min-h-screen relative z-10"
+      className="pt-32 pb-24 min-h-screen bg-white text-neutral-900"
     >
       <div className="container mx-auto px-6 md:px-12 max-w-6xl">
         <button 
           onClick={onBack} 
-          className="flex items-center gap-2 text-neutral-400 hover:text-white mb-12 transition-colors group"
+          className="flex items-center gap-2 text-neutral-500 hover:text-neutral-900 mb-12 transition-colors group"
         >
           <ArrowLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform" /> 
           Back to Home
@@ -1330,60 +1348,60 @@ const ContactPage: React.FC<{ onBack: () => void }> = ({ onBack }) => {
 
         <div className="grid lg:grid-cols-2 gap-16">
           {/* Left Column: Info & Value Proposition */}
-          <div>
-            <h1 className="text-4xl md:text-5xl font-display font-bold mb-4">
-              Langkah Pertama Menuju <span className="text-gradient">Transformasi Bisnis</span> Anda Dimulai di Sini.
+          <div className="text-left">
+            <h1 className="text-4xl md:text-5xl font-display font-black mb-4 uppercase tracking-tighter">
+              Langkah Pertama Menuju <span className="text-neutral-400">Transformasi Bisnis</span> Anda Dimunlai di Sini.
             </h1>
-            <p className="text-lg text-neutral-300 mb-12 leading-relaxed">
+            <p className="text-lg text-neutral-500 mb-12 leading-relaxed font-medium">
               Punya visi besar yang ingin diwujudkan? Atau tantangan bisnis yang butuh solusi segera? Jangan biarkan pertanyaan Anda tidak terjawab. Tim ahli CGLINK Indonesia siap mendengarkan, menganalisis, dan berkolaborasi dengan Anda untuk menciptakan strategi yang berdampak nyata.
             </p>
 
             <div className="space-y-12">
               <section>
-                <h3 className="text-2xl font-display font-bold text-white mb-6">Mari Berdiskusi</h3>
-                <p className="text-neutral-400 mb-6">Kami percaya bahwa setiap solusi hebat dimulai dari percakapan yang berkualitas. Pilih cara yang paling nyaman bagi Anda untuk terhubung dengan kami:</p>
+                <h3 className="text-2xl font-display font-bold text-neutral-900 mb-6 uppercase tracking-tight">Mari Berdiskusi</h3>
+                <p className="text-neutral-500 mb-6 font-medium">Kami percaya bahwa setiap solusi hebat dimulai dari percakapan yang berkualitas. Pilih cara yang paling nyaman bagi Anda untuk terhubung dengan kami:</p>
                 
                 <div className="space-y-6">
                   <div className="flex gap-4 items-start">
-                    <div className="w-12 h-12 rounded-full bg-white/5 border border-white/10 flex items-center justify-center shrink-0">
-                      <MapPin className="w-5 h-5 text-indigo-400" />
+                    <div className="w-12 h-12 rounded-full bg-neutral-50 border border-neutral-100 flex items-center justify-center shrink-0">
+                      <MapPin className="w-5 h-5 text-neutral-900" />
                     </div>
                     <div>
-                      <h4 className="text-white font-bold mb-1">Kantor Pusat</h4>
-                      <p className="text-neutral-400">Jl. Ciputat Raya No. 1B Unit 4 RT01/RW08<br/>Pondok Pinang, Kebayoran Lama<br/>Jakarta Selatan 12310</p>
+                      <h4 className="text-neutral-900 font-bold mb-1">Kantor Pusat</h4>
+                      <p className="text-neutral-500 font-medium leading-relaxed">Jl. Ciputat Raya No. 1B Unit 4 RT01/RW08<br/>Pondok Pinang, Kebayoran Lama<br/>Jakarta Selatan 12310</p>
                     </div>
                   </div>
                   
                   <div className="flex gap-4 items-start">
-                    <div className="w-12 h-12 rounded-full bg-white/5 border border-white/10 flex items-center justify-center shrink-0">
-                      <Phone className="w-5 h-5 text-indigo-400" />
+                    <div className="w-12 h-12 rounded-full bg-neutral-50 border border-neutral-100 flex items-center justify-center shrink-0">
+                      <Phone className="w-5 h-5 text-neutral-900" />
                     </div>
                     <div>
-                      <h4 className="text-white font-bold mb-1">Konsultasi Cepat</h4>
-                      <a href="https://wa.me/62895428355681" target="_blank" rel="noopener noreferrer" className="text-neutral-400 hover:text-indigo-400 transition-colors">Whatsapp: +62 895-4283-55681</a>
+                      <h4 className="text-neutral-900 font-bold mb-1">Konsultasi Cepat</h4>
+                      <a href="https://wa.me/62895428355681" target="_blank" rel="noopener noreferrer" className="text-neutral-500 hover:text-black transition-colors font-medium underline underline-offset-4">Whatsapp: +62 895-4283-55681</a>
                     </div>
                   </div>
 
                   <div className="flex gap-4 items-start">
-                    <div className="w-12 h-12 rounded-full bg-white/5 border border-white/10 flex items-center justify-center shrink-0">
-                      <Mail className="w-5 h-5 text-indigo-400" />
+                    <div className="w-12 h-12 rounded-full bg-neutral-50 border border-neutral-100 flex items-center justify-center shrink-0">
+                      <Mail className="w-5 h-5 text-neutral-900" />
                     </div>
                     <div>
-                      <h4 className="text-white font-bold mb-1">Korespondensi Email</h4>
-                      <a href="mailto:businesspartner@cglinkindonesia.com" className="text-neutral-400 hover:text-indigo-400 transition-colors">businesspartner@cglinkindonesia.com</a>
-                      <p className="text-sm text-neutral-500 mt-1">Kami berkomitmen membalas pesan Anda dalam waktu &lt; 24 jam kerja.</p>
+                      <h4 className="text-neutral-900 font-bold mb-1">Korespondensi Email</h4>
+                      <a href="mailto:businesspartner@cglinkindonesia.com" className="text-neutral-500 hover:text-black transition-colors font-medium underline underline-offset-4">businesspartner@cglinkindonesia.com</a>
+                      <p className="text-sm text-neutral-400 mt-1 font-bold">Kami berkomitmen membalas pesan Anda dalam waktu &lt; 24 jam kerja.</p>
                     </div>
                   </div>
                 </div>
               </section>
 
               <section>
-                <h3 className="text-2xl font-display font-bold text-white mb-6">Ikuti Perjalanan Kami</h3>
+                <h3 className="text-2xl font-display font-bold text-neutral-900 mb-6 uppercase tracking-tight">Ikuti Perjalanan Kami</h3>
                 <div className="flex gap-4">
-                  <a href="https://id.linkedin.com/company/catur-gunandi-link-indonesia?trk=ppro_cprof" target="_blank" rel="noopener noreferrer" className="w-12 h-12 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-neutral-400 hover:text-white hover:bg-white/10 transition-all">
+                  <a href="https://id.linkedin.com/company/catur-gunandi-link-indonesia?trk=ppro_cprof" target="_blank" rel="noopener noreferrer" className="w-12 h-12 rounded-xl bg-neutral-50 border border-neutral-100 flex items-center justify-center text-neutral-400 hover:text-black hover:bg-white hover:shadow-lg transition-all">
                     <Linkedin className="w-5 h-5" />
                   </a>
-                  <a href="https://www.instagram.com/cglink_/?hl=en" target="_blank" rel="noopener noreferrer" className="w-12 h-12 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-neutral-400 hover:text-white hover:bg-white/10 transition-all">
+                  <a href="https://www.instagram.com/cglink_/?hl=en" target="_blank" rel="noopener noreferrer" className="w-12 h-12 rounded-xl bg-neutral-50 border border-neutral-100 flex items-center justify-center text-neutral-400 hover:text-black hover:bg-white hover:shadow-lg transition-all">
                     <Instagram className="w-5 h-5" />
                   </a>
                 </div>
@@ -1392,40 +1410,40 @@ const ContactPage: React.FC<{ onBack: () => void }> = ({ onBack }) => {
           </div>
 
           {/* Right Column: Form & Why Us */}
-          <div>
-            <div className="glass-panel p-8 md:p-10 rounded-3xl shadow-[0_20px_40px_-15px_rgba(0,0,0,0.5)] mb-8">
-              <h3 className="text-2xl font-display font-bold text-white mb-2">Kirim Pesan Langsung</h3>
-              <p className="text-neutral-400 mb-8">Siap untuk memulai? Isi formulir singkat di bawah ini, dan konsultan spesialis kami akan menghubungi Anda untuk menjadwalkan sesi diagnosis bisnis gratis.</p>
+          <div className="text-left">
+            <div className="bg-neutral-50 p-8 md:p-10 rounded-[3rem] shadow-xl border border-neutral-100 mb-8">
+              <h3 className="text-2xl font-display font-bold text-neutral-900 mb-2 uppercase tracking-tight">Kirim Pesan Langsung</h3>
+              <p className="text-neutral-500 mb-8 font-medium">Siap untuk memulai? Isi formulir singkat di bawah ini, dan konsultan spesialis kami akan menghubungi Anda untuk menjadwalkan sesi diagnosis bisnis gratis.</p>
               
               <form className="space-y-4" onSubmit={handleSubmit}>
                 <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-2">
-                    <label className="text-sm text-neutral-400">Nama Lengkap</label>
-                    <input type="text" name="name" required className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-indigo-500 transition-colors" placeholder="John Doe" />
+                    <label className="text-[10px] font-black uppercase tracking-widest text-neutral-400">Nama Lengkap</label>
+                    <input type="text" name="name" required className="w-full bg-white border border-neutral-200 rounded-2xl px-6 py-4 text-neutral-900 focus:outline-none focus:border-black transition-colors shadow-sm" placeholder="John Doe" />
                   </div>
                   <div className="space-y-2">
-                    <label className="text-sm text-neutral-400">Perusahaan</label>
-                    <input type="text" name="company" required className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-indigo-500 transition-colors" placeholder="PT Inovasi Maju" />
+                    <label className="text-[10px] font-black uppercase tracking-widest text-neutral-400">Perusahaan</label>
+                    <input type="text" name="company" required className="w-full bg-white border border-neutral-200 rounded-2xl px-6 py-4 text-neutral-900 focus:outline-none focus:border-black transition-colors shadow-sm" placeholder="PT Inovasi Maju" />
                   </div>
                 </div>
                 <div className="space-y-2">
-                  <label className="text-sm text-neutral-400">Email</label>
-                  <input type="email" name="email" required className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-indigo-500 transition-colors" placeholder="john@example.com" />
+                  <label className="text-[10px] font-black uppercase tracking-widest text-neutral-400">Email</label>
+                  <input type="email" name="email" required className="w-full bg-white border border-neutral-200 rounded-2xl px-6 py-4 text-neutral-900 focus:outline-none focus:border-black transition-colors shadow-sm" placeholder="john@example.com" />
                 </div>
                 <div className="space-y-2">
-                  <label className="text-sm text-neutral-400">Pesan / Tantangan Bisnis</label>
-                  <textarea name="message" required rows={4} className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-indigo-500 transition-colors resize-none" placeholder="Ceritakan singkat tentang kebutuhan Anda..."></textarea>
+                  <label className="text-[10px] font-black uppercase tracking-widest text-neutral-400">Pesan / Tantangan Bisnis</label>
+                  <textarea name="message" required rows={4} className="w-full bg-white border border-neutral-200 rounded-2xl px-6 py-4 text-neutral-900 focus:outline-none focus:border-black transition-colors resize-none shadow-sm" placeholder="Ceritakan singkat tentang kebutuhan Anda..."></textarea>
                 </div>
 
                 {submitStatus === 'success' && (
-                  <div className="p-4 bg-emerald-500/10 border border-emerald-500/20 rounded-xl text-emerald-400 text-sm flex items-start gap-3">
+                  <div className="p-4 bg-emerald-500/10 border border-emerald-500/20 rounded-2xl text-emerald-600 text-sm flex items-start gap-3">
                     <CheckCircle2 className="w-5 h-5 shrink-0 mt-0.5" />
                     <p>Pesan Anda berhasil dikirim! Kami akan segera menghubungi Anda.</p>
                   </div>
                 )}
 
                 {submitStatus === 'error' && (
-                  <div className="p-4 bg-red-500/10 border border-red-500/20 rounded-xl text-red-400 text-sm">
+                  <div className="p-4 bg-red-500/10 border border-red-500/20 rounded-2xl text-red-600 text-sm">
                     Maaf, terjadi kesalahan saat mengirim pesan. Silakan coba lagi atau hubungi kami via WhatsApp.
                   </div>
                 )}
@@ -1433,11 +1451,11 @@ const ContactPage: React.FC<{ onBack: () => void }> = ({ onBack }) => {
                 <button 
                   type="submit" 
                   disabled={isSubmitting}
-                  className="w-full py-4 bg-white text-black rounded-xl font-bold hover:bg-neutral-200 transition-all hover:scale-[1.02] active:scale-[0.98] mt-4 disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                  className="w-full py-5 bg-neutral-900 text-white rounded-2xl font-black uppercase tracking-widest text-sm hover:bg-neutral-800 transition-all hover:scale-[1.02] active:scale-[0.98] mt-4 disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-2 shadow-xl"
                 >
                   {isSubmitting ? (
                     <>
-                      <div className="w-5 h-5 border-2 border-black/20 border-t-black rounded-full animate-spin" />
+                      <div className="w-5 h-5 border-2 border-white/20 border-t-white rounded-full animate-spin" />
                       Mengirim...
                     </>
                   ) : (
@@ -1447,17 +1465,25 @@ const ContactPage: React.FC<{ onBack: () => void }> = ({ onBack }) => {
               </form>
             </div>
 
-            <div className="glass-panel p-8 rounded-3xl bg-indigo-900/10 border-indigo-500/20">
-              <h3 className="text-xl font-display font-bold text-white mb-4">Mengapa Menghubungi Kami Sekarang?</h3>
-              <p className="text-neutral-400 text-sm mb-6">Di dunia bisnis, waktu adalah mata uang yang paling berharga. Menunda solusi berarti menunda pertumbuhan. Dengan menghubungi CGLINK Indonesia, Anda mendapatkan:</p>
+            <div className="bg-neutral-900 p-8 rounded-[3rem] shadow-2xl relative overflow-hidden">
+              <div className="absolute inset-0 bg-gradient-to-br from-neutral-500/10 to-transparent"></div>
+              <h3 className="text-xl font-display font-bold text-white mb-4 relative z-10 uppercase tracking-tight">Mengapa Menghubungi Kami Sekarang?</h3>
+              <p className="text-neutral-400 text-sm mb-6 relative z-10 font-medium">Di dunia bisnis, waktu adalah mata uang yang paling berharga. Menunda solusi berarti menunda pertumbuhan. Dengan menghubungi CGLINK Indonesia, Anda mendapatkan:</p>
               
-              <ul className="space-y-3 mb-6">
-                <li className="flex gap-3 text-sm"><CheckCircle2 className="w-5 h-5 text-indigo-400 shrink-0" /><div><strong className="text-white">Sesi Diagnosis Awal:</strong> Pemetaan masalah secara objektif.</div></li>
-                <li className="flex gap-3 text-sm"><CheckCircle2 className="w-5 h-5 text-indigo-400 shrink-0" /><div><strong className="text-white">Kerahasiaan Data (NDA):</strong> Informasi bisnis Anda aman bersama kami.</div></li>
-                <li className="flex gap-3 text-sm"><CheckCircle2 className="w-5 h-5 text-indigo-400 shrink-0" /><div><strong className="text-white">Rencana Aksi Kustom:</strong> Bukan solusi template, tapi strategi yang dirancang khusus untuk Anda.</div></li>
+              <ul className="space-y-4 mb-6 relative z-10">
+                {[
+                  { title: "Sesi Diagnosis Awal", desc: "Pemetaan masalah secara objektif." },
+                  { title: "Kerahasiaan Data (NDA)", desc: "Informasi bisnis Anda aman bersama kami." },
+                  { title: "Rencana Aksi Kustom", desc: "Bukan solusi template, tapi strategi yang dirancang khusus untuk Anda." }
+                ].map((item, idx) => (
+                  <li key={idx} className="flex gap-4 text-sm font-medium">
+                    <CheckCircle2 className="w-5 h-5 text-neutral-400 shrink-0" />
+                    <div><strong className="text-white">{item.title}:</strong> <span className="text-neutral-300">{item.desc}</span></div>
+                  </li>
+                ))}
               </ul>
 
-              <blockquote className="border-l-2 border-indigo-500 pl-4 py-1 italic text-white/80 text-sm">
+              <blockquote className="border-l-4 border-white pl-6 py-2 italic text-white font-bold text-base relative z-10">
                 "Pintu kami selalu terbuka untuk para inovator, pemimpin, dan pengusaha yang tidak puas dengan status quo."
               </blockquote>
             </div>
@@ -1497,7 +1523,7 @@ export default function App() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-[#050505] text-white selection:bg-white/30 font-sans">
+    <div className="min-h-screen bg-white text-neutral-900 selection:bg-neutral-200 font-sans">
       <Navbar currentPage={currentPage} setCurrentPage={setCurrentPage} />
       
       <AnimatePresence mode="wait">
@@ -1510,9 +1536,12 @@ export default function App() {
             transition={{ duration: 0.4 }}
           >
             <Hero setCurrentPage={setCurrentPage} />
-            <CoreValues />
+            <SectorMarquee />
+            <BusinessStats />
+            <BentoGridServices setCurrentPage={setCurrentPage} />
             <VisionMission />
-            <ServicesSection setCurrentPage={setCurrentPage} />
+            <InvestorRelations setCurrentPage={setCurrentPage} />
+            <LatestInsights setCurrentPage={setCurrentPage} />
             <WhyUs />
             <Testimonials />
             <BusinessCheckup />
