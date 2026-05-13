@@ -573,7 +573,7 @@ const StrategicNav = ({ setCurrentPage }: { setCurrentPage: (p: PageType) => voi
   ];
 
   return (
-    <section className="py-32 bg-neutral-50 border-b border-neutral-100 relative overflow-hidden">
+    <section className="py-32 bg-neutral-50 border-b border-neutral-100 relative">
       {/* Background Moving Globe Element */}
       <div className="absolute -right-20 top-1/2 -translate-y-1/2 opacity-[0.03] pointer-events-none">
         <motion.div
@@ -627,7 +627,7 @@ const Hero = ({ setCurrentPage }: { setCurrentPage: (p: PageType) => void }) => 
   const t = translations[lang].hero;
   
   return (
-    <section className="relative min-h-[100dvh] flex items-center justify-center pt-20 pb-20 overflow-hidden bg-black text-white">
+    <section className="relative min-h-screen flex items-center justify-center pt-20 pb-20 bg-black text-white">
       {/* Futuristic Background Elements */}
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-neutral-900 via-black to-black" />
       <div className="absolute inset-0 bg-grid-white opacity-[0.03]" />
@@ -1644,7 +1644,7 @@ export default function App() {
 
   return (
     <LanguageContext.Provider value={{ lang, setLang }}>
-      <div className="min-h-[100dvh] flex flex-col bg-white text-neutral-900 selection:bg-neutral-200 font-sans">
+      <div className="min-h-screen flex flex-col bg-white text-neutral-900 selection:bg-neutral-200 font-sans">
         <Navbar currentPage={currentPage} setCurrentPage={setCurrentPage} />
         
         <AnimatePresence mode="wait">
@@ -1658,6 +1658,7 @@ export default function App() {
               className="flex-1"
             >
               <Hero setCurrentPage={setCurrentPage} />
+              <StrategicNav setCurrentPage={setCurrentPage} />
               <SectorMarquee />
               <BusinessStats />
               <CoreValues />

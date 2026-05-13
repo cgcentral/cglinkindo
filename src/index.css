@@ -25,7 +25,8 @@ html, body {
   background-color: #ffffff;
   color: #0a0a0a;
   overflow-x: hidden;
-  height: 100%;
+  overflow-y: auto;
+  min-height: 100vh;
 }
 
 .bg-grid {
