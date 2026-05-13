@@ -1,4 +1,4 @@
-import React, { useEffect, useState, createContext, useContext } from "react";
+import React, { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import {
   ArrowRight,
@@ -23,6 +23,8 @@ import {
   Globe,
   CheckCircle2,
   Quote,
+  Clock,
+  BookOpen,
   Linkedin,
   Instagram,
   MoreVertical,
@@ -30,8 +32,8 @@ import {
   ChevronDown,
   MessageSquare,
   Bot,
-  Languages,
-  ArrowUp
+  ArrowUp,
+  AlignRight
 } from "lucide-react";
 import { 
   ServiceFundamentalPage, 
@@ -45,100 +47,44 @@ import { VisionMissionPage, PilarBisnisPage, FundingPortfolioPage } from "./Abou
 
 export type PageType = 'home' | 'about' | 'contact' | 'service-fundamental' | 'service-digital' | 'service-partnerships' | 'service-finance' | 'service-hc' | 'careers' | 'blog' | 'about-vision' | 'about-pillars' | 'about-funding';
 
-export type Language = 'ID' | 'EN';
-
-interface LanguageContextType {
-  lang: Language;
-  setLang: (lang: Language) => void;
-}
-
-export const LanguageContext = createContext<LanguageContextType>({
-  lang: 'ID',
-  setLang: () => {},
-});
-
 const translations = {
-  ID: {
-    nav: {
-      capabilities: "Unit Bisnis",
-      about: "Tentang Kami",
-      investor: "Investor Relations",
-      contact: "Hubungi Kami",
-      legal: "Legal • Logis • Halal",
-      corporate: "Perusahaan",
-      whoWeAre: "Siapa Kami",
-      visionMission: "Visi & Misi",
-      businessPillars: "Pilar Bisnis"
-    },
-    hero: {
-      tag: "Melampaui Pertumbuhan Bisnis",
-      title1: "Melampaui",
-      title2: "Bisnis",
-      title3: "Visi",
-      desc: "Membangun masa depan bisnis melalui kolaborasi strategis yang berlandaskan prinsip Legal, Logis, & Halal.",
-      cta1: "Eksplor Unit",
-      cta2: "Tentang CGLINK"
-    },
-    strategicNav: {
-      about: "Tentang CGLINK",
-      aboutDesc: "Mengenal lebih dekat visi, misi, dan filosofi kami dalam membangun ekosistem bisnis yang legal, logis, dan halal.",
-      units: "Business Unit",
-      unitsDesc: "Menjelajahi unit bisnis strategis kami yang terintegrasi untuk memberikan solusi operasional, finansial, dan digital.",
-      investor: "Investor Relation",
-      investorDesc: "Informasi dan peluang kolaborasi strategis bagi mitra yang ingin bertumbuh bersama dalam ekosistem CGLINK.",
-      learnMore: "Selengkapnya"
-    },
-    stats: {
-      pillars: "Pilar Bisnis",
-      sectors: "Sektor Portofolio",
-      network: "Jaringan Aktif",
-      excellence: "Tingkat Keunggulan"
-    },
-    floating: {
-      whatsapp: "Chat WhatsApp",
-      ai: "Ngobrol dengan AI"
-    }
+  nav: {
+    capabilities: "Business Units",
+    about: "About Us",
+    investor: "Investor Relations",
+    contact: "Contact Us",
+    legal: "Legal • Logical • Halal",
+    corporate: "Corporate",
+    whoWeAre: "Who We Are",
+    visionMission: "Vision & Mission",
+    businessPillars: "Business Pillars"
   },
-  EN: {
-    nav: {
-      capabilities: "Business Units",
-      about: "About Us",
-      investor: "Investor Relations",
-      contact: "Contact Us",
-      legal: "Legal • Logical • Halal",
-      corporate: "Corporate",
-      whoWeAre: "Who We Are",
-      visionMission: "Vision & Mission",
-      businessPillars: "Business Pillars"
-    },
-    hero: {
-      tag: "Beyond Business Growth",
-      title1: "Beyond",
-      title2: "Business",
-      title3: "Vision",
-      desc: "Building the future of business through strategic collaboration based on Legal, Logical, & Halal principles.",
-      cta1: "Explore Units",
-      cta2: "About CGLINK"
-    },
-    strategicNav: {
-      about: "About CGLINK",
-      aboutDesc: "Get to know our vision, mission, and philosophy in building a business ecosystem that is legal, logical, and halal.",
-      units: "Business Unit",
-      unitsDesc: "Explore our integrated strategic business units providing operational, financial, and digital solutions.",
-      investor: "Investor Relation",
-      investorDesc: "Information and strategic collaboration opportunities for partners who want to grow together with us.",
-      learnMore: "Learn More"
-    },
-    stats: {
-      pillars: "Business Pillars",
-      sectors: "Portfolio Sectors",
-      network: "Active Network",
-      excellence: "Excellence Rate"
-    },
-    floating: {
-      whatsapp: "Chat on WhatsApp",
-      ai: "Chat with AI"
-    }
+  hero: {
+    tag: "Beyond Business Growth",
+    title1: "Beyond",
+    title2: "Business",
+    title3: "Vision",
+    desc: "Building the future of business through strategic collaboration based on Legal, Logical, & Halal principles.",
+    cta1: "Explore Units",
+    cta2: "About CGLINK"
+  },
+  strategicNav: {
+    about: "About CGLINK",
+    aboutDesc: "Get to know our vision, mission, and philosophy in building a legal, logical, and halal business ecosystem.",
+    units: "Business Units",
+    unitsDesc: "Explore our integrated strategic business units providing operational, financial, and digital solutions.",
+    investor: "Investor Relations",
+    investorDesc: "Information and strategic collaboration opportunities for partners who want to grow together in the CGLINK ecosystem.",
+    learnMore: "Learn More"
+  },
+  stats: {
+    pillars: "Business Pillars",
+    sectors: "Portfolio Sectors",
+    network: "Active Network",
+    excellence: "Excellence Rate"
+  },
+  floating: {
+    whatsapp: "WhatsApp Chat"
   }
 };
 
@@ -146,33 +92,32 @@ const servicesData = [
   {
     id: 'fundamental',
     title: 'Strategy & Operations',
-    desc: 'Membangun fondasi bisnis yang kuat, dari legalitas, struktur organisasi, hingga model bisnis yang scalable untuk memastikan pertumbuhan jangka panjang.'
+    desc: 'Building a strong business foundation, from legality and organizational structure to scalable business models to ensure long-term growth.'
   },
   {
     id: 'digital',
     title: 'Digital & Marketing',
-    desc: 'Strategi pemasaran digital berbasis data untuk mempercepat pertumbuhan, akuisisi pelanggan, dan dominasi pasar di era digital.'
+    desc: 'Data-driven digital marketing strategies to accelerate growth, customer acquisition, and market dominance in the digital age.'
   },
   {
     id: 'partnerships',
     title: 'Innovation & Development',
-    desc: 'Memperluas jaringan, membangun kemitraan strategis, dan membuka peluang pasar baru untuk akselerasi ekspansi bisnis Anda.'
+    desc: 'Expanding networks, building strategic partnerships, and opening new market opportunities to accelerate your business expansion.'
   },
   {
     id: 'finance',
     title: 'Finance & Tax',
-    desc: 'Pengelolaan keuangan perusahaan yang komprehensif, strategi pendanaan, dan optimalisasi arus kas untuk kesehatan finansial.'
+    desc: 'Comprehensive corporate financial management, funding strategies, and cash flow optimization for financial health.'
   },
   {
     id: 'hc',
     title: 'Human Capital',
-    desc: 'Pengembangan talenta, struktur kompensasi, dan manajemen SDM strategis untuk menciptakan tim yang produktif dan berkinerja tinggi.'
+    desc: 'Talent development, compensation structures, and strategic HR management to create a productive and high-performing team.'
   }
 ];
 
 const Navbar = ({ currentPage, setCurrentPage }: { currentPage: PageType, setCurrentPage: (p: PageType) => void }) => {
-  const { lang, setLang } = useContext(LanguageContext);
-  const t = translations[lang].nav;
+  const t = translations.nav;
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
@@ -183,20 +128,19 @@ const Navbar = ({ currentPage, setCurrentPage }: { currentPage: PageType, setCur
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const toggleLang = () => setLang(lang === 'ID' ? 'EN' : 'ID');
-
   return (
-    <nav className={`fixed top-0 left-0 right-0 z-[100] px-6 md:px-16 transition-all duration-700 ${scrolled ? 'h-20 bg-white shadow-sm border-b border-neutral-100' : 'h-28 bg-transparent'}`}>
-      <div className="max-w-7xl mx-auto h-full flex items-center justify-between">
+    <>
+    <nav className={`fixed top-0 left-0 right-0 z-[2000] px-6 md:px-16 transition-all duration-700 pointer-events-none ${scrolled ? 'h-20 bg-white shadow-sm border-b border-neutral-100' : 'h-28 bg-transparent'}`}>
+      <div className="max-w-7xl mx-auto h-full flex items-center justify-between pointer-events-auto">
         <div 
           className="flex items-center gap-4 cursor-pointer group"
           onClick={() => { setCurrentPage('home'); window.scrollTo(0, 0); setIsMobileMenuOpen(false); }}
         >
-          <div className={`w-12 h-12 rounded-2xl overflow-hidden flex items-center justify-center transition-all duration-500 group-hover:scale-110 ${scrolled || currentPage !== 'home' ? 'bg-neutral-100' : 'bg-white/10 backdrop-blur-md border border-white/20'}`}>
+          <div className={`w-12 h-12 rounded-2xl overflow-hidden flex items-center justify-center transition-all duration-500 group-hover:scale-110 ${scrolled || currentPage !== 'home' ? 'bg-neutral-900' : 'bg-white/10 backdrop-blur-md border border-white/20'}`}>
             <img 
-              src="https://res.cloudinary.com/daggll9re/image/upload/v1740924965/Logo_Putih_v9wip9.png" 
+              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTkBJLgZzym06yUvjh7cVL7xPXsDLzq3Q8TMw&s" 
               alt="CGLINK Logo" 
-              className={`w-7 h-7 object-contain transition-all duration-500 ${scrolled || currentPage !== 'home' ? 'brightness-0' : 'brightness-100'}`}
+              className="w-full h-full object-cover transition-all duration-500"
               referrerPolicy="no-referrer"
             />
           </div>
@@ -224,19 +168,22 @@ const Navbar = ({ currentPage, setCurrentPage }: { currentPage: PageType, setCur
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: 10 }}
-                  className="absolute top-full left-0 pt-4 w-72"
+                  className="absolute top-full left-0 w-72"
                 >
-                  <div className="bg-white shadow-2xl rounded-2xl border border-neutral-100 p-6 overflow-hidden text-neutral-900">
-                    <div className="flex flex-col gap-4">
-                      {servicesData.map(s => (
-                        <button 
-                          key={s.id}
-                          onClick={() => { setCurrentPage(('service-' + s.id) as PageType); window.scrollTo(0, 0); setActiveDropdown(null); }}
-                          className="text-left text-[10px] font-bold uppercase tracking-wider text-neutral-500 hover:text-black transition-all hover:translate-x-2"
-                        >
-                          {s.title}
-                        </button>
-                      ))}
+                  <div className="pt-4">
+                    <div className="bg-white shadow-2xl rounded-2xl border border-neutral-100 p-6 overflow-hidden text-neutral-900">
+                      <div className="flex flex-col gap-4">
+                        {servicesData.map(s => (
+                          <button 
+                            key={s.id}
+                            id={`nav-capability-${s.id}`}
+                            onClick={() => { setCurrentPage(('service-' + s.id) as PageType); window.scrollTo(0, 0); setActiveDropdown(null); }}
+                            className="text-left text-[10px] font-bold uppercase tracking-wider text-neutral-500 hover:text-black transition-all hover:translate-x-2"
+                          >
+                            {s.title}
+                          </button>
+                        ))}
+                      </div>
                     </div>
                   </div>
                 </motion.div>
@@ -256,13 +203,15 @@ const Navbar = ({ currentPage, setCurrentPage }: { currentPage: PageType, setCur
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: 10 }}
-                  className="absolute top-full left-0 pt-4 w-64"
+                  className="absolute top-full left-0 w-64"
                 >
-                  <div className="bg-white shadow-2xl rounded-2xl border border-neutral-100 p-6 overflow-hidden text-neutral-900">
-                    <div className="flex flex-col gap-4">
-                      <button onClick={() => { setCurrentPage('about'); window.scrollTo(0, 0); setActiveDropdown(null); }} className="text-left text-[10px] font-bold uppercase tracking-wider text-neutral-500 hover:text-black transition-all hover:translate-x-2">{t.whoWeAre}</button>
-                      <button onClick={() => { setCurrentPage('about-vision'); window.scrollTo(0, 0); setActiveDropdown(null); }} className="text-left text-[10px] font-bold uppercase tracking-wider text-neutral-500 hover:text-black transition-all hover:translate-x-2">{t.visionMission}</button>
-                      <button onClick={() => { setCurrentPage('about-pillars'); window.scrollTo(0, 0); setActiveDropdown(null); }} className="text-left text-[10px] font-bold uppercase tracking-wider text-neutral-500 hover:text-black transition-all hover:translate-x-2">{t.businessPillars}</button>
+                  <div className="pt-4">
+                    <div className="bg-white shadow-2xl rounded-2xl border border-neutral-100 p-6 overflow-hidden text-neutral-900">
+                      <div className="flex flex-col gap-4">
+                        <button id="nav-about-who" onClick={() => { setCurrentPage('about'); window.scrollTo(0, 0); setActiveDropdown(null); }} className="text-left text-[10px] font-bold uppercase tracking-wider text-neutral-500 hover:text-black transition-all hover:translate-x-2">{t.whoWeAre}</button>
+                        <button id="nav-about-vision" onClick={() => { setCurrentPage('about-vision'); window.scrollTo(0, 0); setActiveDropdown(null); }} className="text-left text-[10px] font-bold uppercase tracking-wider text-neutral-500 hover:text-black transition-all hover:translate-x-2">{t.visionMission}</button>
+                        <button id="nav-about-pillars" onClick={() => { setCurrentPage('about-pillars'); window.scrollTo(0, 0); setActiveDropdown(null); }} className="text-left text-[10px] font-bold uppercase tracking-wider text-neutral-500 hover:text-black transition-all hover:translate-x-2">{t.businessPillars}</button>
+                      </div>
                     </div>
                   </div>
                 </motion.div>
@@ -270,19 +219,12 @@ const Navbar = ({ currentPage, setCurrentPage }: { currentPage: PageType, setCur
             </AnimatePresence>
           </div>
 
-          <button onClick={() => { setCurrentPage('about-funding'); window.scrollTo(0, 0); }} className={`transition-colors ${scrolled ? 'hover:text-black' : (currentPage === 'home' ? 'hover:text-white' : 'hover:text-black')}`}>{t.investor}</button>
+          <button id="nav-investor" onClick={() => { setCurrentPage('about-funding'); window.scrollTo(0, 0); }} className={`transition-colors ${scrolled ? 'hover:text-black' : (currentPage === 'home' ? 'hover:text-white' : 'hover:text-black')}`}>{t.investor}</button>
           
-          {/* Language Switcher & Contact Button */}
+          {/* Contact Button */}
           <div className="flex items-center gap-4">
             <button 
-              onClick={(e) => { e.stopPropagation(); toggleLang(); }}
-              className={`flex items-center gap-2 px-3 py-1.5 rounded-full border transition-all ${scrolled ? 'border-neutral-200 text-neutral-500 hover:border-black hover:text-black' : (currentPage === 'home' ? 'border-white/20 text-white/60 hover:border-white hover:text-white' : 'border-neutral-200 text-neutral-500 hover:border-black hover:text-black')}`}
-            >
-              <Languages className="w-4 h-4" />
-              <span className="text-[10px] font-black">{lang}</span>
-            </button>
-
-            <button 
+              id="nav-contact"
               onClick={() => { setCurrentPage('contact'); window.scrollTo(0, 0); }}
               className={`px-10 py-3.5 rounded-2xl transition-all hover:scale-105 shadow-xl active:scale-95 text-[10px] font-black uppercase tracking-widest ${scrolled ? 'bg-neutral-900 text-white hover:bg-black shadow-neutral-200' : (currentPage === 'home' ? 'bg-white text-black hover:bg-neutral-200 shadow-white/5' : 'bg-neutral-900 text-white hover:bg-black shadow-neutral-200')}`}
             >
@@ -292,61 +234,56 @@ const Navbar = ({ currentPage, setCurrentPage }: { currentPage: PageType, setCur
         </div>
 
         {/* Mobile Toggle */}
-        <div className="flex items-center gap-4 lg:hidden">
+        <div className="flex items-center gap-4 lg:hidden relative z-[2001]">
           <button 
-            onClick={toggleLang}
-            className={`p-2.5 rounded-xl border transition-colors ${scrolled ? 'bg-neutral-50 border-neutral-100 text-neutral-900' : (currentPage === 'home' ? 'bg-white/10 border-white/20 text-white backdrop-blur-md' : 'bg-neutral-50 border-neutral-100 text-neutral-900')}`}
-          >
-            <span className="text-[10px] font-black">{lang}</span>
-          </button>
-          <button 
+            id="mobile-menu-toggle"
             className={`p-3 rounded-2xl border transition-colors ${scrolled ? 'bg-neutral-50 border-neutral-100 text-neutral-900' : (currentPage === 'home' ? 'bg-white/10 border-white/20 text-white backdrop-blur-md' : 'bg-neutral-50 border-neutral-100 text-neutral-900')}`}
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            onClick={(e) => { e.stopPropagation(); setIsMobileMenuOpen(!isMobileMenuOpen); }}
           >
-            {isMobileMenuOpen ? <X /> : <MoreVertical />}
+            {isMobileMenuOpen ? <X /> : <AlignRight />}
           </button>
         </div>
       </div>
-
-      {/* Mobile Menu */}
-      <AnimatePresence>
-        {isMobileMenuOpen && (
-          <motion.div
-            initial={{ opacity: 0, x: '100%' }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: '100%' }}
-            className="fixed inset-0 bg-white z-[60] p-10 flex flex-col pt-32 gap-12"
-          >
-            <button className="absolute top-8 right-8 w-12 h-12 rounded-2xl bg-neutral-50 flex items-center justify-center shadow-sm" onClick={() => setIsMobileMenuOpen(false)}><X className="w-6 h-6" /></button>
-            <div className="flex flex-col gap-10 text-3xl font-display font-black uppercase tracking-tighter text-neutral-900">
-              <div className="space-y-4">
-                <div className="text-[10px] font-black text-neutral-400 tracking-[0.3em]">{t.capabilities}</div>
-                {servicesData.map(s => (
-                  <button key={s.id} onClick={() => { setCurrentPage(('service-' + s.id) as PageType); setIsMobileMenuOpen(false); }} className="block">{s.title}</button>
-                ))}
-              </div>
-              <div className="space-y-4">
-                <div className="text-[10px] font-black text-neutral-400 tracking-[0.3em]">{t.corporate}</div>
-                <button onClick={() => { setCurrentPage('about'); setIsMobileMenuOpen(false); }}>{t.about}</button>
-                <button onClick={() => { setCurrentPage('about-funding'); setIsMobileMenuOpen(false); }}>{t.investor}</button>
-              </div>
-              <button 
-                onClick={() => { setCurrentPage('contact'); setIsMobileMenuOpen(false); }}
-                className="mt-4 px-10 py-5 bg-neutral-900 text-white rounded-3xl text-xl font-black uppercase tracking-widest text-center"
-              >
-                {t.contact}
-              </button>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
     </nav>
+
+    <AnimatePresence>
+      {isMobileMenuOpen && (
+        <motion.div
+          initial={{ opacity: 0, x: '100%' }}
+          animate={{ opacity: 1, x: 0 }}
+          exit={{ opacity: 0, x: '100%' }}
+          className="fixed inset-0 bg-white z-[3000] p-10 flex flex-col pt-32 gap-12 overflow-y-auto"
+        >
+          <button id="mobile-menu-close" className="absolute top-8 right-8 w-12 h-12 rounded-2xl bg-neutral-50 flex items-center justify-center shadow-sm" onClick={() => setIsMobileMenuOpen(false)}><X className="w-6 h-6" /></button>
+          <div className="flex flex-col gap-10 text-3xl font-display font-black uppercase tracking-tighter text-neutral-900">
+            <div className="space-y-4">
+              <div className="text-[10px] font-black text-neutral-400 tracking-[0.3em]">{t.capabilities}</div>
+              {servicesData.map(s => (
+                <button key={s.id} id={`mobile-nav-capability-${s.id}`} onClick={() => { setCurrentPage(('service-' + s.id) as PageType); setIsMobileMenuOpen(false); }} className="block text-left">{s.title}</button>
+              ))}
+            </div>
+            <div className="space-y-4">
+              <div className="text-[10px] font-black text-neutral-400 tracking-[0.3em]">{t.corporate}</div>
+              <button id="mobile-nav-about" onClick={() => { setCurrentPage('about'); setIsMobileMenuOpen(false); }} className="block text-left">{t.about}</button>
+              <button id="mobile-nav-investor" onClick={() => { setCurrentPage('about-funding'); setIsMobileMenuOpen(false); }} className="block text-left">{t.investor}</button>
+            </div>
+            <button 
+              id="mobile-nav-contact"
+              onClick={() => { setCurrentPage('contact'); setIsMobileMenuOpen(false); }}
+              className="mt-4 px-10 py-5 bg-neutral-900 text-white rounded-3xl text-xl font-black uppercase tracking-widest text-center"
+            >
+              {t.contact}
+            </button>
+          </div>
+        </motion.div>
+      )}
+    </AnimatePresence>
+    </>
   );
 };
 
 const BusinessStats = () => {
-  const { lang } = useContext(LanguageContext);
-  const t = translations[lang].stats;
+  const t = translations.stats;
   const stats = [
     { label: t.pillars, value: "05" },
     { label: t.sectors, value: "04" },
@@ -377,19 +314,168 @@ const BusinessStats = () => {
   );
 };
 
+const ArticleModal = ({ isOpen, onClose, article }: { isOpen: boolean, onClose: () => void, article: any }) => {
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [isOpen]);
+
+  if (!article) return null;
+
+  return (
+    <AnimatePresence>
+      {isOpen && (
+        <motion.div 
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          className="fixed inset-0 z-[100] flex items-center justify-center p-4 md:p-8 bg-black/60 backdrop-blur-sm"
+          onClick={onClose}
+        >
+          <motion.div 
+            initial={{ y: 50, scale: 0.95, opacity: 0 }}
+            animate={{ y: 0, scale: 1, opacity: 1 }}
+            exit={{ y: 50, scale: 0.95, opacity: 0 }}
+            transition={{ type: "spring", damping: 30, stiffness: 300 }}
+            className="bg-white w-full max-w-5xl h-full max-h-[90vh] rounded-[2.5rem] overflow-hidden flex flex-col shadow-2xl relative"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Reading Progress Indicator */}
+            <motion.div 
+              style={{ scaleX: 0 }} 
+              animate={{ scaleX: 1 }}
+              transition={{ duration: 1.5, ease: "easeInOut" }}
+              className="absolute top-0 left-0 right-0 h-1 bg-black z-20 origin-left"
+            />
+
+            <div className="absolute top-8 right-8 z-20">
+              <button 
+                onClick={onClose}
+                className="w-12 h-12 rounded-full bg-white/90 backdrop-blur-md shadow-lg flex items-center justify-center text-neutral-900 border border-neutral-100 hover:bg-black hover:text-white transition-all hover:scale-110 active:scale-95"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            <div className="flex-1 overflow-y-auto overflow-x-hidden p-0 scroll-smooth">
+              <div className="relative w-full aspect-[16/6] min-h-[300px]">
+                <img 
+                  src={article.image} 
+                  alt={article.title}
+                  className="w-full h-full object-cover"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-white via-transparent to-transparent" />
+                <div className="absolute bottom-12 left-12 right-12">
+                  <div className="flex gap-3 mb-6">
+                    <span className="px-5 py-2 bg-black text-white rounded-full text-[9px] font-black uppercase tracking-[0.2em]">
+                      {article.category}
+                    </span>
+                    <span className="px-5 py-2 bg-white border border-neutral-100 rounded-full text-[9px] font-black uppercase tracking-[0.2em] text-neutral-500">
+                      {article.readTime}
+                    </span>
+                  </div>
+                  <h1 className="text-4xl md:text-6xl font-display font-black tracking-tighter text-neutral-900 leading-[0.95] uppercase max-w-4xl">
+                    {article.title}
+                  </h1>
+                </div>
+              </div>
+
+              <div className="px-8 md:px-24 py-16">
+                <div className="flex items-center gap-10 mb-16 border-b border-neutral-100 pb-8 overflow-x-auto no-scrollbar">
+                  <div className="flex items-center gap-3 shrink-0">
+                    <div className="w-10 h-10 rounded-full bg-neutral-900 flex items-center justify-center text-white text-[10px] font-bold">CG</div>
+                    <div>
+                      <div className="text-[10px] font-black uppercase tracking-widest text-neutral-400">Written by</div>
+                      <div className="text-sm font-bold text-neutral-900">Editorial Team</div>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-3 shrink-0">
+                    <Clock className="w-5 h-5 text-neutral-400" />
+                    <div>
+                      <div className="text-[10px] font-black uppercase tracking-widest text-neutral-400">Published on</div>
+                      <div className="text-sm font-bold text-neutral-900">{article.date}</div>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-3 shrink-0">
+                    <BookOpen className="w-5 h-5 text-neutral-400" />
+                    <div>
+                      <div className="text-[10px] font-black uppercase tracking-widest text-neutral-400">Estimated duration</div>
+                      <div className="text-sm font-bold text-neutral-900">{article.readTime}</div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="prose prose-neutral max-w-none prose-p:text-xl prose-p:leading-relaxed prose-p:text-neutral-500 prose-p:font-medium prose-h2:text-3xl prose-h2:font-display prose-h2:font-black prose-h2:tracking-tight prose-h2:text-neutral-900 prose-h2:mt-16 prose-h2:mb-8 prose-h2:uppercase">
+                  {article.content}
+                </div>
+
+                <div className="mt-20 pt-16 border-t border-neutral-100 flex flex-col md:flex-row justify-between items-center gap-8">
+                  <div className="flex gap-4">
+                    <a href="#" className="w-10 h-10 rounded-full bg-neutral-50 border border-neutral-100 flex items-center justify-center text-neutral-400 hover:text-black hover:bg-white hover:shadow-lg transition-all">
+                      <Linkedin className="w-4 h-4" />
+                    </a>
+                    <a href="#" className="w-10 h-10 rounded-full bg-neutral-50 border border-neutral-100 flex items-center justify-center text-neutral-400 hover:text-black hover:bg-white hover:shadow-lg transition-all">
+                      <Instagram className="w-4 h-4" />
+                    </a>
+                  </div>
+                  <button 
+                    onClick={onClose}
+                    className="flex items-center gap-2 text-neutral-900 font-bold uppercase tracking-widest text-xs hover:gap-4 transition-all"
+                  >
+                    Close Article <ArrowRight className="w-4 h-4" />
+                  </button>
+                </div>
+              </div>
+            </div>
+          </motion.div>
+        </motion.div>
+      )}
+    </AnimatePresence>
+  );
+};
+
 const LatestInsights = ({ setCurrentPage }: { setCurrentPage: (p: PageType) => void }) => {
+  const [selectedArticle, setSelectedArticle] = useState<any>(null);
+
   const insights = [
     {
       title: "Supporting the Expansion of Indonesia's SMEs with Long-Term Strategies",
       date: "May 10, 2024",
       category: "Strategy",
-      image: "https://cglinkindonesia.com/wp-content/uploads/2026/03/Desain-tanpa-judul-2.png"
+      readTime: "8 min read",
+      image: "https://cglinkindonesia.com/wp-content/uploads/2026/03/Desain-tanpa-judul-2.png",
+      content: (
+        <>
+          <p>The landscape of Small and Medium Enterprises (SMEs) in Indonesia is rapidly evolving. As the backbone of the national economy, SMEs account for a significant portion of GDP and employment. However, scaling a business beyond its initial phase requires more than just capital—it requires a robust, long-term strategic framework.</p>
+          <h2>The Scalability Challenge</h2>
+          <p>Many local entrepreneurs face a ceiling when they reach a certain size. Operational complexities, supply chain management, and digital transformation become significant hurdles. At CGLINK, we identify that the missing link is often a structured roadmap that transitions from a "survivalist" mindset to a "strategic" expansion.</p>
+          <p>Our approach focuses on three core pillars: Process Optimization, Financial Resilience, and Market Intelligence. By digitizing key operational workflows, SMEs can reallocate their human capital towards high-value innovation rather than mundane administration.</p>
+          <h2>Building the Road Map</h2>
+          <p>Sustainability in growth means preparing for the next three years, not just the next three months. This includes building lean management structures and developing partnerships that provide access to global supply chains. Indonesia's position as a regional economic hub provides unique opportunities for SMEs to export and enter international markets.</p>
+        </>
+      )
     },
     {
       title: "Investing in Innovation: Boosting the Success of Local SMEs",
       date: "May 08, 2024",
       category: "Innovation",
-      image: "https://cglinkindonesia.com/wp-content/uploads/2026/03/WhatsApp-Image-2026-03-26-at-14.55.49.jpeg"
+      readTime: "6 min read",
+      image: "https://cglinkindonesia.com/wp-content/uploads/2026/03/WhatsApp-Image-2026-03-26-at-14.55.49.jpeg",
+      content: (
+        <>
+          <p>Innovation is often misunderstood as solely a technological leap. In reality, for many Indonesian SMEs, innovation starts with rethinking the customer experience and optimizing existing resource management. To compete in today's dynamic market, local businesses must embrace failure as a part of the prototyping process.</p>
+          <h2>The "Culture of Improvement"</h2>
+          <p>True innovation requires a culture where team members are encouraged to propose changes. Whether it's a new way to handle deliveries or a more efficient accounting methodology, incremental changes lead to significant long-term competitive advantages. We work with our partners to implement data-driven decision-making tools that highlight areas ripe for innovative disruption.</p>
+          <h2>Technology as a Catalyst</h2>
+          <p>While tech is the enabler, the strategy must come first. We advocate for the adoption of automation in marketing and sales to allow smaller teams to punch above their weight. With the right tools, a local business in Jakarta can effectively compete with multinational corporations in terms of customer engagement and brand loyalty.</p>
+        </>
+      )
     }
   ];
 
@@ -420,7 +506,7 @@ const LatestInsights = ({ setCurrentPage }: { setCurrentPage: (p: PageType) => v
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               className="group cursor-pointer"
-              onClick={() => setCurrentPage('blog')}
+              onClick={() => setSelectedArticle(insight)}
             >
               <div className="relative aspect-[16/10] overflow-hidden mb-10 rounded-[2rem] bg-neutral-100">
                 <img 
@@ -434,8 +520,13 @@ const LatestInsights = ({ setCurrentPage }: { setCurrentPage: (p: PageType) => v
                     {insight.category}
                   </span>
                 </div>
+                <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                   <div className="px-8 py-4 bg-white rounded-full text-[10px] font-black uppercase tracking-widest text-black transform scale-90 group-hover:scale-100 transition-transform flex items-center gap-3">
+                      Continue Reading <BookOpen className="w-4 h-4" />
+                   </div>
+                </div>
               </div>
-              <div className="text-[10px] font-bold text-neutral-400 uppercase tracking-widest mb-6 border-l-2 border-neutral-200 pl-4">{insight.date}</div>
+              <div className="text-[10px] font-bold text-neutral-400 uppercase tracking-widest mb-6 border-l-2 border-neutral-200 pl-4">{insight.date} — {insight.readTime}</div>
               <h3 className="text-3xl lg:text-4xl font-display font-medium text-neutral-900 leading-[1.1] tracking-tighter group-hover:text-black transition-all">
                 {insight.title}
               </h3>
@@ -443,6 +534,12 @@ const LatestInsights = ({ setCurrentPage }: { setCurrentPage: (p: PageType) => v
           ))}
         </div>
       </div>
+
+      <ArticleModal 
+        isOpen={selectedArticle !== null} 
+        onClose={() => setSelectedArticle(null)} 
+        article={selectedArticle}
+      />
     </section>
   );
 };
@@ -456,19 +553,21 @@ const InvestorRelations = ({ setCurrentPage }: { setCurrentPage: (p: PageType) =
           <div>
             <h2 className="text-4xl md:text-7xl font-display font-black tracking-tighter mb-8 leading-none">
               INVESTOR <br />
-              RELATIONSHIP
+              RELATIONS
             </h2>
             <p className="text-xl text-neutral-600 leading-relaxed mb-10 max-w-lg">
-              Kami membuka peluang bagi mitra strategis dan investor untuk berkolaborasi dalam ekosistem bisnis yang legal, logis, dan halal. Mari bersama-sama mengakselerasi pertumbuhan ekonomi melalui investasi yang berintegritas.
+              We open opportunities for strategic partners and investors to collaborate in a business ecosystem that is legal, logical, and halal. Let's together accelerate economic growth through integrity-based investment.
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
               <button 
+                id="investor-explore"
                 onClick={() => { setCurrentPage('about-funding'); window.scrollTo(0, 0); }}
                 className="px-8 py-4 bg-black text-white rounded-full font-bold hover:bg-neutral-800 transition-all flex items-center justify-center gap-2"
               >
                 Explore Portfolio <ArrowRight className="w-4 h-4" />
               </button>
               <button 
+                id="investor-inquiry"
                 onClick={() => { setCurrentPage('contact'); window.scrollTo(0, 0); }}
                 className="px-8 py-4 border border-black/10 rounded-full font-bold hover:bg-black/5 transition-all"
               >
@@ -522,19 +621,19 @@ const BusinessUnits = ({ setCurrentPage }: { setCurrentPage: (p: PageType) => vo
     {
       number: "01",
       title: "Strategy & Operations",
-      desc: "Membangun fondasi bisnis yang kuat, dari legalitas, struktur organisasi, hingga model bisnis yang scalable.",
+      desc: "Building a strong business foundation, from legality and organizational structure to scalable business models.",
       id: 'fundamental'
     },
     {
       number: "02",
       title: "Digital & Marketing",
-      desc: "Akselerasi pangsa pasar melalui ekosistem digital dan transformasi teknologi pemasaran berbasis data.",
+      desc: "Accelerating market share through a digital ecosystem and data-driven marketing technology transformation.",
       id: 'digital'
     },
     {
       number: "03",
       title: "Finance & Advisory",
-      desc: "Optimalisasi arus kas, manajamen risiko, perpajakan, dan perencanaan strategis keuangan.",
+      desc: "Optimization of cash flow, risk management, taxation, and strategic financial planning.",
       id: 'finance'
     }
   ];
@@ -576,8 +675,7 @@ const BusinessUnits = ({ setCurrentPage }: { setCurrentPage: (p: PageType) => vo
 
 
 const StrategicNav = ({ setCurrentPage }: { setCurrentPage: (p: PageType) => void }) => {
-  const { lang } = useContext(LanguageContext);
-  const t = translations[lang].strategicNav;
+  const t = translations.strategicNav;
   
   const sections = [
     {
@@ -652,8 +750,7 @@ const StrategicNav = ({ setCurrentPage }: { setCurrentPage: (p: PageType) => voi
 };
 
 const Hero = ({ setCurrentPage }: { setCurrentPage: (p: PageType) => void }) => {
-  const { lang } = useContext(LanguageContext);
-  const t = translations[lang].hero;
+  const t = translations.hero;
   
   return (
     <section className="relative min-h-screen flex items-center justify-center pt-20 pb-20 bg-black text-white">
@@ -783,17 +880,17 @@ const CoreValues = () => {
     {
       icon: <TrendingUp className="w-6 h-6" />,
       title: "Grow",
-      desc: "Meningkatkan kapabilitas melalui pengetahuan, sikap, dan mentalitas berlandaskan kepercayaan and profesionalisme."
+      desc: "Increasing capabilities through knowledge, attitude, and mentality based on trust and professionalism."
     },
     {
       icon: <Users className="w-6 h-6" />,
       title: "Share",
-      desc: "Berbagi cerita, pengalaman, dan solusi dengan klien, mitra dan masyarakat secara adil, transparan, dan bertanggung jawab."
+      desc: "Sharing stories, experiences, and solutions with clients, partners, and the community fairly, transparently, and responsibly."
     },
     {
       icon: <Heart className="w-6 h-6" />,
       title: "Contribute",
-      desc: "Menciptakan dampak positif bagi klien, ekonomi, dan masyarakat melalui kegiatan yang berkelanjutan."
+      desc: "Creating a positive impact for clients, the economy, and the community through sustainable activities."
     }
   ];
 
@@ -834,9 +931,9 @@ const VisionMission = () => {
             viewport={{ once: true }}
           >
             <div className="inline-block px-4 py-1 rounded-full bg-neutral-100 text-neutral-900 text-xs font-black tracking-widest uppercase mb-6">Philosophy</div>
-            <h2 className="text-5xl md:text-7xl font-display font-black tracking-tighter mb-10 leading-none text-neutral-900">VISI</h2>
+            <h2 className="text-5xl md:text-7xl font-display font-black tracking-tighter mb-10 leading-none text-neutral-900">VISION</h2>
             <p className="text-2xl md:text-3xl text-neutral-600 leading-tight font-medium">
-              "Menjadi mitra kolaborasi bisnis yang berlandaskan prinsip legal, logis, dan halal melalui produk, jasa, serta pengembangan bisnis profesional untuk menciptakan pertumbuhan dan manfaat berkelanjutan bagi seluruh pihak."
+              "To be a strategic business collaboration partner based on legal, logical, and halal principles through products, services, and professional business development to create sustainable growth and benefits for all parties."
             </p>
           </motion.div>
           
@@ -846,14 +943,14 @@ const VisionMission = () => {
             viewport={{ once: true }}
             className="bg-white p-12 rounded-[3rem] shadow-xl shadow-neutral-200/50 border border-neutral-100"
           >
-            <h2 className="text-4xl md:text-5xl font-display font-bold mb-12 text-neutral-900">MISI</h2>
+            <h2 className="text-4xl md:text-5xl font-display font-bold mb-12 text-neutral-900 uppercase">MISSION</h2>
             <ul className="space-y-8">
               {[
-                "Menyelenggarakan produk dan jasa bisnis yang legal, logis, dan halal.",
-                "Menjadi mitra kolaborasi bisnis yang profesional dan saling menguntungkan.",
-                "Memberikan layanan konsultasi dan solusi bisnis yang bernilai tambah.",
-                "Mengembangkan bisnis dan peluang usaha baru secara profesional dan berkelanjutan.",
-                "Menciptakan pertumbuhan dan manfaat yang berkelanjutan bagi seluruh pihak."
+                "Organize legal, logical, and halal business products and services.",
+                "Become a professional and mutually beneficial business collaboration partner.",
+                "Provide value-added consulting services and business solutions.",
+                "Develop new businesses and business opportunities professionally and sustainably.",
+                "Create sustainable growth and benefits for all parties."
               ].map((m, i) => (
                 <li key={i} className="flex gap-6 items-start">
                   <div className="mt-1 w-10 h-10 rounded-2xl bg-neutral-50 flex items-center justify-center shrink-0 text-neutral-900 font-display font-bold">
@@ -875,17 +972,17 @@ const ServicesSection: React.FC<{ setCurrentPage: (page: PageType) => void }> = 
     {
       id: 'about-funding',
       title: "Funding Partnership",
-      desc: "Pendanaan syariah berbasis syirkah, transparan dan berkeadilan, untuk mendukung pertumbuhan usaha."
+      desc: "Syirkah-based Islamic funding, transparent and equitable, to support business growth."
     },
     {
       id: 'about-pillars',
       title: "Business Consulting",
-      desc: "Konsultan bisnis yang membantu perusahaan menata pondasi usaha, mengelola keuangan & SDM, serta mengembangkan strategi digital untuk pertumbuhan berkelanjutan."
+      desc: "Business consultants who help companies set up business foundations, manage finance & HR, and develop digital strategies for sustainable growth."
     },
     {
       id: 'about-funding',
       title: "Funding Acquisition",
-      desc: "Pendanaan syariah untuk mengembangkan usaha baru maupun masuk ke bisnis yang sudah berjalan, dengan strategi ekspansi yang terukur."
+      desc: "Islamic funding to develop new businesses or enter existing businesses, with measured expansion strategies."
     }
   ];
 
@@ -893,8 +990,8 @@ const ServicesSection: React.FC<{ setCurrentPage: (page: PageType) => void }> = 
     <section id="services" className="py-32 relative z-10 bg-white">
       <div className="w-full px-6 md:px-16">
         <div className="text-center mb-20">
-          <h2 className="text-4xl md:text-7xl font-display font-black tracking-tighter mb-8 text-neutral-900">LAYANAN UTAMA</h2>
-          <p className="text-xl text-neutral-500 font-medium">Solusi komprehensif untuk pertumbuhan bisnis Anda.</p>
+          <h2 className="text-4xl md:text-7xl font-display font-black tracking-tighter mb-8 text-neutral-900 uppercase">CORE SERVICES</h2>
+          <p className="text-xl text-neutral-500 font-medium">Comprehensive solutions for your business growth.</p>
         </div>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -927,8 +1024,8 @@ const WhyUs = () => {
   const reasons = [
     {
       icon: <Briefcase className="w-6 h-6" />,
-      title: "Founder Experienced & Visionary",
-      desc: "Multi-sector experience (B2B, B2C, retail, energi, media, umroh)."
+      title: "Experienced & Visionary Founder",
+      desc: "Multi-sector experience (B2B, B2C, retail, energy, media, pilgrimage)."
     },
     {
       icon: <Network className="w-6 h-6" />,
@@ -938,7 +1035,7 @@ const WhyUs = () => {
     {
       icon: <ShieldCheck className="w-6 h-6" />,
       title: "Syariah Partnership",
-      desc: "Backed by Trust Solusi Syariah & Bisaro."
+      desc: "Backed by Syirkah and Sharia-compliant solutions."
     },
     {
       icon: <BarChart3 className="w-6 h-6" />,
@@ -951,9 +1048,9 @@ const WhyUs = () => {
     { icon: <Building2 className="w-8 h-8" />, name: "B2B" },
     { icon: <Users className="w-8 h-8" />, name: "B2C" },
     { icon: <ShoppingCart className="w-8 h-8" />, name: "Retail & Wholesale" },
-    { icon: <Zap className="w-8 h-8" />, name: "Energi" },
+    { icon: <Zap className="w-8 h-8" />, name: "Energy" },
     { icon: <MonitorPlay className="w-8 h-8" />, name: "Media" },
-    { icon: <Plane className="w-8 h-8" />, name: "Umroh" },
+    { icon: <Plane className="w-8 h-8" />, name: "Pilgrimage" },
     { icon: <Share2 className="w-8 h-8" />, name: "Affiliate Program" },
   ];
 
@@ -988,7 +1085,7 @@ const WhyUs = () => {
           <div className="bg-neutral-50 p-12 rounded-[3.5rem] border border-neutral-100">
             <h2 className="text-4xl md:text-5xl font-display font-bold mb-8 text-neutral-900">Our Business Lines</h2>
             <p className="text-neutral-500 leading-relaxed mb-12 text-lg font-medium">
-              CGLINK mengelola beragam lini usaha untuk menjawab kebutuhan pasar yang dinamis. Mulai dari B2B dan B2C, hingga retail, wholesale, serta sektor energi.
+              CGLINK manages various business lines to answer dynamic market needs, ranging from B2B and B2C to retail, wholesale, and the energy sector.
             </p>
             
             <div className="grid grid-cols-2 gap-4">
@@ -1157,14 +1254,14 @@ const BusinessCheckup = () => {
                 <span className="text-neutral-900">CHECK-UP</span>
               </h2>
               <p className="text-xl text-neutral-500 leading-relaxed mb-12 font-medium">
-                Ambil langkah pertama untuk mengoptimalkan bisnis Anda. Isi form evaluasi singkat ini untuk mendapatkan insight awal mengenai potensi dan area perbaikan di perusahaan Anda.
+                Take the first step to optimize your business. Fill out this brief evaluation form to get initial insights into your company's potential and areas for improvement.
               </p>
               
               <div className="space-y-8">
                 {[
-                  { icon: <TrendingUp className="w-6 h-6 text-neutral-900" />, text: "Identifikasi hambatan pertumbuhan" },
-                  { icon: <BarChart3 className="w-6 h-6 text-neutral-900" />, text: "Dapatkan insight yang actionable" },
-                  { icon: <ShieldCheck className="w-6 h-6 text-neutral-900" />, text: "Perkuat fundamental bisnis" }
+                  { icon: <TrendingUp className="w-6 h-6 text-neutral-900" />, text: "Identify growth barriers" },
+                  { icon: <BarChart3 className="w-6 h-6 text-neutral-900" />, text: "Get actionable insights" },
+                  { icon: <ShieldCheck className="w-6 h-6 text-neutral-900" />, text: "Strengthen business fundamentals" }
                 ].map((item, i) => (
                   <motion.div 
                     key={i}
@@ -1190,15 +1287,15 @@ const BusinessCheckup = () => {
             viewport={{ once: true }}
             className="bg-neutral-50 p-8 md:p-12 rounded-[3.5rem] relative overflow-hidden shadow-2xl border border-neutral-100"
           >
-            <form className="space-y-6" onSubmit={handleSubmit}>
+            <form id="checkup-form" className="space-y-6" onSubmit={handleSubmit}>
               <div className="grid grid-cols-2 gap-6">
                 <div className="space-y-2">
-                  <label className="text-[10px] font-black uppercase tracking-widest text-neutral-400">Nama Lengkap</label>
+                  <label className="text-[10px] font-black uppercase tracking-widest text-neutral-400">Full Name</label>
                   <input type="text" name="name" required className="w-full bg-white border border-neutral-200 rounded-2xl px-6 py-4 text-neutral-900 focus:outline-none focus:border-black transition-colors" placeholder="John Doe" />
                 </div>
                 <div className="space-y-2">
-                  <label className="text-[10px] font-black uppercase tracking-widest text-neutral-400">Perusahaan</label>
-                  <input type="text" name="company" required className="w-full bg-white border border-neutral-200 rounded-2xl px-6 py-4 text-neutral-900 focus:outline-none focus:border-black transition-colors" placeholder="PT Inovasi" />
+                  <label className="text-[10px] font-black uppercase tracking-widest text-neutral-400">Company</label>
+                  <input type="text" name="company" required className="w-full bg-white border border-neutral-200 rounded-2xl px-6 py-4 text-neutral-900 focus:outline-none focus:border-black transition-colors" placeholder="PT Innovation" />
                 </div>
               </div>
               <div className="space-y-2">
@@ -1206,25 +1303,26 @@ const BusinessCheckup = () => {
                 <input type="email" name="email" required className="w-full bg-white border border-neutral-200 rounded-2xl px-6 py-4 text-neutral-900 focus:outline-none focus:border-black transition-colors" placeholder="businesspartner@cglinkindonesia.com" />
               </div>
               <div className="space-y-2">
-                <label className="text-[10px] font-black uppercase tracking-widest text-neutral-400">Pesan Bisnis</label>
-                <textarea name="message" required rows={4} className="w-full bg-white border border-neutral-200 rounded-2xl px-6 py-4 text-neutral-900 focus:outline-none focus:border-black transition-colors resize-none" placeholder="Ceritakan singkat kebutuhan Anda..."></textarea>
+                <label className="text-[10px] font-black uppercase tracking-widest text-neutral-400">Business Message</label>
+                <textarea name="message" required rows={4} className="w-full bg-white border border-neutral-200 rounded-2xl px-6 py-4 text-neutral-900 focus:outline-none focus:border-black transition-colors resize-none" placeholder="Briefly describe your needs..."></textarea>
               </div>
 
               {submitStatus === 'success' && (
                 <div className="p-4 bg-emerald-500/10 border border-emerald-500/20 rounded-xl text-emerald-600 text-xs flex items-start gap-3">
                   <CheckCircle2 className="w-5 h-5 shrink-0 mt-0.5" />
-                  <p>Pesan terkirim! Kami akan segera menghubungi Anda melalui email/nomor tertera.</p>
+                  <p>Message sent! We will contact you shortly via email or phone.</p>
                 </div>
               )}
 
               {submitStatus === 'error' && (
                 <div className="p-4 bg-red-500/10 border border-red-500/20 rounded-xl text-red-600 text-xs flex items-start gap-3">
                   <X className="w-5 h-5 shrink-0 mt-0.5" />
-                  <p>Maaf, terjadi kesalahan. Silakan coba lagi atau hubungi via WhatsApp.</p>
+                  <p>Sorry, an error occurred. Please try again or contact via WhatsApp.</p>
                 </div>
               )}
 
               <button 
+                id="checkup-submit"
                 type="submit" 
                 disabled={isSubmitting}
                 className="w-full py-5 bg-neutral-900 text-white rounded-2xl font-black uppercase tracking-widest text-sm hover:bg-neutral-800 transition-all hover:scale-[1.02] active:scale-[0.98] mt-4 disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-3 shadow-xl"
@@ -1232,10 +1330,10 @@ const BusinessCheckup = () => {
                 {isSubmitting ? (
                   <>
                     <div className="w-5 h-5 border-2 border-white/20 border-t-white rounded-full animate-spin" />
-                    Mengirim...
+                    Sending...
                   </>
                 ) : (
-                  'Kirim Pesan'
+                  'Send Message'
                 )}
               </button>
             </form>
@@ -1246,17 +1344,17 @@ const BusinessCheckup = () => {
   );
 };
 
-const Footer = ({ lang }: { lang: Language }) => {
-  const t = translations[lang].nav;
+const Footer = () => {
+  const t = translations.nav;
   return (
     <footer className="py-32 bg-black text-white selection:bg-white selection:text-black">
       <div className="w-full px-6 md:px-16 container mx-auto">
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-20 mb-32">
           <div className="lg:col-span-2">
             <div className="flex items-center gap-4 mb-12">
-              <div className="w-12 h-12 rounded-xl bg-white flex items-center justify-center text-black overflow-hidden">
+              <div className="w-12 h-12 rounded-xl bg-white flex items-center justify-center overflow-hidden">
                 <img 
-                  src="https://cglinkindonesia.com/wp-content/uploads/2026/03/WhatsApp-Image-2026-03-26-at-14.55.49.jpeg" 
+                  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTkBJLgZzym06yUvjh7cVL7xPXsDLzq3Q8TMw&s" 
                   alt="CGLINK Logo" 
                   className="w-full h-full object-cover"
                   referrerPolicy="no-referrer"
@@ -1266,7 +1364,7 @@ const Footer = ({ lang }: { lang: Language }) => {
             </div>
             <h2 className="text-4xl md:text-6xl font-display font-medium tracking-tighter mb-10 uppercase leading-[0.9]">Let's build the <br /><span className="italic text-neutral-400">Future of Business</span> <br />Together.</h2>
             <div className="text-neutral-400 font-medium max-w-sm mb-12 leading-relaxed text-lg">
-              Mitra strategis terdepan dalam membangun bisnis yang profesional, berdaya saing, dan berkelanjutan.
+              Leading strategic partner in building professional, competitive, and sustainable businesses.
             </div>
             <div className="flex gap-8">
               <a href="https://www.instagram.com/cglink_/?hl=en" target="_blank" rel="noopener noreferrer" className="hover:text-neutral-400 transition-all hover:scale-110">
@@ -1332,32 +1430,32 @@ const AboutUs: React.FC<{ onBack: () => void }> = ({ onBack }) => {
 
         <div className="bg-neutral-50 p-8 md:p-12 rounded-[3rem] border border-neutral-100 shadow-xl shadow-neutral-200/50">
           <h1 className="text-4xl md:text-6xl font-display font-black mb-4 text-neutral-900 uppercase tracking-tighter">CGLINK Indonesia</h1>
-          <h2 className="text-xl md:text-2xl text-neutral-500 font-bold mb-12 uppercase tracking-widest">Membangun Masa Depan Bisnis Anda Bersama CGLINK Indonesia</h2>
+          <h2 className="text-xl md:text-2xl text-neutral-500 font-bold mb-12 uppercase tracking-widest">Building Your Business Future with CGLINK Indonesia</h2>
 
           <div className="space-y-12 text-neutral-500 leading-relaxed font-medium">
             <section>
               <p className="text-lg">
-                Di era transformasi ekonomi yang bergerak cepat, kehadiran mitra strategis bukan lagi sekadar pilihan, melainkan keharusan. CGLINK Indonesia hadir sebagai katalisator pertumbuhan bagi bisnis Anda.
+                In an era of fast-moving economic transformation, the presence of a strategic partner is no longer just an option, but a necessity. CGLINK Indonesia is here as a growth catalyst for your business.
               </p>
             </section>
 
             <section>
-              <h3 className="text-2xl font-display font-bold text-neutral-900 mb-6 uppercase tracking-tight">Siapa Kami?</h3>
+              <h3 className="text-2xl font-display font-bold text-neutral-900 mb-6 uppercase tracking-tight">Who We Are?</h3>
               <p>
-                Didirikan pada tahun 2025 dan berbasis di jantung bisnis Jakarta Selatan, CGLINK Indonesia adalah firma konsultasi bisnis yang lahir dari semangat kolaborasi dan inovasi. Kami memahami bahwa setiap bisnis memiliki tantangan unik; itulah mengapa kami tidak hanya memberikan saran, tetapi memberikan solusi yang terukur and berkelanjutan.
+                Established in 2025 and based in the business heart of South Jakarta, CGLINK Indonesia is a business consulting firm born from a spirit of collaboration and innovation. We understand that every business has unique challenges; that's why we don't just provide advice, but provide measurable and sustainable solutions.
               </p>
             </section>
 
             <section>
-              <h3 className="text-2xl font-display font-bold text-neutral-900 mb-6 uppercase tracking-tight">Keahlian Utama Kami</h3>
-              <p className="mb-8">Kami menggabungkan data, pengalaman industri, dan kreativitas untuk memberikan layanan komprehensif di berbagai pilar utama:</p>
+              <h3 className="text-2xl font-display font-bold text-neutral-900 mb-6 uppercase tracking-tight">Our Core Expertise</h3>
+              <p className="mb-8">We combine data, industry experience, and creativity to provide comprehensive services in various main pillars:</p>
               <ul className="space-y-6">
                 {[
-                  { title: "Strategi Bisnis", desc: "Merumuskan roadmap yang adaptif untuk memastikan bisnis Anda tetap relevan dan kompetitif." },
-                  { title: "Manajemen Keuangan (Finance)", desc: "Optimalisasi struktur modal, manajemen risiko, dan perencanaan keuangan yang presisi." },
-                  { title: "Digital Marketing", desc: "Membangun kehadiran merek yang kuat melalui strategi pemasaran berbasis data untuk hasil konversi maksimal." },
-                  { title: "Business Development", desc: "Mengidentifikasi peluang pasar baru dan mempercepat penetrasi produk/layanan Anda." },
-                  { title: "Kemitraan Strategis (Partnerships)", desc: "Menghubungkan titik-titik potensi dengan membangun jejaring yang saling menguntungkan." }
+                  { title: "Business Strategy", desc: "Formulating an adaptive roadmap to ensure your business remains relevant and competitive." },
+                  { title: "Financial Management (Finance)", desc: "Optimization of capital structure, risk management, and precise financial planning." },
+                  { title: "Digital Marketing", desc: "Building a strong brand presence through data-driven marketing strategies for maximum conversion results." },
+                  { title: "Business Development", desc: "Identifying new market opportunities and accelerating your product/service penetration." },
+                  { title: "Strategic Partnerships", desc: "Connecting points of potential by building mutually beneficial networks." }
                 ].map((item, idx) => (
                   <li key={idx} className="flex gap-4">
                     <CheckCircle2 className="w-6 h-6 text-neutral-900 shrink-0" />
@@ -1368,15 +1466,15 @@ const AboutUs: React.FC<{ onBack: () => void }> = ({ onBack }) => {
             </section>
 
             <section>
-              <h3 className="text-2xl font-display font-bold text-neutral-900 mb-6 uppercase tracking-tight">Mengapa Memilih CGLINK?</h3>
+              <h3 className="text-2xl font-display font-bold text-neutral-900 mb-6 uppercase tracking-tight">Why Choose CGLINK?</h3>
               <p className="mb-10">
-                Kami percaya pada Profesionalitas Tanpa Kompromi. Tim kami terdiri dari para ahli yang berdedikasi tinggi untuk membantu klien menavigasi kompleksitas dunia usaha. Dengan filosofi kerja yang transparan dan berorientasi pada hasil, kami memastikan setiap langkah yang kita ambil bersama membawa Anda lebih dekat ke puncak kesuksesan.
+                We believe in Professionalism Without Compromise. Our team consists of highly dedicated experts to help clients navigate the complexities of the business world. With a transparent and result-oriented work philosophy, we ensure every step we take together brings you closer to the peak of success.
               </p>
               <blockquote className="border-l-8 border-black pl-8 py-4 my-10 bg-white rounded-r-2xl italic text-lg text-neutral-900 font-bold">
-                "Menjadi mitra kolaborasi bisnis yang berlandaskan prinsip legal, logis, dan halal melalui produk, jasa, serta pengembangan bisnis profesional untuk menciptakan pertumbuhan dan manfaat berkelanjutan bagi seluruh pihak."
+                "To be a business collaboration partner based on legal, logical, and halal principles through products, services, and professional business development to create sustainable growth and benefits for all parties."
               </blockquote>
               <p className="text-xl text-neutral-900 font-black mt-12 text-center italic">
-                Siap untuk membawa bisnis Anda ke level selanjutnya? Mari berdiskusi bagaimana CGLINK Indonesia dapat membantu menyempurnakan strategi Anda hari ini.
+                Ready to take your business to the next level? Let's discuss how CGLINK Indonesia can help perfect your strategy today.
               </p>
             </section>
 
@@ -1467,16 +1565,16 @@ const ContactPage: React.FC<{ onBack: () => void }> = ({ onBack }) => {
           {/* Left Column: Info & Value Proposition */}
           <div className="text-left">
             <h1 className="text-4xl md:text-5xl font-display font-black mb-4 uppercase tracking-tighter">
-              Langkah Pertama Menuju <span className="text-neutral-400">Transformasi Bisnis</span> Anda Dimunlai di Sini.
+              The First Step Towards Your <span className="text-neutral-400">Business Transformation</span> Starts Here.
             </h1>
             <p className="text-lg text-neutral-500 mb-12 leading-relaxed font-medium">
-              Punya visi besar yang ingin diwujudkan? Atau tantangan bisnis yang butuh solusi segera? Jangan biarkan pertanyaan Anda tidak terjawab. Tim ahli CGLINK Indonesia siap mendengarkan, menganalisis, dan berkolaborasi dengan Anda untuk menciptakan strategi yang berdampak nyata.
+              Have a big vision to realize? Or a business challenge that needs an immediate solution? Don't let your questions go unanswered. CGLINK Indonesia's team of experts is ready to listen, analyze, and collaborate with you to create a real-impact strategy.
             </p>
 
             <div className="space-y-12">
               <section>
-                <h3 className="text-2xl font-display font-bold text-neutral-900 mb-6 uppercase tracking-tight">Mari Berdiskusi</h3>
-                <p className="text-neutral-500 mb-6 font-medium">Kami percaya bahwa setiap solusi hebat dimulai dari percakapan yang berkualitas. Pilih cara yang paling nyaman bagi Anda untuk terhubung dengan kami:</p>
+                <h3 className="text-2xl font-display font-bold text-neutral-900 mb-6 uppercase tracking-tight">Let's Discuss</h3>
+                <p className="text-neutral-500 mb-6 font-medium">We believe that every great solution starts with a quality conversation. Choose the most convenient way for you to connect with us:</p>
                 
                 <div className="space-y-6">
                   <div className="flex gap-4 items-start">
@@ -1484,8 +1582,8 @@ const ContactPage: React.FC<{ onBack: () => void }> = ({ onBack }) => {
                       <MapPin className="w-5 h-5 text-neutral-900" />
                     </div>
                     <div>
-                      <h4 className="text-neutral-900 font-bold mb-1">Kantor Pusat</h4>
-                      <p className="text-neutral-500 font-medium leading-relaxed">Jl. Ciputat Raya No. 1B Unit 4 RT01/RW08<br/>Pondok Pinang, Kebayoran Lama<br/>Jakarta Selatan 12310</p>
+                      <h4 className="text-neutral-900 font-bold mb-1">Headquarters</h4>
+                      <p className="text-neutral-500 font-medium leading-relaxed">Jl. Ciputat Raya No. 1B Unit 4 RT01/RW08<br/>Pondok Pinang, Kebayoran Lama<br/>South Jakarta 12310</p>
                     </div>
                   </div>
                   
@@ -1494,7 +1592,7 @@ const ContactPage: React.FC<{ onBack: () => void }> = ({ onBack }) => {
                       <Phone className="w-5 h-5 text-neutral-900" />
                     </div>
                     <div>
-                      <h4 className="text-neutral-900 font-bold mb-1">Konsultasi Cepat</h4>
+                      <h4 className="text-neutral-900 font-bold mb-1">Quick Consultation</h4>
                       <a href="https://wa.me/62895428355681" target="_blank" rel="noopener noreferrer" className="text-neutral-500 hover:text-black transition-colors font-medium underline underline-offset-4">Whatsapp: +62 895-4283-55681</a>
                     </div>
                   </div>
@@ -1504,16 +1602,16 @@ const ContactPage: React.FC<{ onBack: () => void }> = ({ onBack }) => {
                       <Mail className="w-5 h-5 text-neutral-900" />
                     </div>
                     <div>
-                      <h4 className="text-neutral-900 font-bold mb-1">Korespondensi Email</h4>
+                      <h4 className="text-neutral-900 font-bold mb-1">Email Correspondence</h4>
                       <a href="mailto:businesspartner@cglinkindonesia.com" className="text-neutral-500 hover:text-black transition-colors font-medium underline underline-offset-4">businesspartner@cglinkindonesia.com</a>
-                      <p className="text-sm text-neutral-400 mt-1 font-bold">Kami berkomitmen membalas pesan Anda dalam waktu &lt; 24 jam kerja.</p>
+                      <p className="text-sm text-neutral-400 mt-1 font-bold">We are committed to replying to your message within &lt; 24 business hours.</p>
                     </div>
                   </div>
                 </div>
               </section>
 
               <section>
-                <h3 className="text-2xl font-display font-bold text-neutral-900 mb-6 uppercase tracking-tight">Ikuti Perjalanan Kami</h3>
+                <h3 className="text-2xl font-display font-bold text-neutral-900 mb-6 uppercase tracking-tight">Follow Our Journey</h3>
                 <div className="flex gap-4">
                   <a href="https://id.linkedin.com/company/catur-gunandi-link-indonesia?trk=ppro_cprof" target="_blank" rel="noopener noreferrer" className="w-12 h-12 rounded-xl bg-neutral-50 border border-neutral-100 flex items-center justify-center text-neutral-400 hover:text-black hover:bg-white hover:shadow-lg transition-all">
                     <Linkedin className="w-5 h-5" />
@@ -1529,18 +1627,18 @@ const ContactPage: React.FC<{ onBack: () => void }> = ({ onBack }) => {
           {/* Right Column: Form & Why Us */}
           <div className="text-left">
             <div className="bg-neutral-50 p-8 md:p-10 rounded-[3rem] shadow-xl border border-neutral-100 mb-8">
-              <h3 className="text-2xl font-display font-bold text-neutral-900 mb-2 uppercase tracking-tight">Kirim Pesan Langsung</h3>
-              <p className="text-neutral-500 mb-8 font-medium">Siap untuk memulai? Isi formulir singkat di bawah ini, dan konsultan spesialis kami akan menghubungi Anda untuk menjadwalkan sesi diagnosis bisnis gratis.</p>
+              <h3 className="text-2xl font-display font-bold text-neutral-900 mb-2 uppercase tracking-tight">Send a Message</h3>
+              <p className="text-neutral-500 mb-8 font-medium">Ready to start? Fill out the short form below, and our specialist consultant will contact you to schedule a free business diagnosis session.</p>
               
-              <form className="space-y-4" onSubmit={handleSubmit}>
+              <form id="contact-form" className="space-y-4" onSubmit={handleSubmit}>
                 <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-2">
-                    <label className="text-[10px] font-black uppercase tracking-widest text-neutral-400">Nama Lengkap</label>
+                    <label className="text-[10px] font-black uppercase tracking-widest text-neutral-400">Full Name</label>
                     <input type="text" name="name" required className="w-full bg-white border border-neutral-200 rounded-2xl px-6 py-4 text-neutral-900 focus:outline-none focus:border-black transition-colors shadow-sm" placeholder="John Doe" />
                   </div>
                   <div className="space-y-2">
-                    <label className="text-[10px] font-black uppercase tracking-widest text-neutral-400">Perusahaan</label>
-                    <input type="text" name="company" required className="w-full bg-white border border-neutral-200 rounded-2xl px-6 py-4 text-neutral-900 focus:outline-none focus:border-black transition-colors shadow-sm" placeholder="PT Inovasi Maju" />
+                    <label className="text-[10px] font-black uppercase tracking-widest text-neutral-400">Company</label>
+                    <input type="text" name="company" required className="w-full bg-white border border-neutral-200 rounded-2xl px-6 py-4 text-neutral-900 focus:outline-none focus:border-black transition-colors shadow-sm" placeholder="PT Innovation" />
                   </div>
                 </div>
                 <div className="space-y-2">
@@ -1548,24 +1646,25 @@ const ContactPage: React.FC<{ onBack: () => void }> = ({ onBack }) => {
                   <input type="email" name="email" required className="w-full bg-white border border-neutral-200 rounded-2xl px-6 py-4 text-neutral-900 focus:outline-none focus:border-black transition-colors shadow-sm" placeholder="john@example.com" />
                 </div>
                 <div className="space-y-2">
-                  <label className="text-[10px] font-black uppercase tracking-widest text-neutral-400">Pesan / Tantangan Bisnis</label>
-                  <textarea name="message" required rows={4} className="w-full bg-white border border-neutral-200 rounded-2xl px-6 py-4 text-neutral-900 focus:outline-none focus:border-black transition-colors resize-none shadow-sm" placeholder="Ceritakan singkat tentang kebutuhan Anda..."></textarea>
+                  <label className="text-[10px] font-black uppercase tracking-widest text-neutral-400">Message / Business Challenge</label>
+                  <textarea name="message" required rows={4} className="w-full bg-white border border-neutral-200 rounded-2xl px-6 py-4 text-neutral-900 focus:outline-none focus:border-black transition-colors resize-none shadow-sm" placeholder="Briefly describe your needs..."></textarea>
                 </div>
 
                 {submitStatus === 'success' && (
                   <div className="p-4 bg-emerald-500/10 border border-emerald-500/20 rounded-2xl text-emerald-600 text-sm flex items-start gap-3">
                     <CheckCircle2 className="w-5 h-5 shrink-0 mt-0.5" />
-                    <p>Pesan Anda berhasil dikirim! Kami akan segera menghubungi Anda.</p>
+                    <p>Your message has been successfully sent! We will contact you shortly.</p>
                   </div>
                 )}
 
                 {submitStatus === 'error' && (
                   <div className="p-4 bg-red-500/10 border border-red-500/20 rounded-2xl text-red-600 text-sm">
-                    Maaf, terjadi kesalahan saat mengirim pesan. Silakan coba lagi atau hubungi kami via WhatsApp.
+                    Sorry, an error occurred while sending the message. Please try again or contact us via WhatsApp.
                   </div>
                 )}
 
                 <button 
+                  id="contact-submit"
                   type="submit" 
                   disabled={isSubmitting}
                   className="w-full py-5 bg-neutral-900 text-white rounded-2xl font-black uppercase tracking-widest text-sm hover:bg-neutral-800 transition-all hover:scale-[1.02] active:scale-[0.98] mt-4 disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-2 shadow-xl"
@@ -1573,10 +1672,10 @@ const ContactPage: React.FC<{ onBack: () => void }> = ({ onBack }) => {
                   {isSubmitting ? (
                     <>
                       <div className="w-5 h-5 border-2 border-white/20 border-t-white rounded-full animate-spin" />
-                      Mengirim...
+                      Sending...
                     </>
                   ) : (
-                    'Kirim Pesan'
+                    'Send Message'
                   )}
                 </button>
               </form>
@@ -1584,14 +1683,14 @@ const ContactPage: React.FC<{ onBack: () => void }> = ({ onBack }) => {
 
             <div className="bg-neutral-900 p-8 rounded-[3rem] shadow-2xl relative overflow-hidden">
               <div className="absolute inset-0 bg-gradient-to-br from-neutral-500/10 to-transparent"></div>
-              <h3 className="text-xl font-display font-bold text-white mb-4 relative z-10 uppercase tracking-tight">Mengapa Menghubungi Kami Sekarang?</h3>
-              <p className="text-neutral-400 text-sm mb-6 relative z-10 font-medium">Di dunia bisnis, waktu adalah mata uang yang paling berharga. Menunda solusi berarti menunda pertumbuhan. Dengan menghubungi CGLINK Indonesia, Anda mendapatkan:</p>
+              <h3 className="text-xl font-display font-bold text-white mb-4 relative z-10 uppercase tracking-tight">Why Contact Us Now?</h3>
+              <p className="text-neutral-400 text-sm mb-6 relative z-10 font-medium">In the business world, time is the most valuable currency. Delaying solutions means delaying growth. By contacting CGLINK Indonesia, you get:</p>
               
               <ul className="space-y-4 mb-6 relative z-10">
                 {[
-                  { title: "Sesi Diagnosis Awal", desc: "Pemetaan masalah secara objektif." },
-                  { title: "Kerahasiaan Data (NDA)", desc: "Informasi bisnis Anda aman bersama kami." },
-                  { title: "Rencana Aksi Kustom", desc: "Bukan solusi template, tapi strategi yang dirancang khusus untuk Anda." }
+                  { title: "Initial Diagnosis Session", desc: "Objective mapping of issues." },
+                  { title: "Data Confidentiality (NDA)", desc: "Your business information is safe with us." },
+                  { title: "Custom Action Plan", desc: "Not a template solution, but a strategy designed specifically for you." }
                 ].map((item, idx) => (
                   <li key={idx} className="flex gap-4 text-sm font-medium">
                     <CheckCircle2 className="w-5 h-5 text-neutral-400 shrink-0" />
@@ -1601,7 +1700,7 @@ const ContactPage: React.FC<{ onBack: () => void }> = ({ onBack }) => {
               </ul>
 
               <blockquote className="border-l-4 border-white pl-6 py-2 italic text-white font-bold text-base relative z-10">
-                "Pintu kami selalu terbuka untuk para inovator, pemimpin, dan pengusaha yang tidak puas dengan status quo."
+                "Our doors are always open for innovators, leaders, and entrepreneurs who are not satisfied with the status quo."
               </blockquote>
             </div>
           </div>
@@ -1612,149 +1711,109 @@ const ContactPage: React.FC<{ onBack: () => void }> = ({ onBack }) => {
 };
 
 const FloatingActions = () => {
-  const { lang } = useContext(LanguageContext);
-  const t = translations[lang].floating;
-  const [isOpen, setIsOpen] = useState(false);
-
-  const toggleAI = () => {
-    const widget = document.querySelector('elevenlabs-convai') as any;
-    if (widget) {
-      // Typically widgets have a toggle or open method, or we click the shadow root button
-      // For now, we'll try to find the internal button if possible, or just scroll to it
-      widget.scrollIntoView({ behavior: 'smooth' });
-    }
-    setIsOpen(false);
-  };
-
   return (
-    <div className="fixed bottom-8 right-8 z-[100] flex flex-col items-end gap-4">
-      <AnimatePresence>
-        {isOpen && (
-          <motion.div 
-            initial={{ opacity: 0, y: 20, scale: 0.8 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 20, scale: 0.8 }}
-            className="flex flex-col items-end gap-3 mb-2"
-          >
-            <a 
-              href="https://wa.me/62895428355681" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="flex items-center gap-3 group"
-            >
-              <span className="px-4 py-2 bg-white shadow-xl rounded-xl text-[10px] font-black uppercase tracking-widest border border-neutral-100 transition-all group-hover:scale-105">{t.whatsapp}</span>
-              <div className="w-14 h-14 bg-[#25D366] text-white rounded-2xl flex items-center justify-center shadow-xl hover:scale-110 transition-transform active:scale-95">
-                <MessageCircle className="w-6 h-6" />
-              </div>
-            </a>
-            <button 
-              onClick={toggleAI}
-              className="flex items-center gap-3 group"
-            >
-              <span className="px-4 py-2 bg-white shadow-xl rounded-xl text-[10px] font-black uppercase tracking-widest border border-neutral-100 transition-all group-hover:scale-105">{t.ai}</span>
-              <div className="w-14 h-14 bg-neutral-900 text-white rounded-2xl flex items-center justify-center shadow-xl hover:scale-110 transition-transform active:scale-95">
-                <Bot className="w-6 h-6" />
-              </div>
-            </button>
-          </motion.div>
-        )}
-      </AnimatePresence>
-      <button 
-        onClick={() => setIsOpen(!isOpen)}
-        className={`w-16 h-16 rounded-2xl flex items-center justify-center shadow-2xl transition-all duration-500 hover:scale-110 active:scale-95 z-10 ${isOpen ? 'bg-neutral-900 text-white' : 'bg-white text-neutral-900 border border-neutral-100'}`}
+    <div className="fixed bottom-8 right-8 z-[1000]">
+      <a 
+        href="https://wa.me/62895428355681" 
+        target="_blank" 
+        rel="noopener noreferrer"
+        className="flex items-center gap-3 group"
       >
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={isOpen ? 'close' : 'open'}
-            initial={{ opacity: 0, rotate: -90, scale: 0.8 }}
-            animate={{ opacity: 1, rotate: 0, scale: 1 }}
-            exit={{ opacity: 0, rotate: 90, scale: 0.8 }}
-            transition={{ duration: 0.2 }}
-          >
-            {isOpen ? <X className="w-6 h-6" /> : <MessageSquare className="w-6 h-6" />}
-          </motion.div>
-        </AnimatePresence>
-      </button>
+        <motion.div 
+          initial={{ opacity: 0, x: 20 }}
+          animate={{ opacity: 1, x: 0 }}
+          className="px-5 py-3 bg-white shadow-2xl rounded-2xl text-[11px] font-black uppercase tracking-[0.2em] border border-neutral-100 opacity-0 group-hover:opacity-100 transition-all shadow-neutral-200/50 hidden md:block"
+        >
+          WhatsApp Business
+        </motion.div>
+        <motion.div 
+          initial={{ scale: 0.5, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          whileHover={{ scale: 1.15, rotate: 10 }}
+          whileTap={{ scale: 0.9 }}
+          className="w-16 h-16 bg-[#25D366] text-white rounded-3xl flex items-center justify-center shadow-2xl shadow-[#25D366]/30 cursor-pointer relative"
+        >
+          <MessageCircle className="w-8 h-8" />
+          <span className="absolute -top-1 -right-1 w-5 h-5 bg-red-500 border-2 border-white rounded-full animate-pulse" />
+        </motion.div>
+      </a>
     </div>
   );
 };
 
 export default function App() {
   const [currentPage, setCurrentPage] = useState<PageType>('home');
-  const [lang, setLang] = useState<Language>('ID');
 
   return (
-    <LanguageContext.Provider value={{ lang, setLang }}>
-      <div className="min-h-screen flex flex-col bg-white text-neutral-900 selection:bg-neutral-200 font-sans">
-        <Navbar currentPage={currentPage} setCurrentPage={setCurrentPage} />
-        
-        <AnimatePresence mode="wait">
-          {currentPage === 'home' && (
-            <motion.main 
-              key="home"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              transition={{ duration: 0.4 }}
-              className="flex-1"
-            >
-              <Hero setCurrentPage={setCurrentPage} />
-              <StrategicNav setCurrentPage={setCurrentPage} />
-              <SectorMarquee />
-              <BusinessStats />
-              <CoreValues />
-              <VisionMission />
-              <BusinessUnits setCurrentPage={setCurrentPage} />
-              <InvestorRelations setCurrentPage={setCurrentPage} />
-              <WhyUs />
-              <Testimonials />
-              <LatestInsights setCurrentPage={setCurrentPage} />
-              <BusinessCheckup />
-            </motion.main>
-          )}
-          {currentPage === 'about' && (
-            <div className="flex-1 opacity-0 animate-in fade-in duration-500 fill-mode-forwards">
-              <AboutUs key="about" onBack={() => { setCurrentPage('home'); window.scrollTo(0, 0); }} />
-            </div>
-          )}
-          {currentPage === 'about-vision' && (
-            <VisionMissionPage key="about-vision" onBack={() => { setCurrentPage('home'); window.scrollTo(0, 0); }} />
-          )}
-          {currentPage === 'about-pillars' && (
-            <PilarBisnisPage key="about-pillars" onBack={() => { setCurrentPage('home'); window.scrollTo(0, 0); }} />
-          )}
-          {currentPage === 'about-funding' && (
-            <FundingPortfolioPage key="about-funding" onBack={() => { setCurrentPage('home'); window.scrollTo(0, 0); }} />
-          )}
-          {currentPage === 'service-fundamental' && (
-            <ServiceFundamentalPage key="service-fundamental" onBack={() => { setCurrentPage('home'); window.scrollTo(0, 0); }} />
-          )}
-          {currentPage === 'service-digital' && (
-            <ServiceDigitalPage key="service-digital" onBack={() => { setCurrentPage('home'); window.scrollTo(0, 0); }} />
-          )}
-          {currentPage === 'service-partnerships' && (
-            <ServicePartnershipsPage key="service-partnerships" onBack={() => { setCurrentPage('home'); window.scrollTo(0, 0); }} />
-          )}
-          {currentPage === 'service-finance' && (
-            <ServiceFinancePage key="service-finance" onBack={() => { setCurrentPage('home'); window.scrollTo(0, 0); }} />
-          )}
-          {currentPage === 'service-hc' && (
-            <ServiceHCPage key="service-hc" onBack={() => { setCurrentPage('home'); window.scrollTo(0, 0); }} />
-          )}
-          {currentPage === 'careers' && (
-            <CareersPage key="careers" onBack={() => { setCurrentPage('home'); window.scrollTo(0, 0); }} />
-          )}
-          {currentPage === 'blog' && (
-            <BlogPage key="blog" onBack={() => { setCurrentPage('home'); window.scrollTo(0, 0); }} />
-          )}
-          {currentPage === 'contact' && (
-            <ContactPage key="contact" onBack={() => { setCurrentPage('home'); window.scrollTo(0, 0); }} />
-          )}
-        </AnimatePresence>
-        
-        <FloatingActions />
-        <Footer lang={lang} />
-      </div>
-    </LanguageContext.Provider>
+    <div className="min-h-screen flex flex-col bg-white text-neutral-900 selection:bg-neutral-200 font-sans">
+      <Navbar currentPage={currentPage} setCurrentPage={setCurrentPage} />
+      
+      <AnimatePresence mode="wait">
+        {currentPage === 'home' && (
+          <motion.main 
+            key="home"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.4 }}
+            className="flex-1"
+          >
+            <Hero setCurrentPage={setCurrentPage} />
+            <StrategicNav setCurrentPage={setCurrentPage} />
+            <SectorMarquee />
+            <BusinessStats />
+            <CoreValues />
+            <VisionMission />
+            <BusinessUnits setCurrentPage={setCurrentPage} />
+            <InvestorRelations setCurrentPage={setCurrentPage} />
+            <WhyUs />
+            <Testimonials />
+            <LatestInsights setCurrentPage={setCurrentPage} />
+            <BusinessCheckup />
+          </motion.main>
+        )}
+        {currentPage === 'about' && (
+          <div className="flex-1 opacity-0 animate-in fade-in duration-500 fill-mode-forwards">
+            <AboutUs key="about" onBack={() => { setCurrentPage('home'); window.scrollTo(0, 0); }} />
+          </div>
+        )}
+        {currentPage === 'about-vision' && (
+          <VisionMissionPage key="about-vision" onBack={() => { setCurrentPage('home'); window.scrollTo(0, 0); }} />
+        )}
+        {currentPage === 'about-pillars' && (
+          <PilarBisnisPage key="about-pillars" onBack={() => { setCurrentPage('home'); window.scrollTo(0, 0); }} />
+        )}
+        {currentPage === 'about-funding' && (
+          <FundingPortfolioPage key="about-funding" onBack={() => { setCurrentPage('home'); window.scrollTo(0, 0); }} />
+        )}
+        {currentPage === 'service-fundamental' && (
+          <ServiceFundamentalPage key="service-fundamental" onBack={() => { setCurrentPage('home'); window.scrollTo(0, 0); }} />
+        )}
+        {currentPage === 'service-digital' && (
+          <ServiceDigitalPage key="service-digital" onBack={() => { setCurrentPage('home'); window.scrollTo(0, 0); }} />
+        )}
+        {currentPage === 'service-partnerships' && (
+          <ServicePartnershipsPage key="service-partnerships" onBack={() => { setCurrentPage('home'); window.scrollTo(0, 0); }} />
+        )}
+        {currentPage === 'service-finance' && (
+          <ServiceFinancePage key="service-finance" onBack={() => { setCurrentPage('home'); window.scrollTo(0, 0); }} />
+        )}
+        {currentPage === 'service-hc' && (
+          <ServiceHCPage key="service-hc" onBack={() => { setCurrentPage('home'); window.scrollTo(0, 0); }} />
+        )}
+        {currentPage === 'careers' && (
+          <CareersPage key="careers" onBack={() => { setCurrentPage('home'); window.scrollTo(0, 0); }} />
+        )}
+        {currentPage === 'blog' && (
+          <BlogPage key="blog" onBack={() => { setCurrentPage('home'); window.scrollTo(0, 0); }} />
+        )}
+        {currentPage === 'contact' && (
+          <ContactPage key="contact" onBack={() => { setCurrentPage('home'); window.scrollTo(0, 0); }} />
+        )}
+      </AnimatePresence>
+      
+      <FloatingActions />
+      <Footer />
+    </div>
   );
 }

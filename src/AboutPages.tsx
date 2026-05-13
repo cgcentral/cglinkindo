@@ -106,32 +106,32 @@ export const VisionMissionPage: React.FC<PageProps> = ({ onBack }) => {
             CGLINK Indonesia
           </h1>
           <h2 className="text-2xl md:text-3xl text-neutral-500 font-medium mb-8 leading-tight">
-            Membangun Masa Depan Bisnis Anda Bersama CGLINK Indonesia
+            Building Your Business Future with CGLINK Indonesia
           </h2>
           <p className="text-xl text-neutral-400 leading-relaxed max-w-2xl font-medium">
-            Di era transformasi ekonomi yang bergerak cepat, kehadiran mitra strategis bukan lagi sekadar pilihan, melainkan keharusan. CGLINK Indonesia hadir sebagai katalisator pertumbuhan bagi bisnis Anda.
+            In an era of fast-moving economic transformation, the presence of a strategic partner is no longer just an option, but a necessity. CGLINK Indonesia is here as a catalyst for your business growth.
           </p>
         </motion.div>
 
-        {/* Siapa Kami & Mengapa Memilih Section */}
+        {/* Who We Are & Why Choose Section */}
         <div className="grid md:grid-cols-2 gap-12 mb-32">
           <motion.section variants={itemVariants} className="bg-neutral-50 p-10 rounded-3xl border border-neutral-100">
             <h3 className="text-2xl font-display font-bold text-neutral-900 mb-6 flex items-center gap-3">
               <Building2 className="w-6 h-6 text-neutral-900" />
-              Siapa Kami?
+              Who Are We?
             </h3>
             <p className="text-neutral-500 leading-relaxed font-medium">
-              Didirikan pada tahun 2025 dan berbasis di jantung bisnis Jakarta Selatan, CGLINK Indonesia adalah firma konsultasi bisnis yang lahir dari semangat kolaborasi dan inovasi. Kami memahami bahwa setiap bisnis memiliki tantangan unik; itulah mengapa kami tidak hanya memberikan saran, tetapi memberikan solusi yang terukur dan berkelanjutan.
+              Founded in 2025 and based in the business heart of South Jakarta, CGLINK Indonesia is a business consulting firm born from a spirit of collaboration and innovation. We understand that every business has unique challenges; that's why we don't just provide advice, but provide measurable and sustainable solutions.
             </p>
           </motion.section>
 
           <motion.section variants={itemVariants} className="bg-neutral-50 p-10 rounded-3xl border border-neutral-100">
             <h3 className="text-2xl font-display font-bold text-neutral-900 mb-6 flex items-center gap-3">
               <ShieldCheck className="w-6 h-6 text-neutral-900" />
-              Mengapa Memilih CGLINK?
+              Why Choose CGLINK?
             </h3>
             <p className="text-neutral-500 leading-relaxed font-medium">
-              Kami percaya pada Profesionalitas Tanpa Kompromi. Tim kami terdiri dari para ahli yang berdedikasi tinggi untuk membantu klien menavigasi kompleksitas dunia usaha. Dengan filosofi kerja yang transparan dan berorientasi pada hasil, kami memastikan setiap langkah yang kita ambil bersama membawa Anda lebih dekat ke puncak kesuksesan.
+              We believe in Uncompromising Professionalism. Our team consists of highly dedicated experts helping clients navigate the complexities of the business world. With a transparent and results-oriented work philosophy, we ensure every step we take together brings you closer to the peak of success.
             </p>
           </motion.section>
         </div>
@@ -144,10 +144,10 @@ export const VisionMissionPage: React.FC<PageProps> = ({ onBack }) => {
             className="relative group overflow-hidden rounded-3xl bg-white text-black p-12 md:p-16 flex flex-col justify-between"
           >
             <div className="relative z-10">
-              <h2 className="text-7xl md:text-9xl font-display font-bold mb-8 opacity-10 absolute -top-10 -left-6">Visi</h2>
-              <h2 className="text-5xl font-display font-bold mb-12 relative">Visi</h2>
+              <h2 className="text-7xl md:text-9xl font-display font-bold mb-8 opacity-10 absolute -top-10 -left-6 uppercase">Vision</h2>
+              <h2 className="text-5xl font-display font-bold mb-12 relative uppercase">Vision</h2>
               <p className="text-2xl md:text-3xl font-medium leading-tight mb-12">
-                "Menjadi mitra kolaborasi bisnis yang berlandaskan prinsip legal, logis, dan halal melalui produk, jasa, serta pengembangan bisnis profesional untuk menciptakan pertumbuhan dan manfaat berkelanjutan bagi seluruh pihak."
+                "To be a strategic business collaboration partner based on legal, logical, and halal principles through products, services, and professional business development to create sustainable growth and benefits for all parties."
               </p>
               <div className="h-px w-24 bg-black/20 mb-12"></div>
             </div>
@@ -164,14 +164,14 @@ export const VisionMissionPage: React.FC<PageProps> = ({ onBack }) => {
             variants={itemVariants}
             className="bg-neutral-50 rounded-3xl p-12 md:p-16 border border-neutral-100"
           >
-            <h2 className="text-5xl font-display font-bold mb-12 text-neutral-900 uppercase tracking-tighter">Misi</h2>
+            <h2 className="text-5xl font-display font-bold mb-12 text-neutral-900 uppercase tracking-tighter">Mission</h2>
             <div className="space-y-8">
               {[
-                "Menyelenggarakan produk dan jasa bisnis yang legal, logis, dan halal.",
-                "Menjadi mitra kolaborasi bisnis yang profesional dan saling menguntungkan.",
-                "Memberikan layanan konsultasi dan solusi bisnis yang bernilai tambah.",
-                "Mengembangkan bisnis dan peluang usaha baru secara profesional dan berkelanjutan.",
-                "Menciptakan pertumbuhan dan manfaat yang berkelanjutan bagi seluruh pihak."
+                "Organize legal, logical, and halal business products and services.",
+                "Become a professional and mutually beneficial business collaboration partner.",
+                "Provide value-added consulting services and business solutions.",
+                "Develop new businesses and business opportunities professionally and sustainably.",
+                "Create sustainable growth and benefits for all parties."
               ].map((misi, idx) => (
                 <div key={idx} className="flex gap-6 items-start group">
                   <div className="w-10 h-10 rounded-full border border-neutral-200 flex items-center justify-center shrink-0 font-mono text-sm group-hover:bg-neutral-900 group-hover:text-white transition-colors text-neutral-400">
@@ -189,7 +189,7 @@ export const VisionMissionPage: React.FC<PageProps> = ({ onBack }) => {
         {/* Nilai-Nilai Section */}
         <motion.div variants={itemVariants} className="mb-32">
           <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-4">
-            <h2 className="text-5xl md:text-7xl font-display font-black tracking-tighter text-neutral-900">NILAI-NILAI</h2>
+            <h2 className="text-5xl md:text-7xl font-display font-black tracking-tighter text-neutral-900 uppercase">VALUES</h2>
             <div className="text-right">
               <p className="text-neutral-900 font-display font-bold text-2xl mb-2">GRACE</p>
               <p className="text-neutral-400 max-w-xs font-bold uppercase tracking-widest text-xs">Grow • Share • Contribute</p>
@@ -201,17 +201,17 @@ export const VisionMissionPage: React.FC<PageProps> = ({ onBack }) => {
               { 
                 title: "Grow", 
                 icon: <TrendingUp className="w-6 h-6" />, 
-                desc: "Meningkatkan kapabilitas melalui pengetahuan, sikap, dan mentalitas berlandaskan kepercayaan dan profesionalisme." 
+                desc: "Increasing capabilities through knowledge, attitude, and mentality based on trust and professionalism." 
               },
               { 
                 title: "Share", 
                 icon: <Users className="w-6 h-6" />, 
-                desc: "Berbagi cerita, pengalaman, dan solusi dengan klien, mitra dan masyarakat secara adil, transparan, dan bertanggung jawab." 
+                desc: "Sharing stories, experiences, and solutions with clients, partners, and the community fairly, transparently, and responsibly." 
               },
               { 
                 title: "Contribute", 
                 icon: <Heart className="w-6 h-6" />, 
-                desc: "Menciptakan dampak positif bagi klien, ekonomi, dan masyarakat melalui kegiatan yang berkelanjutan" 
+                desc: "Creating a positive impact for clients, the economy, and the community through sustainable activities." 
               }
             ].map((item, idx) => (
               <div key={idx} className="bg-neutral-50 p-10 rounded-3xl border border-neutral-100 hover:bg-white hover:shadow-xl transition-all group">
@@ -230,14 +230,14 @@ export const VisionMissionPage: React.FC<PageProps> = ({ onBack }) => {
           <div className="bg-neutral-50 rounded-[3rem] p-12 md:p-20 border border-neutral-100 relative overflow-hidden">
             <div className="absolute top-0 right-0 w-64 h-64 bg-neutral-900/5 blur-[100px] rounded-full -mr-32 -mt-32"></div>
             
-            <h2 className="text-4xl md:text-6xl font-display font-black mb-20 text-center text-neutral-900 uppercase tracking-tighter">Mengapa CGLINK Consulting?</h2>
+            <h2 className="text-4xl md:text-6xl font-display font-black mb-20 text-center text-neutral-900 uppercase tracking-tighter">Why CGLINK Consulting?</h2>
             
             <div className="grid md:grid-cols-2 gap-16">
               {[
-                { num: "01", title: "Data Driven Strategy", desc: "Setiap rekomendasi kami dilandasi oleh riset mendalam dan analisis data nyata — bukan asumsi." },
-                { num: "02", title: "Konsultan Berpengalaman", desc: "Lebih dari 10 tahun pengalaman langsung di ekosistem bisnis Indonesia." },
-                { num: "03", title: "Pendekatan Personal", desc: "Setiap solusi disesuaikan dengan kondisi unik bisnis Anda." },
-                { num: "04", title: "Berbasis Nilai", desc: "Filosofi bisnis yang mengintegrasikan integritas, amanah, dan dampak sosial yang nyata." }
+                { num: "01", title: "Data Driven Strategy", desc: "Every recommendation we provide is based on in-depth research and real data analysis — not assumptions." },
+                { num: "02", title: "Experienced Consultants", desc: "Over 10 years of direct experience in the Indonesian business ecosystem." },
+                { num: "03", title: "Personal Approach", desc: "Every solution is tailormade to your unique business conditions." },
+                { num: "04", title: "Value Based", desc: "A business philosophy that integrates integrity, trust, and real social impact." }
               ].map((item, idx) => (
                 <div key={idx} className="flex gap-8 group">
                   <span className="text-5xl font-display font-black text-neutral-200 group-hover:text-neutral-900 transition-colors">
@@ -255,14 +255,14 @@ export const VisionMissionPage: React.FC<PageProps> = ({ onBack }) => {
 
         {/* Kami Hadir untuk Anda Section */}
         <motion.div variants={itemVariants} className="mb-32">
-          <h2 className="text-4xl md:text-6xl font-display font-black mb-20 text-center text-neutral-900 uppercase tracking-tighter">Kami Hadir untuk Anda</h2>
+          <h2 className="text-4xl md:text-6xl font-display font-black mb-20 text-center text-neutral-900 uppercase tracking-tighter">We Are Here For You</h2>
           
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {[
-              { title: "Korporasi", desc: "Insight pasar dan advisory strategis untuk keputusan bisnis yang lebih cerdas dan terukur." },
-              { title: "Investor", desc: "Jembatan antara modal Anda dan peluang bisnis yang terverifikasi serta berpotensi tinggi." },
-              { title: "Startup", desc: "Dari validasi model bisnis hingga ekspansi regional — kami ada di setiap langkah perjalanan Anda." },
-              { title: "UMKM", desc: "Naik ke level berikutnya dengan strategi tepat dan dukungan penuh dari tim profesional kami." }
+              { title: "Corporates", desc: "Market insights and strategic advisory for smarter and more measurable business decisions." },
+              { title: "Investors", desc: "A bridge between your capital and verified, high-potential business opportunities." },
+              { title: "Startups", desc: "From business model validation to regional expansion — we are with you every step of the way." },
+              { title: "SMEs", desc: "Rise to the next level with the right strategy and full support from our professional team." }
             ].map((item, idx) => (
               <div key={idx} className="group relative">
                 <div className="absolute inset-0 bg-gradient-to-b from-neutral-200/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity rounded-3xl"></div>
@@ -321,34 +321,33 @@ export const PilarBisnisPage: React.FC<PageProps> = ({ onBack }) => {
           <ArrowLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform" /> 
           Back to Home
         </motion.button>
-
         <motion.div variants={itemVariants} className="w-full mb-24">
           <h1 className="text-5xl md:text-8xl font-display font-black mb-6 tracking-tighter text-neutral-900">
-            PILAR BISNIS
+            BUSINESS PILLARS
           </h1>
           <p className="text-xl text-neutral-500 leading-relaxed max-w-2xl font-medium">
-            Struktur layanan kami dirancang untuk memberikan dukungan komprehensif bagi pertumbuhan bisnis Anda melalui kemitraan strategis dan konsultasi ahli.
+            Our service structure is designed to provide comprehensive support for your business growth through strategic partnerships and expert consulting.
           </p>
         </motion.div>
 
         <motion.div variants={itemVariants} className="mb-32">
-          <h2 className="text-3xl md:text-5xl font-display font-black mb-16 border-l-4 border-neutral-900 pl-6 text-neutral-900 uppercase tracking-tighter">Layanan Utama</h2>
+          <h2 className="text-3xl md:text-5xl font-display font-black mb-16 border-l-4 border-neutral-900 pl-6 text-neutral-900 uppercase tracking-tighter">Core Services</h2>
           <div className="grid md:grid-cols-3 gap-8">
             {[
               { 
                 title: "Funding Partnership", 
                 icon: <Handshake className="w-8 h-8" />, 
-                desc: "Pendanaan syariah berbasis syirkah, transparan dan berkeadilan, untuk mendukung pertumbuhan usaha." 
+                desc: "Syirkah-based Sharia funding, transparent and equitable, to support business growth." 
               },
               { 
                 title: "Business Consulting", 
                 icon: <Briefcase className="w-8 h-8" />, 
-                desc: "Konsultan bisnis yang membantu perusahaan menata pondasi usaha, mengelola keuangan & SDM, serta mengembangkan strategi digital untuk pertumbuhan berkelanjutan." 
+                desc: "Business consultants helping companies set up business foundations, manage finance & HR, and develop digital strategies for sustainable growth." 
               },
               { 
                 title: "Funding Acquisition", 
                 icon: <TrendingUp className="w-8 h-8" />, 
-                desc: "Pendanaan syariah untuk mengembangkan usaha baru maupun masuk ke bisnis yang sudah berjalan, dengan strategi ekspansi yang terukur." 
+                desc: "Sharia funding to develop new businesses or enter existing businesses, with measured expansion strategies." 
               }
             ].map((item, idx) => (
               <div key={idx} className="bg-neutral-50 p-10 rounded-[2.5rem] border border-neutral-100 hover:bg-white hover:shadow-xl transition-all group relative overflow-hidden">
@@ -364,7 +363,7 @@ export const PilarBisnisPage: React.FC<PageProps> = ({ onBack }) => {
 
         {/* Pilar Bisnis Section */}
         <motion.div variants={itemVariants} className="mb-32">
-          <h2 className="text-3xl md:text-5xl font-display font-black mb-16 border-l-4 border-neutral-900 pl-6 text-neutral-900 uppercase tracking-tighter">Pilar Bisnis</h2>
+          <h2 className="text-3xl md:text-5xl font-display font-black mb-16 border-l-4 border-neutral-900 pl-6 text-neutral-900 uppercase tracking-tighter">Business Pillars</h2>
           <div className="space-y-12">
             {/* BTW Mister Catur */}
             <div className="bg-neutral-50 p-8 md:p-12 rounded-[3.5rem] border border-neutral-100 relative overflow-hidden group">
@@ -372,14 +371,14 @@ export const PilarBisnisPage: React.FC<PageProps> = ({ onBack }) => {
                 <div>
                   <h3 className="text-3xl md:text-4xl font-display font-bold mb-6 text-neutral-900">BTW Mister Catur</h3>
                   <p className="text-neutral-600 text-lg leading-relaxed mb-8 font-medium">
-                    Kanal media digital yang fokus pada konten bisnis, motivasi, dan nilai kehidupan. Melalui platform ini, kami tidak hanya membagikan insight praktis, tetapi juga membuka peluang kolaborasi dan sponsorship.
+                    A digital media channel focusing on business content, motivation, and life values. Through this platform, we not only share practical insights but also open up opportunities for collaboration and sponsorship.
                   </p>
                   <ul className="grid sm:grid-cols-2 gap-4 mb-10 text-left">
                     {[
-                      "Fokus pada bisnis, motivasi, dan nilai Islami.",
-                      "Jangkauan audiens luas melalui YouTube & media sosial.",
-                      "Sudah tampil di beberapa podcast & media coverage",
-                      "Terbuka untuk kolaborasi & sponsorship."
+                      "Focus on business, motivation, and Islamic values.",
+                      "Wide audience reach through YouTube & social media.",
+                      "Has appeared in several podcasts & media coverage",
+                      "Open for collaboration & sponsorship."
                     ].map((bullet, i) => (
                       <li key={i} className="flex gap-3 items-start text-neutral-500">
                         <CheckCircle2 className="w-5 h-5 text-neutral-900 shrink-0 mt-0.5" />
@@ -413,7 +412,7 @@ export const PilarBisnisPage: React.FC<PageProps> = ({ onBack }) => {
               <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-8 mb-8">
                 <div>
                   <h3 className="text-3xl font-display font-bold mb-2 text-neutral-900">CG Tour & Travel</h3>
-                  <p className="text-neutral-900 font-bold uppercase tracking-widest text-xs">Layanan Perjalanan Umroh Amanah</p>
+                  <p className="text-neutral-900 font-bold uppercase tracking-widest text-xs">Amanah Umrah Travel Services</p>
                 </div>
                 <a 
                   href="https://cgtourtravel.com" 
@@ -425,14 +424,14 @@ export const PilarBisnisPage: React.FC<PageProps> = ({ onBack }) => {
                 </a>
               </div>
               <p className="text-neutral-500 text-lg leading-relaxed mb-8 max-w-3xl font-medium">
-                Layanan perjalanan umroh yang amanah, nyaman, dan terpercaya. Kami mendampingi jamaah dengan manajemen perjalanan profesional serta dukungan mitra resmi untuk memastikan ibadah berjalan lancar.
+                Trustworthy, comfortable, and reliable Umrah travel services. We accompany pilgrims with professional travel management and support from official partners to ensure smooth worship.
               </p>
               <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
                 {[
-                  "Amanah & sesuai syariah.",
-                  "Fasilitas perjalanan modern.",
-                  "Pendampingan jamaah profesional.",
-                  "Jaringan mitra resmi & terpercaya."
+                  "Trustworthy & Sharia compliant.",
+                  "Modern travel facilities.",
+                  "Professional pilgrim assistance.",
+                  "Reliable network of official partners."
                 ].map((bullet, i) => (
                   <div key={i} className="p-6 rounded-2xl bg-white border border-neutral-100 shadow-sm hover:shadow-md transition-all">
                     <p className="text-neutral-600 font-bold text-sm tracking-tight">{bullet}</p>
@@ -444,16 +443,16 @@ export const PilarBisnisPage: React.FC<PageProps> = ({ onBack }) => {
             <div className="grid md:grid-cols-2 gap-12 text-left">
               {/* Program Affiliate */}
               <div className="bg-neutral-900 text-white p-12 rounded-[3.5rem] shadow-2xl">
-                <h3 className="text-2xl font-display font-black mb-6 uppercase tracking-tight">Program Affiliate</h3>
+                <h3 className="text-2xl font-display font-black mb-6 uppercase tracking-tight">Affiliate Program</h3>
                 <p className="text-neutral-400 leading-relaxed mb-8 font-medium">
-                  CGLINK membuka peluang bagi mitra untuk memperluas distribusi produk melalui program affiliate. Dengan sistem yang terstruktur, kami membantu partner mencapai pasar yang lebih luas.
+                  CGLINK opens opportunities for partners to expand product distribution through an affiliate program. With a structured system, we help partners reach a wider market.
                 </p>
                 <ul className="space-y-4">
                   {[
-                    "Mudah bergabung & transparan.",
-                    "Dukungan sistem penjualan digital.",
-                    "Jaringan distribusi luas.",
-                    "Potensi income tambahan."
+                    "Easy to join & transparent.",
+                    "Digital sales system support.",
+                    "Wide distribution network.",
+                    "Potential additional income."
                   ].map((bullet, i) => (
                     <li key={i} className="flex gap-3 items-center text-neutral-300">
                       <div className="w-1.5 h-1.5 rounded-full bg-neutral-400"></div>
@@ -465,16 +464,16 @@ export const PilarBisnisPage: React.FC<PageProps> = ({ onBack }) => {
 
               {/* Yayasan Amal Soleh */}
               <div className="bg-neutral-50 p-12 rounded-[3.5rem] border border-neutral-100">
-                <h3 className="text-2xl font-display font-black mb-6 uppercase tracking-tight text-neutral-900">Yayasan Amal Soleh</h3>
+                <h3 className="text-2xl font-display font-black mb-6 uppercase tracking-tight text-neutral-900">Amal Soleh Foundation</h3>
                 <p className="text-neutral-500 leading-relaxed mb-8 font-medium">
-                  CGLINK berkomitmen untuk tidak hanya membangun bisnis, tetapi juga memberikan kontribusi nyata bagi masyarakat melalui Yayasan Amal Soleh CGLINK (YASCI).
+                  CGLINK is committed to not only building businesses but also making a real contribution to society through the CGLINK Amal Soleh Foundation (YASCI).
                 </p>
                 <ul className="space-y-4">
                   {[
-                    "Program pendidikan & literasi.",
-                    "Dukungan sosial & kemanusiaan.",
-                    "Pemberdayaan ekonomi masyarakat.",
-                    "Kolaborasi dengan mitra sosial."
+                    "Education & literacy programs.",
+                    "Social & humanitarian support.",
+                    "Community economic empowerment.",
+                    "Collaboration with social partners."
                   ].map((bullet, i) => (
                     <li key={i} className="flex gap-3 items-center text-neutral-600">
                       <div className="w-1.5 h-1.5 rounded-full bg-neutral-900"></div>
@@ -544,7 +543,7 @@ export const FundingPortfolioPage: React.FC<PageProps> = ({ onBack }) => {
             PARTNERSHIP & ACQUISITION
           </h2>
           <p className="text-xl text-neutral-500 leading-relaxed max-w-3xl font-medium">
-            Pendanaan strategis dilakukan melalui serangkaian proses penilaian dan verifikasi untuk memastikan bahwa investasi yang dilakukan benar-benar mempertimbangkan berbagai aspek dan berdampak positif bagi penerima.
+            Strategic funding is carried out through a series of assessment and verification processes to ensure that investments made truly consider various aspects and have a positive impact on recipients.
           </p>
         </motion.div>
 
@@ -553,7 +552,7 @@ export const FundingPortfolioPage: React.FC<PageProps> = ({ onBack }) => {
             <div className="text-left">
               <h2 className="text-4xl md:text-7xl font-display font-black tracking-tighter mb-4 text-neutral-900">PORTFOLIO SECTOR</h2>
               <p className="text-lg text-neutral-500 max-w-xl font-medium">
-                Sektor-sektor berikut dipilih berdasarkan potensi pasar, kelayakan syariah, and kesiapan ekspansi bisnis di Indonesia.
+                The following sectors are selected based on market potential, Sharia compliance, and business expansion readiness in Indonesia.
               </p>
             </div>
           </div>
@@ -573,7 +572,7 @@ export const FundingPortfolioPage: React.FC<PageProps> = ({ onBack }) => {
         <motion.div variants={itemVariants} className="bg-neutral-900 p-12 md:p-20 rounded-[4rem] text-center mb-32 shadow-2xl relative overflow-hidden">
           <div className="absolute inset-0 bg-gradient-to-br from-neutral-900/10 to-transparent"></div>
           <p className="text-2xl md:text-4xl text-white leading-tight max-w-4xl mx-auto font-display font-bold relative z-10">
-            "Kami saat ini secara aktif memperluas sektor portofolio investasi and membuka peluang pendanaan bagi mitra potensial."
+            "We are currently actively expanding our investment portfolio sectors and opening up funding opportunities for potential partners."
           </p>
         </motion.div>
 
