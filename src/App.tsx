@@ -186,7 +186,6 @@ const Navbar = ({ currentPage, setCurrentPage }: { currentPage: PageType, setCur
           </div>
         </div>
         
-        {/* Desktop Menu */}
         <div className={`hidden lg:flex items-center gap-12 text-[10px] font-bold uppercase tracking-[0.2em] h-full transition-colors duration-500 ${scrolled ? 'text-neutral-500' : (currentPage === 'home' ? 'text-white/40' : 'text-neutral-500')}`}>
           <div 
             className={`relative h-full flex items-center gap-2 cursor-pointer transition-colors group ${scrolled ? 'hover:text-black' : (currentPage === 'home' ? 'hover:text-white' : 'hover:text-black')}`}
@@ -1659,7 +1658,6 @@ export default function App() {
               className="flex-1"
             >
               <Hero setCurrentPage={setCurrentPage} />
-              <StrategicNav setCurrentPage={setCurrentPage} />
               <SectorMarquee />
               <BusinessStats />
               <CoreValues />
