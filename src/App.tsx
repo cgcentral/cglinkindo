@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, createContext, useContext } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import {
   ArrowRight,
@@ -27,7 +27,9 @@ import {
   Instagram,
   MoreVertical,
   X,
-  ChevronDown
+  ChevronDown,
+  Languages,
+  ArrowUp
 } from "lucide-react";
 import { 
   ServiceFundamentalPage, 
@@ -40,6 +42,81 @@ import { CareersPage, BlogPage } from "./AdditionalPages";
 import { VisionMissionPage, PilarBisnisPage, FundingPortfolioPage } from "./AboutPages";
 
 export type PageType = 'home' | 'about' | 'contact' | 'service-fundamental' | 'service-digital' | 'service-partnerships' | 'service-finance' | 'service-hc' | 'careers' | 'blog' | 'about-vision' | 'about-pillars' | 'about-funding';
+
+export type Language = 'ID' | 'EN';
+
+interface LanguageContextType {
+  lang: Language;
+  setLang: (lang: Language) => void;
+}
+
+export const LanguageContext = createContext<LanguageContextType>({
+  lang: 'ID',
+  setLang: () => {},
+});
+
+const translations = {
+  ID: {
+    nav: {
+      capabilities: "Business Units",
+      about: "Tentang Kami",
+      investor: "Investor Relations",
+      contact: "Kontak",
+      legal: "Legal • Logis • Halal"
+    },
+    hero: {
+      tag: "Melampaui Pertumbuhan Bisnis",
+      desc: "Membangun masa depan bisnis melalui kolaborasi strategis yang berlandaskan prinsip Legal, Logis, & Halal.",
+      cta1: "Eksplor Unit",
+      cta2: "Tentang CGLINK"
+    },
+    strategicNav: {
+      about: "Tentang CGLINK",
+      aboutDesc: "Mengenal lebih dekat visi, misi, dan filosofi kami dalam membangun ekosistem bisnis yang legal, logis, dan halal.",
+      units: "Business Unit",
+      unitsDesc: "Menjelajahi unit bisnis strategis kami yang terintegrasi untuk memberikan solusi operasional, finansial, dan digital.",
+      investor: "Investor Relation",
+      investorDesc: "Informasi dan peluang kolaborasi strategis bagi mitra yang ingin bertumbuh bersama dalam ekosistem CGLINK.",
+      learnMore: "Selengkapnya"
+    },
+    stats: {
+      pillars: "Pilar Bisnis",
+      sectors: "Sektor Portofolio",
+      network: "Jaringan Aktif",
+      excellence: "Tingkat Keunggulan"
+    }
+  },
+  EN: {
+    nav: {
+      capabilities: "Business Units",
+      about: "About Us",
+      investor: "Investor Relations",
+      contact: "Contact",
+      legal: "Legal • Logical • Halal"
+    },
+    hero: {
+      tag: "Beyond Business Growth",
+      desc: "Building the future of business through strategic collaboration based on Legal, Logical, & Halal principles.",
+      cta1: "Explore Units",
+      cta2: "About CGLINK"
+    },
+    strategicNav: {
+      about: "About CGLINK",
+      aboutDesc: "Get to know our vision, mission, and philosophy in building a business ecosystem that is legal, logical, and halal.",
+      units: "Business Unit",
+      unitsDesc: "Explore our integrated strategic business units providing operational, financial, and digital solutions.",
+      investor: "Investor Relation",
+      investorDesc: "Information and strategic collaboration opportunities for partners who want to grow together with us.",
+      learnMore: "Learn More"
+    },
+    stats: {
+      pillars: "Business Pillars",
+      sectors: "Portfolio Sectors",
+      network: "Active Network",
+      excellence: "Excellence Rate"
+    }
+  }
+};
 
 const servicesData = [
   {
@@ -70,11 +147,11 @@ const servicesData = [
 ];
 
 const Navbar = ({ currentPage, setCurrentPage }: { currentPage: PageType, setCurrentPage: (p: PageType) => void }) => {
+  const { lang, setLang } = useContext(LanguageContext);
+  const t = translations[lang].nav;
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [isServicesMenuOpen, setIsServicesMenuOpen] = useState(false);
-  const [isAboutMenuOpen, setIsAboutMenuOpen] = useState(false);
-  const [activeService, setActiveService] = useState('fundamental');
   const [scrolled, setScrolled] = useState(false);
+  const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 50);
@@ -82,219 +159,156 @@ const Navbar = ({ currentPage, setCurrentPage }: { currentPage: PageType, setCur
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  return (
-    <nav 
-      className={`fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 md:px-16 h-[88px] transition-all duration-700 ${scrolled ? 'bg-black/95 backdrop-blur-2xl border-b border-white/5 shadow-[0_10px_50px_rgba(0,0,0,0.3)]' : 'bg-transparent'}`}
-      onMouseLeave={() => {
-        setIsServicesMenuOpen(false);
-        setIsAboutMenuOpen(false);
-      }}
-    >
-      <div className={`absolute bottom-0 left-0 h-[1px] bg-gradient-to-r from-transparent via-neutral-400 to-transparent transition-all duration-1000 ${scrolled ? 'w-full opacity-100' : 'w-0 opacity-0'}`} />
-      
-      <div 
-        className="flex items-center gap-3 cursor-pointer group"
-        onClick={() => { setCurrentPage('home'); window.scrollTo(0, 0); setIsMobileMenuOpen(false); }}
-      >
-        <div className={`w-11 h-11 rounded-xl overflow-hidden border transition-all duration-500 flex items-center justify-center ${scrolled ? 'border-white/10 bg-white/5 shadow-2xl' : 'border-neutral-200 bg-white shadow-sm'} group-hover:scale-105 group-hover:border-neutral-900`}>
-          <img 
-            src="https://cglinkindonesia.com/wp-content/uploads/2026/03/WhatsApp-Image-2026-03-26-at-14.55.49.jpeg" 
-            alt="CGLINK Logo" 
-            className="w-full h-full object-cover"
-            referrerPolicy="no-referrer"
-          />
-        </div>
-        <span className={`font-display font-black text-2xl tracking-tighter uppercase transition-colors duration-500 ${scrolled ? 'text-white' : 'text-neutral-900'} group-hover:text-neutral-400 flex items-center gap-2`}>
-          CGLINK <Globe className={`w-4 h-4 ${scrolled ? 'text-white' : 'text-neutral-900'} animate-spin-slow`} />
-        </span>
-      </div>
-      
-      {/* Desktop Menu */}
-      <div className={`hidden md:flex items-center h-full gap-8 text-[11px] font-black uppercase tracking-[0.2em] transition-colors duration-500 ${scrolled ? 'text-neutral-400' : 'text-neutral-500'}`}>
-        <div className="h-full flex items-center relative">
-          <button 
-            onMouseEnter={() => {
-              setIsAboutMenuOpen(true);
-              setIsServicesMenuOpen(false);
-            }}
-            className={`flex items-center gap-1 transition-colors h-full ${scrolled ? 'hover:text-white' : 'hover:text-neutral-900'} ${isAboutMenuOpen || (currentPage.startsWith('about-')) ? (scrolled ? 'text-white' : 'text-neutral-900') : ''}`}
-          >
-            About Us <ChevronDown className={`w-3 h-3 transition-transform ${isAboutMenuOpen ? 'rotate-180' : ''}`} />
-          </button>
+  const toggleLang = () => setLang(lang === 'ID' ? 'EN' : 'ID');
 
-          <AnimatePresence>
-            {isAboutMenuOpen && (
-              <motion.div
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: 10 }}
-                className={`absolute top-full left-0 w-64 border shadow-2xl rounded-b-3xl overflow-hidden ${scrolled ? 'bg-black border-white/5' : 'bg-white border-neutral-100'}`}
-                onMouseLeave={() => setIsAboutMenuOpen(false)}
-              >
-                <div className="flex flex-col py-3">
-                  <button
-                    onClick={() => { setCurrentPage('about-vision'); window.scrollTo(0, 0); setIsAboutMenuOpen(false); }}
-                    className={`text-left px-8 py-4 transition-colors border-b ${scrolled ? 'hover:bg-white/5 text-neutral-400 hover:text-white border-white/5' : 'hover:bg-neutral-50 text-neutral-500 hover:text-neutral-900 border-neutral-50'}`}
-                  >
-                    Visi dan Misi
-                  </button>
-                  <button
-                    onClick={() => { setCurrentPage('about-pillars'); window.scrollTo(0, 0); setIsAboutMenuOpen(false); }}
-                    className={`text-left px-8 py-4 transition-colors ${scrolled ? 'hover:bg-white/5 text-neutral-400 hover:text-white' : 'hover:bg-neutral-50 text-neutral-500 hover:text-neutral-900'}`}
-                  >
-                    Pilar Bisnis
-                  </button>
-                </div>
-              </motion.div>
-            )}
-          </AnimatePresence>
+  return (
+    <nav className={`fixed top-0 left-0 right-0 z-50 px-6 md:px-16 transition-all duration-700 ${scrolled ? 'h-20 bg-white shadow-sm border-b border-neutral-100' : 'h-28 bg-transparent'}`}>
+      <div className="max-w-7xl mx-auto h-full flex items-center justify-between">
+        <div 
+          className="flex items-center gap-4 cursor-pointer group"
+          onClick={() => { setCurrentPage('home'); window.scrollTo(0, 0); setIsMobileMenuOpen(false); }}
+        >
+          <div className="w-12 h-12 rounded-2xl overflow-hidden border border-neutral-100 flex items-center justify-center bg-white shadow-sm transition-transform duration-500 group-hover:scale-110">
+            <img 
+              src="https://cglinkindonesia.com/wp-content/uploads/2026/03/WhatsApp-Image-2026-03-26-at-14.55.49.jpeg" 
+              alt="CGLINK Logo" 
+              className="w-full h-full object-cover"
+              referrerPolicy="no-referrer"
+            />
+          </div>
+          <div className="flex flex-col">
+            <span className={`font-heading font-black text-2xl tracking-tighter leading-none transition-colors duration-500 ${scrolled ? 'text-neutral-900' : (currentPage === 'home' ? 'text-white' : 'text-neutral-900')}`}>
+              CGLINK
+            </span>
+            <span className={`text-[8px] font-bold uppercase tracking-[0.3em] transition-colors duration-500 ${scrolled ? 'text-neutral-400' : (currentPage === 'home' ? 'text-white/40' : 'text-neutral-400')}`}>
+              Beyond Business
+            </span>
+          </div>
         </div>
         
-        <div className="h-full flex items-center relative">
-          <button 
-            onMouseEnter={() => {
-              setIsServicesMenuOpen(true);
-              setIsAboutMenuOpen(false);
-            }}
-            className={`flex items-center gap-1 transition-colors h-full ${scrolled ? 'hover:text-white' : 'hover:text-neutral-900'} ${isServicesMenuOpen || (currentPage.startsWith('service-')) ? (scrolled ? 'text-white' : 'text-neutral-900') : ''}`}
+        {/* Desktop Menu */}
+        <div className={`hidden lg:flex items-center gap-12 text-[10px] font-bold uppercase tracking-[0.2em] h-full transition-colors duration-500 ${scrolled ? 'text-neutral-500' : (currentPage === 'home' ? 'text-white/40' : 'text-neutral-500')}`}>
+          <div 
+            className={`relative h-full flex items-center gap-2 cursor-pointer transition-colors group ${scrolled ? 'hover:text-black' : (currentPage === 'home' ? 'hover:text-white' : 'hover:text-black')}`}
+            onMouseEnter={() => setActiveDropdown('capabilities')}
+            onMouseLeave={() => setActiveDropdown(null)}
           >
-            Capabilities <ChevronDown className={`w-3 h-3 transition-transform ${isServicesMenuOpen ? 'rotate-180' : ''}`} />
-          </button>
+            {t.capabilities} <ChevronDown className={`w-3 h-3 transition-transform ${activeDropdown === 'capabilities' ? 'rotate-180' : ''}`} />
+            <AnimatePresence>
+              {activeDropdown === 'capabilities' && (
+                <motion.div 
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: 10 }}
+                  className="absolute top-full left-0 w-64 bg-white shadow-2xl rounded-2xl border border-neutral-100 p-6 overflow-hidden"
+                >
+                  <div className="flex flex-col gap-4">
+                    {servicesData.map(s => (
+                      <button 
+                        key={s.id}
+                        onClick={() => { setCurrentPage(('service-' + s.id) as PageType); window.scrollTo(0, 0); }}
+                        className="text-left text-neutral-500 hover:text-black transition-colors"
+                      >
+                        {s.title}
+                      </button>
+                    ))}
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+
+          <div 
+            className={`relative h-full flex items-center gap-2 cursor-pointer transition-colors group ${scrolled ? 'hover:text-black' : (currentPage === 'home' ? 'hover:text-white' : 'hover:text-black')}`}
+            onMouseEnter={() => setActiveDropdown('about')}
+            onMouseLeave={() => setActiveDropdown(null)}
+          >
+            {t.about} <ChevronDown className={`w-3 h-3 transition-transform ${activeDropdown === 'about' ? 'rotate-180' : ''}`} />
+            <AnimatePresence>
+              {activeDropdown === 'about' && (
+                <motion.div 
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: 10 }}
+                  className="absolute top-full left-0 w-64 bg-white shadow-2xl rounded-2xl border border-neutral-100 p-6 overflow-hidden"
+                >
+                  <div className="flex flex-col gap-4">
+                    <button onClick={() => setCurrentPage('about')} className="text-left text-neutral-500 hover:text-black transition-colors">Who We Are</button>
+                    <button onClick={() => setCurrentPage('about-vision')} className="text-left text-neutral-500 hover:text-black transition-colors">Vision & Mission</button>
+                    <button onClick={() => setCurrentPage('about-pillars')} className="text-left text-neutral-500 hover:text-black transition-colors">Business Pillars</button>
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+
+          <button onClick={() => setCurrentPage('about-funding')} className={`transition-colors ${scrolled ? 'hover:text-black' : (currentPage === 'home' ? 'hover:text-white' : 'hover:text-black')}`}>{t.investor}</button>
+          
+          {/* Language Switcher & Contact Button */}
+          <div className="flex items-center gap-4">
+            <button 
+              onClick={toggleLang}
+              className={`flex items-center gap-2 px-3 py-1.5 rounded-full border transition-all ${scrolled ? 'border-neutral-200 text-neutral-500 hover:border-black hover:text-black' : (currentPage === 'home' ? 'border-white/20 text-white/60 hover:border-white hover:text-white' : 'border-neutral-200 text-neutral-500 hover:border-black hover:text-black')}`}
+            >
+              <Languages className="w-4 h-4" />
+              <span className="text-[10px] font-black">{lang}</span>
+            </button>
+
+            <button 
+              onClick={() => { setCurrentPage('contact'); window.scrollTo(0, 0); }}
+              className={`px-10 py-3.5 rounded-2xl transition-all hover:scale-105 shadow-xl active:scale-95 text-[10px] font-black uppercase tracking-widest ${scrolled ? 'bg-neutral-900 text-white hover:bg-black shadow-neutral-200' : (currentPage === 'home' ? 'bg-white text-black hover:bg-neutral-200 shadow-white/5' : 'bg-neutral-900 text-white hover:bg-black shadow-neutral-200')}`}
+            >
+              {t.contact}
+            </button>
+          </div>
         </div>
 
-        <button 
-          onClick={() => { setCurrentPage('about-funding'); window.scrollTo(0, 0); }}
-          className={`${currentPage === 'about-funding' ? (scrolled ? 'text-white' : 'text-neutral-900') : ''} ${scrolled ? 'hover:text-white' : 'hover:text-neutral-900'} transition-colors h-full flex items-center`}
-        >
-          Portfolio
-        </button>
-
-        <button 
-          onClick={() => { setCurrentPage('careers'); window.scrollTo(0, 0); }}
-          className={`${currentPage === 'careers' ? (scrolled ? 'text-white' : 'text-neutral-900') : ''} ${scrolled ? 'hover:text-white' : 'hover:text-neutral-900'} transition-colors h-full flex items-center`}
-        >
-          Careers
-        </button>
+        {/* Mobile Toggle */}
+        <div className="flex items-center gap-4 lg:hidden">
+          <button 
+            onClick={toggleLang}
+            className={`p-2.5 rounded-xl border transition-colors ${scrolled ? 'bg-neutral-50 border-neutral-100 text-neutral-900' : (currentPage === 'home' ? 'bg-white/10 border-white/20 text-white backdrop-blur-md' : 'bg-neutral-50 border-neutral-100 text-neutral-900')}`}
+          >
+            <span className="text-[10px] font-black">{lang}</span>
+          </button>
+          <button 
+            className={`p-3 rounded-2xl border transition-colors ${scrolled ? 'bg-neutral-50 border-neutral-100 text-neutral-900' : (currentPage === 'home' ? 'bg-white/10 border-white/20 text-white backdrop-blur-md' : 'bg-neutral-50 border-neutral-100 text-neutral-900')}`}
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          >
+            {isMobileMenuOpen ? <X /> : <MoreVertical />}
+          </button>
+        </div>
       </div>
 
-      <button 
-        onClick={() => { setCurrentPage('contact'); window.scrollTo(0, 0); }}
-        className={`hidden md:block px-8 py-3 rounded-full text-[10px] font-black uppercase tracking-widest transition-all hover:scale-105 active:scale-95 ${scrolled ? 'bg-white text-black hover:bg-neutral-200 shadow-[0_0_20px_rgba(255,255,255,0.2)]' : 'bg-neutral-900 text-white hover:bg-black/80'}`}
-      >
-        Work with us
-      </button>
-
-      {/* Mega Menu Dropdown */}
-      <AnimatePresence>
-        {isServicesMenuOpen && (
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: 10 }}
-            transition={{ duration: 0.3, ease: [0.23, 1, 0.32, 1] }}
-            className={`absolute top-full left-0 w-full border-b shadow-2xl cursor-default pb-20 ${scrolled ? 'bg-black border-white/5' : 'bg-white border-neutral-100'}`}
-            onMouseEnter={() => setIsServicesMenuOpen(true)}
-            onMouseLeave={() => setIsServicesMenuOpen(false)}
-          >
-            <div className="w-full px-6 md:px-16 pt-16 flex gap-24">
-              <div className="w-4/12">
-                <div className="mb-12">
-                  <h3 className={`text-4xl font-display font-black uppercase tracking-tighter mb-4 ${scrolled ? 'text-white' : 'text-neutral-900'}`}>CAPABILITIES</h3>
-                  <p className={`font-medium max-w-xs ${scrolled ? 'text-neutral-400' : 'text-neutral-500'}`}>Solusi strategis untuk transformasi bisnis Anda di era digital.</p>
-                </div>
-                <div className={`flex flex-col gap-1 border-l ${scrolled ? 'border-white/5' : 'border-neutral-100'}`}>
-                  {servicesData.map(s => (
-                    <button
-                      key={s.id}
-                      onMouseEnter={() => setActiveService(s.id)}
-                      onClick={() => { 
-                        setCurrentPage(('service-' + s.id) as PageType); 
-                        window.scrollTo(0, 0);
-                        setIsServicesMenuOpen(false);
-                      }}
-                      className={`text-left px-8 py-4 transition-all text-[11px] font-black uppercase tracking-widest ${activeService === s.id ? (scrolled ? 'text-white border-l-2 border-white -ml-[1px]' : 'text-neutral-900 border-l-2 border-neutral-900 -ml-[1px]') : (scrolled ? 'text-neutral-500 hover:text-white' : 'text-neutral-400 hover:text-neutral-900')}`}
-                    >
-                      {s.title}
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              <div className="w-8/12 flex items-center">
-                <div className={`p-16 rounded-[4rem] border w-full relative overflow-hidden group ${scrolled ? 'bg-white/5 border-white/5' : 'bg-neutral-50 border-neutral-100'}`}>
-                  <div className={`absolute top-0 right-0 w-80 h-80 ${scrolled ? 'bg-white/5' : 'bg-neutral-900/5'} blur-[100px] rounded-full -mr-40 -mt-40`}></div>
-                  <motion.div
-                    key={activeService}
-                    initial={{ opacity: 0, x: 20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.4 }}
-                  >
-                    <h4 className={`text-3xl font-display font-black mb-6 uppercase tracking-tighter ${scrolled ? 'text-white' : 'text-neutral-900'}`}>
-                      {servicesData.find(s => s.id === activeService)?.title}
-                    </h4>
-                    <p className={`text-xl leading-relaxed font-medium mb-12 max-w-2xl ${scrolled ? 'text-neutral-300' : 'text-neutral-500'}`}>
-                      {servicesData.find(s => s.id === activeService)?.desc}
-                    </p>
-                    <button 
-                      onClick={() => { 
-                        setCurrentPage(('service-' + activeService) as PageType); 
-                        window.scrollTo(0, 0);
-                        setIsServicesMenuOpen(false);
-                      }}
-                      className={`px-10 py-5 rounded-2xl font-black uppercase tracking-widest text-[10px] transition-all flex items-center gap-3 ${scrolled ? 'bg-white text-black hover:bg-neutral-200' : 'bg-neutral-900 text-white hover:bg-black/80'}`}
-                    >
-                      Learn More <ArrowRight className="w-4 h-4" />
-                    </button>
-                  </motion.div>
-                </div>
-              </div>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      {/* Mobile Menu Toggle */}
-      <button 
-        className={`md:hidden p-2 transition-colors ${scrolled ? 'text-white' : 'text-neutral-900'}`}
-        onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-      >
-        {isMobileMenuOpen ? <X className="w-6 h-6" /> : <MoreVertical className="w-6 h-6" />}
-      </button>
-
-      {/* Mobile Menu Dropdown */}
+      {/* Mobile Menu */}
       <AnimatePresence>
         {isMobileMenuOpen && (
           <motion.div
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
-            className={`absolute top-full left-0 right-0 border-b p-8 flex flex-col gap-8 md:hidden shadow-2xl max-h-[85vh] overflow-y-auto ${scrolled ? 'bg-black border-white/5' : 'bg-white border-neutral-100 shadow-xl'}`}
+            initial={{ opacity: 0, x: '100%' }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: '100%' }}
+            className="fixed inset-0 bg-white z-[60] p-10 flex flex-col pt-32 gap-12"
           >
-             <div className="flex flex-col gap-4">
-              <span className={`text-[10px] font-black uppercase tracking-widest ${scrolled ? 'text-neutral-500' : 'text-neutral-400'}`}>Main Menu</span>
-              <div className="flex flex-col gap-6">
-                <button 
-                  onClick={() => { setCurrentPage('home'); window.scrollTo(0, 0); setIsMobileMenuOpen(false); }}
-                  className={`text-left text-3xl font-display font-black uppercase tracking-tighter ${scrolled ? 'text-white' : 'text-neutral-900'}`}
-                >
-                  Home
-                </button>
-                <div className="space-y-4">
-                  <div className={`text-[10px] font-black uppercase tracking-[0.2em] ${scrolled ? 'text-neutral-500' : 'text-neutral-400'}`}>About</div>
-                  <button onClick={() => { setCurrentPage('about-vision'); setIsMobileMenuOpen(false); }} className={`block text-xl font-bold ${scrolled ? 'text-neutral-300' : 'text-neutral-900'}`}>Visi & Misi</button>
-                  <button onClick={() => { setCurrentPage('about-pillars'); setIsMobileMenuOpen(false); }} className={`block text-xl font-bold ${scrolled ? 'text-neutral-300' : 'text-neutral-900'}`}>Pilar Bisnis</button>
-                </div>
-                <button onClick={() => { setCurrentPage('about-funding'); setIsMobileMenuOpen(false); }} className={`text-left text-2xl font-display font-black uppercase tracking-tighter ${scrolled ? 'text-white' : 'text-neutral-900'}`}>Portfolio</button>
-                <button onClick={() => { setCurrentPage('careers'); setIsMobileMenuOpen(false); }} className={`text-left text-2xl font-display font-black uppercase tracking-tighter ${scrolled ? 'text-white' : 'text-neutral-900'}`}>Careers</button>
-                <button onClick={() => { setCurrentPage('blog'); setIsMobileMenuOpen(false); }} className={`text-left text-2xl font-display font-black uppercase tracking-tighter ${scrolled ? 'text-white' : 'text-neutral-900'}`}>Blog</button>
+            <button className="absolute top-8 right-8 w-12 h-12 rounded-2xl bg-neutral-50 flex items-center justify-center shadow-sm" onClick={() => setIsMobileMenuOpen(false)}><X className="w-6 h-6" /></button>
+            <div className="flex flex-col gap-10 text-3xl font-display font-black uppercase tracking-tighter text-neutral-900">
+              <div className="space-y-4">
+                <div className="text-[10px] font-black text-neutral-400 tracking-[0.3em]">{t.capabilities}</div>
+                {servicesData.map(s => (
+                  <button key={s.id} onClick={() => { setCurrentPage(('service-' + s.id) as PageType); setIsMobileMenuOpen(false); }} className="block">{s.title}</button>
+                ))}
               </div>
+              <div className="space-y-4">
+                <div className="text-[10px] font-black text-neutral-400 tracking-[0.3em]">Corporate</div>
+                <button onClick={() => { setCurrentPage('about'); setIsMobileMenuOpen(false); }}>{t.about}</button>
+                <button onClick={() => { setCurrentPage('about-funding'); setIsMobileMenuOpen(false); }}>{t.investor}</button>
+              </div>
+              <button 
+                onClick={() => { setCurrentPage('contact'); setIsMobileMenuOpen(false); }}
+                className="mt-4 px-10 py-5 bg-neutral-900 text-white rounded-3xl text-xl font-black uppercase tracking-widest text-center"
+              >
+                {t.contact}
+              </button>
             </div>
-            <button 
-              onClick={() => { setCurrentPage('contact'); window.scrollTo(0, 0); setIsMobileMenuOpen(false); }}
-              className={`w-full py-5 rounded-2xl font-black uppercase tracking-widest text-xs shadow-xl ${scrolled ? 'bg-white text-black' : 'bg-neutral-900 text-white'}`}
-            >
-              Contact Us
-            </button>
           </motion.div>
         )}
       </AnimatePresence>
@@ -303,31 +317,30 @@ const Navbar = ({ currentPage, setCurrentPage }: { currentPage: PageType, setCur
 };
 
 const BusinessStats = () => {
+  const { lang } = useContext(LanguageContext);
+  const t = translations[lang].stats;
   const stats = [
-    { label: "Business Pillars", value: "05", icon: <Building2 className="w-4 h-4" /> },
-    { label: "Portfolio Sectors", value: "04", icon: <ShoppingCart className="w-4 h-4" /> },
-    { label: "Active Network", value: "500", icon: <Users className="w-4 h-4" /> },
-    { label: "Excellence rate", value: "100%", icon: <Zap className="w-4 h-4" /> }
+    { label: t.pillars, value: "05" },
+    { label: t.sectors, value: "04" },
+    { label: t.network, value: "500+" },
+    { label: t.excellence, value: "100%" }
   ];
 
   return (
-    <section className="py-20 relative z-10 bg-white border-y border-neutral-100">
+    <section className="py-24 bg-white border-y border-neutral-100">
       <div className="w-full px-6 md:px-16">
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-0 divide-y md:divide-y-0 md:divide-x divide-neutral-100">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-12">
           {stats.map((s, i) => (
             <motion.div
               key={i}
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.1, duration: 0.8 }}
-              className="px-8 py-12 md:py-16 text-center group"
+              className="text-center md:text-left"
             >
-              <div className="text-6xl md:text-8xl font-display font-black text-neutral-900 tracking-tighter mb-4 group-hover:text-neutral-900 transition-colors duration-500">{s.value}</div>
-              <div className="flex items-center justify-center gap-3">
-                <span className="text-neutral-900">{s.icon}</span>
-                <span className="text-[10px] font-black text-neutral-400 uppercase tracking-[0.2em]">{s.label}</span>
-              </div>
+              <div className="text-sm font-bold text-neutral-400 uppercase tracking-widest mb-4">{s.label}</div>
+              <div className="text-6xl md:text-7xl font-display font-bold text-neutral-900 tracking-tighter">{s.value}</div>
             </motion.div>
           ))}
         </div>
@@ -353,46 +366,49 @@ const LatestInsights = ({ setCurrentPage }: { setCurrentPage: (p: PageType) => v
   ];
 
   return (
-    <section className="py-32 relative z-10 bg-white">
+    <section className="py-40 bg-white">
       <div className="w-full px-6 md:px-16">
-        <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
-          <div className="max-w-2xl text-left">
-            <h2 className="text-4xl md:text-7xl font-display font-black tracking-tighter mb-8 text-neutral-900">LATEST INSIGHTS</h2>
-            <p className="text-xl text-neutral-500 font-medium">Analisis mendalam mengenai ekosistem bisnis, investasi, dan strategi pertumbuhan UMKM di Indonesia.</p>
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-24 gap-8">
+          <div>
+            <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-neutral-400 mb-6">Expertise & Thinking</div>
+            <h2 className="text-5xl md:text-8xl font-display font-medium tracking-tighter text-neutral-900 uppercase leading-[0.85]">
+              Latest <br />
+              Insights
+            </h2>
           </div>
           <button 
-            onClick={() => { setCurrentPage('blog'); window.scrollTo(0, 0); }}
-            className="group flex items-center gap-3 text-neutral-900 font-bold bg-neutral-100 px-6 py-3 rounded-full hover:bg-neutral-900 hover:text-white transition-all duration-300"
+            onClick={() => setCurrentPage('blog')}
+            className="group flex items-center gap-4 text-[10px] font-bold uppercase tracking-[0.3em] pb-2 border-b border-neutral-200 hover:border-black transition-all"
           >
-            Read All Articles <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+            Read All Perspectives <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
           </button>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-12">
+        <div className="grid md:grid-cols-2 gap-24">
           {insights.map((insight, i) => (
             <motion.div
               key={i}
-              initial={{ opacity: 0, scale: 0.98 }}
-              whileInView={{ opacity: 1, scale: 1 }}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               className="group cursor-pointer"
-              onClick={() => { setCurrentPage('blog'); window.scrollTo(0, 0); }}
+              onClick={() => setCurrentPage('blog')}
             >
-              <div className="relative aspect-video rounded-[2.5rem] overflow-hidden mb-8 shadow-2xl border border-neutral-100">
+              <div className="relative aspect-[16/10] overflow-hidden mb-10 rounded-[2rem] bg-neutral-100">
                 <img 
                   src={insight.image} 
                   alt={insight.title} 
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000"
+                  className="w-full h-full object-cover grayscale opacity-90 transition-all duration-1000 group-hover:grayscale-0 group-hover:opacity-100 group-hover:scale-105"
                   referrerPolicy="no-referrer"
                 />
-                <div className="absolute top-6 left-6">
-                  <span className="px-4 py-2 bg-white/90 backdrop-blur-md rounded-full text-[10px] font-black uppercase tracking-widest text-neutral-900 border border-neutral-100">
+                <div className="absolute top-8 left-8">
+                  <span className="px-5 py-2 bg-white/90 backdrop-blur-xl rounded-full text-[9px] font-black uppercase tracking-[0.2em] text-neutral-900 border border-white/20 shadow-xl">
                     {insight.category}
                   </span>
                 </div>
               </div>
-              <div className="text-neutral-400 text-xs mb-3 font-bold tracking-widest uppercase">CGLINK News — {insight.date}</div>
-              <h3 className="text-2xl md:text-3xl font-display font-bold text-neutral-900 group-hover:text-black transition-colors leading-[1.1] tracking-tight">
+              <div className="text-[10px] font-bold text-neutral-400 uppercase tracking-widest mb-6 border-l-2 border-neutral-200 pl-4">{insight.date}</div>
+              <h3 className="text-3xl lg:text-4xl font-display font-medium text-neutral-900 leading-[1.1] tracking-tighter group-hover:text-black transition-all">
                 {insight.title}
               </h3>
             </motion.div>
@@ -405,7 +421,7 @@ const LatestInsights = ({ setCurrentPage }: { setCurrentPage: (p: PageType) => v
 
 const InvestorRelations = ({ setCurrentPage }: { setCurrentPage: (p: PageType) => void }) => {
   return (
-    <section className="py-24 relative z-10 bg-white text-black overflow-hidden group">
+    <section className="py-32 relative z-10 bg-neutral-50 text-black overflow-hidden group">
       <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-neutral-100 rounded-full blur-[120px] -mr-32 -mt-32 transition-transform duration-1000 group-hover:scale-110" />
       <div className="w-full px-6 md:px-16 relative z-10">
         <div className="grid lg:grid-cols-2 gap-16 items-center">
@@ -458,13 +474,12 @@ const InvestorRelations = ({ setCurrentPage }: { setCurrentPage: (p: PageType) =
 };const SectorMarquee = () => {
   const sectors = ["FINANCE", "LOGISTICS", "RETAIL", "TECH", "MANUFACTURING", "HOSPITALITY", "REAL ESTATE", "ENERGY"];
   return (
-    <div className="w-full py-12 bg-neutral-900 overflow-hidden relative">
-      <div className="absolute inset-0 bg-neutral-500/10 pointer-events-none" />
+    <div className="w-full py-16 bg-white overflow-hidden relative border-b border-neutral-100">
       <div className="flex animate-marquee whitespace-nowrap">
         {[...sectors, ...sectors].map((s, i) => (
           <span 
             key={i} 
-            className="text-4xl md:text-7xl font-display font-black text-white/20 mx-12 tracking-tighter uppercase inline-block italic"
+            className="text-2xl md:text-4xl font-display font-bold text-neutral-200 mx-16 tracking-tighter uppercase inline-block italic"
           >
             {s} •
           </span>
@@ -474,74 +489,131 @@ const InvestorRelations = ({ setCurrentPage }: { setCurrentPage: (p: PageType) =
   );
 };
 
-const BentoGridServices = ({ setCurrentPage }: { setCurrentPage: (p: PageType) => void }) => {
-  const items = [
+const BusinessUnits = ({ setCurrentPage }: { setCurrentPage: (p: PageType) => void }) => {
+  const units = [
     {
-      id: 'fundamental',
-      title: 'Strategy & Ops',
-      span: 'md:col-span-2 md:row-span-2',
-      bg: 'bg-neutral-900 text-white',
-      desc: 'Membangun fondasi bisnis yang kuat dan scalable untuk pertumbuhan jangka panjang.',
-      icon: <TrendingUp className="w-8 h-8 text-white" />
+      number: "01",
+      title: "Strategy & Operations",
+      desc: "Membangun fondasi bisnis yang kuat, dari legalitas, struktur organisasi, hingga model bisnis yang scalable.",
+      id: 'fundamental'
     },
     {
-      id: 'digital',
-      title: 'Digital Growth',
-      span: 'md:col-span-1 md:row-span-1',
-      bg: 'bg-neutral-200 text-neutral-900',
-      desc: 'Akselerasi pangsa pasar melalui ekosistem digital.',
-      icon: <Globe className="w-8 h-8" />
+      number: "02",
+      title: "Digital & Marketing",
+      desc: "Akselerasi pangsa pasar melalui ekosistem digital dan transformasi teknologi pemasaran berbasis data.",
+      id: 'digital'
     },
     {
-      id: 'finance',
-      title: 'Finance & Tax',
-      span: 'md:col-span-1 md:row-span-1',
-      bg: 'bg-neutral-50 text-neutral-900',
-      desc: 'Optimalisasi arus kas dan manajemen risiko.',
-      icon: <BarChart3 className="w-8 h-8 text-neutral-900" />
-    },
-    {
-      id: 'partnerships',
-      title: 'Strategic Innovation',
-      span: 'md:col-span-2 md:row-span-1',
-      bg: 'bg-neutral-50 text-neutral-900',
-      desc: 'Membuka peluang pasar baru melalui kemitraan strategis global.',
-      icon: <Zap className="w-8 h-8 text-neutral-900" />
+      number: "03",
+      title: "Finance & Advisory",
+      desc: "Optimalisasi arus kas, manajamen risiko, perpajakan, dan perencanaan strategis keuangan.",
+      id: 'finance'
     }
   ];
 
   return (
-    <section id="services-bento" className="py-32 bg-white relative z-10">
-      <div className="w-full px-6 md:px-16">
-        <div className="max-w-3xl mb-20">
-          <h2 className="text-5xl md:text-8xl font-display font-black tracking-tighter text-neutral-900 mb-8 uppercase leading-[0.85]">
-            CORE <br />CAPABILITIES
+    <section id="services-bento" className="py-24 bg-white border-b border-neutral-100">
+      <div className="w-full px-6 md:px-16 container mx-auto">
+        <div className="mb-24">
+          <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-neutral-400 mb-6">Our Core Ecosystem</div>
+          <h2 className="text-5xl md:text-8xl font-display font-black tracking-tighter text-neutral-900 uppercase leading-none">
+            Strategic <br /> Units
           </h2>
-          <p className="text-xl text-neutral-500 font-medium max-w-xl leading-relaxed">
-            Kami mengintegrasikan keahlian lintas sektor untuk memberikan dampak nyata bagi setiap mitra bisnis kami.
-          </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 md:grid-rows-2 gap-6">
-          {items.map((item, i) => (
+        <div className="grid md:grid-cols-3 gap-0 border-t border-neutral-100">
+          {units.map((unit, i) => (
             <motion.div
               key={i}
-              initial={{ opacity: 0, scale: 0.95 }}
-              whileInView={{ opacity: 1, scale: 1 }}
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              onClick={() => { setCurrentPage(('service-' + item.id) as PageType); window.scrollTo(0, 0); }}
-              className={`${item.span} ${item.bg} p-8 md:p-12 rounded-[3.5rem] relative overflow-hidden group cursor-pointer shadow-xl hover:shadow-2xl transition-all duration-500`}
+              transition={{ delay: i * 0.1, duration: 0.8 }}
+              onClick={() => { setCurrentPage(('service-' + unit.id) as PageType); window.scrollTo(0, 0); }}
+              className="group p-12 lg:p-16 border-b md:border-b-0 md:border-r border-neutral-100 cursor-pointer hover:bg-neutral-50 transition-all relative overflow-hidden h-full flex flex-col"
             >
-              <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 blur-[100px] rounded-full -mr-32 -mt-32 group-hover:scale-150 transition-transform duration-1000"></div>
-              <div className="relative z-10 h-full flex flex-col justify-between">
-                <div>
-                  <div className="mb-8">{item.icon}</div>
-                  <h3 className="text-3xl font-display font-black uppercase tracking-tighter leading-none mb-4">{item.title}</h3>
-                  <p className="opacity-70 font-medium text-lg leading-relaxed">{item.desc}</p>
-                </div>
-                <div className="mt-12 flex items-center gap-3 font-black text-[10px] uppercase tracking-widest group-hover:gap-6 transition-all">
-                  View Detail <ArrowRight className="w-4 h-4" />
-                </div>
+              <div className="text-[10px] font-black text-neutral-300 uppercase tracking-[0.4em] mb-20 group-hover:text-black transition-colors">{unit.number}</div>
+              <h3 className="text-3xl font-display font-medium text-neutral-900 mb-8 uppercase tracking-tighter leading-tight group-hover:translate-x-4 transition-transform duration-500">{unit.title}</h3>
+              <p className="text-neutral-500 font-medium leading-relaxed mb-12 flex-grow max-w-xs">{unit.desc}</p>
+              <div className="flex items-center gap-4 text-[10px] font-black uppercase tracking-[0.3em] text-black opacity-0 group-hover:opacity-100 transition-all duration-500 -translate-x-4 group-hover:translate-x-0">
+                Learn More <ArrowRight className="w-4 h-4" />
+              </div>
+            </motion.div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+};
+
+
+const StrategicNav = ({ setCurrentPage }: { setCurrentPage: (p: PageType) => void }) => {
+  const { lang } = useContext(LanguageContext);
+  const t = translations[lang].strategicNav;
+  
+  const sections = [
+    {
+      title: t.about,
+      desc: t.aboutDesc,
+      link: "about",
+      id: "strategic-about"
+    },
+    {
+      title: t.units,
+      desc: t.unitsDesc,
+      link: "home",
+      scrollTo: "services-bento",
+      id: "strategic-units"
+    },
+    {
+      title: t.investor,
+      desc: t.investorDesc,
+      link: "about-funding",
+      id: "strategic-investor"
+    }
+  ];
+
+  return (
+    <section className="py-32 bg-neutral-50 border-b border-neutral-100 relative overflow-hidden">
+      {/* Background Moving Globe Element */}
+      <div className="absolute -right-20 top-1/2 -translate-y-1/2 opacity-[0.03] pointer-events-none">
+        <motion.div
+          animate={{ rotate: 360 }}
+          transition={{ duration: 60, repeat: Infinity, ease: "linear" }}
+          className="w-[600px] h-[600px] border border-black rounded-full flex items-center justify-center"
+        >
+          <div className="absolute inset-0 border border-black rounded-full rotate-45" />
+          <div className="absolute inset-0 border border-black rounded-full -rotate-45" />
+          <Globe className="w-64 h-64 text-black" />
+        </motion.div>
+      </div>
+
+      <div className="w-full px-6 md:px-16 container mx-auto relative z-10">
+        <div className="grid md:grid-cols-3 gap-16">
+          {sections.map((sec, i) => (
+            <motion.div
+              key={i}
+              id={sec.id}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: i * 0.1 }}
+              className="group cursor-pointer"
+              onClick={() => {
+                if (sec.scrollTo) {
+                  const el = document.getElementById(sec.scrollTo);
+                  if (el) el.scrollIntoView({ behavior: 'smooth' });
+                } else {
+                  setCurrentPage(sec.link as PageType);
+                  window.scrollTo(0, 0);
+                }
+              }}
+            >
+              <div className="text-[10px] font-black uppercase tracking-[0.4em] text-neutral-300 mb-6 group-hover:text-black transition-colors">0{i + 1}</div>
+              <h3 className="text-3xl font-display font-black text-neutral-900 mb-6 uppercase tracking-tighter group-hover:translate-x-2 transition-transform">{sec.title}</h3>
+              <p className="text-neutral-500 font-medium leading-relaxed mb-8 max-w-xs">{sec.desc}</p>
+              <div className="flex items-center gap-3 text-[10px] font-black uppercase tracking-widest text-black/40 group-hover:text-black transition-colors">
+                {t.learnMore} <ArrowRight className="w-4 h-4" />
               </div>
             </motion.div>
           ))}
@@ -552,159 +624,124 @@ const BentoGridServices = ({ setCurrentPage }: { setCurrentPage: (p: PageType) =
 };
 
 const Hero = ({ setCurrentPage }: { setCurrentPage: (p: PageType) => void }) => {
+  const { lang } = useContext(LanguageContext);
+  const t = translations[lang].hero;
+  
   return (
-    <section className="relative min-h-[100dvh] flex items-center pt-32 pb-24 overflow-hidden bg-white">
-      {/* Background Decor */}
-      <div className="bg-grid opacity-60" />
-      <div className="absolute top-1/4 right-[10%] w-[600px] h-[600px] bg-neutral-100/50 rounded-full blur-[120px] -z-10 animate-pulse" />
-      <div className="absolute bottom-1/4 left-[5%] w-[400px] h-[400px] bg-neutral-50/30 rounded-full blur-[100px] -z-10" />
+    <section className="relative min-h-[100dvh] flex items-center justify-center pt-20 pb-20 overflow-hidden bg-black text-white">
+      {/* Futuristic Background Elements */}
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-neutral-900 via-black to-black" />
+      <div className="absolute inset-0 bg-grid-white opacity-[0.03]" />
       
-      {/* Desktop/Tablet Hero Globe Animation */}
-      <div className="absolute right-0 top-1/2 -translate-y-1/2 w-[800px] h-[800px] pointer-events-none -z-10 overflow-hidden hidden lg:block">
-        <div className="absolute inset-0 bg-radial-gradient from-neutral-100/20 to-transparent blur-3xl" />
-        <motion.div
-          animate={{ rotateY: 360 }}
-          transition={{ duration: 60, repeat: Infinity, ease: "linear" }}
-          className="w-full h-full border border-neutral-900/5 rounded-full flex items-center justify-center [perspective:1000px] opacity-20"
+      {/* Globe Animation Container like dinastiwahab.com */}
+      <div className="absolute inset-0 flex items-center justify-center opacity-40 pointer-events-none overflow-hidden">
+        <motion.div 
+          animate={{ rotate: 360 }}
+          transition={{ duration: 100, repeat: Infinity, ease: "linear" }}
+          className="relative w-[150vh] h-[150vh] max-w-[1200px] max-h-[1200px] flex items-center justify-center"
         >
-          <div className="w-[85%] h-[85%] border border-neutral-900/5 rounded-full flex items-center justify-center">
-            <div className="w-[70%] h-[70%] border border-neutral-900/5 rounded-full flex items-center justify-center">
-              <Globe className="w-96 h-96 text-neutral-900" />
-            </div>
-          </div>
-        </motion.div>
-      </div>
-
-      {/* Mobile Hero Globe (Centered Background) */}
-      <div className="lg:hidden absolute inset-0 flex items-center justify-center pointer-events-none -z-10 opacity-[0.08] overflow-hidden">
-        <motion.div
-          animate={{ 
-            rotateY: 360,
-            scale: [1, 1.1, 1]
-          }}
-          transition={{ 
-            rotateY: { duration: 30, repeat: Infinity, ease: "linear" },
-            scale: { duration: 10, repeat: Infinity, ease: "easeInOut" }
-          }}
-          className="w-[140vw] h-[140vw] border border-neutral-900/10 rounded-full flex items-center justify-center [perspective:1000px]"
-        >
-          <div className="w-[85%] h-[85%] border border-neutral-900/10 rounded-full flex items-center justify-center">
-             <Globe className="w-[75vw] h-[75vw] text-neutral-900" />
-          </div>
-        </motion.div>
-      </div>
-
-      <div className="w-full px-6 md:px-16 relative z-10">
-        <div className="w-full text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, ease: [0.23, 1, 0.32, 1] }}
-          >
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-neutral-50 border border-neutral-100 text-[10px] font-black uppercase tracking-[0.2em] text-neutral-900 mb-8">
-              <span className="w-2 h-2 rounded-full bg-neutral-900 animate-pulse" />
-              Partnership for sustainable growth
-            </div>
-            
-            <h1 className="text-6xl md:text-8xl lg:text-[10rem] font-display font-black tracking-tighter leading-[0.85] mb-12 text-neutral-900 uppercase">
-              BEYOND <br />
-              <span className="text-neutral-400">BUSINESS</span> <br />
-              VISION.
-            </h1>
-          </motion.div>
+          {/* Main Globe Sphere with light effect */}
+          <div className="absolute inset-0 rounded-full border border-white/5 shadow-[0_0_150px_rgba(255,255,255,0.05)]" />
           
+          {/* Latitudinal Lines */}
+          {[...Array(6)].map((_, i) => (
+            <div 
+              key={`lat-${i}`}
+              className="absolute w-full h-[1px] bg-white/5" 
+              style={{ top: `${(i + 1) * 14.28}%` }}
+            />
+          ))}
+          
+          {/* Longitudinal Lines */}
+          {[...Array(6)].map((_, i) => (
+            <div 
+              key={`long-${i}`}
+              className="absolute h-full w-[1px] bg-white/5" 
+              style={{ left: `${(i + 1) * 14.28}%` }}
+            />
+          ))}
+          
+          {/* Pulsating Points for futuristic connectivity look */}
+          <div className="absolute top-[20%] left-[30%] w-2 h-2 bg-white/60 rounded-full blur-[2px] animate-pulse" />
+          <div className="absolute top-[60%] left-[80%] w-1.5 h-1.5 bg-white/40 rounded-full animate-bounce" style={{ animationDuration: '4s' }} />
+          <div className="absolute top-[40%] left-[15%] w-1 h-1 bg-white/30 rounded-full blur-[1px]" />
+          <div className="absolute top-[15%] left-[70%] w-2 h-2 bg-blue-500/20 rounded-full blur-[4px] animate-pulse" />
+        </motion.div>
+      </div>
+
+      <div className="w-full px-6 md:px-16 container mx-auto relative z-10">
+        <div className="max-w-7xl mx-auto">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="flex flex-col md:flex-row items-center justify-center gap-10"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 1 }}
+            className="flex flex-col items-center text-center"
           >
-            <p className="text-xl md:text-2xl text-neutral-500 font-medium max-w-xl leading-relaxed text-center md:text-left">
-              Membangun masa depan bisnis melalui kolaborasi strategis yang berlandaskan prinsip legal, logis, dan halal.
-            </p>
-            <div className="w-px h-24 bg-neutral-100 hidden md:block" />
-            <div className="flex flex-col sm:flex-row items-center gap-4">
-              <button 
-                onClick={() => document.getElementById('services-bento')?.scrollIntoView({ behavior: 'smooth' })}
-                className="group w-full sm:w-auto px-10 py-5 bg-neutral-900 text-white rounded-2xl font-black uppercase tracking-widest text-xs flex items-center justify-center gap-4 hover:bg-black transition-all hover:scale-105 active:scale-95 shadow-2xl shadow-neutral-200/20"
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2 }}
+              className="inline-flex items-center gap-3 px-6 py-2 rounded-full border border-white/10 bg-white/5 backdrop-blur-md text-[10px] font-black uppercase tracking-[0.4em] text-neutral-400 mb-12"
+            >
+              <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
+              {t.tag}
+            </motion.div>
+            
+            <h1 className="text-7xl md:text-[8rem] lg:text-[11.5rem] font-display font-black tracking-tighter leading-[0.8] text-white uppercase mb-16">
+              Beyond <br />
+              <span className="font-serif italic font-light text-neutral-400 ml-[0.1em]">Business</span> <br />
+              <motion.span
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.8, delay: 0.5 }}
+                className="text-white"
               >
-                Our Capabilities <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                Vision.
+              </motion.span>
+            </h1>
+
+            <motion.p 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.4 }}
+              className="text-xl md:text-2xl text-neutral-400 font-medium max-w-2xl leading-tight mb-20"
+            >
+              {t.desc}
+            </motion.p>
+
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.6 }}
+              className="flex flex-col sm:flex-row gap-8"
+            >
+              <button 
+                onClick={() => document.getElementById('strategic-units')?.scrollIntoView({ behavior: 'smooth' })}
+                className="px-12 py-5 bg-white text-black font-black uppercase tracking-widest text-[10px] rounded-full hover:bg-neutral-200 transition-all hover:scale-105 shadow-[0_0_30px_rgba(255,255,255,0.15)]"
+              >
+                {t.cta1}
               </button>
-            </div>
-          </motion.div>
-        </div>
-
-        {/* Floating Cards Mockup for Hero */}
-        <div className="mt-32 relative h-[400px] hidden lg:block">
-           <motion.div 
-            initial={{ opacity: 0, x: -100 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 1.2, delay: 0.5 }}
-            className="absolute left-0 top-0 w-80 p-8 rounded-[2.5rem] bg-white border border-neutral-100 shadow-2xl shadow-neutral-200/50 rotate-[-4deg] z-20"
-          >
-            <div className="w-12 h-12 rounded-xl bg-neutral-900 flex items-center justify-center text-white mb-6">
-              <TrendingUp className="w-6 h-6" />
-            </div>
-            <div className="text-3xl font-display font-black text-neutral-900 mb-2 tracking-tighter">150%</div>
-            <div className="text-[10px] font-black text-neutral-400 uppercase tracking-widest">Growth Potential</div>
-          </motion.div>
-
-          <motion.div 
-            initial={{ opacity: 0, y: 100 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1.2, delay: 0.7 }}
-            className="absolute left-1/2 -translate-x-1/2 top-10 w-96 p-10 rounded-[3rem] bg-neutral-900 shadow-2xl shadow-neutral-200/20 z-10"
-          >
-            <div className="flex justify-between items-start mb-12">
-              <div className="text-white font-display font-black text-2xl tracking-tighter uppercase">CGLINK</div>
-              <div className="relative">
-                <motion.div
-                  animate={{ 
-                    rotate: 360,
-                    scale: [1, 1.1, 1],
-                    opacity: [0.4, 0.7, 0.4]
-                  }}
-                  transition={{ 
-                    rotate: { duration: 10, repeat: Infinity, ease: "linear" },
-                    scale: { duration: 4, repeat: Infinity, ease: "easeInOut" },
-                    opacity: { duration: 4, repeat: Infinity, ease: "easeInOut" }
-                  }}
-                  className="absolute inset-0 bg-white/20 rounded-full blur-xl"
-                />
-                <motion.div
-                  animate={{ rotateY: 360 }}
-                  transition={{ duration: 6, repeat: Infinity, ease: "linear" }}
-                >
-                  <Globe className="w-8 h-8 text-white relative z-10" />
-                </motion.div>
-              </div>
-            </div>
-            <div className="space-y-4">
-              <div className="h-2 w-full bg-white/20 rounded-full" />
-              <div className="h-2 w-3/4 bg-white/20 rounded-full" />
-              <div className="h-2 w-1/2 bg-white/20 rounded-full" />
-            </div>
-            <div className="mt-12 text-sm text-neutral-400 uppercase tracking-widest font-black">Strategic Partnership</div>
-          </motion.div>
-
-          <motion.div 
-            initial={{ opacity: 0, x: 100 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 1.2, delay: 0.6 }}
-            className="absolute right-0 top-20 w-80 p-8 rounded-[2.5rem] bg-white border border-neutral-100 shadow-2xl shadow-neutral-200/50 rotate-[6deg] z-20"
-          >
-            <div className="flex items-center gap-4 mb-6">
-              <div className="flex -space-x-3">
-                {[1,2,3].map(i => (
-                  <div key={i} className="w-10 h-10 rounded-full bg-neutral-200 border-2 border-white" />
-                ))}
-              </div>
-              <span className="text-[10px] font-black text-neutral-400 uppercase tracking-widest">Experts Network</span>
-            </div>
-            <div className="text-xl font-bold text-neutral-900 leading-tight">Expert Advisory at your fingertips.</div>
+              <button 
+                onClick={() => { setCurrentPage('about'); window.scrollTo(0, 0); }}
+                className="px-12 py-5 border border-white/20 text-white font-black uppercase tracking-widest text-[10px] rounded-full hover:bg-white/5 transition-all"
+              >
+                {t.cta2}
+              </button>
+            </motion.div>
           </motion.div>
         </div>
       </div>
+      
+      {/* Scroll Indicator */}
+      <motion.div 
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 1.5 }}
+        className="absolute bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-6 text-neutral-600"
+      >
+        <span className="text-[9px] font-black uppercase tracking-[0.5em] rotate-180 [writing-mode:vertical-lr]">Scroll</span>
+        <div className="w-[1px] h-20 bg-gradient-to-b from-white/20 via-white/5 to-transparent" />
+      </motion.div>
     </section>
   );
 };
@@ -756,7 +793,7 @@ const CoreValues = () => {
 
 const VisionMission = () => {
   return (
-    <section id="about" className="py-32 relative z-10 bg-neutral-50/50">
+    <section id="about" className="py-32 relative z-10 bg-neutral-50">
       <div className="w-full px-6 md:px-16">
         <div className="grid lg:grid-cols-2 gap-24 items-center">
           <motion.div
@@ -987,7 +1024,7 @@ const Testimonials = () => {
   ];
 
   return (
-    <section id="testimonials" className="py-32 relative z-10 bg-neutral-50/50 border-t border-neutral-100">
+    <section id="testimonials" className="py-32 relative z-10 bg-neutral-100 border-t border-neutral-200">
       <div className="w-full px-6 md:px-16">
         <div className="text-center mb-20">
           <motion.div
@@ -1177,14 +1214,15 @@ const BusinessCheckup = () => {
   );
 };
 
-const Footer = () => {
+const Footer = ({ lang }: { lang: Language }) => {
+  const t = translations[lang].nav;
   return (
-    <footer className="pt-32 pb-12 relative z-10 bg-white border-t border-neutral-100">
-      <div className="w-full px-6 md:px-16">
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-16 mb-24">
+    <footer className="py-32 bg-black text-white selection:bg-white selection:text-black">
+      <div className="w-full px-6 md:px-16 container mx-auto">
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-20 mb-32">
           <div className="lg:col-span-2">
-            <div className="flex items-center gap-4 mb-10">
-              <div className="w-14 h-14 rounded-2xl overflow-hidden border border-neutral-100 flex items-center justify-center bg-white shadow-sm">
+            <div className="flex items-center gap-4 mb-12">
+              <div className="w-12 h-12 rounded-xl bg-white flex items-center justify-center text-black overflow-hidden">
                 <img 
                   src="https://cglinkindonesia.com/wp-content/uploads/2026/03/WhatsApp-Image-2026-03-26-at-14.55.49.jpeg" 
                   alt="CGLINK Logo" 
@@ -1192,56 +1230,46 @@ const Footer = () => {
                   referrerPolicy="no-referrer"
                 />
               </div>
-              <span className="font-display font-black text-2xl tracking-tighter text-neutral-900">CGLINK</span>
+              <span className="font-heading font-black text-2xl tracking-tighter uppercase">CGLINK</span>
             </div>
-            <p className="text-neutral-500 max-w-md text-lg leading-relaxed mb-10 font-medium">
+            <h2 className="text-4xl md:text-6xl font-display font-medium tracking-tighter mb-10 uppercase leading-[0.9]">Let's build the <br /><span className="italic text-neutral-400">Future of Business</span> <br />Together.</h2>
+            <div className="text-neutral-400 font-medium max-w-sm mb-12 leading-relaxed text-lg">
               Mitra strategis terdepan dalam membangun bisnis yang profesional, berdaya saing, dan berkelanjutan.
-            </p>
-            <div className="flex gap-4">
-              <a href="https://id.linkedin.com/company/catur-gunandi-link-indonesia?trk=ppro_cprof" target="_blank" rel="noopener noreferrer" className="w-12 h-12 rounded-xl bg-neutral-50 border border-neutral-100 flex items-center justify-center text-neutral-400 hover:text-black hover:bg-neutral-100 transition-all">
-                <Linkedin className="w-5 h-5" />
+            </div>
+            <div className="flex gap-8">
+              <a href="https://www.instagram.com/cglink_/?hl=en" target="_blank" rel="noopener noreferrer" className="hover:text-neutral-400 transition-all hover:scale-110">
+                <Instagram className="w-6 h-6" />
               </a>
-              <a href="https://www.instagram.com/cglink_/?hl=en" target="_blank" rel="noopener noreferrer" className="w-12 h-12 rounded-xl bg-neutral-50 border border-neutral-100 flex items-center justify-center text-neutral-400 hover:text-black hover:bg-neutral-100 transition-all">
-                <Instagram className="w-5 h-5" />
+              <a href="https://id.linkedin.com/company/catur-gunandi-link-indonesia?trk=ppro_cprof" target="_blank" rel="noopener noreferrer" className="hover:text-neutral-400 transition-all hover:scale-110">
+                <Linkedin className="w-6 h-6" />
               </a>
             </div>
           </div>
-
+          
           <div>
-            <h4 className="font-display font-black text-sm uppercase tracking-widest mb-10 text-neutral-900">HEAD OFFICE</h4>
-            <div className="space-y-4 text-neutral-500 font-medium leading-relaxed">
-              <div className="flex gap-4">
-                <MapPin className="w-5 h-5 shrink-0 text-neutral-900" />
-                <p>Jl. Ciputat Raya No. 1B Unit 4 RT01/RW08<br/>Pondok Pinang, Jakarta Selatan 12310</p>
-              </div>
-            </div>
+            <div className="text-[10px] font-black uppercase tracking-[0.4em] text-neutral-500 mb-10">Navigation</div>
+            <ul className="space-y-6 text-xs font-bold uppercase tracking-[0.3em]">
+              <li><button onClick={() => window.scrollTo(0, 0)} className="hover:text-neutral-400 transition-colors text-left uppercase">{t.capabilities}</button></li>
+              <li><button className="hover:text-neutral-400 transition-colors text-left uppercase">{t.investor}</button></li>
+              <li><button className="hover:text-neutral-400 transition-colors text-left uppercase">{t.about}</button></li>
+              <li><button className="hover:text-neutral-400 transition-colors text-left uppercase">{t.contact}</button></li>
+            </ul>
           </div>
 
           <div>
-            <h4 className="font-display font-black text-sm uppercase tracking-widest mb-10 text-neutral-900">CONTACT</h4>
-            <div className="space-y-6 text-neutral-500 font-medium">
-              <a href="tel:02112345678" className="flex gap-4 hover:text-black transition-colors items-center">
-                <Phone className="w-5 h-5 shrink-0 text-neutral-900" />
-                (021) 1234 5678
-              </a>
-              <a href="mailto:businesspartner@cglinkindonesia.com" className="flex gap-4 hover:text-black transition-colors items-center">
-                <Mail className="w-5 h-5 shrink-0 text-neutral-900" />
-                businesspartner@cglinkindonesia.com
-              </a>
-              <a href="https://cglinkindonesia.com" className="flex gap-4 hover:text-black transition-colors items-center">
-                <Globe className="w-5 h-5 shrink-0 text-neutral-900" />
-                cglinkindonesia.com
-              </a>
+            <div className="text-[10px] font-black uppercase tracking-[0.4em] text-neutral-500 mb-10">Office Base</div>
+            <div className="text-neutral-400 text-sm leading-relaxed font-medium">
+              Jl. Ciputat Raya No. 1B Unit 4 RT01/RW08<br />
+              Pondok Pinang, Kebayoran Lama<br />
+              Jakarta Selatan 12310<br />
+              Indonesia
             </div>
           </div>
         </div>
 
-        <div className="border-t border-neutral-100 pt-10 flex flex-col md:flex-row items-center justify-between gap-6 text-xs text-neutral-400 font-bold uppercase tracking-widest">
-          <p>© {new Date().getFullYear()} CGLINK INDONESIA. BEYOND BUSINESS.</p>
-          <div className="flex gap-10">
-            <a href="#" className="hover:text-neutral-900 transition-colors">Privacy</a>
-            <a href="#" className="hover:text-neutral-900 transition-colors">Terms</a>
-          </div>
+        <div className="pt-16 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-8">
+          <div className="text-[9px] font-black uppercase tracking-[0.4em] text-neutral-500">© {new Date().getFullYear()} CGLINK INDO. BEYOND BUSINESS.</div>
+          <div className="text-[9px] font-black uppercase tracking-[0.4em] text-neutral-500">{t.legal}</div>
         </div>
       </div>
     </footer>
@@ -1551,98 +1579,142 @@ const ContactPage: React.FC<{ onBack: () => void }> = ({ onBack }) => {
   );
 };
 
-export default function App() {
-  const [currentPage, setCurrentPage] = useState<PageType>('home');
-
-  useEffect(() => {
-    const handleScroll = () => {
-      const scrollPosition = window.scrollY;
-      const windowHeight = window.innerHeight;
-      const documentHeight = document.documentElement.scrollHeight;
-      
-      // Calculate scroll percentage
-      const scrollPercentage = (scrollPosition / (documentHeight - windowHeight)) * 100;
-      
-      const widget = document.querySelector('elevenlabs-convai');
-      if (widget) {
-        if (scrollPercentage >= 70) {
-          widget.classList.add('show-widget');
-        } else {
-          widget.classList.remove('show-widget');
-        }
-      }
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    handleScroll(); // Check initial position on mount
-    
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+const FloatingActions = () => {
+  const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <div className="min-h-screen bg-white text-neutral-900 selection:bg-neutral-200 font-sans">
-      <Navbar currentPage={currentPage} setCurrentPage={setCurrentPage} />
-      
-      <AnimatePresence mode="wait">
-        {currentPage === 'home' && (
-          <motion.main 
-            key="home"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.4 }}
+    <div className="fixed bottom-8 right-8 z-[100] flex flex-col items-end gap-4">
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div 
+            initial={{ opacity: 0, y: 20, scale: 0.8 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 20, scale: 0.8 }}
+            className="flex flex-col items-end gap-3 mb-2"
           >
-            <Hero setCurrentPage={setCurrentPage} />
-            <SectorMarquee />
-            <BusinessStats />
-            <BentoGridServices setCurrentPage={setCurrentPage} />
-            <VisionMission />
-            <InvestorRelations setCurrentPage={setCurrentPage} />
-            <LatestInsights setCurrentPage={setCurrentPage} />
-            <WhyUs />
-            <Testimonials />
-            <BusinessCheckup />
-          </motion.main>
-        )}
-        {currentPage === 'about' && (
-          <AboutUs key="about" onBack={() => { setCurrentPage('home'); window.scrollTo(0, 0); }} />
-        )}
-        {currentPage === 'about-vision' && (
-          <VisionMissionPage key="about-vision" onBack={() => { setCurrentPage('home'); window.scrollTo(0, 0); }} />
-        )}
-        {currentPage === 'about-pillars' && (
-          <PilarBisnisPage key="about-pillars" onBack={() => { setCurrentPage('home'); window.scrollTo(0, 0); }} />
-        )}
-        {currentPage === 'about-funding' && (
-          <FundingPortfolioPage key="about-funding" onBack={() => { setCurrentPage('home'); window.scrollTo(0, 0); }} />
-        )}
-        {currentPage === 'service-fundamental' && (
-          <ServiceFundamentalPage key="service-fundamental" onBack={() => { setCurrentPage('home'); window.scrollTo(0, 0); }} />
-        )}
-        {currentPage === 'service-digital' && (
-          <ServiceDigitalPage key="service-digital" onBack={() => { setCurrentPage('home'); window.scrollTo(0, 0); }} />
-        )}
-        {currentPage === 'service-partnerships' && (
-          <ServicePartnershipsPage key="service-partnerships" onBack={() => { setCurrentPage('home'); window.scrollTo(0, 0); }} />
-        )}
-        {currentPage === 'service-finance' && (
-          <ServiceFinancePage key="service-finance" onBack={() => { setCurrentPage('home'); window.scrollTo(0, 0); }} />
-        )}
-        {currentPage === 'service-hc' && (
-          <ServiceHCPage key="service-hc" onBack={() => { setCurrentPage('home'); window.scrollTo(0, 0); }} />
-        )}
-        {currentPage === 'careers' && (
-          <CareersPage key="careers" onBack={() => { setCurrentPage('home'); window.scrollTo(0, 0); }} />
-        )}
-        {currentPage === 'blog' && (
-          <BlogPage key="blog" onBack={() => { setCurrentPage('home'); window.scrollTo(0, 0); }} />
-        )}
-        {currentPage === 'contact' && (
-          <ContactPage key="contact" onBack={() => { setCurrentPage('home'); window.scrollTo(0, 0); }} />
+            <a 
+              href="https://wa.me/62895428355681" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="flex items-center gap-3 group"
+            >
+              <span className="px-4 py-2 bg-white shadow-xl rounded-xl text-[10px] font-black uppercase tracking-widest border border-neutral-100 opacity-0 group-hover:opacity-100 transition-opacity">WhatsApp</span>
+              <div className="w-14 h-14 bg-[#25D366] text-white rounded-2xl flex items-center justify-center shadow-xl hover:scale-110 transition-transform active:scale-95">
+                <MessageCircle className="w-6 h-6" />
+              </div>
+            </a>
+            <a 
+              href="mailto:businesspartner@cglinkindonesia.com"
+              className="flex items-center gap-3 group"
+            >
+              <span className="px-4 py-2 bg-white shadow-xl rounded-xl text-[10px] font-black uppercase tracking-widest border border-neutral-100 opacity-0 group-hover:opacity-100 transition-opacity">Email</span>
+              <div className="w-14 h-14 bg-neutral-900 text-white rounded-2xl flex items-center justify-center shadow-xl hover:scale-110 transition-transform active:scale-95">
+                <Mail className="w-6 h-6" />
+              </div>
+            </a>
+            <button 
+              onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+              className="flex items-center gap-3 group"
+            >
+              <span className="px-4 py-2 bg-white shadow-xl rounded-xl text-[10px] font-black uppercase tracking-widest border border-neutral-100 opacity-0 group-hover:opacity-100 transition-opacity">Top</span>
+              <div className="w-14 h-14 bg-white text-neutral-900 rounded-2xl flex items-center justify-center shadow-xl hover:scale-110 transition-transform active:scale-95 border border-neutral-100">
+                <ArrowUp className="w-6 h-6" />
+              </div>
+            </button>
+          </motion.div>
         )}
       </AnimatePresence>
-      
-      <Footer />
+      <button 
+        onClick={() => setIsOpen(!isOpen)}
+        className={`w-16 h-16 rounded-[2rem] flex items-center justify-center shadow-2xl transition-all duration-500 hover:scale-110 active:scale-95 z-10 ${isOpen ? 'bg-black text-white' : 'bg-white text-black border border-neutral-100'}`}
+      >
+        {isOpen ? <X className="w-6 h-6" /> : (
+          <div className="relative">
+            <MoreVertical className="w-6 h-6" />
+            <span className="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full border-2 border-white animate-pulse" />
+          </div>
+        )}
+      </button>
     </div>
+  );
+};
+
+export default function App() {
+  const [currentPage, setCurrentPage] = useState<PageType>('home');
+  const [lang, setLang] = useState<Language>('ID');
+
+  return (
+    <LanguageContext.Provider value={{ lang, setLang }}>
+      <div className="min-h-[100dvh] flex flex-col bg-white text-neutral-900 selection:bg-neutral-200 font-sans">
+        <Navbar currentPage={currentPage} setCurrentPage={setCurrentPage} />
+        
+        <AnimatePresence mode="wait">
+          {currentPage === 'home' && (
+            <motion.main 
+              key="home"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.4 }}
+              className="flex-1"
+            >
+              <Hero setCurrentPage={setCurrentPage} />
+              <StrategicNav setCurrentPage={setCurrentPage} />
+              <SectorMarquee />
+              <BusinessStats />
+              <CoreValues />
+              <VisionMission />
+              <BusinessUnits setCurrentPage={setCurrentPage} />
+              <InvestorRelations setCurrentPage={setCurrentPage} />
+              <WhyUs />
+              <Testimonials />
+              <LatestInsights setCurrentPage={setCurrentPage} />
+              <BusinessCheckup />
+            </motion.main>
+          )}
+          {currentPage === 'about' && (
+            <div className="flex-1 opacity-0 animate-in fade-in duration-500 fill-mode-forwards">
+              <AboutUs key="about" onBack={() => { setCurrentPage('home'); window.scrollTo(0, 0); }} />
+            </div>
+          )}
+          {currentPage === 'about-vision' && (
+            <VisionMissionPage key="about-vision" onBack={() => { setCurrentPage('home'); window.scrollTo(0, 0); }} />
+          )}
+          {currentPage === 'about-pillars' && (
+            <PilarBisnisPage key="about-pillars" onBack={() => { setCurrentPage('home'); window.scrollTo(0, 0); }} />
+          )}
+          {currentPage === 'about-funding' && (
+            <FundingPortfolioPage key="about-funding" onBack={() => { setCurrentPage('home'); window.scrollTo(0, 0); }} />
+          )}
+          {currentPage === 'service-fundamental' && (
+            <ServiceFundamentalPage key="service-fundamental" onBack={() => { setCurrentPage('home'); window.scrollTo(0, 0); }} />
+          )}
+          {currentPage === 'service-digital' && (
+            <ServiceDigitalPage key="service-digital" onBack={() => { setCurrentPage('home'); window.scrollTo(0, 0); }} />
+          )}
+          {currentPage === 'service-partnerships' && (
+            <ServicePartnershipsPage key="service-partnerships" onBack={() => { setCurrentPage('home'); window.scrollTo(0, 0); }} />
+          )}
+          {currentPage === 'service-finance' && (
+            <ServiceFinancePage key="service-finance" onBack={() => { setCurrentPage('home'); window.scrollTo(0, 0); }} />
+          )}
+          {currentPage === 'service-hc' && (
+            <ServiceHCPage key="service-hc" onBack={() => { setCurrentPage('home'); window.scrollTo(0, 0); }} />
+          )}
+          {currentPage === 'careers' && (
+            <CareersPage key="careers" onBack={() => { setCurrentPage('home'); window.scrollTo(0, 0); }} />
+          )}
+          {currentPage === 'blog' && (
+            <BlogPage key="blog" onBack={() => { setCurrentPage('home'); window.scrollTo(0, 0); }} />
+          )}
+          {currentPage === 'contact' && (
+            <ContactPage key="contact" onBack={() => { setCurrentPage('home'); window.scrollTo(0, 0); }} />
+          )}
+        </AnimatePresence>
+        
+        <FloatingActions />
+        <Footer lang={lang} />
+      </div>
+    </LanguageContext.Provider>
   );
 }

@@ -1,15 +1,31 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
 @import "tailwindcss";
 
 @theme {
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
-  --font-display: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Space Grotesk", sans-serif;
+  --font-heading: "Space Grotesk", sans-serif;
+  --font-serif: "Playfair Display", serif;
   --animate-spin-slow: spin 8s linear infinite;
 }
 
-body {
+@utility bg-grid-white {
+  background-image: linear-gradient(to right, rgba(255, 255, 255, 0.1) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+@utility bg-grid {
+  background-image: linear-gradient(to right, rgba(0, 0, 0, 0.1) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(0, 0, 0, 0.1) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+html, body {
   background-color: #ffffff;
   color: #0a0a0a;
   overflow-x: hidden;
+  height: 100%;
 }
 
 .bg-grid {
@@ -83,19 +99,13 @@ body {
 /* ElevenLabs Widget Mobile Adjustment */
 @media (max-width: 768px) {
   elevenlabs-convai {
-    bottom: 110px !important; /* Raise the widget so the button is visible */
+    bottom: 120px !important; /* Raise the widget so the button is visible */
   }
 }
 
 /* ElevenLabs Widget Animation */
 elevenlabs-convai {
   transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.8s ease-out !important;
-  transform: translateX(150px) !important;
-  opacity: 0 !important;
-  pointer-events: none !important;
-}
-
-elevenlabs-convai.show-widget {
   transform: translateX(0) !important;
   opacity: 1 !important;
   pointer-events: auto !important;
@@ -103,4 +113,5 @@ elevenlabs-convai.show-widget {
 
 html {
   scroll-behavior: smooth;
+  background-color: #ffffff;
 }
