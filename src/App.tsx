@@ -28,6 +28,8 @@ import {
   MoreVertical,
   X,
   ChevronDown,
+  MessageSquare,
+  Bot,
   Languages,
   ArrowUp
 } from "lucide-react";
@@ -58,14 +60,21 @@ export const LanguageContext = createContext<LanguageContextType>({
 const translations = {
   ID: {
     nav: {
-      capabilities: "Business Units",
+      capabilities: "Unit Bisnis",
       about: "Tentang Kami",
       investor: "Investor Relations",
-      contact: "Kontak",
-      legal: "Legal • Logis • Halal"
+      contact: "Hubungi Kami",
+      legal: "Legal • Logis • Halal",
+      corporate: "Perusahaan",
+      whoWeAre: "Siapa Kami",
+      visionMission: "Visi & Misi",
+      businessPillars: "Pilar Bisnis"
     },
     hero: {
       tag: "Melampaui Pertumbuhan Bisnis",
+      title1: "Melampaui",
+      title2: "Bisnis",
+      title3: "Visi",
       desc: "Membangun masa depan bisnis melalui kolaborasi strategis yang berlandaskan prinsip Legal, Logis, & Halal.",
       cta1: "Eksplor Unit",
       cta2: "Tentang CGLINK"
@@ -84,6 +93,10 @@ const translations = {
       sectors: "Sektor Portofolio",
       network: "Jaringan Aktif",
       excellence: "Tingkat Keunggulan"
+    },
+    floating: {
+      whatsapp: "Chat WhatsApp",
+      ai: "Ngobrol dengan AI"
     }
   },
   EN: {
@@ -91,11 +104,18 @@ const translations = {
       capabilities: "Business Units",
       about: "About Us",
       investor: "Investor Relations",
-      contact: "Contact",
-      legal: "Legal • Logical • Halal"
+      contact: "Contact Us",
+      legal: "Legal • Logical • Halal",
+      corporate: "Corporate",
+      whoWeAre: "Who We Are",
+      visionMission: "Vision & Mission",
+      businessPillars: "Business Pillars"
     },
     hero: {
       tag: "Beyond Business Growth",
+      title1: "Beyond",
+      title2: "Business",
+      title3: "Vision",
       desc: "Building the future of business through strategic collaboration based on Legal, Logical, & Halal principles.",
       cta1: "Explore Units",
       cta2: "About CGLINK"
@@ -114,6 +134,10 @@ const translations = {
       sectors: "Portfolio Sectors",
       network: "Active Network",
       excellence: "Excellence Rate"
+    },
+    floating: {
+      whatsapp: "Chat on WhatsApp",
+      ai: "Chat with AI"
     }
   }
 };
@@ -162,17 +186,17 @@ const Navbar = ({ currentPage, setCurrentPage }: { currentPage: PageType, setCur
   const toggleLang = () => setLang(lang === 'ID' ? 'EN' : 'ID');
 
   return (
-    <nav className={`fixed top-0 left-0 right-0 z-50 px-6 md:px-16 transition-all duration-700 ${scrolled ? 'h-20 bg-white shadow-sm border-b border-neutral-100' : 'h-28 bg-transparent'}`}>
+    <nav className={`fixed top-0 left-0 right-0 z-[100] px-6 md:px-16 transition-all duration-700 ${scrolled ? 'h-20 bg-white shadow-sm border-b border-neutral-100' : 'h-28 bg-transparent'}`}>
       <div className="max-w-7xl mx-auto h-full flex items-center justify-between">
         <div 
           className="flex items-center gap-4 cursor-pointer group"
           onClick={() => { setCurrentPage('home'); window.scrollTo(0, 0); setIsMobileMenuOpen(false); }}
         >
-          <div className="w-12 h-12 rounded-2xl overflow-hidden border border-neutral-100 flex items-center justify-center bg-white shadow-sm transition-transform duration-500 group-hover:scale-110">
+          <div className={`w-12 h-12 rounded-2xl overflow-hidden flex items-center justify-center transition-all duration-500 group-hover:scale-110 ${scrolled || currentPage !== 'home' ? 'bg-neutral-100' : 'bg-white/10 backdrop-blur-md border border-white/20'}`}>
             <img 
-              src="https://cglinkindonesia.com/wp-content/uploads/2026/03/WhatsApp-Image-2026-03-26-at-14.55.49.jpeg" 
+              src="https://res.cloudinary.com/daggll9re/image/upload/v1740924965/Logo_Putih_v9wip9.png" 
               alt="CGLINK Logo" 
-              className="w-full h-full object-cover"
+              className={`w-7 h-7 object-contain transition-all duration-500 ${scrolled || currentPage !== 'home' ? 'brightness-0' : 'brightness-100'}`}
               referrerPolicy="no-referrer"
             />
           </div>
@@ -186,7 +210,8 @@ const Navbar = ({ currentPage, setCurrentPage }: { currentPage: PageType, setCur
           </div>
         </div>
         
-        <div className={`hidden lg:flex items-center gap-12 text-[10px] font-bold uppercase tracking-[0.2em] h-full transition-colors duration-500 ${scrolled ? 'text-neutral-500' : (currentPage === 'home' ? 'text-white/40' : 'text-neutral-500')}`}>
+        {/* Desktop Menu */}
+        <div className={`hidden lg:flex items-center gap-12 text-[10px] font-bold uppercase tracking-[0.2em] h-full transition-colors duration-500 ${scrolled ? 'text-neutral-500' : (currentPage === 'home' ? 'text-white/70' : 'text-neutral-500')}`}>
           <div 
             className={`relative h-full flex items-center gap-2 cursor-pointer transition-colors group ${scrolled ? 'hover:text-black' : (currentPage === 'home' ? 'hover:text-white' : 'hover:text-black')}`}
             onMouseEnter={() => setActiveDropdown('capabilities')}
@@ -199,18 +224,20 @@ const Navbar = ({ currentPage, setCurrentPage }: { currentPage: PageType, setCur
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: 10 }}
-                  className="absolute top-full left-0 w-64 bg-white shadow-2xl rounded-2xl border border-neutral-100 p-6 overflow-hidden"
+                  className="absolute top-full left-0 pt-4 w-72"
                 >
-                  <div className="flex flex-col gap-4">
-                    {servicesData.map(s => (
-                      <button 
-                        key={s.id}
-                        onClick={() => { setCurrentPage(('service-' + s.id) as PageType); window.scrollTo(0, 0); }}
-                        className="text-left text-neutral-500 hover:text-black transition-colors"
-                      >
-                        {s.title}
-                      </button>
-                    ))}
+                  <div className="bg-white shadow-2xl rounded-2xl border border-neutral-100 p-6 overflow-hidden text-neutral-900">
+                    <div className="flex flex-col gap-4">
+                      {servicesData.map(s => (
+                        <button 
+                          key={s.id}
+                          onClick={() => { setCurrentPage(('service-' + s.id) as PageType); window.scrollTo(0, 0); setActiveDropdown(null); }}
+                          className="text-left text-[10px] font-bold uppercase tracking-wider text-neutral-500 hover:text-black transition-all hover:translate-x-2"
+                        >
+                          {s.title}
+                        </button>
+                      ))}
+                    </div>
                   </div>
                 </motion.div>
               )}
@@ -229,24 +256,26 @@ const Navbar = ({ currentPage, setCurrentPage }: { currentPage: PageType, setCur
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: 10 }}
-                  className="absolute top-full left-0 w-64 bg-white shadow-2xl rounded-2xl border border-neutral-100 p-6 overflow-hidden"
+                  className="absolute top-full left-0 pt-4 w-64"
                 >
-                  <div className="flex flex-col gap-4">
-                    <button onClick={() => setCurrentPage('about')} className="text-left text-neutral-500 hover:text-black transition-colors">Who We Are</button>
-                    <button onClick={() => setCurrentPage('about-vision')} className="text-left text-neutral-500 hover:text-black transition-colors">Vision & Mission</button>
-                    <button onClick={() => setCurrentPage('about-pillars')} className="text-left text-neutral-500 hover:text-black transition-colors">Business Pillars</button>
+                  <div className="bg-white shadow-2xl rounded-2xl border border-neutral-100 p-6 overflow-hidden text-neutral-900">
+                    <div className="flex flex-col gap-4">
+                      <button onClick={() => { setCurrentPage('about'); window.scrollTo(0, 0); setActiveDropdown(null); }} className="text-left text-[10px] font-bold uppercase tracking-wider text-neutral-500 hover:text-black transition-all hover:translate-x-2">{t.whoWeAre}</button>
+                      <button onClick={() => { setCurrentPage('about-vision'); window.scrollTo(0, 0); setActiveDropdown(null); }} className="text-left text-[10px] font-bold uppercase tracking-wider text-neutral-500 hover:text-black transition-all hover:translate-x-2">{t.visionMission}</button>
+                      <button onClick={() => { setCurrentPage('about-pillars'); window.scrollTo(0, 0); setActiveDropdown(null); }} className="text-left text-[10px] font-bold uppercase tracking-wider text-neutral-500 hover:text-black transition-all hover:translate-x-2">{t.businessPillars}</button>
+                    </div>
                   </div>
                 </motion.div>
               )}
             </AnimatePresence>
           </div>
 
-          <button onClick={() => setCurrentPage('about-funding')} className={`transition-colors ${scrolled ? 'hover:text-black' : (currentPage === 'home' ? 'hover:text-white' : 'hover:text-black')}`}>{t.investor}</button>
+          <button onClick={() => { setCurrentPage('about-funding'); window.scrollTo(0, 0); }} className={`transition-colors ${scrolled ? 'hover:text-black' : (currentPage === 'home' ? 'hover:text-white' : 'hover:text-black')}`}>{t.investor}</button>
           
           {/* Language Switcher & Contact Button */}
           <div className="flex items-center gap-4">
             <button 
-              onClick={toggleLang}
+              onClick={(e) => { e.stopPropagation(); toggleLang(); }}
               className={`flex items-center gap-2 px-3 py-1.5 rounded-full border transition-all ${scrolled ? 'border-neutral-200 text-neutral-500 hover:border-black hover:text-black' : (currentPage === 'home' ? 'border-white/20 text-white/60 hover:border-white hover:text-white' : 'border-neutral-200 text-neutral-500 hover:border-black hover:text-black')}`}
             >
               <Languages className="w-4 h-4" />
@@ -297,7 +326,7 @@ const Navbar = ({ currentPage, setCurrentPage }: { currentPage: PageType, setCur
                 ))}
               </div>
               <div className="space-y-4">
-                <div className="text-[10px] font-black text-neutral-400 tracking-[0.3em]">Corporate</div>
+                <div className="text-[10px] font-black text-neutral-400 tracking-[0.3em]">{t.corporate}</div>
                 <button onClick={() => { setCurrentPage('about'); setIsMobileMenuOpen(false); }}>{t.about}</button>
                 <button onClick={() => { setCurrentPage('about-funding'); setIsMobileMenuOpen(false); }}>{t.investor}</button>
               </div>
@@ -632,6 +661,10 @@ const Hero = ({ setCurrentPage }: { setCurrentPage: (p: PageType) => void }) => 
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-neutral-900 via-black to-black" />
       <div className="absolute inset-0 bg-grid-white opacity-[0.03]" />
       
+      {/* Animated Elements */}
+      <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-white/5 rounded-full blur-[100px] animate-pulse" />
+      <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-white/5 rounded-full blur-[100px] animate-pulse" style={{ animationDelay: '2s' }} />
+
       {/* Globe Animation Container like dinastiwahab.com */}
       <div className="absolute inset-0 flex items-center justify-center opacity-40 pointer-events-none overflow-hidden">
         <motion.div 
@@ -687,15 +720,15 @@ const Hero = ({ setCurrentPage }: { setCurrentPage: (p: PageType) => void }) => 
             </motion.div>
             
             <h1 className="text-7xl md:text-[8rem] lg:text-[11.5rem] font-display font-black tracking-tighter leading-[0.8] text-white uppercase mb-16">
-              Beyond <br />
-              <span className="font-serif italic font-light text-neutral-400 ml-[0.1em]">Business</span> <br />
+              {t.title1} <br />
+              <span className="font-serif italic font-light text-neutral-400 ml-[0.1em]">{t.title2}</span> <br />
               <motion.span
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.8, delay: 0.5 }}
                 className="text-white"
               >
-                Vision.
+                {t.title3}.
               </motion.span>
             </h1>
 
@@ -1579,7 +1612,19 @@ const ContactPage: React.FC<{ onBack: () => void }> = ({ onBack }) => {
 };
 
 const FloatingActions = () => {
+  const { lang } = useContext(LanguageContext);
+  const t = translations[lang].floating;
   const [isOpen, setIsOpen] = useState(false);
+
+  const toggleAI = () => {
+    const widget = document.querySelector('elevenlabs-convai') as any;
+    if (widget) {
+      // Typically widgets have a toggle or open method, or we click the shadow root button
+      // For now, we'll try to find the internal button if possible, or just scroll to it
+      widget.scrollIntoView({ behavior: 'smooth' });
+    }
+    setIsOpen(false);
+  };
 
   return (
     <div className="fixed bottom-8 right-8 z-[100] flex flex-col items-end gap-4">
@@ -1597,27 +1642,18 @@ const FloatingActions = () => {
               rel="noopener noreferrer"
               className="flex items-center gap-3 group"
             >
-              <span className="px-4 py-2 bg-white shadow-xl rounded-xl text-[10px] font-black uppercase tracking-widest border border-neutral-100 opacity-0 group-hover:opacity-100 transition-opacity">WhatsApp</span>
+              <span className="px-4 py-2 bg-white shadow-xl rounded-xl text-[10px] font-black uppercase tracking-widest border border-neutral-100 transition-all group-hover:scale-105">{t.whatsapp}</span>
               <div className="w-14 h-14 bg-[#25D366] text-white rounded-2xl flex items-center justify-center shadow-xl hover:scale-110 transition-transform active:scale-95">
                 <MessageCircle className="w-6 h-6" />
               </div>
             </a>
-            <a 
-              href="mailto:businesspartner@cglinkindonesia.com"
-              className="flex items-center gap-3 group"
-            >
-              <span className="px-4 py-2 bg-white shadow-xl rounded-xl text-[10px] font-black uppercase tracking-widest border border-neutral-100 opacity-0 group-hover:opacity-100 transition-opacity">Email</span>
-              <div className="w-14 h-14 bg-neutral-900 text-white rounded-2xl flex items-center justify-center shadow-xl hover:scale-110 transition-transform active:scale-95">
-                <Mail className="w-6 h-6" />
-              </div>
-            </a>
             <button 
-              onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+              onClick={toggleAI}
               className="flex items-center gap-3 group"
             >
-              <span className="px-4 py-2 bg-white shadow-xl rounded-xl text-[10px] font-black uppercase tracking-widest border border-neutral-100 opacity-0 group-hover:opacity-100 transition-opacity">Top</span>
-              <div className="w-14 h-14 bg-white text-neutral-900 rounded-2xl flex items-center justify-center shadow-xl hover:scale-110 transition-transform active:scale-95 border border-neutral-100">
-                <ArrowUp className="w-6 h-6" />
+              <span className="px-4 py-2 bg-white shadow-xl rounded-xl text-[10px] font-black uppercase tracking-widest border border-neutral-100 transition-all group-hover:scale-105">{t.ai}</span>
+              <div className="w-14 h-14 bg-neutral-900 text-white rounded-2xl flex items-center justify-center shadow-xl hover:scale-110 transition-transform active:scale-95">
+                <Bot className="w-6 h-6" />
               </div>
             </button>
           </motion.div>
@@ -1625,14 +1661,19 @@ const FloatingActions = () => {
       </AnimatePresence>
       <button 
         onClick={() => setIsOpen(!isOpen)}
-        className={`w-16 h-16 rounded-[2rem] flex items-center justify-center shadow-2xl transition-all duration-500 hover:scale-110 active:scale-95 z-10 ${isOpen ? 'bg-black text-white' : 'bg-white text-black border border-neutral-100'}`}
+        className={`w-16 h-16 rounded-2xl flex items-center justify-center shadow-2xl transition-all duration-500 hover:scale-110 active:scale-95 z-10 ${isOpen ? 'bg-neutral-900 text-white' : 'bg-white text-neutral-900 border border-neutral-100'}`}
       >
-        {isOpen ? <X className="w-6 h-6" /> : (
-          <div className="relative">
-            <MoreVertical className="w-6 h-6" />
-            <span className="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full border-2 border-white animate-pulse" />
-          </div>
-        )}
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={isOpen ? 'close' : 'open'}
+            initial={{ opacity: 0, rotate: -90, scale: 0.8 }}
+            animate={{ opacity: 1, rotate: 0, scale: 1 }}
+            exit={{ opacity: 0, rotate: 90, scale: 0.8 }}
+            transition={{ duration: 0.2 }}
+          >
+            {isOpen ? <X className="w-6 h-6" /> : <MessageSquare className="w-6 h-6" />}
+          </motion.div>
+        </AnimatePresence>
       </button>
     </div>
   );
