@@ -545,54 +545,63 @@ const LatestInsights = ({ setCurrentPage }: { setCurrentPage: (p: PageType) => v
   ];
 
   return (
-    <section className="py-40 bg-white">
-      <div className="w-full px-6 md:px-16">
+    <section className="py-40 bg-zinc-950 text-white overflow-hidden relative">
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1000px] h-[1000px] bg-white/[0.02] rounded-full blur-[120px] pointer-events-none" />
+      
+      <div className="w-full px-6 md:px-16 relative z-10">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-24 gap-8">
           <div>
-            <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-neutral-400 mb-6">Expertise & Thinking</div>
-            <h2 className="text-5xl md:text-8xl font-display font-medium tracking-tighter text-neutral-900 uppercase leading-[0.85]">
+            <div className="text-[10px] font-bold uppercase tracking-[0.5em] text-neutral-500 mb-6 flex items-center gap-4">
+              <span className="w-12 h-[1px] bg-neutral-800"></span>
+              Expertise & Thinking
+            </div>
+            <h2 className="text-6xl md:text-8xl font-display font-medium tracking-tighter text-white uppercase leading-[0.85]">
               Latest <br />
-              Insights
+              <span className="text-neutral-500">Insights</span>
             </h2>
           </div>
           <button 
             onClick={() => setCurrentPage('blog')}
-            className="group flex items-center gap-4 text-[10px] font-bold uppercase tracking-[0.3em] pb-2 border-b border-neutral-200 hover:border-black transition-all"
+            className="group flex items-center gap-4 text-[10px] font-black uppercase tracking-[0.3em] pb-3 border-b border-white/10 hover:border-white transition-all text-neutral-400 hover:text-white"
           >
             Read All Perspectives <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
           </button>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-24">
+        <div className="grid md:grid-cols-2 gap-16 lg:gap-32">
           {insights.map((insight, i) => (
             <motion.div
               key={i}
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
+              transition={{ delay: i * 0.1, duration: 0.8 }}
               className="group cursor-pointer"
               onClick={() => setSelectedArticle(insight)}
             >
-              <div className="relative aspect-[16/10] overflow-hidden mb-10 rounded-[2rem] bg-neutral-100">
+              <div className="relative aspect-[16/11] overflow-hidden mb-12 rounded-[3rem] bg-neutral-900 border border-white/5">
                 <img 
                   src={insight.image} 
                   alt={insight.title} 
-                  className="w-full h-full object-cover grayscale opacity-90 transition-all duration-1000 group-hover:grayscale-0 group-hover:opacity-100 group-hover:scale-105"
+                  className="w-full h-full object-cover grayscale opacity-50 transition-all duration-1000 group-hover:grayscale-0 group-hover:opacity-80 group-hover:scale-105"
                   referrerPolicy="no-referrer"
                 />
-                <div className="absolute top-8 left-8">
-                  <span className="px-5 py-2 bg-white/90 backdrop-blur-xl rounded-full text-[9px] font-black uppercase tracking-[0.2em] text-neutral-900 border border-white/20 shadow-xl">
+                <div className="absolute inset-0 bg-gradient-to-t from-zinc-950 via-zinc-950/20 to-transparent opacity-80" />
+                <div className="absolute top-10 left-10">
+                  <span className="px-6 py-2.5 bg-white text-black rounded-full text-[9px] font-black uppercase tracking-[0.2em] shadow-2xl">
                     {insight.category}
                   </span>
                 </div>
-                <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                   <div className="px-8 py-4 bg-white rounded-full text-[10px] font-black uppercase tracking-widest text-black transform scale-90 group-hover:scale-100 transition-transform flex items-center gap-3">
-                      Continue Reading <BookOpen className="w-4 h-4" />
+                <div className="absolute bottom-10 left-10 right-10 flex justify-between items-center transform translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500">
+                   <div className="text-[10px] font-black uppercase tracking-widest text-white flex items-center gap-3">
+                      View Full Insight <ArrowRight className="w-4 h-4" />
                    </div>
                 </div>
               </div>
-              <div className="text-[10px] font-bold text-neutral-400 uppercase tracking-widest mb-6 border-l-2 border-neutral-200 pl-4">{insight.date} — {insight.readTime}</div>
-              <h3 className="text-3xl lg:text-4xl font-display font-medium text-neutral-900 leading-[1.1] tracking-tighter group-hover:text-black transition-all">
+              <div className="text-[10px] font-bold text-neutral-500 uppercase tracking-widest mb-6 flex items-center gap-4">
+                {insight.date} <span className="w-1 h-1 rounded-full bg-neutral-800"></span> {insight.readTime}
+              </div>
+              <h3 className="text-3xl lg:text-5xl font-display font-medium text-neutral-100 leading-[1.05] tracking-tighter group-hover:text-white transition-all">
                 {insight.title}
               </h3>
             </motion.div>
@@ -601,9 +610,9 @@ const LatestInsights = ({ setCurrentPage }: { setCurrentPage: (p: PageType) => v
       </div>
 
       <ArticleModal 
-        isOpen={selectedArticle !== null} 
+        isOpen={!!selectedArticle} 
         onClose={() => setSelectedArticle(null)} 
-        article={selectedArticle}
+        article={selectedArticle} 
       />
     </section>
   );
@@ -686,34 +695,51 @@ const BusinessUnits = ({ setCurrentPage }: { setCurrentPage: (p: PageType) => vo
     {
       number: "01",
       title: "Strategy & Operations",
+      tagline: "Foundation of Excellence",
       desc: "Building a strong business foundation, from legality and organizational structure to scalable business models.",
-      id: 'fundamental'
+      id: 'fundamental',
+      bgText: "STRAT"
     },
     {
       number: "02",
       title: "Digital & Marketing",
+      tagline: "Ecosystem Growth",
       desc: "Accelerating market share through a digital ecosystem and data-driven marketing technology transformation.",
-      id: 'digital'
+      id: 'digital',
+      bgText: "DIGTL"
     },
     {
       number: "03",
       title: "Finance & Advisory",
+      tagline: "Strategic Sustainability",
       desc: "Optimization of cash flow, risk management, taxation, and strategic financial planning.",
-      id: 'finance'
+      id: 'finance',
+      bgText: "FINAN"
     }
   ];
 
   return (
-    <section id="services-bento" className="py-24 bg-white border-b border-neutral-100">
+    <section id="services-bento" className="py-32 bg-white relative overflow-hidden">
+      <div className="absolute top-0 right-0 w-96 h-96 bg-neutral-50 rounded-full blur-[100px] -mr-48 -mt-48 opacity-50" />
+      
       <div className="w-full px-6 md:px-16 container mx-auto">
-        <div className="mb-24">
-          <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-neutral-400 mb-6">Our Core Ecosystem</div>
-          <h2 className="text-5xl md:text-8xl font-display font-black tracking-tighter text-neutral-900 uppercase leading-none">
-            Strategic <br /> Units
-          </h2>
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-24 gap-12">
+          <div className="max-w-2xl">
+            <div className="text-[10px] font-bold uppercase tracking-[0.5em] text-neutral-400 mb-6 flex items-center gap-4">
+               <span className="w-20 h-[1px] bg-neutral-200"></span>
+               Our Core Ecosystem
+            </div>
+            <h2 className="text-6xl md:text-8xl font-display font-black tracking-tighter text-neutral-900 uppercase leading-[0.85]">
+              Strategic <br /> 
+              <span className="text-neutral-300">Units</span>.
+            </h2>
+          </div>
+          <p className="text-xl text-neutral-400 font-medium max-w-sm leading-relaxed mb-4">
+            We provide integrated solutions that simplify complexity and accelerate your business journey.
+          </p>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-0 border-t border-neutral-100">
+        <div className="grid md:grid-cols-3 gap-8">
           {units.map((unit, i) => (
             <motion.div
               key={i}
@@ -722,13 +748,37 @@ const BusinessUnits = ({ setCurrentPage }: { setCurrentPage: (p: PageType) => vo
               viewport={{ once: true }}
               transition={{ delay: i * 0.1, duration: 0.8 }}
               onClick={() => { setCurrentPage(('service-' + unit.id) as PageType); window.scrollTo(0, 0); }}
-              className="group p-12 lg:p-16 border-b md:border-b-0 md:border-r border-neutral-100 cursor-pointer hover:bg-neutral-50 transition-all relative overflow-hidden h-full flex flex-col"
+              className="group relative h-[600px] bg-neutral-50 rounded-[3rem] p-12 overflow-hidden cursor-pointer flex flex-col justify-between hover:bg-neutral-900 hover:scale-[1.02] transition-all duration-700"
             >
-              <div className="text-[10px] font-black text-neutral-300 uppercase tracking-[0.4em] mb-20 group-hover:text-black transition-colors">{unit.number}</div>
-              <h3 className="text-3xl font-display font-medium text-neutral-900 mb-8 uppercase tracking-tighter leading-tight group-hover:translate-x-4 transition-transform duration-500">{unit.title}</h3>
-              <p className="text-neutral-500 font-medium leading-relaxed mb-12 flex-grow max-w-xs">{unit.desc}</p>
-              <div className="flex items-center gap-4 text-[10px] font-black uppercase tracking-[0.3em] text-black opacity-0 group-hover:opacity-100 transition-all duration-500 -translate-x-4 group-hover:translate-x-0">
-                Learn More <ArrowRight className="w-4 h-4" />
+              <div className="absolute top-12 right-12 text-[120px] font-display font-black text-neutral-500/5 group-hover:text-white/5 pointer-events-none tracking-tighter leading-none mt-[-0.2em] transform transition-transform duration-1000 group-hover:scale-110">
+                {unit.bgText}
+              </div>
+
+              <div className="relative z-10">
+                <div className="text-[10px] font-black text-neutral-300 uppercase tracking-[0.4em] mb-4 group-hover:text-white/40 transition-colors">
+                  {unit.number} / 03
+                </div>
+                <div className="text-[9px] font-black text-neutral-900 group-hover:text-white/60 mb-12 uppercase tracking-widest bg-neutral-100 group-hover:bg-white/10 px-3 py-1 rounded-full w-fit transition-all">
+                  {unit.tagline}
+                </div>
+              </div>
+
+              <div className="relative z-10 mb-8">
+                <h3 className="text-4xl font-display font-black text-neutral-900 group-hover:text-white mb-8 uppercase tracking-tighter leading-tight transition-colors duration-500">
+                  {unit.title.split('&').map((part, idx) => (
+                    <span key={idx} className="block">
+                      {idx > 0 && <span className="text-neutral-300 group-hover:text-white/30 mr-3">&</span>}
+                      {part.trim()}
+                    </span>
+                  ))}
+                </h3>
+                <p className="text-neutral-500 group-hover:text-neutral-400 font-medium leading-relaxed max-w-[240px] transition-colors duration-500 mb-10">
+                  {unit.desc}
+                </p>
+                
+                <div className="w-14 h-14 rounded-2xl bg-neutral-200 group-hover:bg-white flex items-center justify-center text-neutral-900 transition-all duration-500 group-hover:scale-110 group-hover:rotate-45">
+                   <ArrowRight className="w-6 h-6 -rotate-45 group-hover:rotate-0 transition-transform duration-500" />
+                </div>
               </div>
             </motion.div>
           ))}
@@ -818,53 +868,26 @@ const Hero = ({ setCurrentPage }: { setCurrentPage: (p: PageType) => void }) => 
   const t = translations.hero;
   
   return (
-    <section className="relative min-h-screen flex items-center justify-center pt-20 pb-20 bg-black text-white">
-      {/* Futuristic Background Elements */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-neutral-900 via-black to-black" />
-      <div className="absolute inset-0 bg-grid-white opacity-[0.03]" />
+    <section className="relative min-h-screen flex items-center justify-center pt-24 pb-20 bg-black text-white overflow-hidden">
+      {/* Dynamic Background with improved gradients */}
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_80%_20%,_var(--tw-gradient-stops))] from-neutral-800/10 via-black to-black" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_80%,_var(--tw-gradient-stops))] from-neutral-800/5 via-transparent to-transparent" />
+      <div className="absolute inset-0 bg-grid-white/[0.02]" />
       
-      {/* Animated Elements */}
-      <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-white/5 rounded-full blur-[100px] animate-pulse" />
-      <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-white/5 rounded-full blur-[100px] animate-pulse" style={{ animationDelay: '2s' }} />
-
-      {/* Globe Animation Container like dinastiwahab.com */}
-      <div className="absolute inset-0 flex items-center justify-center opacity-40 pointer-events-none overflow-hidden">
-        <motion.div 
-          animate={{ rotate: 360 }}
-          transition={{ duration: 100, repeat: Infinity, ease: "linear" }}
-          className="relative w-[150vh] h-[150vh] max-w-[1200px] max-h-[1200px] flex items-center justify-center"
-        >
-          {/* Main Globe Sphere with light effect */}
-          <div className="absolute inset-0 rounded-full border border-white/5 shadow-[0_0_150px_rgba(255,255,255,0.05)]" />
-          
-          {/* Latitudinal Lines */}
-          {[...Array(6)].map((_, i) => (
-            <div 
-              key={`lat-${i}`}
-              className="absolute w-full h-[1px] bg-white/5" 
-              style={{ top: `${(i + 1) * 14.28}%` }}
-            />
-          ))}
-          
-          {/* Longitudinal Lines */}
-          {[...Array(6)].map((_, i) => (
-            <div 
-              key={`long-${i}`}
-              className="absolute h-full w-[1px] bg-white/5" 
-              style={{ left: `${(i + 1) * 14.28}%` }}
-            />
-          ))}
-          
-          {/* Pulsating Points for futuristic connectivity look */}
-          <div className="absolute top-[20%] left-[30%] w-2 h-2 bg-white/60 rounded-full blur-[2px] animate-pulse" />
-          <div className="absolute top-[60%] left-[80%] w-1.5 h-1.5 bg-white/40 rounded-full animate-bounce" style={{ animationDuration: '4s' }} />
-          <div className="absolute top-[40%] left-[15%] w-1 h-1 bg-white/30 rounded-full blur-[1px]" />
-          <div className="absolute top-[15%] left-[70%] w-2 h-2 bg-blue-500/20 rounded-full blur-[4px] animate-pulse" />
-        </motion.div>
-      </div>
-
+      {/* Subtle organic light orbs */}
+      <motion.div 
+        animate={{ 
+          scale: [1, 1.2, 1],
+          opacity: [0.1, 0.15, 0.1],
+          x: [0, 50, 0],
+          y: [0, -30, 0]
+        }}
+        transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}
+        className="absolute top-[-10%] right-[-10%] w-[600px] h-[600px] bg-white rounded-full blur-[150px]" 
+      />
+      
       <div className="w-full px-6 md:px-16 container mx-auto relative z-10">
-        <div className="max-w-7xl mx-auto">
+        <div className="max-w-6xl mx-auto">
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -872,23 +895,37 @@ const Hero = ({ setCurrentPage }: { setCurrentPage: (p: PageType) => void }) => 
             className="flex flex-col items-center text-center"
           >
             <motion.div 
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2 }}
-              className="inline-flex items-center gap-3 px-6 py-2 rounded-full border border-white/10 bg-white/5 backdrop-blur-md text-[10px] font-black uppercase tracking-[0.4em] text-neutral-400 mb-12"
+              transition={{ delay: 0.2, duration: 0.8 }}
+              className="inline-flex items-center gap-3 px-6 py-2 rounded-full border border-white/10 bg-white/5 backdrop-blur-md text-[10px] font-black uppercase tracking-[0.5em] text-neutral-400 mb-10"
             >
               <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
               {t.tag}
             </motion.div>
             
-            <h1 className="text-7xl md:text-[8rem] lg:text-[11.5rem] font-display font-black tracking-tighter leading-[0.8] text-white uppercase mb-16">
-              {t.title1} <br />
-              <span className="font-serif italic font-light text-neutral-400 ml-[0.1em]">{t.title2}</span> <br />
+            <h1 className="text-5xl md:text-8xl lg:text-8xl font-display font-black tracking-[-0.04em] leading-[0.85] text-white uppercase mb-12">
+              <motion.span 
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.3, duration: 0.8 }}
+                className="block"
+              >
+                {t.title1}
+              </motion.span>
+              <motion.span 
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.4, duration: 0.8 }}
+                className="block font-serif italic font-light text-neutral-400"
+              >
+                {t.title2}
+              </motion.span>
               <motion.span
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.8, delay: 0.5 }}
-                className="text-white"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.5, duration: 0.8 }}
+                className="block bg-gradient-to-r from-white via-white to-neutral-500 bg-clip-text text-transparent"
               >
                 {t.title3}.
               </motion.span>
@@ -897,27 +934,27 @@ const Hero = ({ setCurrentPage }: { setCurrentPage: (p: PageType) => void }) => 
             <motion.p 
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.4 }}
-              className="text-xl md:text-2xl text-neutral-400 font-medium max-w-2xl leading-tight mb-20"
+              transition={{ delay: 0.6, duration: 0.8 }}
+              className="text-lg md:text-xl text-neutral-400 font-medium max-w-xl leading-relaxed mb-16"
             >
-              {t.desc}
+              Building the future through strategic excellence based on <span className="text-white italic">Legal, Logical, & Halal</span> principles.
             </motion.p>
 
             <motion.div 
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.6 }}
-              className="flex flex-col sm:flex-row gap-8"
+              transition={{ delay: 0.7, duration: 0.8 }}
+              className="flex flex-col sm:flex-row gap-6"
             >
               <button 
                 onClick={() => document.getElementById('strategic-units')?.scrollIntoView({ behavior: 'smooth' })}
-                className="px-12 py-5 bg-white text-black font-black uppercase tracking-widest text-[10px] rounded-full hover:bg-neutral-200 transition-all hover:scale-105 shadow-[0_0_30px_rgba(255,255,255,0.15)]"
+                className="px-14 py-5 bg-white text-black font-black uppercase tracking-widest text-[10px] rounded-full hover:bg-neutral-200 transition-all hover:scale-105 shadow-[0_20px_40px_rgba(255,255,255,0.1)] active:scale-95"
               >
                 {t.cta1}
               </button>
               <button 
-                onClick={() => { setCurrentPage('about'); window.scrollTo(0, 0); }}
-                className="px-12 py-5 border border-white/20 text-white font-black uppercase tracking-widest text-[10px] rounded-full hover:bg-white/5 transition-all"
+                onClick={() => { setCurrentPage('about-vision'); window.scrollTo(0, 0); }}
+                className="px-14 py-5 border border-white/20 text-white backdrop-blur-md font-black uppercase tracking-widest text-[10px] rounded-full hover:bg-white/10 transition-all active:scale-95"
               >
                 {t.cta2}
               </button>
@@ -926,16 +963,6 @@ const Hero = ({ setCurrentPage }: { setCurrentPage: (p: PageType) => void }) => 
         </div>
       </div>
       
-      {/* Scroll Indicator */}
-      <motion.div 
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1.5 }}
-        className="absolute bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-6 text-neutral-600"
-      >
-        <span className="text-[9px] font-black uppercase tracking-[0.5em] rotate-180 [writing-mode:vertical-lr]">Scroll</span>
-        <div className="w-[1px] h-20 bg-gradient-to-b from-white/20 via-white/5 to-transparent" />
-      </motion.div>
     </section>
   );
 };
@@ -1089,87 +1116,76 @@ const WhyUs = () => {
   const reasons = [
     {
       icon: <Briefcase className="w-6 h-6" />,
-      title: "Experienced & Visionary Founder",
-      desc: "Multi-sector experience (B2B, B2C, retail, energy, media, pilgrimage)."
+      title: "Visionary & Experienced",
+      desc: "Our leadership brings cross-sector expertise—from energy to digital pilgrimage—enabling multifaceted solutions.",
+      id: "visionary"
     },
     {
       icon: <Network className="w-6 h-6" />,
-      title: "Extensive Network",
-      desc: "Strong business & professional connections."
+      title: "High-Caliber Network",
+      desc: "Opening doors through a vast ecosystem of strategic partners, investors, and industry veterans.",
+      id: "network"
     },
     {
       icon: <ShieldCheck className="w-6 h-6" />,
-      title: "Syariah Partnership",
-      desc: "Backed by Syirkah and Sharia-compliant solutions."
+      title: "Ethical Integrity",
+      desc: "Strict adherence to Legal, Logical, and Halal principles, ensuring long-term sustainable credibility.",
+      id: "ethical"
     },
     {
       icon: <BarChart3 className="w-6 h-6" />,
-      title: "Systematic & Data-Driven",
-      desc: "Research-based, structured business approach."
+      title: "Data-Driven Precision",
+      desc: "Moving beyond intuition with research-backed strategies and measurable operational metrics.",
+      id: "data"
     }
   ];
 
-  const lines = [
-    { icon: <Building2 className="w-8 h-8" />, name: "B2B" },
-    { icon: <Users className="w-8 h-8" />, name: "B2C" },
-    { icon: <ShoppingCart className="w-8 h-8" />, name: "Retail & Wholesale" },
-    { icon: <Zap className="w-8 h-8" />, name: "Energy" },
-    { icon: <MonitorPlay className="w-8 h-8" />, name: "Media" },
-    { icon: <Plane className="w-8 h-8" />, name: "Pilgrimage" },
-    { icon: <Share2 className="w-8 h-8" />, name: "Affiliate Program" },
-  ];
-
   return (
-    <section id="business-lines" className="py-32 relative z-10 bg-white">
-      <div className="w-full px-6 md:px-16">
-        <div className="grid lg:grid-cols-2 gap-32">
+    <section className="py-40 bg-white relative overflow-hidden">
+      <div className="absolute top-0 right-0 w-1/3 h-full bg-neutral-50/50 -skew-x-12 translate-x-1/2 pointer-events-none" />
+      
+      <div className="w-full px-6 md:px-16 container mx-auto">
+        <div className="grid lg:grid-cols-2 gap-24 items-start">
           <div>
-            <h2 className="text-4xl md:text-7xl font-display font-black tracking-tighter mb-16 text-neutral-900">WHY US?</h2>
-            <div className="space-y-12">
-              {reasons.map((r, i) => (
-                <motion.div 
-                  key={i}
-                  initial={{ opacity: 0, x: -20 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: i * 0.1 }}
-                  className="flex gap-8 group"
-                >
-                  <div className="w-16 h-16 rounded-2xl bg-neutral-50 flex items-center justify-center shrink-0 text-neutral-900 group-hover:bg-black group-hover:text-white transition-all duration-500 border border-neutral-100">
-                    {r.icon}
-                  </div>
-                  <div>
-                    <h3 className="text-2xl font-bold mb-3 text-neutral-900">{r.title}</h3>
-                    <p className="text-neutral-500 leading-relaxed text-lg">{r.desc}</p>
-                  </div>
-                </motion.div>
-              ))}
+            <div className="text-[10px] font-black text-neutral-400 uppercase tracking-[0.4em] mb-8">Strategic Advantage</div>
+            <h2 className="text-6xl md:text-8xl font-display font-black tracking-tighter text-neutral-900 uppercase leading-[0.85] mb-12">
+              Why <br />
+              <span className="text-neutral-300">Partner</span> With <br />
+              CGLINK?
+            </h2>
+            <p className="text-xl text-neutral-500 font-medium max-w-md leading-relaxed mb-16">
+              We don't just consult; we build legacy. Our unique blend of sharia-compliant values and modern operational excellence creates a formidable competitive edge.
+            </p>
+            <div className="aspect-[16/9] rounded-[3rem] overflow-hidden bg-neutral-100 shadow-2xl relative group border border-neutral-100">
+               <img 
+                 src="https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=2669&auto=format&fit=crop" 
+                 alt="Professional Atmosphere" 
+                 className="w-full h-full object-cover grayscale transition-all duration-1000 group-hover:grayscale-0 group-hover:scale-105"
+                 referrerPolicy="no-referrer"
+               />
+               <div className="absolute inset-0 bg-neutral-900/10 group-hover:bg-transparent transition-colors" />
             </div>
           </div>
 
-          <div className="bg-neutral-50 p-12 rounded-[3.5rem] border border-neutral-100">
-            <h2 className="text-4xl md:text-5xl font-display font-bold mb-8 text-neutral-900">Our Business Lines</h2>
-            <p className="text-neutral-500 leading-relaxed mb-12 text-lg font-medium">
-              CGLINK manages various business lines to answer dynamic market needs, ranging from B2B and B2C to retail, wholesale, and the energy sector.
-            </p>
-            
-            <div className="grid grid-cols-2 gap-4">
-              {lines.map((l, i) => (
-                <motion.div
-                  key={i}
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: i * 0.05 }}
-                  className="bg-white p-6 rounded-2xl flex items-center gap-4 hover:shadow-lg transition-all duration-300 group cursor-pointer border border-neutral-100"
-                >
-                  <div className="text-neutral-400 group-hover:text-black transition-colors">
-                    {l.icon}
-                  </div>
-                  <span className="font-bold text-sm text-neutral-900">{l.name}</span>
-                </motion.div>
-              ))}
-            </div>
+          <div className="grid sm:grid-cols-1 gap-8">
+            {reasons.map((r, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, x: 30 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.1, duration: 0.8 }}
+                className="group bg-neutral-50 p-12 lg:p-14 rounded-[3.5rem] border border-neutral-100 hover:bg-neutral-900 transition-all duration-700 hover:shadow-2xl hover:shadow-neutral-200 hover:-translate-y-2"
+              >
+                <div className="w-16 h-16 rounded-2xl bg-white group-hover:bg-white/10 flex items-center justify-center text-neutral-900 group-hover:text-white transition-all duration-700 mb-8 shadow-sm">
+                  {r.icon}
+                </div>
+                <h3 className="text-2xl font-display font-bold text-neutral-900 group-hover:text-white mb-6 uppercase tracking-tight transition-colors">{r.title}</h3>
+                <p className="text-neutral-500 group-hover:text-neutral-400 font-medium leading-relaxed transition-colors">
+                  {r.desc}
+                </p>
+              </motion.div>
+            ))}
           </div>
         </div>
       </div>
@@ -1409,10 +1425,12 @@ const BusinessCheckup = () => {
   );
 };
 
-const Footer = () => {
+const Footer = ({ setCurrentPage }: { setCurrentPage: (p: PageType) => void }) => {
   const t = translations.nav;
   return (
-    <footer className="py-32 bg-black text-white selection:bg-white selection:text-black">
+    <footer className="py-32 bg-zinc-950 text-white selection:bg-white selection:text-black relative overflow-hidden">
+      <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+      
       <div className="w-full px-6 md:px-16 container mx-auto">
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-20 mb-32">
           <div className="lg:col-span-2">
@@ -1425,46 +1443,51 @@ const Footer = () => {
                   referrerPolicy="no-referrer"
                 />
               </div>
-              <span className="font-heading font-black text-2xl tracking-tighter uppercase">CGLINK</span>
+              <span className="font-display font-black text-2xl tracking-tighter uppercase text-white">CGLINK</span>
             </div>
-            <h2 className="text-4xl md:text-6xl font-display font-medium tracking-tighter mb-10 uppercase leading-[0.9]">Let's build the <br /><span className="italic text-neutral-400">Future of Business</span> <br />Together.</h2>
-            <div className="text-neutral-400 font-medium max-w-sm mb-12 leading-relaxed text-lg">
-              Leading strategic partner in building professional, competitive, and sustainable businesses.
-            </div>
-            <div className="flex gap-8">
-              <a href="https://www.instagram.com/cglink_/?hl=en" target="_blank" rel="noopener noreferrer" className="hover:text-neutral-400 transition-all hover:scale-110">
-                <Instagram className="w-6 h-6" />
+            <h2 className="text-4xl md:text-7xl font-display font-black tracking-tighter mb-12 uppercase leading-[0.85]">
+              Let's build <br />
+              <span className="text-neutral-500 italic font-light">The Future</span> <br />
+              Together.
+            </h2>
+            <div className="flex gap-6">
+              <a href="https://www.instagram.com/cglink_/?hl=en" target="_blank" rel="noopener noreferrer" className="w-12 h-12 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center hover:bg-white hover:text-black transition-all">
+                <Instagram className="w-5 h-5" />
               </a>
-              <a href="https://id.linkedin.com/company/catur-gunandi-link-indonesia?trk=ppro_cprof" target="_blank" rel="noopener noreferrer" className="hover:text-neutral-400 transition-all hover:scale-110">
-                <Linkedin className="w-6 h-6" />
+              <a href="https://id.linkedin.com/company/catur-gunandi-link-indonesia?trk=ppro_cprof" target="_blank" rel="noopener noreferrer" className="w-12 h-12 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center hover:bg-white hover:text-black transition-all">
+                <Linkedin className="w-5 h-5" />
               </a>
             </div>
           </div>
           
           <div>
-            <div className="text-[10px] font-black uppercase tracking-[0.4em] text-neutral-500 mb-10">Navigation</div>
-            <ul className="space-y-6 text-xs font-bold uppercase tracking-[0.3em]">
-              <li><button onClick={() => window.scrollTo(0, 0)} className="hover:text-neutral-400 transition-colors text-left uppercase">{t.capabilities}</button></li>
-              <li><button className="hover:text-neutral-400 transition-colors text-left uppercase">{t.investor}</button></li>
-              <li><button className="hover:text-neutral-400 transition-colors text-left uppercase">{t.about}</button></li>
-              <li><button className="hover:text-neutral-400 transition-colors text-left uppercase">{t.contact}</button></li>
+            <div className="text-[10px] font-black uppercase tracking-[0.5em] text-neutral-500 mb-10">Navigation</div>
+            <ul className="space-y-6 text-[10px] font-black uppercase tracking-[0.3em]">
+              <li><button onClick={() => { setCurrentPage('home'); window.scrollTo(0, 0); }} className="hover:text-neutral-400 transition-colors text-left">Home</button></li>
+              <li><button onClick={() => { setCurrentPage('about-vision'); window.scrollTo(0, 0); }} className="hover:text-neutral-400 transition-colors text-left">{t.about}</button></li>
+              <li><button onClick={() => { setCurrentPage('venture-thesis'); window.scrollTo(0, 0); }} className="hover:text-neutral-400 transition-colors text-left">{t.investor}</button></li>
+              <li><button onClick={() => { setCurrentPage('contact'); window.scrollTo(0, 0); }} className="hover:text-neutral-400 transition-colors text-left">{t.contact}</button></li>
             </ul>
           </div>
 
           <div>
-            <div className="text-[10px] font-black uppercase tracking-[0.4em] text-neutral-500 mb-10">Office Base</div>
-            <div className="text-neutral-400 text-sm leading-relaxed font-medium">
+            <div className="text-[10px] font-black uppercase tracking-[0.5em] text-neutral-500 mb-10">Office Base</div>
+            <div className="text-neutral-400 text-xs leading-relaxed font-bold uppercase tracking-widest mb-6 border-l border-neutral-800 pl-6">
               Jl. Ciputat Raya No. 1B Unit 4 RT01/RW08<br />
               Pondok Pinang, Kebayoran Lama<br />
               Jakarta Selatan 12310<br />
               Indonesia
             </div>
+            <div className="text-white font-bold text-xs">businesspartner@cglinkindonesia.com</div>
           </div>
         </div>
 
-        <div className="pt-16 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-8">
-          <div className="text-[9px] font-black uppercase tracking-[0.4em] text-neutral-500">© {new Date().getFullYear()} CGLINK INDO. BEYOND BUSINESS.</div>
-          <div className="text-[9px] font-black uppercase tracking-[0.4em] text-neutral-500">{t.legal}</div>
+        <div className="pt-16 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-8">
+          <div className="text-[9px] font-black uppercase tracking-[0.5em] text-neutral-600">© {new Date().getFullYear()} CGLINK INDONESIA. BEYOND BUSINESS.</div>
+          <div className="text-[9px] font-black uppercase tracking-[0.5em] text-neutral-600 flex gap-10">
+             <span>Privacy Policy</span>
+             <span>Terms of Service</span>
+          </div>
         </div>
       </div>
     </footer>
@@ -1887,7 +1910,7 @@ export default function App() {
       </AnimatePresence>
       
       <FloatingActions />
-      <Footer />
+      <Footer setCurrentPage={setCurrentPage} />
     </div>
   );
 }
