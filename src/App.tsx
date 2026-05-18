@@ -43,9 +43,15 @@ import {
   ServiceHCPage 
 } from "./ServicePages";
 import { CareersPage, BlogPage } from "./AdditionalPages";
-import { VisionMissionPage, PilarBisnisPage, FundingPortfolioPage } from "./AboutPages";
+import { 
+  VisionMissionPage, 
+  PilarBisnisPage, 
+  FundingPortfolioPage,
+  ImpactPage,
+  InvestmentThesisPage
+} from "./AboutPages";
 
-export type PageType = 'home' | 'about' | 'contact' | 'service-fundamental' | 'service-digital' | 'service-partnerships' | 'service-finance' | 'service-hc' | 'careers' | 'blog' | 'about-vision' | 'about-pillars' | 'about-funding';
+export type PageType = 'home' | 'about' | 'contact' | 'service-fundamental' | 'service-digital' | 'service-partnerships' | 'service-finance' | 'service-hc' | 'careers' | 'blog' | 'about-vision' | 'about-pillars' | 'about-funding' | 'impact-yasci' | 'venture-thesis' | 'venture-portfolio';
 
 const translations = {
   nav: {
@@ -57,13 +63,18 @@ const translations = {
     corporate: "Corporate",
     whoWeAre: "Who We Are",
     visionMission: "Vision & Mission",
-    businessPillars: "Business Pillars"
+    businessPillars: "Business Units",
+    impact: "Impact",
+    venture: "CGLINK Venture",
+    consulting: "CGLINK Consulting",
+    career: "Career",
+    insights: "Insights"
   },
   hero: {
-    tag: "Beyond Business Growth",
-    title1: "Beyond",
-    title2: "Business",
-    title3: "Vision",
+    tag: "One Link, Thousands of Opportunities",
+    title1: "One Link,",
+    title2: "Thousands of",
+    title3: "Opportunities",
     desc: "Building the future of business through strategic collaboration based on Legal, Logical, & Halal principles.",
     cta1: "Explore Units",
     cta2: "About CGLINK"
@@ -155,41 +166,9 @@ const Navbar = ({ currentPage, setCurrentPage }: { currentPage: PageType, setCur
         </div>
         
         {/* Desktop Menu */}
-        <div className={`hidden lg:flex items-center gap-12 text-[10px] font-bold uppercase tracking-[0.2em] h-full transition-colors duration-500 ${scrolled ? 'text-neutral-500' : (currentPage === 'home' ? 'text-white/70' : 'text-neutral-500')}`}>
-          <div 
-            className={`relative h-full flex items-center gap-2 cursor-pointer transition-colors group ${scrolled ? 'hover:text-black' : (currentPage === 'home' ? 'hover:text-white' : 'hover:text-black')}`}
-            onMouseEnter={() => setActiveDropdown('capabilities')}
-            onMouseLeave={() => setActiveDropdown(null)}
-          >
-            {t.capabilities} <ChevronDown className={`w-3 h-3 transition-transform ${activeDropdown === 'capabilities' ? 'rotate-180' : ''}`} />
-            <AnimatePresence>
-              {activeDropdown === 'capabilities' && (
-                <motion.div 
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: 10 }}
-                  className="absolute top-full left-0 w-72"
-                >
-                  <div className="pt-4">
-                    <div className="bg-white shadow-2xl rounded-2xl border border-neutral-100 p-6 overflow-hidden text-neutral-900">
-                      <div className="flex flex-col gap-4">
-                        {servicesData.map(s => (
-                          <button 
-                            key={s.id}
-                            id={`nav-capability-${s.id}`}
-                            onClick={() => { setCurrentPage(('service-' + s.id) as PageType); window.scrollTo(0, 0); setActiveDropdown(null); }}
-                            className="text-left text-[10px] font-bold uppercase tracking-wider text-neutral-500 hover:text-black transition-all hover:translate-x-2"
-                          >
-                            {s.title}
-                          </button>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </div>
+        <div className={`hidden lg:flex items-center gap-10 text-[10px] font-bold uppercase tracking-[0.2em] h-full transition-colors duration-500 ${scrolled ? 'text-neutral-500' : (currentPage === 'home' ? 'text-white/70' : 'text-neutral-500')}`}>
+          
+          <button id="nav-home" onClick={() => { setCurrentPage('home'); window.scrollTo(0, 0); }} className={`transition-colors ${scrolled ? 'hover:text-black' : (currentPage === 'home' ? 'hover:text-white' : 'hover:text-black')}`}>Home</button>
 
           <div 
             className={`relative h-full flex items-center gap-2 cursor-pointer transition-colors group ${scrolled ? 'hover:text-black' : (currentPage === 'home' ? 'hover:text-white' : 'hover:text-black')}`}
@@ -208,9 +187,7 @@ const Navbar = ({ currentPage, setCurrentPage }: { currentPage: PageType, setCur
                   <div className="pt-4">
                     <div className="bg-white shadow-2xl rounded-2xl border border-neutral-100 p-6 overflow-hidden text-neutral-900">
                       <div className="flex flex-col gap-4">
-                        <button id="nav-about-who" onClick={() => { setCurrentPage('about'); window.scrollTo(0, 0); setActiveDropdown(null); }} className="text-left text-[10px] font-bold uppercase tracking-wider text-neutral-500 hover:text-black transition-all hover:translate-x-2">{t.whoWeAre}</button>
                         <button id="nav-about-vision" onClick={() => { setCurrentPage('about-vision'); window.scrollTo(0, 0); setActiveDropdown(null); }} className="text-left text-[10px] font-bold uppercase tracking-wider text-neutral-500 hover:text-black transition-all hover:translate-x-2">{t.visionMission}</button>
-                        <button id="nav-about-pillars" onClick={() => { setCurrentPage('about-pillars'); window.scrollTo(0, 0); setActiveDropdown(null); }} className="text-left text-[10px] font-bold uppercase tracking-wider text-neutral-500 hover:text-black transition-all hover:translate-x-2">{t.businessPillars}</button>
                       </div>
                     </div>
                   </div>
@@ -219,14 +196,89 @@ const Navbar = ({ currentPage, setCurrentPage }: { currentPage: PageType, setCur
             </AnimatePresence>
           </div>
 
-          <button id="nav-investor" onClick={() => { setCurrentPage('about-funding'); window.scrollTo(0, 0); }} className={`transition-colors ${scrolled ? 'hover:text-black' : (currentPage === 'home' ? 'hover:text-white' : 'hover:text-black')}`}>{t.investor}</button>
+          <div 
+            className={`relative h-full flex items-center gap-2 cursor-pointer transition-colors group ${scrolled ? 'hover:text-black' : (currentPage === 'home' ? 'hover:text-white' : 'hover:text-black')}`}
+            onMouseEnter={() => setActiveDropdown('capabilities')}
+            onMouseLeave={() => setActiveDropdown(null)}
+          >
+            {t.capabilities} <ChevronDown className={`w-3 h-3 transition-transform ${activeDropdown === 'capabilities' ? 'rotate-180' : ''}`} />
+            <AnimatePresence>
+              {activeDropdown === 'capabilities' && (
+                <motion.div 
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: 10 }}
+                  className="absolute top-full left-0 w-80"
+                >
+                  <div className="pt-4">
+                    <div className="bg-white shadow-2xl rounded-2xl border border-neutral-100 p-6 overflow-hidden text-neutral-900">
+                      <div className="space-y-6">
+                        <div>
+                          <div className="text-[10px] font-black text-neutral-300 uppercase mb-3 px-2 tracking-widest">{t.consulting}</div>
+                          <div className="flex flex-col gap-3">
+                            <button onClick={() => { setCurrentPage('about-vision'); window.scrollTo(0, 1500); setActiveDropdown(null); }} className="text-left text-[9px] px-2 font-bold uppercase tracking-wider text-neutral-500 hover:text-black transition-all">Why us?</button>
+                            {servicesData.map(s => (
+                              <button 
+                                key={s.id}
+                                id={`nav-capability-${s.id}`}
+                                onClick={() => { setCurrentPage(('service-' + s.id) as PageType); window.scrollTo(0, 0); setActiveDropdown(null); }}
+                                className="text-left text-[9px] px-2 font-bold uppercase tracking-wider text-neutral-500 hover:text-black transition-all hover:translate-x-1"
+                              >
+                                {s.title}
+                              </button>
+                            ))}
+                          </div>
+                        </div>
+                        <div className="pt-4 border-t border-neutral-50">
+                          <div className="text-[10px] font-black text-neutral-300 uppercase mb-3 px-2 tracking-widest">{t.venture}</div>
+                          <div className="flex flex-col gap-3">
+                            <button onClick={() => { setCurrentPage('venture-thesis'); window.scrollTo(0, 0); setActiveDropdown(null); }} className="text-left text-[9px] px-2 font-bold uppercase tracking-wider text-neutral-500 hover:text-black transition-all hover:translate-x-1">Investment Thesis</button>
+                            <button onClick={() => { setCurrentPage('venture-portfolio'); window.scrollTo(0, 0); setActiveDropdown(null); }} className="text-left text-[9px] px-2 font-bold uppercase tracking-wider text-neutral-500 hover:text-black transition-all hover:translate-x-1">Portfolio</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+
+          <div 
+            className={`relative h-full flex items-center gap-2 cursor-pointer transition-colors group ${scrolled ? 'hover:text-black' : (currentPage === 'home' ? 'hover:text-white' : 'hover:text-black')}`}
+            onMouseEnter={() => setActiveDropdown('impact')}
+            onMouseLeave={() => setActiveDropdown(null)}
+          >
+            {t.impact} <ChevronDown className={`w-3 h-3 transition-transform ${activeDropdown === 'impact' ? 'rotate-180' : ''}`} />
+            <AnimatePresence>
+              {activeDropdown === 'impact' && (
+                <motion.div 
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: 10 }}
+                  className="absolute top-full left-0 w-64"
+                >
+                  <div className="pt-4">
+                    <div className="bg-white shadow-2xl rounded-2xl border border-neutral-100 p-6 overflow-hidden text-neutral-900">
+                      <div className="flex flex-col gap-4">
+                        <button onClick={() => { setCurrentPage('impact-yasci'); window.scrollTo(0, 0); setActiveDropdown(null); }} className="text-left text-[10px] font-bold uppercase tracking-wider text-neutral-500 hover:text-black transition-all hover:translate-x-2">Yasci</button>
+                      </div>
+                    </div>
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+
+          <button id="nav-career" onClick={() => { setCurrentPage('careers'); window.scrollTo(0, 0); }} className={`transition-colors ${scrolled ? 'hover:text-black' : (currentPage === 'home' ? 'hover:text-white' : 'hover:text-black')}`}>{t.career}</button>
+          <button id="nav-insights" onClick={() => { setCurrentPage('blog'); window.scrollTo(0, 0); }} className={`transition-colors ${scrolled ? 'hover:text-black' : (currentPage === 'home' ? 'hover:text-white' : 'hover:text-black')}`}>{t.insights}</button>
           
           {/* Contact Button */}
           <div className="flex items-center gap-4">
             <button 
               id="nav-contact"
               onClick={() => { setCurrentPage('contact'); window.scrollTo(0, 0); }}
-              className={`px-10 py-3.5 rounded-2xl transition-all hover:scale-105 shadow-xl active:scale-95 text-[10px] font-black uppercase tracking-widest ${scrolled ? 'bg-neutral-900 text-white hover:bg-black shadow-neutral-200' : (currentPage === 'home' ? 'bg-white text-black hover:bg-neutral-200 shadow-white/5' : 'bg-neutral-900 text-white hover:bg-black shadow-neutral-200')}`}
+              className={`px-8 py-3 rounded-2xl transition-all hover:scale-105 shadow-xl active:scale-95 text-[10px] font-black uppercase tracking-widest ${scrolled ? 'bg-neutral-900 text-white hover:bg-black shadow-neutral-200' : (currentPage === 'home' ? 'bg-white text-black hover:bg-neutral-200 shadow-white/5' : 'bg-neutral-900 text-white hover:bg-black shadow-neutral-200')}`}
             >
               {t.contact}
             </button>
@@ -252,24 +304,37 @@ const Navbar = ({ currentPage, setCurrentPage }: { currentPage: PageType, setCur
           initial={{ opacity: 0, x: '100%' }}
           animate={{ opacity: 1, x: 0 }}
           exit={{ opacity: 0, x: '100%' }}
-          className="fixed inset-0 bg-white z-[3000] p-10 flex flex-col pt-32 gap-12 overflow-y-auto"
+          className="fixed inset-0 bg-white z-[3000] p-10 flex flex-col pt-32 gap-8 overflow-y-auto"
         >
           <button id="mobile-menu-close" className="absolute top-8 right-8 w-12 h-12 rounded-2xl bg-neutral-50 flex items-center justify-center shadow-sm" onClick={() => setIsMobileMenuOpen(false)}><X className="w-6 h-6" /></button>
-          <div className="flex flex-col gap-10 text-3xl font-display font-black uppercase tracking-tighter text-neutral-900">
-            <div className="space-y-4">
-              <div className="text-[10px] font-black text-neutral-400 tracking-[0.3em]">{t.capabilities}</div>
+          <div className="flex flex-col gap-6 text-2xl font-display font-black uppercase tracking-tighter text-neutral-900 border-b border-neutral-100 pb-10">
+            <button id="mobile-nav-home" onClick={() => { setCurrentPage('home'); setIsMobileMenuOpen(false); window.scrollTo(0, 0); }} className="block text-left">Home</button>
+            <button id="mobile-nav-about" onClick={() => { setCurrentPage('about-vision'); setIsMobileMenuOpen(false); window.scrollTo(0, 0); }} className="block text-left">{t.about}</button>
+            
+            <div className="space-y-4 pt-4 border-t border-neutral-50">
+              <div className="text-[10px] font-black text-neutral-400 tracking-[0.3em]">{t.consulting}</div>
               {servicesData.map(s => (
-                <button key={s.id} id={`mobile-nav-capability-${s.id}`} onClick={() => { setCurrentPage(('service-' + s.id) as PageType); setIsMobileMenuOpen(false); }} className="block text-left">{s.title}</button>
+                <button key={s.id} id={`mobile-nav-capability-${s.id}`} onClick={() => { setCurrentPage(('service-' + s.id) as PageType); setIsMobileMenuOpen(false); window.scrollTo(0, 0); }} className="block text-left text-xl opacity-70">{s.title}</button>
               ))}
             </div>
-            <div className="space-y-4">
-              <div className="text-[10px] font-black text-neutral-400 tracking-[0.3em]">{t.corporate}</div>
-              <button id="mobile-nav-about" onClick={() => { setCurrentPage('about'); setIsMobileMenuOpen(false); }} className="block text-left">{t.about}</button>
-              <button id="mobile-nav-investor" onClick={() => { setCurrentPage('about-funding'); setIsMobileMenuOpen(false); }} className="block text-left">{t.investor}</button>
+
+            <div className="space-y-4 pt-4 border-t border-neutral-50">
+              <div className="text-[10px] font-black text-neutral-400 tracking-[0.3em]">{t.venture}</div>
+              <button onClick={() => { setCurrentPage('venture-thesis'); setIsMobileMenuOpen(false); window.scrollTo(0, 0); }} className="block text-left text-xl opacity-70">Investment Thesis</button>
+              <button onClick={() => { setCurrentPage('venture-portfolio'); setIsMobileMenuOpen(false); window.scrollTo(0, 0); }} className="block text-left text-xl opacity-70">Portfolio</button>
             </div>
+
+            <div className="space-y-4 pt-4 border-t border-neutral-50">
+              <div className="text-[10px] font-black text-neutral-400 tracking-[0.3em]">{t.impact}</div>
+              <button onClick={() => { setCurrentPage('impact-yasci'); setIsMobileMenuOpen(false); window.scrollTo(0, 0); }} className="block text-left text-xl opacity-70">Yasci</button>
+            </div>
+
+            <button onClick={() => { setCurrentPage('careers'); setIsMobileMenuOpen(false); window.scrollTo(0, 0); }} className="block text-left">{t.career}</button>
+            <button onClick={() => { setCurrentPage('blog'); setIsMobileMenuOpen(false); window.scrollTo(0, 0); }} className="block text-left">{t.insights}</button>
+            
             <button 
               id="mobile-nav-contact"
-              onClick={() => { setCurrentPage('contact'); setIsMobileMenuOpen(false); }}
+              onClick={() => { setCurrentPage('contact'); setIsMobileMenuOpen(false); window.scrollTo(0, 0); }}
               className="mt-4 px-10 py-5 bg-neutral-900 text-white rounded-3xl text-xl font-black uppercase tracking-widest text-center"
             >
               {t.contact}
@@ -1442,7 +1507,7 @@ const AboutUs: React.FC<{ onBack: () => void }> = ({ onBack }) => {
             <section>
               <h3 className="text-2xl font-display font-bold text-neutral-900 mb-6 uppercase tracking-tight">Who We Are?</h3>
               <p>
-                Established in 2025 and based in the business heart of South Jakarta, CGLINK Indonesia is a business consulting firm born from a spirit of collaboration and innovation. We understand that every business has unique challenges; that's why we don't just provide advice, but provide measurable and sustainable solutions.
+                Established in 2023 and based in the business heart of South Jakarta, CGLINK Indonesia is a business consulting firm born from a spirit of collaboration and innovation. We understand that every business has unique challenges; that's why we don't just provide advice, but provide measurable and sustainable solutions.
               </p>
             </section>
 
@@ -1785,6 +1850,15 @@ export default function App() {
         )}
         {currentPage === 'about-funding' && (
           <FundingPortfolioPage key="about-funding" onBack={() => { setCurrentPage('home'); window.scrollTo(0, 0); }} />
+        )}
+        {currentPage === 'venture-thesis' && (
+          <InvestmentThesisPage key="venture-thesis" onBack={() => { setCurrentPage('home'); window.scrollTo(0, 0); }} />
+        )}
+        {currentPage === 'venture-portfolio' && (
+          <FundingPortfolioPage key="venture-portfolio" onBack={() => { setCurrentPage('home'); window.scrollTo(0, 0); }} />
+        )}
+        {currentPage === 'impact-yasci' && (
+          <ImpactPage key="impact-yasci" onBack={() => { setCurrentPage('home'); window.scrollTo(0, 0); }} />
         )}
         {currentPage === 'service-fundamental' && (
           <ServiceFundamentalPage key="service-fundamental" onBack={() => { setCurrentPage('home'); window.scrollTo(0, 0); }} />

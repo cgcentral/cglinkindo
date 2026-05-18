@@ -121,7 +121,7 @@ export const VisionMissionPage: React.FC<PageProps> = ({ onBack }) => {
               Who Are We?
             </h3>
             <p className="text-neutral-500 leading-relaxed font-medium">
-              Founded in 2025 and based in the business heart of South Jakarta, CGLINK Indonesia is a business consulting firm born from a spirit of collaboration and innovation. We understand that every business has unique challenges; that's why we don't just provide advice, but provide measurable and sustainable solutions.
+              Founded in 2023 and based in the business heart of South Jakarta, CGLINK Indonesia is a business consulting firm born from a spirit of collaboration and innovation. We understand that every business has unique challenges; that's why we don't just provide advice, but provide measurable and sustainable solutions.
             </p>
           </motion.section>
 
@@ -486,6 +486,129 @@ export const PilarBisnisPage: React.FC<PageProps> = ({ onBack }) => {
           </div>
         </motion.div>
 
+        <CTASection />
+      </div>
+    </motion.div>
+  );
+};
+
+export const ImpactPage: React.FC<PageProps> = ({ onBack }) => {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      className="min-h-screen bg-white text-neutral-900 pt-32 pb-24"
+    >
+      <div className="w-full px-6 md:px-16 text-left">
+        <button 
+          onClick={onBack} 
+          className="flex items-center gap-2 text-neutral-500 hover:text-neutral-900 mb-12 transition-colors group font-bold uppercase tracking-widest text-[10px]"
+        >
+          <ArrowLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform" /> 
+          Back to Home
+        </button>
+
+        <h1 className="text-5xl md:text-8xl font-display font-black mb-12 tracking-tighter text-neutral-900 uppercase">Impact</h1>
+        
+        <div className="bg-neutral-50 p-12 md:p-20 rounded-[3.5rem] border border-neutral-100 mb-32">
+          <div className="grid lg:grid-cols-2 gap-16 items-center">
+            <div>
+              <div className="text-[10px] font-black text-neutral-400 uppercase tracking-[0.3em] mb-6">Social Responsibility</div>
+              <h2 className="text-4xl md:text-6xl font-display font-black mb-8 uppercase tracking-tighter text-neutral-900">Amal Soleh <br/> Foundation</h2>
+              <p className="text-neutral-500 text-lg leading-relaxed mb-10 font-medium">
+                CGLINK is committed to not only building businesses but also making a real contribution to society through the CGLINK Amal Soleh Foundation (YASCI). We believe that business success is more meaningful when it brings benefits to those in need.
+              </p>
+              <div className="space-y-6 mb-12">
+                {[
+                  { title: "Education & Literacy", desc: "Providing access to education and business literacy for the underprivileged." },
+                  { title: "Humanitarian Support", desc: "Quick response for social and humanitarian needs in the community." },
+                  { title: "Economic Empowerment", desc: "Helping small communities build sustainable economic independent." }
+                ].map((item, i) => (
+                  <div key={i} className="flex gap-6 group">
+                    <div className="w-10 h-10 rounded-full bg-neutral-900 flex items-center justify-center text-white shrink-0 font-bold text-xs">{i+1}</div>
+                    <div>
+                      <h4 className="font-bold text-neutral-900 mb-1">{item.title}</h4>
+                      <p className="text-sm text-neutral-400 font-medium">{item.desc}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div className="relative aspect-square rounded-[3rem] overflow-hidden shadow-2xl">
+              <img 
+                src="https://cglinkindonesia.com/wp-content/uploads/2026/03/Desain-tanpa-judul-2.png" 
+                alt="Impact" 
+                className="w-full h-full object-cover grayscale"
+                referrerPolicy="no-referrer"
+              />
+            </div>
+          </div>
+        </div>
+        
+        <CTASection />
+      </div>
+    </motion.div>
+  );
+};
+
+export const InvestmentThesisPage: React.FC<PageProps> = ({ onBack }) => {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      className="min-h-screen bg-white text-neutral-900 pt-32 pb-24"
+    >
+      <div className="w-full px-6 md:px-16 text-left">
+        <button 
+          onClick={onBack} 
+          className="flex items-center gap-2 text-neutral-500 hover:text-neutral-900 mb-12 transition-colors group font-bold uppercase tracking-widest text-[10px]"
+        >
+          <ArrowLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform" /> 
+          Back to Home
+        </button>
+
+        <h1 className="text-5xl md:text-8xl font-display font-black mb-12 tracking-tighter text-neutral-900 uppercase leading-none">Investment <br/> Thesis</h1>
+        
+        <div className="bg-neutral-900 text-white p-12 md:p-20 rounded-[3.5rem] mb-32 shadow-2xl relative overflow-hidden">
+           <div className="absolute top-0 right-0 w-96 h-96 bg-white/5 blur-[100px] rounded-full"></div>
+           <div className="max-w-4xl relative z-10">
+             <h2 className="text-3xl md:text-5xl font-display font-black mb-10 uppercase tracking-tighter italic text-neutral-400">"We don't just invest capital; we invest in sustainable futures."</h2>
+             <p className="text-xl text-neutral-300 leading-relaxed font-medium mb-12">
+               Our investment strategy is built on the foundation of Legal, Logical, and Halal principles. We seek out businesses that demonstrate not only high growth potential but also strong integrity and clear social impact.
+             </p>
+             <div className="grid md:grid-cols-2 gap-12 text-left">
+               <div>
+                  <h4 className="text-xl font-bold mb-4 uppercase tracking-widest">Our Focus</h4>
+                  <ul className="space-y-4 text-neutral-400 font-medium">
+                    <li>• Early to growth stage companies</li>
+                    <li>• Strong unit economics</li>
+                    <li>• Scalable business models</li>
+                    <li>• Ethical management practices</li>
+                  </ul>
+               </div>
+               <div>
+                  <h4 className="text-xl font-bold mb-4 uppercase tracking-widest">Value Add</h4>
+                  <ul className="space-y-4 text-neutral-400 font-medium">
+                    <li>• Strategic advisory & governance</li>
+                    <li>• Access to broad network</li>
+                    <li>• Operational optimization</li>
+                    <li>• Sharia compliance guidance</li>
+                  </ul>
+               </div>
+             </div>
+           </div>
+        </div>
+        
         <CTASection />
       </div>
     </motion.div>

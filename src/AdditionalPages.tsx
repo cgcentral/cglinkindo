@@ -43,7 +43,7 @@ export const CareersPage: React.FC<{ onBack: () => void }> = ({ onBack }) => {
           <h2 className="text-2xl text-neutral-500 font-bold mb-8 uppercase tracking-widest text-left">"Become an Architect of Change in the Future Business Landscape."</h2>
           
           <p className="text-xl text-neutral-500 leading-relaxed mb-8 font-medium">
-            At CGLINK Indonesia, we don't just provide consulting; we create impact. As a firm established in the dynamic hub of South Jakarta in 2025, we believe that innovation is born from freedom of thought, limitless collaboration, and unwavering professionalism.
+            At CGLINK Indonesia, we don't just provide consulting; we create impact. As a firm established in the dynamic hub of South Jakarta in 2023, we believe that innovation is born from freedom of thought, limitless collaboration, and unwavering professionalism.
           </p>
           <p className="text-xl text-neutral-900 leading-relaxed mb-12 font-black italic">
             Are you the talent we are looking for to redefine industry standards?

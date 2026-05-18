@@ -54,8 +54,8 @@ export const ServiceFundamentalPage: React.FC<{ onBack: () => void }> = ({ onBac
         </button>
         
         <div className="w-full">
-          <h1 className="text-5xl md:text-8xl font-display font-black text-neutral-900 mb-6 tracking-tighter leading-none">BUSINESS <br/> FUNDAMENTALS</h1>
-          <h2 className="text-2xl text-neutral-500 font-bold mb-10 uppercase tracking-widest text-left">"Building a Solid Foundation for Limitless Growth"</h2>
+          <h1 className="text-5xl md:text-8xl font-display font-black text-neutral-900 mb-6 tracking-tighter leading-none uppercase">STRATEGY & <br/> OPERATIONS</h1>
+          <h2 className="text-2xl text-neutral-500 font-bold mb-10 uppercase tracking-widest text-left">"Operational Excellence for Scalable Growth"</h2>
           
           <p className="text-xl text-neutral-500 leading-relaxed mb-12 font-medium">
             A grand building will only stand as long as its foundation is strong. The same goes for business. At CGLINK Indonesia, we believe that scalability starts from a healthy internal structure and precise basic strategies. We help you redesign or strengthen your business's core pillars to be ready to face global market challenges.
@@ -125,8 +125,8 @@ export const ServiceDigitalPage: React.FC<{ onBack: () => void }> = ({ onBack })
         </button>
         
         <div className="w-full">
-          <h1 className="text-5xl md:text-8xl font-display font-black text-neutral-900 mb-6 tracking-tighter leading-none">DIGITAL <br/> MARKETING</h1>
-          <h2 className="text-2xl text-neutral-500 font-bold mb-10 uppercase tracking-widest text-left">"Not Just a Trend, We Create Market Dominance."</h2>
+          <h1 className="text-5xl md:text-8xl font-display font-black text-neutral-900 mb-6 tracking-tighter leading-none uppercase">DIGITAL & <br/> MARKETING</h1>
+          <h2 className="text-2xl text-neutral-500 font-bold mb-10 uppercase tracking-widest text-left">"Dominating the Market in the Digital Age."</h2>
           
           <p className="text-xl text-neutral-500 leading-relaxed mb-12 font-medium">
             In the noisy digital world, just being "seen" is not enough. You must become the primary choice. CGLINK Indonesia combines creative marketing art with Growth Hacking data precision to accelerate your business scale. We don't just chase likes, we chase ROI.
@@ -189,8 +189,8 @@ export const ServicePartnershipsPage: React.FC<{ onBack: () => void }> = ({ onBa
         </button>
         
         <div className="w-full">
-          <h1 className="text-5xl md:text-8xl font-display font-black text-neutral-900 mb-6 tracking-tighter leading-none">PARTNERSHIPS <br/> & BIZDEV</h1>
-          <h2 className="text-2xl text-neutral-500 font-bold mb-10 uppercase tracking-widest text-left">"Building Bridges, Opening Opportunities, Beyond Boundaries."</h2>
+          <h1 className="text-5xl md:text-8xl font-display font-black text-neutral-900 mb-6 tracking-tighter leading-none uppercase">INNOVATION & <br/> DEVELOPMENT</h1>
+          <h2 className="text-2xl text-neutral-500 font-bold mb-10 uppercase tracking-widest text-left">"Pioneering New Horizons in Business."</h2>
           
           <p className="text-xl text-neutral-500 leading-relaxed mb-12 font-medium">
             Great businesses do not grow in isolation. Exponential growth happens when the right strategy meets the right partners. At CGLINK Indonesia, we act as your growth architects—finding market gaps and building strategic alliances.
@@ -238,8 +238,8 @@ export const ServiceFinancePage: React.FC<{ onBack: () => void }> = ({ onBack })
         </button>
         
         <div className="w-full">
-          <h1 className="text-5xl md:text-8xl font-display font-black text-neutral-900 mb-6 tracking-tighter leading-none">CORPORATE <br/> FINANCE</h1>
-          <h2 className="text-2xl text-neutral-500 font-bold mb-10 uppercase tracking-widest text-left">"Financial Precision for Unwavering Strategic Decisions."</h2>
+          <h1 className="text-5xl md:text-8xl font-display font-black text-neutral-900 mb-6 tracking-tighter leading-none uppercase">FINANCE, <br/> ACCOUNTING & TAX</h1>
+          <h2 className="text-2xl text-neutral-500 font-bold mb-10 uppercase tracking-widest text-left">"Financial Integrity for Strategic Sustainability."</h2>
           
           <p className="text-xl text-neutral-500 leading-relaxed mb-12 font-medium">
             At CGLINK Indonesia, we transform your financial data into sharp strategic instruments. We ensure your financial health today is the fuel for your expansion tomorrow.
