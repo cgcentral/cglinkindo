@@ -25,7 +25,9 @@ import {
   Store,
   BarChart,
   Shirt,
-  GraduationCap
+  GraduationCap,
+  Instagram,
+  Camera
 } from "lucide-react";
 
 interface PageProps {
@@ -497,58 +499,307 @@ export const ImpactPage: React.FC<PageProps> = ({ onBack }) => {
     window.scrollTo(0, 0);
   }, []);
 
+  const reports = [
+    {
+      title: "Sustainable Business Ecosystem Report 2024",
+      category: "Sustainability",
+      date: "May 2024",
+      image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=2426&auto=format&fit=crop",
+      desc: "An in-depth analysis of how sharia-compliant business models contribute to Indonesia's circular economy."
+    },
+    {
+      title: "YASCI Social Impact Audit Q1",
+      category: "Social Impact",
+      date: "April 2024",
+      image: "https://images.unsplash.com/photo-1497366754035-f200968a6e72?q=80&w=2301&auto=format&fit=crop",
+      desc: "Measuring the reach and effectiveness of our education and community empowerment programs across West Java."
+    },
+    {
+      title: "MSME Resilience Strategy 2024",
+      category: "Economic",
+      date: "March 2024",
+      image: "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?q=80&w=2340&auto=format&fit=crop",
+      desc: "Frameworks for small business sustainability in high-volatility market conditions."
+    }
+  ];
+
+  const initiatives = [
+    {
+      title: "Jumat Berkah: Sharing 150+ Meal Boxes",
+      category: "Community",
+      date: "May 10, 2024",
+      image: "https://images.unsplash.com/photo-1593113598332-cd288d649433?q=80&w=2340&auto=format&fit=crop",
+      location: "Jakarta Selatan",
+      link: "https://www.instagram.com/amalsolehcglink/"
+    },
+    {
+      title: "Scholarship Support for 25 Students",
+      category: "Education",
+      date: "May 2, 2024",
+      image: "https://images.unsplash.com/photo-1509062522246-3755977927d7?q=80&w=2484&auto=format&fit=crop",
+      location: "Banten Province",
+      link: "https://www.instagram.com/amalsolehcglink/"
+    },
+    {
+      title: "Humanitarian Speed: Emergency Response",
+      category: "Humanitarian",
+      date: "April 18, 2024",
+      image: "https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?q=80&w=2340&auto=format&fit=crop",
+      location: "Yogyakarta",
+      link: "https://www.instagram.com/amalsolehcglink/"
+    }
+  ];
+
   return (
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="min-h-screen bg-white text-neutral-900 pt-32 pb-24"
+      className="min-h-screen bg-white text-neutral-900 pt-32 pb-24 selection:bg-neutral-900 selection:text-white"
     >
-      <div className="w-full px-6 md:px-16 text-left">
+      <div className="w-full px-6 md:px-16">
         <button 
           onClick={onBack} 
-          className="flex items-center gap-2 text-neutral-500 hover:text-neutral-900 mb-12 transition-colors group font-bold uppercase tracking-widest text-[10px]"
+          className="flex items-center gap-2 text-neutral-400 hover:text-neutral-900 mb-16 transition-colors group font-black uppercase tracking-[0.4em] text-[10px]"
         >
           <ArrowLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform" /> 
           Back to Home
         </button>
 
-        <h1 className="text-5xl md:text-8xl font-display font-black mb-12 tracking-tighter text-neutral-900 uppercase">Impact</h1>
-        
-        <div className="bg-neutral-50 p-12 md:p-20 rounded-[3.5rem] border border-neutral-100 mb-32">
-          <div className="grid lg:grid-cols-2 gap-16 items-center">
+        <header className="mb-32">
+          <div className="grid lg:grid-cols-2 gap-16 items-start">
             <div>
-              <div className="text-[10px] font-black text-neutral-400 uppercase tracking-[0.3em] mb-6">Social Responsibility</div>
-              <h2 className="text-4xl md:text-6xl font-display font-black mb-8 uppercase tracking-tighter text-neutral-900">Amal Soleh <br/> Foundation</h2>
-              <p className="text-neutral-500 text-lg leading-relaxed mb-10 font-medium">
-                CGLINK is committed to not only building businesses but also making a real contribution to society through the CGLINK Amal Soleh Foundation (YASCI). We believe that business success is more meaningful when it brings benefits to those in need.
-              </p>
-              <div className="space-y-6 mb-12">
-                {[
-                  { title: "Education & Literacy", desc: "Providing access to education and business literacy for the underprivileged." },
-                  { title: "Humanitarian Support", desc: "Quick response for social and humanitarian needs in the community." },
-                  { title: "Economic Empowerment", desc: "Helping small communities build sustainable economic independent." }
-                ].map((item, i) => (
-                  <div key={i} className="flex gap-6 group">
-                    <div className="w-10 h-10 rounded-full bg-neutral-900 flex items-center justify-center text-white shrink-0 font-bold text-xs">{i+1}</div>
-                    <div>
-                      <h4 className="font-bold text-neutral-900 mb-1">{item.title}</h4>
-                      <p className="text-sm text-neutral-400 font-medium">{item.desc}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
+              <div className="text-[10px] font-black text-neutral-400 uppercase tracking-[0.5em] mb-8 border-l-4 border-neutral-900 pl-6">Governance & Impact</div>
+              <h1 className="text-5xl md:text-8xl font-display font-black tracking-tighter text-neutral-900 uppercase leading-[0.9] mb-8">
+                Our Impact:<br />
+                <span className="text-neutral-300">Committing to Real</span> <br />
+                Contribution.
+              </h1>
             </div>
-            <div className="relative aspect-square rounded-[3rem] overflow-hidden shadow-2xl">
-              <img 
-                src="https://cglinkindonesia.com/wp-content/uploads/2026/03/Desain-tanpa-judul-2.png" 
-                alt="Impact" 
-                className="w-full h-full object-cover grayscale"
-                referrerPolicy="no-referrer"
-              />
+            <div className="max-w-xl">
+              <p className="text-xl text-neutral-900 font-bold leading-relaxed mb-6">
+                Aligned with our core value to "Contribute," CGLINK is dedicated to creating a positive, sustainable impact for our clients, the economy, and the wider community.
+              </p>
+              <p className="text-lg text-neutral-500 font-medium leading-relaxed mb-8">
+                We are committed to not just building businesses, but making a tangible difference in society. Through our foundation, Yayasan Amal Soleh CGLINK (YASCI), we bring this commitment to life by driving various social, educational, and community empowerment programs.
+              </p>
+              <a 
+                href="https://www.instagram.com/amalsolehcglink/" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-3 px-8 py-4 bg-neutral-900 text-white rounded-full font-bold text-xs uppercase tracking-widest hover:bg-neutral-800 transition-all shadow-xl shadow-neutral-200"
+              >
+                <Instagram className="w-4 h-4" /> View Social Action
+              </a>
             </div>
           </div>
-        </div>
+        </header>
+
+        {/* Focus Areas Section */}
+        <section className="mb-40">
+           <div className="grid lg:grid-cols-3 gap-8">
+              {[
+                {
+                  title: "Social Collaborations",
+                  icon: <Handshake className="w-8 h-8" />,
+                  desc: "Actively partnering with various social foundations to amplify our shared impact through collaborative resource management and strategic outreach."
+                },
+                {
+                  title: "Humanitarian Support",
+                  icon: <Heart className="w-8 h-8" />,
+                  desc: "Providing direct social assistance to underprivileged communities and supporting the physical development and operational welfare of local mosques."
+                },
+                {
+                  title: "Muslim Empowerment",
+                  icon: <Globe className="w-8 h-8" />,
+                  desc: "Running special initiatives such as Qurban Sebar Nusantara and funding Umrah pilgrimages for dedicated mosque caretakers (marbot) and local religious leaders."
+                }
+              ].map((focus, i) => (
+                <div key={i} className="p-12 rounded-[3rem] bg-neutral-50 border border-neutral-100 hover:bg-white hover:shadow-2xl transition-all duration-500 group">
+                  <div className="w-16 h-16 rounded-2xl bg-white shadow-sm flex items-center justify-center mb-10 text-neutral-900 group-hover:bg-neutral-900 group-hover:text-white transition-all duration-500">
+                    {focus.icon}
+                  </div>
+                  <h3 className="text-2xl font-display font-bold uppercase mb-6 tracking-tight">{focus.title}</h3>
+                  <p className="text-neutral-500 font-medium leading-relaxed">
+                    {focus.desc}
+                  </p>
+                </div>
+              ))}
+           </div>
+        </section>
+
+        {/* Initiatives List - Instagram Style Benchmarking */}
+        <section className="mb-40">
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-20 gap-8">
+            <div>
+              <div className="flex items-center gap-4 text-neutral-400 mb-6">
+                <Camera className="w-5 h-5" />
+                <span className="text-[10px] font-black uppercase tracking-[0.4em]">From the Field</span>
+              </div>
+              <h2 className="text-4xl md:text-6xl font-display font-black uppercase tracking-tighter text-neutral-900">Recent <br /><span className="text-neutral-400">Initiatives</span></h2>
+            </div>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-12">
+            {initiatives.map((item, i) => (
+              <motion.a
+                key={i}
+                href={item.link}
+                target="_blank"
+                rel="noopener noreferrer"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.1 }}
+                className="group block"
+              >
+                <div className="aspect-square rounded-[3rem] overflow-hidden mb-8 relative border border-neutral-100 shadow-sm transition-all duration-700 group-hover:shadow-2xl group-hover:rounded-[2rem]">
+                  <img 
+                    src={item.image} 
+                    alt={item.title} 
+                    className="w-full h-full object-cover grayscale transition-all duration-1000 group-hover:grayscale-0 group-hover:scale-110"
+                    referrerPolicy="no-referrer"
+                  />
+                  <div className="absolute inset-0 bg-neutral-950/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                    <div className="w-16 h-16 rounded-full bg-white flex items-center justify-center text-black shadow-xl">
+                      <Instagram className="w-6 h-6" />
+                    </div>
+                  </div>
+                  <div className="absolute top-8 left-8">
+                    <span className="px-5 py-2 bg-white/90 backdrop-blur-md rounded-full text-[9px] font-black uppercase tracking-widest text-black">
+                      {item.category}
+                    </span>
+                  </div>
+                </div>
+                <div>
+                  <div className="flex justify-between items-center mb-4">
+                    <span className="text-[10px] font-black text-neutral-400 uppercase tracking-widest">
+                      {item.location}
+                    </span>
+                    <span className="text-[10px] font-bold text-neutral-300">
+                      {item.date}
+                    </span>
+                  </div>
+                  <h3 className="text-2xl font-display font-bold text-neutral-900 group-hover:text-black transition-colors leading-tight mb-4">
+                    {item.title}
+                  </h3>
+                   <div className="w-12 h-1 bg-neutral-100 group-hover:w-24 group-hover:bg-neutral-900 transition-all duration-700" />
+                </div>
+              </motion.a>
+            ))}
+          </div>
+        </section>
+
+        {/* Featured Impact - Amal Soleh */}
+        <section className="mb-40">
+          <div className="bg-neutral-950 text-white rounded-[4rem] overflow-hidden shadow-2xl">
+            <div className="grid lg:grid-cols-5 h-full">
+              <div className="lg:col-span-3 p-12 md:p-24 flex flex-col justify-center">
+                <span className="text-[10px] font-black text-neutral-500 uppercase tracking-[0.4em] mb-10">Flagship Initiative</span>
+                <h2 className="text-4xl md:text-7xl font-display font-black mb-10 uppercase tracking-tighter leading-none">
+                  YASCI: Doing <br /> Good <br /> Better.
+                </h2>
+                <p className="text-xl text-neutral-400 leading-relaxed font-medium mb-16 max-w-xl">
+                  Through Yayasan Amal Soleh CGLINK (YASCI), we implement programs like Umrah funding for mosque caretakers (marbot) and Qurban distributions which ensure our growth feeds back into the heart of the community.
+                </p>
+                <div className="flex flex-wrap gap-12">
+                   <div>
+                     <div className="text-4xl font-display font-bold mb-2">350+</div>
+                     <div className="text-[10px] font-black text-neutral-500 uppercase tracking-widest">Lives Impacted</div>
+                   </div>
+                   <div>
+                     <div className="text-4xl font-display font-bold mb-2">12+</div>
+                     <div className="text-[10px] font-black text-neutral-500 uppercase tracking-widest">Active Programs</div>
+                   </div>
+                   <div>
+                     <div className="text-4xl font-display font-bold mb-2">100%</div>
+                     <div className="text-[10px] font-black text-neutral-500 uppercase tracking-widest">Halal Governance</div>
+                   </div>
+                </div>
+              </div>
+              <div className="lg:col-span-2 relative min-h-[400px]">
+                 <img 
+                   src="https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?q=80&w=2340&auto=format&fit=crop" 
+                   alt="Impact Action"
+                   className="absolute inset-0 w-full h-full object-cover grayscale opacity-60"
+                   referrerPolicy="no-referrer"
+                 />
+                 <div className="absolute inset-0 bg-gradient-to-r from-neutral-950 to-transparent" />
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Reports Grid */}
+        <section className="mb-40">
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-20 gap-8">
+            <div>
+              <h2 className="text-4xl md:text-6xl font-display font-black uppercase tracking-tighter text-neutral-900">Reports & <span className="text-neutral-400">Insights</span></h2>
+            </div>
+            <div className="flex gap-4">
+               {['All', 'Sustainability', 'Social', 'Economic'].map(cat => (
+                 <button key={cat} className="px-6 py-2 rounded-full border border-neutral-100 text-[10px] font-black uppercase tracking-widest hover:bg-neutral-900 hover:text-white transition-all">
+                   {cat}
+                 </button>
+               ))}
+            </div>
+          </div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {reports.map((report, i) => (
+              <motion.div 
+                key={i}
+                whileHover={{ y: -10 }}
+                className="group cursor-pointer"
+              >
+                <div className="aspect-[3/4] rounded-[2.5rem] bg-neutral-50 border border-neutral-100 overflow-hidden mb-8 relative">
+                   <img 
+                     src={report.image} 
+                     alt={report.title}
+                     className="w-full h-full object-cover grayscale opacity-40 group-hover:opacity-80 transition-opacity duration-700"
+                     referrerPolicy="no-referrer"
+                   />
+                   <div className="absolute inset-0 p-10 flex flex-col justify-end bg-gradient-to-t from-white via-white/20 to-transparent">
+                      <span className="text-[10px] font-black text-neutral-400 uppercase tracking-widest mb-4">{report.category}</span>
+                      <h3 className="text-2xl font-display font-bold text-neutral-900 leading-tight mb-6">{report.title}</h3>
+                      <button className="flex items-center gap-3 text-[10px] font-black uppercase tracking-widest text-neutral-400 group-hover:text-black transition-colors">
+                        View Report <FileText className="w-4 h-4" />
+                      </button>
+                   </div>
+                </div>
+                <div className="px-4">
+                   <p className="text-sm text-neutral-400 font-medium leading-relaxed">
+                     {report.desc}
+                   </p>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </section>
+
+        {/* Pillars Section */}
+        <section className="mb-40">
+           <div className="grid lg:grid-cols-3 gap-16 border-t border-neutral-100 pt-32">
+              <div>
+                 <h3 className="text-2xl font-display font-bold uppercase mb-8">Environmental</h3>
+                 <p className="text-neutral-500 font-medium leading-relaxed">
+                   Prioritizing eco-efficient operations and supporting ventures that reduce waste and carbon footprint across our portfolio.
+                 </p>
+              </div>
+              <div>
+                 <h3 className="text-2xl font-display font-bold uppercase mb-8">Social</h3>
+                 <p className="text-neutral-500 font-medium leading-relaxed">
+                   Fostering inclusive growth and empowering underserved communities through education, health, and economic access.
+                 </p>
+              </div>
+              <div>
+                 <h3 className="text-2xl font-display font-bold uppercase mb-8">Governance</h3>
+                 <p className="text-neutral-500 font-medium leading-relaxed">
+                   Upholding the highest standards of integrity, transparency, and sharia-compliance in every strategic transaction.
+                 </p>
+              </div>
+           </div>
+        </section>
         
         <CTASection />
       </div>
@@ -581,29 +832,51 @@ export const InvestmentThesisPage: React.FC<PageProps> = ({ onBack }) => {
         
         <div className="bg-neutral-900 text-white p-12 md:p-20 rounded-[3.5rem] mb-32 shadow-2xl relative overflow-hidden">
            <div className="absolute top-0 right-0 w-96 h-96 bg-white/5 blur-[100px] rounded-full"></div>
-           <div className="max-w-4xl relative z-10">
+           <div className="max-w-5xl relative z-10">
              <h2 className="text-3xl md:text-5xl font-display font-black mb-10 uppercase tracking-tighter italic text-neutral-400">"We don't just invest capital; we invest in sustainable futures."</h2>
-             <p className="text-xl text-neutral-300 leading-relaxed font-medium mb-12">
-               Our investment strategy is built on the foundation of Legal, Logical, and Halal principles. We seek out businesses that demonstrate not only high growth potential but also strong integrity and clear social impact.
-             </p>
-             <div className="grid md:grid-cols-2 gap-12 text-left">
+             
+             <div className="grid lg:grid-cols-2 gap-16 mb-20 text-left">
                <div>
-                  <h4 className="text-xl font-bold mb-4 uppercase tracking-widest">Our Focus</h4>
-                  <ul className="space-y-4 text-neutral-400 font-medium">
-                    <li>• Early to growth stage companies</li>
-                    <li>• Strong unit economics</li>
-                    <li>• Scalable business models</li>
-                    <li>• Ethical management practices</li>
-                  </ul>
+                  <h4 className="text-xl font-bold mb-8 uppercase tracking-[0.3em] text-white border-l-4 border-white pl-6">Investment Types</h4>
+                  <div className="space-y-8">
+                    <div>
+                      <h5 className="text-lg font-black text-neutral-200 mb-3 uppercase">Project-Based Funding</h5>
+                      <p className="text-neutral-400 font-medium text-sm leading-relaxed">
+                        Financing ownership rights over a specific project, asset, or intellectual property of a business entity, so that the investment and risk are completely isolated to the viability and income of the project alone.
+                      </p>
+                    </div>
+                    <div>
+                      <h5 className="text-lg font-black text-neutral-200 mb-3 uppercase">Acquisition Funding</h5>
+                      <p className="text-neutral-400 font-medium text-sm leading-relaxed">
+                        Funding provided to portfolio companies to purchase or acquire a complete corporate entity—including all assets, operations, employees, and liabilities—is intended to accelerate growth, gain market share, or acquire new talent (acqui-hire).
+                      </p>
+                    </div>
+                  </div>
                </div>
                <div>
-                  <h4 className="text-xl font-bold mb-4 uppercase tracking-widest">Value Add</h4>
-                  <ul className="space-y-4 text-neutral-400 font-medium">
-                    <li>• Strategic advisory & governance</li>
-                    <li>• Access to broad network</li>
-                    <li>• Operational optimization</li>
-                    <li>• Sharia compliance guidance</li>
+                  <h4 className="text-xl font-bold mb-8 uppercase tracking-[0.3em] text-white border-l-4 border-white pl-6">Investment Criteria</h4>
+                  <ul className="space-y-6 text-neutral-400 font-medium">
+                    <li className="flex gap-4">
+                      <div className="w-1.5 h-1.5 rounded-full bg-white mt-2 shrink-0"></div>
+                      <span>Minimum 3 years of active operation.</span>
+                    </li>
+                    <li className="flex gap-4">
+                      <div className="w-1.5 h-1.5 rounded-full bg-white mt-2 shrink-0"></div>
+                      <span>Proven management and execution capabilities.</span>
+                    </li>
+                    <li className="flex gap-4">
+                      <div className="w-1.5 h-1.5 rounded-full bg-white mt-2 shrink-0"></div>
+                      <span>The business model must be <span className="text-white italic">halal, legal, and logical</span>.</span>
+                    </li>
                   </ul>
+                  
+                  <div className="mt-12 p-8 bg-white/5 rounded-3xl border border-white/10">
+                    <h4 className="text-sm font-black uppercase tracking-widest text-neutral-300 mb-4">Investment Amount</h4>
+                    <p className="text-2xl font-display font-bold text-white mb-2">Up to IDR 500 Million</p>
+                    <p className="text-neutral-500 text-xs font-medium">
+                      Investments above IDR 500 million are possible for businesses that meet certain strategic requirements and conditions.
+                    </p>
+                  </div>
                </div>
              </div>
            </div>

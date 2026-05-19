@@ -51,7 +51,7 @@ import {
   InvestmentThesisPage
 } from "./AboutPages";
 
-export type PageType = 'home' | 'about' | 'contact' | 'service-fundamental' | 'service-digital' | 'service-partnerships' | 'service-finance' | 'service-hc' | 'careers' | 'blog' | 'about-vision' | 'about-pillars' | 'about-funding' | 'impact-yasci' | 'venture-thesis' | 'venture-portfolio';
+export type PageType = 'home' | 'about' | 'contact' | 'service-fundamental' | 'service-digital' | 'service-partnerships' | 'service-finance' | 'service-hc' | 'careers' | 'blog' | 'about-vision' | 'about-pillars' | 'about-funding' | 'impact' | 'venture-thesis' | 'venture-portfolio';
 
 const translations = {
   nav: {
@@ -244,31 +244,7 @@ const Navbar = ({ currentPage, setCurrentPage }: { currentPage: PageType, setCur
             </AnimatePresence>
           </div>
 
-          <div 
-            className={`relative h-full flex items-center gap-2 cursor-pointer transition-colors group ${scrolled ? 'hover:text-black' : (currentPage === 'home' ? 'hover:text-white' : 'hover:text-black')}`}
-            onMouseEnter={() => setActiveDropdown('impact')}
-            onMouseLeave={() => setActiveDropdown(null)}
-          >
-            {t.impact} <ChevronDown className={`w-3 h-3 transition-transform ${activeDropdown === 'impact' ? 'rotate-180' : ''}`} />
-            <AnimatePresence>
-              {activeDropdown === 'impact' && (
-                <motion.div 
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: 10 }}
-                  className="absolute top-full left-0 w-64"
-                >
-                  <div className="pt-4">
-                    <div className="bg-white shadow-2xl rounded-2xl border border-neutral-100 p-6 overflow-hidden text-neutral-900">
-                      <div className="flex flex-col gap-4">
-                        <button onClick={() => { setCurrentPage('impact-yasci'); window.scrollTo(0, 0); setActiveDropdown(null); }} className="text-left text-[10px] font-bold uppercase tracking-wider text-neutral-500 hover:text-black transition-all hover:translate-x-2">Yasci</button>
-                      </div>
-                    </div>
-                  </div>
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </div>
+          <button id="nav-impact" onClick={() => { setCurrentPage('impact'); window.scrollTo(0, 0); }} className={`transition-colors ${scrolled ? 'hover:text-black' : (currentPage === 'home' ? 'hover:text-white' : 'hover:text-black')}`}>{t.impact}</button>
 
           <button id="nav-career" onClick={() => { setCurrentPage('careers'); window.scrollTo(0, 0); }} className={`transition-colors ${scrolled ? 'hover:text-black' : (currentPage === 'home' ? 'hover:text-white' : 'hover:text-black')}`}>{t.career}</button>
           <button id="nav-insights" onClick={() => { setCurrentPage('blog'); window.scrollTo(0, 0); }} className={`transition-colors ${scrolled ? 'hover:text-black' : (currentPage === 'home' ? 'hover:text-white' : 'hover:text-black')}`}>{t.insights}</button>
@@ -324,10 +300,7 @@ const Navbar = ({ currentPage, setCurrentPage }: { currentPage: PageType, setCur
               <button onClick={() => { setCurrentPage('venture-portfolio'); setIsMobileMenuOpen(false); window.scrollTo(0, 0); }} className="block text-left text-xl opacity-70">Portfolio</button>
             </div>
 
-            <div className="space-y-4 pt-4 border-t border-neutral-50">
-              <div className="text-[10px] font-black text-neutral-400 tracking-[0.3em]">{t.impact}</div>
-              <button onClick={() => { setCurrentPage('impact-yasci'); setIsMobileMenuOpen(false); window.scrollTo(0, 0); }} className="block text-left text-xl opacity-70">Yasci</button>
-            </div>
+            <button onClick={() => { setCurrentPage('impact'); setIsMobileMenuOpen(false); window.scrollTo(0, 0); }} className="block text-left">{t.impact}</button>
 
             <button onClick={() => { setCurrentPage('careers'); setIsMobileMenuOpen(false); window.scrollTo(0, 0); }} className="block text-left">{t.career}</button>
             <button onClick={() => { setCurrentPage('blog'); setIsMobileMenuOpen(false); window.scrollTo(0, 0); }} className="block text-left">{t.insights}</button>
@@ -1465,6 +1438,7 @@ const Footer = ({ setCurrentPage }: { setCurrentPage: (p: PageType) => void }) =
             <ul className="space-y-6 text-[10px] font-black uppercase tracking-[0.3em]">
               <li><button onClick={() => { setCurrentPage('home'); window.scrollTo(0, 0); }} className="hover:text-neutral-400 transition-colors text-left">Home</button></li>
               <li><button onClick={() => { setCurrentPage('about-vision'); window.scrollTo(0, 0); }} className="hover:text-neutral-400 transition-colors text-left">{t.about}</button></li>
+              <li><button onClick={() => { setCurrentPage('impact'); window.scrollTo(0, 0); }} className="hover:text-neutral-400 transition-colors text-left">Impact</button></li>
               <li><button onClick={() => { setCurrentPage('venture-thesis'); window.scrollTo(0, 0); }} className="hover:text-neutral-400 transition-colors text-left">{t.investor}</button></li>
               <li><button onClick={() => { setCurrentPage('contact'); window.scrollTo(0, 0); }} className="hover:text-neutral-400 transition-colors text-left">{t.contact}</button></li>
             </ul>
@@ -1880,8 +1854,8 @@ export default function App() {
         {currentPage === 'venture-portfolio' && (
           <FundingPortfolioPage key="venture-portfolio" onBack={() => { setCurrentPage('home'); window.scrollTo(0, 0); }} />
         )}
-        {currentPage === 'impact-yasci' && (
-          <ImpactPage key="impact-yasci" onBack={() => { setCurrentPage('home'); window.scrollTo(0, 0); }} />
+        {currentPage === 'impact' && (
+          <ImpactPage key="impact" onBack={() => { setCurrentPage('home'); window.scrollTo(0, 0); }} />
         )}
         {currentPage === 'service-fundamental' && (
           <ServiceFundamentalPage key="service-fundamental" onBack={() => { setCurrentPage('home'); window.scrollTo(0, 0); }} />

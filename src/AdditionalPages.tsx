@@ -26,66 +26,147 @@ export const CareersPage: React.FC<{ onBack: () => void }> = ({ onBack }) => {
       animate="visible"
       exit="hidden"
       variants={containerVariants}
-      className="min-h-screen bg-white text-neutral-900 pt-32 pb-24 selection:bg-neutral-200"
+      className="min-h-screen bg-white text-neutral-900 pt-32 pb-24 selection:bg-neutral-900 selection:text-white"
     >
       <div className="w-full px-6 md:px-16">
         <motion.button 
           variants={itemVariants}
           onClick={onBack} 
-          className="flex items-center gap-2 text-neutral-500 hover:text-neutral-900 mb-12 transition-colors group"
+          className="flex items-center gap-2 text-neutral-400 hover:text-neutral-900 mb-16 transition-colors group font-black uppercase tracking-[0.4em] text-[10px]"
         >
           <ArrowLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform" /> 
           Back to Home
         </motion.button>
         
-        <div className="w-full">
-          <h1 className="text-5xl md:text-8xl font-display font-black mb-6 tracking-tighter text-neutral-900 leading-none">CAREERS AT <br/> CGLINK</h1>
-          <h2 className="text-2xl text-neutral-500 font-bold mb-8 uppercase tracking-widest text-left">"Become an Architect of Change in the Future Business Landscape."</h2>
-          
-          <p className="text-xl text-neutral-500 leading-relaxed mb-8 font-medium">
-            At CGLINK Indonesia, we don't just provide consulting; we create impact. As a firm established in the dynamic hub of South Jakarta in 2023, we believe that innovation is born from freedom of thought, limitless collaboration, and unwavering professionalism.
-          </p>
-          <p className="text-xl text-neutral-900 leading-relaxed mb-12 font-black italic">
-            Are you the talent we are looking for to redefine industry standards?
-          </p>
-
-          <h3 className="text-2xl font-display font-black text-neutral-900 mt-16 mb-8 uppercase tracking-tighter">Why Career with Us?</h3>
-          <p className="text-lg text-neutral-500 leading-relaxed mb-8 font-medium">Working at CGLINK is not just a 9-to-5 routine. It is a journey to hone your expertise at the forefront of business transformation:</p>
-          <ul className="space-y-6 mb-12 text-neutral-600">
-            <li className="flex gap-4"><div className="w-2 h-2 rounded-full bg-neutral-900 mt-2 shrink-0"></div><p><strong className="text-neutral-900 font-bold">Exponential Growth Ecosystem:</strong> You will work alongside experts in Finance, Digital Strategy, to Human Capital. Every day is an opportunity to learn from the best.</p></li>
-            <li className="flex gap-4"><div className="w-2 h-2 rounded-full bg-neutral-900 mt-2 shrink-0"></div><p><strong className="text-neutral-900 font-bold">Culture of Innovation & Agility:</strong> We value fresh ideas. Here, every team member's voice is heard, tested, and realized if it provides added value to the client.</p></li>
-            <li className="flex gap-4"><div className="w-2 h-2 rounded-full bg-neutral-900 mt-2 shrink-0"></div><p><strong className="text-neutral-900 font-bold">Real Impact for Indonesian Economy:</strong> From growing MSMEs to large corporations, your contribution directly helps strengthen the business foundation in the country.</p></li>
-            <li className="flex gap-4"><div className="w-2 h-2 rounded-full bg-neutral-900 mt-2 shrink-0"></div><p><strong className="text-neutral-900 font-bold">Well-being & Balance:</strong> We provide a modern work environment that supports productivity as well as mental health and self-development.</p></li>
-          </ul>
-
-          <h3 className="text-2xl font-display font-black text-neutral-900 mt-16 mb-8 uppercase tracking-tighter">WHO ARE WE LOOKING FOR?</h3>
-          <p className="text-lg text-neutral-500 leading-relaxed mb-8 font-medium">We look for individuals who not only have sharp technical skills but also possess a Growth Mindset:</p>
-          <div className="grid sm:grid-cols-2 gap-4 mb-16">
-            <div className="bg-neutral-50 p-6 rounded-2xl border border-neutral-100 font-bold text-neutral-700">Analytical & Strategic</div>
-            <div className="bg-neutral-50 p-6 rounded-2xl border border-neutral-100 font-bold text-neutral-700">High Integrity</div>
-            <div className="bg-neutral-50 p-6 rounded-2xl border border-neutral-100 font-bold text-neutral-700">Collaborative</div>
-            <div className="bg-neutral-50 p-6 rounded-2xl border border-neutral-100 font-bold text-neutral-700">Adaptive</div>
-          </div>
-
-          <h3 className="text-2xl font-display font-black text-neutral-900 mt-16 mb-8 uppercase tracking-tighter">Open Roles</h3>
-          <div className="bg-neutral-50 border border-neutral-100 rounded-[2.5rem] p-16 text-center mb-16">
-            <Briefcase className="w-16 h-16 text-neutral-200 mx-auto mb-6" />
-            <p className="text-neutral-400 font-black uppercase tracking-widest text-xs">No positions currently available.</p>
-          </div>
- 
-          <div className="bg-neutral-900 rounded-[3.5rem] p-12 md:p-20 text-center shadow-2xl relative overflow-hidden">
-            <div className="absolute inset-0 bg-gradient-to-br from-neutral-900/10 to-transparent"></div>
-            <p className="text-white text-2xl font-display font-bold mb-10 relative z-10">Join Us & Grow Together!</p>
-            <a 
-              href="mailto:businesspartner@cglinkindonesia.com"
-              className="inline-flex items-center justify-center gap-4 px-10 py-5 bg-neutral-900 text-white rounded-2xl font-black uppercase tracking-widest text-sm hover:bg-black transition-all hover:scale-105 relative z-10"
+        {/* 1. Hero Section */}
+        <motion.div variants={itemVariants} className="w-full mb-32 text-left">
+          <div className="max-w-4xl">
+            <h1 className="text-6xl md:text-9xl font-display font-black mb-8 tracking-tighter text-neutral-900 leading-[0.85] uppercase">
+              Go Beyond <br />
+              <span className="text-neutral-300">Business.</span> <br />
+              Build Your Career with <span className="italic font-light">Purpose.</span>
+            </h1>
+            <p className="text-xl md:text-2xl text-neutral-500 leading-relaxed font-medium mb-12">
+              Join CGLINK Indonesia. Empower businesses, drive sustainable growth, and make a real impact in an ecosystem built on Legal, Logical, and Halal principles.
+            </p>
+            <button 
+              onClick={() => document.getElementById('open-positions')?.scrollIntoView({ behavior: 'smooth' })}
+              className="px-10 py-5 bg-neutral-900 text-white rounded-2xl font-black uppercase tracking-widest text-sm hover:bg-black transition-all hover:scale-105"
             >
-              <Mail className="w-5 h-5" />
-              Send Your CV
-            </a>
-            <p className="text-neutral-500 mt-10 text-xs font-bold uppercase tracking-widest relative z-10">Subject: [Position] - [Your Name]</p>
+              View Open Roles
+            </button>
           </div>
-        </div>
+        </motion.div>
+
+        {/* 2. Value Proposition */}
+        <section className="mb-40 text-left">
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-20 gap-8">
+            <div>
+              <div className="text-[10px] font-black text-neutral-400 uppercase tracking-[0.5em] mb-6 border-l-4 border-neutral-900 pl-6 text-left">Core Culture</div>
+              <h2 className="text-4xl md:text-6xl font-display font-black uppercase tracking-tighter text-neutral-900">Why Grow <br /><span className="text-neutral-400">with CGLINK?</span></h2>
+            </div>
+            <p className="max-w-sm text-neutral-500 font-medium leading-relaxed">
+              At CGLINK, we don’t just build businesses—we build people. We are looking for visionary talents who want to accelerate economic growth through integrity-based collaboration.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-12">
+            {[
+              {
+                title: "Grow with Excellence",
+                icon: "🌱",
+                desc: "Elevate your capabilities, mindset, and professional attitude in an environment deeply rooted in trust and continuous learning."
+              },
+              {
+                title: "Share to Empower",
+                icon: "🤝",
+                desc: "We believe in fair and transparent collaboration. Share your ideas, experiences, and expertise to craft logical, impactful solutions."
+              },
+              {
+                title: "Contribute to Society",
+                icon: "🌍",
+                desc: "Your work here matters. Create a positive, sustainable impact for local businesses, the economy, and the wider community."
+              }
+            ].map((value, i) => (
+              <motion.div 
+                key={i}
+                variants={itemVariants}
+                className="p-10 rounded-[3rem] bg-neutral-50 border border-neutral-100 hover:bg-white hover:shadow-2xl transition-all duration-500 group"
+              >
+                <div className="text-4xl mb-8 group-hover:scale-110 transition-transform duration-500">{value.icon}</div>
+                <h3 className="text-2xl font-display font-bold uppercase mb-6 tracking-tight">{value.title}</h3>
+                <p className="text-neutral-500 font-medium leading-relaxed">
+                  {value.desc}
+                </p>
+              </motion.div>
+            ))}
+          </div>
+        </section>
+
+        {/* 3. Life at CGLINK */}
+        <section className="mb-40 text-left">
+           <div className="bg-neutral-950 text-white rounded-[4rem] overflow-hidden shadow-2xl relative">
+              <div className="absolute top-0 right-0 w-96 h-96 bg-white/5 blur-[100px] rounded-full"></div>
+              <div className="grid lg:grid-cols-2 gap-12 p-12 md:p-24 items-center">
+                 <div className="relative z-10">
+                    <span className="text-[10px] font-black text-white/40 uppercase tracking-[0.4em] mb-8 block">Our Environment</span>
+                    <h2 className="text-4xl md:text-7xl font-display font-black mb-10 uppercase tracking-tighter leading-none">Inside Our <br /> Ecosystem.</h2>
+                    <p className="text-xl text-neutral-400 leading-relaxed font-medium">
+                      Whether you are streamlining operational strategies, driving digital marketing transformations, or optimizing financial planning, you will be part of a structured, data-driven team. We value a healthy, syariah-compliant partnership approach that feels dynamic but stays grounded in strong fundamentals.
+                    </p>
+                    <div className="h-1 w-24 bg-white/20 mt-12"></div>
+                 </div>
+                 <div className="grid grid-cols-2 gap-6 relative z-10">
+                    <div className="aspect-[4/5] rounded-3xl overflow-hidden grayscale opacity-50 relative group">
+                       <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=2340&auto=format&fit=crop" alt="Culture 1" className="w-full h-full object-cover transition-all group-hover:grayscale-0 group-hover:scale-110 duration-700" />
+                    </div>
+                    <div className="aspect-[4/5] rounded-3xl overflow-hidden grayscale opacity-50 relative group mt-12">
+                       <img src="https://images.unsplash.com/photo-1556761175-b413da4baf72?q=80&w=2348&auto=format&fit=crop" alt="Culture 2" className="w-full h-full object-cover transition-all group-hover:grayscale-0 group-hover:scale-110 duration-700" />
+                    </div>
+                 </div>
+              </div>
+           </div>
+        </section>
+
+        {/* 4. Open Positions */}
+        <section id="open-positions" className="mb-40 text-left">
+          <div className="text-center max-w-3xl mx-auto mb-20">
+             <h2 className="text-4xl md:text-7xl font-display font-black uppercase tracking-tighter text-neutral-900 mb-8">Discover Your <br /> Next Role</h2>
+             <p className="text-lg text-neutral-500 font-medium">
+               Ready to make an impact? Explore our current openings across our strategic business units. Don't see a perfect fit? Please always check this page continuously for further updates on job openings.
+             </p>
+          </div>
+
+          <div className="grid gap-6">
+            <div className="bg-neutral-50 border border-neutral-100 rounded-[3rem] p-20 text-center flex flex-col items-center">
+              <Briefcase className="w-16 h-16 text-neutral-200 mb-8" />
+              <p className="text-neutral-400 font-black uppercase tracking-[0.4em] text-xs">No active vacancies currently available.</p>
+              <p className="text-neutral-300 text-xs mt-4 uppercase tracking-widest">Follow our LinkedIn for instant updates</p>
+            </div>
+          </div>
+        </section>
+
+        {/* 5. Final CTA */}
+        <section className="mb-24 text-left">
+           <div className="bg-neutral-50 border border-neutral-100 rounded-[4rem] p-12 md:p-32 text-center relative overflow-hidden group">
+              <div className="absolute inset-0 bg-neutral-900 scale-y-0 group-hover:scale-y-100 transition-transform duration-700 origin-bottom"></div>
+              
+              <div className="relative z-10 transition-colors duration-700 group-hover:text-white">
+                <h2 className="text-4xl md:text-8xl font-display font-black mb-10 uppercase tracking-tighter leading-none text-center">Let's Build the <br /> Future of Business, <br /> Together.</h2>
+                <p className="text-xl md:text-2xl text-neutral-500 mb-16 max-w-2xl mx-auto group-hover:text-neutral-400 text-center">
+                  Take the next step in your career journey with a team that values your integrity as much as your expertise.
+                </p>
+                <div className="flex flex-col sm:flex-row gap-6 justify-center">
+                   <a 
+                     href="mailto:businesspartner@cglinkindonesia.com"
+                     className="px-10 py-5 bg-neutral-900 text-white rounded-2xl font-black uppercase tracking-widest text-sm hover:bg-white hover:text-black transition-all border border-transparent shadow-xl"
+                   >
+                     Apply Now
+                   </a>
+                </div>
+              </div>
+           </div>
+        </section>
       </div>
     </motion.div>
   );
