@@ -238,7 +238,7 @@ export const ServiceFinancePage: React.FC<{ onBack: () => void }> = ({ onBack })
         </button>
         
         <div className="w-full">
-          <h1 className="text-5xl md:text-8xl font-display font-black text-neutral-900 mb-6 tracking-tighter leading-none uppercase">FINANCE, <br/> ACCOUNTING & TAX</h1>
+          <h1 className="text-5xl md:text-8xl font-display font-black text-neutral-900 mb-6 tracking-tighter leading-none uppercase">FINANCE, <br/> ACCOUNTING, <br/> & TAX</h1>
           <h2 className="text-2xl text-neutral-500 font-bold mb-10 uppercase tracking-widest text-left">"Financial Integrity for Strategic Sustainability."</h2>
           
           <p className="text-xl text-neutral-500 leading-relaxed mb-12 font-medium">

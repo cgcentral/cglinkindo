@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { motion } from "motion/react";
 import { 
   ArrowLeft, 
@@ -29,6 +29,7 @@ import {
   Instagram,
   Camera
 } from "lucide-react";
+import { downloadQurbanReportPDF } from "./utils/qurbanPdfGenerator";
 
 interface PageProps {
   onBack: () => void;
@@ -115,30 +116,14 @@ export const VisionMissionPage: React.FC<PageProps> = ({ onBack }) => {
           </p>
         </motion.div>
 
-        {/* Who We Are & Why Choose Section */}
-        <div className="grid md:grid-cols-2 gap-12 mb-32">
-          <motion.section variants={itemVariants} className="bg-neutral-50 p-10 rounded-3xl border border-neutral-100">
-            <h3 className="text-2xl font-display font-bold text-neutral-900 mb-6 flex items-center gap-3">
-              <Building2 className="w-6 h-6 text-neutral-900" />
-              Who Are We?
-            </h3>
-            <p className="text-neutral-500 leading-relaxed font-medium">
-              Founded in 2023 and based in the business heart of South Jakarta, CGLINK Indonesia is a business consulting firm born from a spirit of collaboration and innovation. We understand that every business has unique challenges; that's why we don't just provide advice, but provide measurable and sustainable solutions.
-            </p>
-          </motion.section>
-
-          <motion.section variants={itemVariants} className="bg-neutral-50 p-10 rounded-3xl border border-neutral-100">
-            <h3 className="text-2xl font-display font-bold text-neutral-900 mb-6 flex items-center gap-3">
-              <ShieldCheck className="w-6 h-6 text-neutral-900" />
-              Why Choose CGLINK?
-            </h3>
-            <p className="text-neutral-500 leading-relaxed font-medium">
-              We believe in Uncompromising Professionalism. Our team consists of highly dedicated experts helping clients navigate the complexities of the business world. With a transparent and results-oriented work philosophy, we ensure every step we take together brings you closer to the peak of success.
-            </p>
-          </motion.section>
-        </div>
-
-          {/* Visi & Misi Section */}
+        {/* Philosophy / Visi & Misi Section */}
+        <motion.div variants={itemVariants} className="mb-12 bg-neutral-50 rounded-3xl p-10 md:p-12 border border-neutral-100">
+          <div className="inline-block px-4 py-1 rounded-full bg-neutral-900 text-white text-[9px] font-black tracking-widest uppercase mb-6">Our Philosophy</div>
+          <h3 className="text-3xl font-display font-black text-neutral-900 uppercase tracking-tighter mb-4">Professionalism Without Compromise</h3>
+          <p className="text-lg text-neutral-600 leading-relaxed font-semibold max-w-4xl">
+            We believe that sustainable growth can only be achieved by upholding legal transparency, logical strategy, and halal business compliance. Our work philosophy forms our primary guide in guiding clients and managing strategic assets to create long-term social and economic impact across Indonesia.
+          </p>
+        </motion.div>
         <div className="grid lg:grid-cols-2 gap-8 mb-32">
           {/* Visi */}
           <motion.div 
@@ -334,22 +319,32 @@ export const PilarBisnisPage: React.FC<PageProps> = ({ onBack }) => {
 
         <motion.div variants={itemVariants} className="mb-32">
           <h2 className="text-3xl md:text-5xl font-display font-black mb-16 border-l-4 border-neutral-900 pl-6 text-neutral-900 uppercase tracking-tighter">Core Services</h2>
-          <div className="grid md:grid-cols-3 gap-8">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {[
               { 
-                title: "Funding Partnership", 
+                title: "Strategy & Operations", 
+                icon: <Building2 className="w-8 h-8" />, 
+                desc: "Building a strong business foundation, from legality and organizational structure to scalable business models." 
+              },
+              { 
+                title: "Digital & Marketing", 
+                icon: <Zap className="w-8 h-8" />, 
+                desc: "Data-driven marketing strategies to accelerate market share and brand presence in the digital age." 
+              },
+              { 
+                title: "Innovation & Development", 
                 icon: <Handshake className="w-8 h-8" />, 
-                desc: "Syirkah-based Sharia funding, transparent and equitable, to support business growth." 
+                desc: "Expanding networks and strategic partnerships to open new market opportunities." 
               },
               { 
-                title: "Business Consulting", 
-                icon: <Briefcase className="w-8 h-8" />, 
-                desc: "Business consultants helping companies set up business foundations, manage finance & HR, and develop digital strategies for sustainable growth." 
+                title: "Finance, Accounting, & Tax", 
+                icon: <Coins className="w-8 h-8" />, 
+                desc: "Precision financial management and funding strategies for strategic sustainability." 
               },
               { 
-                title: "Funding Acquisition", 
-                icon: <TrendingUp className="w-8 h-8" />, 
-                desc: "Sharia funding to develop new businesses or enter existing businesses, with measured expansion strategies." 
+                title: "Human Capital", 
+                icon: <Users className="w-8 h-8" />, 
+                desc: "Talent transformation and building innovative work ecosystems for high performance." 
               }
             ].map((item, idx) => (
               <div key={idx} className="bg-neutral-50 p-10 rounded-[2.5rem] border border-neutral-100 hover:bg-white hover:shadow-xl transition-all group relative overflow-hidden">
@@ -400,7 +395,7 @@ export const PilarBisnisPage: React.FC<PageProps> = ({ onBack }) => {
                 </div>
                 <div className="relative aspect-video rounded-3xl overflow-hidden shadow-2xl border border-neutral-200">
                   <img 
-                    src="https://cglinkindonesia.com/wp-content/uploads/2026/03/Desain-tanpa-judul-2.png" 
+                    src="https://cglinkindonesia.com/wp-content/uploads/2026/05/remake-single-image-bisnis-udah-jalan-feed.jpg" 
                     alt="BTW Mister Catur" 
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                     referrerPolicy="no-referrer"
@@ -499,29 +494,23 @@ export const ImpactPage: React.FC<PageProps> = ({ onBack }) => {
     window.scrollTo(0, 0);
   }, []);
 
+  const [selectedReport, setSelectedReport] = useState<any | null>(null);
+  const [selectedCategory, setSelectedCategory] = useState("All");
+
   const reports = [
     {
-      title: "Sustainable Business Ecosystem Report 2024",
-      category: "Sustainability",
-      date: "May 2024",
-      image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=2426&auto=format&fit=crop",
-      desc: "An in-depth analysis of how sharia-compliant business models contribute to Indonesia's circular economy."
-    },
-    {
-      title: "YASCI Social Impact Audit Q1",
+      id: "qurban-2025",
+      title: "YASCI Qurban 2025 Beneficiary Report: Reaching 7,070 People Across Indonesia",
       category: "Social Impact",
-      date: "April 2024",
-      image: "https://images.unsplash.com/photo-1497366754035-f200968a6e72?q=80&w=2301&auto=format&fit=crop",
-      desc: "Measuring the reach and effectiveness of our education and community empowerment programs across West Java."
-    },
-    {
-      title: "MSME Resilience Strategy 2024",
-      category: "Economic",
-      date: "March 2024",
-      image: "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?q=80&w=2340&auto=format&fit=crop",
-      desc: "Frameworks for small business sustainability in high-volatility market conditions."
+      date: "June 2025",
+      image: "https://cglinkindonesia.com/wp-content/uploads/2026/05/WhatsApp-Image-2025-05-08-at-06.34.06-scaled.jpeg",
+      desc: "Yayasan Amal Soleh CG Link (YASCI) delivered sacrificial meat and hope to 7,070 beneficiaries across Indonesia, reaching communities that rarely receive qurban."
     }
   ];
+
+  const filteredReports = selectedCategory === "All"
+    ? reports
+    : reports.filter(r => r.category.toLowerCase().includes(selectedCategory.toLowerCase()));
 
   const initiatives = [
     {
@@ -549,6 +538,224 @@ export const ImpactPage: React.FC<PageProps> = ({ onBack }) => {
       link: "https://www.instagram.com/amalsolehcglink/"
     }
   ];
+
+  if (selectedReport) {
+    const isQurban = selectedReport.id === 'qurban-2025';
+    return (
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        className="min-h-screen bg-white text-neutral-900 pt-32 pb-24 selection:bg-neutral-900 selection:text-white"
+      >
+        <div className="w-full px-6 md:px-16 max-w-5xl mx-auto">
+          {/* Back button */}
+          <button 
+            onClick={() => setSelectedReport(null)} 
+            className="flex items-center gap-2 text-neutral-400 hover:text-neutral-900 mb-16 transition-colors group font-black uppercase tracking-[0.4em] text-[10px]"
+          >
+            <ArrowLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform" /> 
+            Back to Impact
+          </button>
+
+          {isQurban ? (
+            <div className="text-left">
+              {/* Article Header */}
+              <div className="space-y-6 mb-12">
+                <div className="flex flex-wrap items-center gap-4 text-xs font-mono font-bold text-neutral-400">
+                  <span className="px-3 py-1 bg-neutral-900 text-white rounded-full uppercase tracking-widest text-[9px]">
+                    {selectedReport.category}
+                  </span>
+                  <span>•</span>
+                  <span>{selectedReport.date}</span>
+                  <span>•</span>
+                  <span>5 Min Read</span>
+                </div>
+                <h1 className="text-4xl md:text-6xl font-display font-black text-neutral-900 tracking-tighter uppercase leading-[1.1]">
+                  {selectedReport.title}
+                </h1>
+                <p className="text-xl text-neutral-500 font-medium leading-relaxed max-w-3xl">
+                  YASCI Qurban 2025, organized by Yayasan Amal Soleh CG Link, has successfully delivered the joy of Eid al-Adha to thousands of recipients across Indonesia. Conducted on 6–7 June 2025 (10–11 Dzulhijjah 1446 H), this qurban distribution program reached communities that rarely receive qurban meat throughout the year.
+                </p>
+                <div className="pt-4 flex flex-wrap gap-4">
+                  <button 
+                    onClick={downloadQurbanReportPDF}
+                    className="flex items-center gap-3 px-8 py-4 bg-red-650 hover:bg-neutral-900 border border-neutral-200 text-white font-bold text-xs uppercase tracking-widest rounded-full transition-all shadow-xl hover:-translate-y-0.5 cursor-pointer"
+                  >
+                    <FileText className="w-4 h-4" /> Download Official PDF Report
+                  </button>
+                </div>
+              </div>
+
+              {/* Main Banner / Thumbnail */}
+              <div className="aspect-[16/9] w-full rounded-[3rem] overflow-hidden mb-16 border border-neutral-100 shadow-2xl">
+                <img 
+                  src={selectedReport.image} 
+                  alt={selectedReport.title} 
+                  className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-1000"
+                  referrerPolicy="no-referrer"
+                />
+              </div>
+
+              {/* Realization Metrics Grid */}
+              <div className="my-16 bg-neutral-50 rounded-[3rem] p-10 md:p-16 border border-neutral-100">
+                <h3 className="text-xs font-black uppercase tracking-[0.4em] mb-10 text-neutral-500 text-center">Program Realization at a Glance</h3>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+                  <div className="text-center p-4">
+                    <div className="text-4xl md:text-5xl font-display font-black text-red-600 mb-2">7,070</div>
+                    <div className="text-[10px] font-black uppercase tracking-wider text-neutral-500 leading-snug">Total Beneficiaries</div>
+                  </div>
+                  <div className="text-center p-4 border-l border-neutral-200">
+                    <div className="text-4xl md:text-5xl font-display font-black text-neutral-900 mb-2">12</div>
+                    <div className="text-[10px] font-black uppercase tracking-wider text-neutral-500 leading-snug">Cows Distributed</div>
+                  </div>
+                  <div className="text-center p-4 border-l border-neutral-200">
+                    <div className="text-4xl md:text-5xl font-display font-black text-neutral-900 mb-2">4,702 kg</div>
+                    <div className="text-[10px] font-black uppercase tracking-wider text-neutral-500 leading-snug">Total weight</div>
+                  </div>
+                  <div className="text-center p-4 border-l border-neutral-200">
+                    <div className="text-4xl md:text-5xl font-display font-black text-neutral-900 mb-2">12</div>
+                    <div className="text-[10px] font-black uppercase tracking-wider text-neutral-500 leading-snug">Entities/Points</div>
+                  </div>
+                </div>
+                
+                <div className="mt-12 pt-8 border-t border-neutral-200/60 flex flex-col sm:flex-row justify-between items-center px-4 gap-4 text-center sm:text-left">
+                  <div>
+                    <div className="text-[10px] font-black uppercase tracking-[0.3em] text-neutral-400">Total Program Cost</div>
+                    <div className="text-2xl font-display font-bold text-neutral-950">Rp 301,825,000</div>
+                  </div>
+                  <span className="text-xs text-neutral-400 font-medium">Covering cattle purchase, slaughter logistics, banners, and organic packaging</span>
+                </div>
+              </div>
+
+              {/* Editorial Article Body */}
+              <div className="text-neutral-600 text-lg leading-relaxed font-medium space-y-8">
+                <p>
+                  YASCI Qurban 2025 prioritized underserved regions, distributing meat from Nusa Tenggara Timur to West Kalimantan. Recipient institutions included Masjid Ar Rahman (NTT, 392 recipients), Ponpes Tahfidz Madina (West Java, 963 recipients), Masjid At-Taqwa Cianjur (744 recipients), Ponpes Darul Fikar (Banten, 765 recipients), Masjid Baiturrahim (West Kalimantan, 536 recipients), Pondok Darul Mukhlasin (Lampung, 690 recipients), and Masjid Muslim Bilionaire (Bogor, 836 recipients), among others.
+                </p>
+
+                {/* Table Breakdown */}
+                <div className="bg-neutral-50 border border-neutral-100 rounded-3xl p-8 my-10 overflow-x-auto">
+                  <h4 className="text-xs font-black uppercase tracking-widest text-neutral-500 mb-6">Key Distribution Allocations</h4>
+                  <table className="w-full text-left text-sm whitespace-nowrap">
+                    <thead>
+                      <tr className="border-b border-neutral-200 text-[10px] font-black uppercase tracking-wider text-neutral-500">
+                        <th className="pb-4">Recipient Entity</th>
+                        <th className="pb-4">Region/Province</th>
+                        <th className="pb-4 text-right">Beneficiary Count</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-neutral-100 font-semibold text-neutral-800">
+                      <tr>
+                        <td className="py-3 pr-4 font-bold text-neutral-950">Masjid Ar Rahman</td>
+                        <td className="py-3 text-neutral-500">Nusa Tenggara Timur (NTT)</td>
+                        <td className="py-3 text-right font-mono">392 recipients</td>
+                      </tr>
+                      <tr>
+                        <td className="py-3 pr-4 font-bold text-neutral-950">Ponpes Tahfidz Madina</td>
+                        <td className="py-3 text-neutral-500">West Java</td>
+                        <td className="py-3 text-right font-mono">963 recipients</td>
+                      </tr>
+                      <tr>
+                        <td className="py-3 pr-4 font-bold text-neutral-950">Masjid At-Taqwa Cianjur</td>
+                        <td className="py-3 text-neutral-500">Cianjur, West Java</td>
+                        <td className="py-3 text-right font-mono">744 recipients</td>
+                      </tr>
+                      <tr>
+                        <td className="py-3 pr-4 font-bold text-neutral-950">Ponpes Darul Fikar</td>
+                        <td className="py-3 text-neutral-500">Banten</td>
+                        <td className="py-3 text-right font-mono">765 recipients</td>
+                      </tr>
+                      <tr>
+                        <td className="py-3 pr-4 font-bold text-neutral-950">Masjid Baiturrahim</td>
+                        <td className="py-3 text-neutral-500">West Kalimantan</td>
+                        <td className="py-3 text-right font-mono">536 recipients</td>
+                      </tr>
+                      <tr>
+                        <td className="py-3 pr-4 font-bold text-neutral-950">Pondok Darul Mukhlasin</td>
+                        <td className="py-3 text-neutral-500">Lampung</td>
+                        <td className="py-3 text-right font-mono">690 recipients</td>
+                      </tr>
+                      <tr>
+                        <td className="py-3 pr-4 font-bold text-neutral-950">Masjid Muslim Bilionaire</td>
+                        <td className="py-3 text-neutral-500">Bogor, West Java</td>
+                        <td className="py-3 text-right font-mono">836 recipients</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+
+                <h3 className="text-2xl font-display font-black text-neutral-900 uppercase tracking-tight pt-6">Transparent Execution Process</h3>
+                <p>
+                  The program followed a structured workflow: online registration via Facebook, two-stage data verification through WhatsApp and Zoom, livestock procurement based on recommendations from local mosques and pesantren, two-phase payment to vetted vendors, and delivery one day before slaughter. Total realized expenditure reached Rp 301,825,000, covering cattle purchase, slaughter logistics, banners, and packaging.
+                </p>
+
+                {/* Image 2 (Body image) */}
+                <div className="my-16 rounded-[3rem] overflow-hidden border border-neutral-100 shadow-xl relative aspect-[16/10]">
+                  <img 
+                    src="https://cglinkindonesia.com/wp-content/uploads/2026/05/WhatsApp-Image-2025-05-07-at-11.39.00-1.jpeg" 
+                    alt="YASCI execution operations" 
+                    className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-1000"
+                    referrerPolicy="no-referrer"
+                  />
+                  <div className="absolute inset-0 bg-neutral-950/10" />
+                  <div className="absolute bottom-6 left-6 right-6 bg-black/80 backdrop-blur-md p-6 rounded-2xl text-white text-xs font-semibold leading-relaxed">
+                    YASCI execution processes ensuring high-fidelity delivery and verified Sharia-compliance across distributions.
+                  </div>
+                </div>
+
+                <h3 className="text-2xl font-display font-black text-neutral-900 uppercase tracking-tight pt-6">Building Bridges of Goodness</h3>
+                <p>
+                  YASCI Qurban 2025 demonstrates that strategic qurban distribution can extend benefit far beyond a single neighborhood. By partnering with verified Islamic institutions across multiple provinces, Yayasan Amal Soleh CG Link continues to serve as a bridge between qurban donors and communities most in need of this annual blessing.
+                </p>
+              </div>
+
+              <div className="pt-20 border-t border-neutral-100 mt-20 flex justify-between items-center flex-wrap gap-8">
+                <div>
+                  <h4 className="text-sm font-bold text-neutral-950 font-display mb-1">Amplify the Impact</h4>
+                  <p className="text-xs text-neutral-400 font-medium">Follow Yayasan Amal Soleh CGLINK (YASCI) on Instagram to support our daily missions.</p>
+                </div>
+                <a 
+                  href="https://www.instagram.com/amalsolehcglink/" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="px-8 py-4 bg-neutral-900 text-white font-bold text-xs uppercase tracking-widest rounded-full hover:bg-neutral-850 transition-all flex items-center gap-2"
+                >
+                  <Instagram className="w-4 h-4" /> Go to YASCI Instagram
+                </a>
+              </div>
+            </div>
+          ) : (
+            <div className="text-left">
+              <div className="space-y-6 mb-12">
+                <span className="px-3 py-1 bg-neutral-900 text-white rounded-full text-[9px] font-black uppercase tracking-widest">
+                  {selectedReport.category}
+                </span>
+                <h1 className="text-4xl md:text-6xl font-display font-black text-neutral-900 uppercase tracking-tighter leading-tight">
+                  {selectedReport.title}
+                </h1>
+                <p className="text-sm text-neutral-400 font-bold font-mono">{selectedReport.date}</p>
+              </div>
+
+              <div className="aspect-[16/9] w-full rounded-[3rem] overflow-hidden mb-12 border border-neutral-100 shadow-xl">
+                <img 
+                  src={selectedReport.image} 
+                  alt={selectedReport.title} 
+                  className="w-full h-full object-cover grayscale"
+                  referrerPolicy="no-referrer"
+                />
+              </div>
+
+              <div className="text-lg text-neutral-600 leading-relaxed font-semibold max-w-2xl space-y-6">
+                <p>{selectedReport.desc}</p>
+                <p>This report highlights our operational benchmarks, transparency protocols, and systemic outcomes focused on circular economy principles and community welfare.</p>
+              </div>
+            </div>
+          )}
+        </div>
+      </motion.div>
+    );
+  }
 
   return (
     <motion.div
@@ -587,7 +794,7 @@ export const ImpactPage: React.FC<PageProps> = ({ onBack }) => {
                 href="https://www.instagram.com/amalsolehcglink/" 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-3 px-8 py-4 bg-neutral-900 text-white rounded-full font-bold text-xs uppercase tracking-widest hover:bg-neutral-800 transition-all shadow-xl shadow-neutral-200"
+                className="inline-flex items-center gap-3 px-8 py-4 bg-neutral-900 text-white rounded-full font-bold text-xs uppercase tracking-widest hover:bg-neutral-850 transition-all shadow-xl shadow-neutral-200"
               >
                 <Instagram className="w-4 h-4" /> View Social Action
               </a>
@@ -694,7 +901,7 @@ export const ImpactPage: React.FC<PageProps> = ({ onBack }) => {
         <section className="mb-40">
           <div className="bg-neutral-950 text-white rounded-[4rem] overflow-hidden shadow-2xl">
             <div className="grid lg:grid-cols-5 h-full">
-              <div className="lg:col-span-3 p-12 md:p-24 flex flex-col justify-center">
+              <div className="lg:col-span-3 p-12 md:p-24 flex flex-col justify-center text-left">
                 <span className="text-[10px] font-black text-neutral-500 uppercase tracking-[0.4em] mb-10">Flagship Initiative</span>
                 <h2 className="text-4xl md:text-7xl font-display font-black mb-10 uppercase tracking-tighter leading-none">
                   YASCI: Doing <br /> Good <br /> Better.
@@ -704,11 +911,11 @@ export const ImpactPage: React.FC<PageProps> = ({ onBack }) => {
                 </p>
                 <div className="flex flex-wrap gap-12">
                    <div>
-                     <div className="text-4xl font-display font-bold mb-2">350+</div>
+                     <div className="text-4xl font-display font-bold mb-2">7,070+</div>
                      <div className="text-[10px] font-black text-neutral-500 uppercase tracking-widest">Lives Impacted</div>
                    </div>
                    <div>
-                     <div className="text-4xl font-display font-bold mb-2">12+</div>
+                     <div className="text-4xl font-display font-bold mb-2">15+</div>
                      <div className="text-[10px] font-black text-neutral-500 uppercase tracking-widest">Active Programs</div>
                    </div>
                    <div>
@@ -733,12 +940,21 @@ export const ImpactPage: React.FC<PageProps> = ({ onBack }) => {
         {/* Reports Grid */}
         <section className="mb-40">
           <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-20 gap-8">
-            <div>
+            <div className="text-left">
               <h2 className="text-4xl md:text-6xl font-display font-black uppercase tracking-tighter text-neutral-900">Reports & <span className="text-neutral-400">Insights</span></h2>
             </div>
-            <div className="flex gap-4">
-               {['All', 'Sustainability', 'Social', 'Economic'].map(cat => (
-                 <button key={cat} className="px-6 py-2 rounded-full border border-neutral-100 text-[10px] font-black uppercase tracking-widest hover:bg-neutral-900 hover:text-white transition-all">
+            <div className="flex flex-wrap gap-4">
+               {['All', 'Social Impact'].map(cat => (
+                 <button 
+                   key={cat} 
+                   onClick={() => setSelectedCategory(cat)}
+                   className={`px-6 py-2 rounded-full border text-[10px] font-black uppercase tracking-[0.2em] transition-all duration-300 ${
+                     (cat === 'All' && selectedCategory === 'All') ||
+                     (cat !== 'All' && selectedCategory.toLowerCase().includes(cat.toLowerCase()))
+                       ? 'bg-neutral-900 border-neutral-900 text-white' 
+                       : 'border-neutral-100 hover:bg-neutral-900 hover:text-white text-neutral-500'
+                   }`}
+                 >
                    {cat}
                  </button>
                ))}
@@ -746,11 +962,18 @@ export const ImpactPage: React.FC<PageProps> = ({ onBack }) => {
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {reports.map((report, i) => (
+            {filteredReports.map((report, i) => (
               <motion.div 
                 key={i}
                 whileHover={{ y: -10 }}
-                className="group cursor-pointer"
+                onClick={() => { 
+                  setSelectedReport(report); 
+                  window.scrollTo(0, 0); 
+                  if (report.id === 'qurban-2025') {
+                    downloadQurbanReportPDF();
+                  }
+                }}
+                className="group cursor-pointer text-left"
               >
                 <div className="aspect-[3/4] rounded-[2.5rem] bg-neutral-50 border border-neutral-100 overflow-hidden mb-8 relative">
                    <img 
@@ -779,7 +1002,7 @@ export const ImpactPage: React.FC<PageProps> = ({ onBack }) => {
 
         {/* Pillars Section */}
         <section className="mb-40">
-           <div className="grid lg:grid-cols-3 gap-16 border-t border-neutral-100 pt-32">
+           <div className="grid lg:grid-cols-3 gap-16 border-t border-neutral-100 pt-32 text-left">
               <div>
                  <h3 className="text-2xl font-display font-bold uppercase mb-8">Environmental</h3>
                  <p className="text-neutral-500 font-medium leading-relaxed">

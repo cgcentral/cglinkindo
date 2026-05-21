@@ -42,7 +42,7 @@ import {
   ServiceFinancePage, 
   ServiceHCPage 
 } from "./ServicePages";
-import { CareersPage, BlogPage } from "./AdditionalPages";
+import { CareersPage, BlogPage, insightsData } from "./AdditionalPages";
 import { 
   VisionMissionPage, 
   PilarBisnisPage, 
@@ -50,6 +50,7 @@ import {
   ImpactPage,
   InvestmentThesisPage
 } from "./AboutPages";
+import { downloadQurbanReportPDF } from "./utils/qurbanPdfGenerator";
 
 export type PageType = 'home' | 'about' | 'contact' | 'service-fundamental' | 'service-digital' | 'service-partnerships' | 'service-finance' | 'service-hc' | 'careers' | 'blog' | 'about-vision' | 'about-pillars' | 'about-funding' | 'impact' | 'venture-thesis' | 'venture-portfolio';
 
@@ -57,7 +58,7 @@ const translations = {
   nav: {
     capabilities: "Business Units",
     about: "About Us",
-    investor: "Investor Relations",
+    investor: "Impact",
     contact: "Contact Us",
     legal: "Legal • Logical • Halal",
     corporate: "Corporate",
@@ -84,8 +85,8 @@ const translations = {
     aboutDesc: "Get to know our vision, mission, and philosophy in building a legal, logical, and halal business ecosystem.",
     units: "Business Units",
     unitsDesc: "Explore our integrated strategic business units providing operational, financial, and digital solutions.",
-    investor: "Investor Relations",
-    investorDesc: "Information and strategic collaboration opportunities for partners who want to grow together in the CGLINK ecosystem.",
+    investor: "Our Impact",
+    investorDesc: "Creating positive, sustainable contributions for our clients, the economy, and the wider community through real social actions.",
     learnMore: "Learn More"
   },
   stats: {
@@ -117,7 +118,7 @@ const servicesData = [
   },
   {
     id: 'finance',
-    title: 'Finance & Tax',
+    title: 'Finance, Accounting, & Tax',
     desc: 'Comprehensive corporate financial management, funding strategies, and cash flow optimization for financial health.'
   },
   {
@@ -187,6 +188,7 @@ const Navbar = ({ currentPage, setCurrentPage }: { currentPage: PageType, setCur
                   <div className="pt-4">
                     <div className="bg-white shadow-2xl rounded-2xl border border-neutral-100 p-6 overflow-hidden text-neutral-900">
                       <div className="flex flex-col gap-4">
+                        <button id="nav-about-who" onClick={() => { setCurrentPage('about'); window.scrollTo(0, 0); setActiveDropdown(null); }} className="text-left text-[10px] font-bold uppercase tracking-wider text-neutral-500 hover:text-black transition-all hover:translate-x-2">{t.whoWeAre}</button>
                         <button id="nav-about-vision" onClick={() => { setCurrentPage('about-vision'); window.scrollTo(0, 0); setActiveDropdown(null); }} className="text-left text-[10px] font-bold uppercase tracking-wider text-neutral-500 hover:text-black transition-all hover:translate-x-2">{t.visionMission}</button>
                       </div>
                     </div>
@@ -285,7 +287,8 @@ const Navbar = ({ currentPage, setCurrentPage }: { currentPage: PageType, setCur
           <button id="mobile-menu-close" className="absolute top-8 right-8 w-12 h-12 rounded-2xl bg-neutral-50 flex items-center justify-center shadow-sm" onClick={() => setIsMobileMenuOpen(false)}><X className="w-6 h-6" /></button>
           <div className="flex flex-col gap-6 text-2xl font-display font-black uppercase tracking-tighter text-neutral-900 border-b border-neutral-100 pb-10">
             <button id="mobile-nav-home" onClick={() => { setCurrentPage('home'); setIsMobileMenuOpen(false); window.scrollTo(0, 0); }} className="block text-left">Home</button>
-            <button id="mobile-nav-about" onClick={() => { setCurrentPage('about-vision'); setIsMobileMenuOpen(false); window.scrollTo(0, 0); }} className="block text-left">{t.about}</button>
+            <button id="mobile-nav-about" onClick={() => { setCurrentPage('about'); setIsMobileMenuOpen(false); window.scrollTo(0, 0); }} className="block text-left">{t.whoWeAre}</button>
+            <button id="mobile-nav-vision" onClick={() => { setCurrentPage('about-vision'); setIsMobileMenuOpen(false); window.scrollTo(0, 0); }} className="block text-left">{t.visionMission}</button>
             
             <div className="space-y-4 pt-4 border-t border-neutral-50">
               <div className="text-[10px] font-black text-neutral-400 tracking-[0.3em]">{t.consulting}</div>
@@ -481,41 +484,7 @@ const ArticleModal = ({ isOpen, onClose, article }: { isOpen: boolean, onClose: 
 const LatestInsights = ({ setCurrentPage }: { setCurrentPage: (p: PageType) => void }) => {
   const [selectedArticle, setSelectedArticle] = useState<any>(null);
 
-  const insights = [
-    {
-      title: "Supporting the Expansion of Indonesia's SMEs with Long-Term Strategies",
-      date: "May 10, 2024",
-      category: "Strategy",
-      readTime: "8 min read",
-      image: "https://cglinkindonesia.com/wp-content/uploads/2026/03/Desain-tanpa-judul-2.png",
-      content: (
-        <>
-          <p>The landscape of Small and Medium Enterprises (SMEs) in Indonesia is rapidly evolving. As the backbone of the national economy, SMEs account for a significant portion of GDP and employment. However, scaling a business beyond its initial phase requires more than just capital—it requires a robust, long-term strategic framework.</p>
-          <h2>The Scalability Challenge</h2>
-          <p>Many local entrepreneurs face a ceiling when they reach a certain size. Operational complexities, supply chain management, and digital transformation become significant hurdles. At CGLINK, we identify that the missing link is often a structured roadmap that transitions from a "survivalist" mindset to a "strategic" expansion.</p>
-          <p>Our approach focuses on three core pillars: Process Optimization, Financial Resilience, and Market Intelligence. By digitizing key operational workflows, SMEs can reallocate their human capital towards high-value innovation rather than mundane administration.</p>
-          <h2>Building the Road Map</h2>
-          <p>Sustainability in growth means preparing for the next three years, not just the next three months. This includes building lean management structures and developing partnerships that provide access to global supply chains. Indonesia's position as a regional economic hub provides unique opportunities for SMEs to export and enter international markets.</p>
-        </>
-      )
-    },
-    {
-      title: "Investing in Innovation: Boosting the Success of Local SMEs",
-      date: "May 08, 2024",
-      category: "Innovation",
-      readTime: "6 min read",
-      image: "https://cglinkindonesia.com/wp-content/uploads/2026/03/WhatsApp-Image-2026-03-26-at-14.55.49.jpeg",
-      content: (
-        <>
-          <p>Innovation is often misunderstood as solely a technological leap. In reality, for many Indonesian SMEs, innovation starts with rethinking the customer experience and optimizing existing resource management. To compete in today's dynamic market, local businesses must embrace failure as a part of the prototyping process.</p>
-          <h2>The "Culture of Improvement"</h2>
-          <p>True innovation requires a culture where team members are encouraged to propose changes. Whether it's a new way to handle deliveries or a more efficient accounting methodology, incremental changes lead to significant long-term competitive advantages. We work with our partners to implement data-driven decision-making tools that highlight areas ripe for innovative disruption.</p>
-          <h2>Technology as a Catalyst</h2>
-          <p>While tech is the enabler, the strategy must come first. We advocate for the adoption of automation in marketing and sales to allow smaller teams to punch above their weight. With the right tools, a local business in Jakarta can effectively compete with multinational corporations in terms of customer engagement and brand loyalty.</p>
-        </>
-      )
-    }
-  ];
+  const insights = insightsData.slice(0, 3); // Show the top 3 synced articles on the homepage
 
   return (
     <section className="py-40 bg-zinc-950 text-white overflow-hidden relative">
@@ -541,7 +510,7 @@ const LatestInsights = ({ setCurrentPage }: { setCurrentPage: (p: PageType) => v
           </button>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-16 lg:gap-32">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-12 lg:gap-10">
           {insights.map((insight, i) => (
             <motion.div
               key={i}
@@ -591,34 +560,47 @@ const LatestInsights = ({ setCurrentPage }: { setCurrentPage: (p: PageType) => v
   );
 };
 
-const InvestorRelations = ({ setCurrentPage }: { setCurrentPage: (p: PageType) => void }) => {
+const ImpactHome = ({ setCurrentPage }: { setCurrentPage: (p: PageType) => void }) => {
   return (
     <section className="py-32 relative z-10 bg-neutral-50 text-black overflow-hidden group">
       <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-neutral-100 rounded-full blur-[120px] -mr-32 -mt-32 transition-transform duration-1000 group-hover:scale-110" />
       <div className="w-full px-6 md:px-16 relative z-10">
         <div className="grid lg:grid-cols-2 gap-16 items-center">
           <div>
+            <div className="inline-flex items-center gap-2 mb-6 px-4 py-1.5 bg-neutral-900 text-white rounded-full text-[9px] font-black uppercase tracking-widest animate-pulse">
+              <span>★</span> New Report Released
+            </div>
             <h2 className="text-4xl md:text-7xl font-display font-black tracking-tighter mb-8 leading-none">
-              INVESTOR <br />
-              RELATIONS
+              OUR <br />
+              IMPACT
             </h2>
-            <p className="text-xl text-neutral-600 leading-relaxed mb-10 max-w-lg">
-              We open opportunities for strategic partners and investors to collaborate in a business ecosystem that is legal, logical, and halal. Let's together accelerate economic growth through integrity-based investment.
+            <p className="text-xl text-neutral-600 leading-relaxed max-w-lg mb-4">
+              Aligned with our core value to "Contribute," CGLINK is dedicated to creating a positive, sustainable impact for our clients, the economy, and the wider community.
             </p>
+            <div className="mb-10 p-6 bg-white border border-neutral-100 rounded-2xl max-w-lg text-left shadow-sm">
+              <span className="text-[9px] font-black uppercase tracking-widest text-neutral-400">Featured Report</span>
+              <h4 className="text-lg font-bold font-display text-neutral-900 mt-1 mb-2">YASCI Qurban 2025 Beneficiary Report</h4>
+              <p className="text-sm text-neutral-500 font-medium">Reaching 7,070 recipients across Indonesia with verified halal and sharia governance.</p>
+            </div>
+            
             <div className="flex flex-col sm:flex-row gap-4">
               <button 
-                id="investor-explore"
-                onClick={() => { setCurrentPage('about-funding'); window.scrollTo(0, 0); }}
-                className="px-8 py-4 bg-black text-white rounded-full font-bold hover:bg-neutral-800 transition-all flex items-center justify-center gap-2"
+                id="impact-explore"
+                onClick={() => { 
+                  setCurrentPage('impact'); 
+                  window.scrollTo(0, 0); 
+                  downloadQurbanReportPDF();
+                }}
+                className="px-8 py-4 bg-black text-white rounded-full font-bold hover:bg-neutral-800 transition-all flex items-center justify-center gap-2 cursor-pointer"
               >
-                Explore Portfolio <ArrowRight className="w-4 h-4" />
+                Read Report & Impact Actions <ArrowRight className="w-4 h-4" />
               </button>
               <button 
-                id="investor-inquiry"
+                id="impact-contact"
                 onClick={() => { setCurrentPage('contact'); window.scrollTo(0, 0); }}
-                className="px-8 py-4 border border-black/10 rounded-full font-bold hover:bg-black/5 transition-all"
+                className="px-8 py-4 border border-black/10 rounded-full font-bold hover:bg-black/5 transition-all cursor-pointer"
               >
-                Inquiry Partnership
+                Collaborate with Us
               </button>
             </div>
           </div>
@@ -627,18 +609,30 @@ const InvestorRelations = ({ setCurrentPage }: { setCurrentPage: (p: PageType) =
               initial={{ opacity: 0, x: 20 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
-              className="aspect-square rounded-[3rem] overflow-hidden shadow-2xl"
+              className="aspect-square rounded-[3rem] overflow-hidden shadow-2xl cursor-pointer"
+              onClick={() => { 
+                setCurrentPage('impact'); 
+                window.scrollTo(0, 0); 
+                downloadQurbanReportPDF();
+              }}
             >
               <img 
-                src="https://cglinkindonesia.com/wp-content/uploads/2026/03/Desain-tanpa-judul-2.png" 
-                alt="Investor Relationship" 
+                src="https://cglinkindonesia.com/wp-content/uploads/2026/05/WhatsApp-Image-2025-05-08-at-06.34.06-scaled.jpeg" 
+                alt="YASCI Qurban 2025 Beneficiary Report Thumbnail" 
                 className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-1000"
                 referrerPolicy="no-referrer"
               />
             </motion.div>
-            <div className="absolute -bottom-10 -left-10 glass-panel bg-white/10 backdrop-blur-2xl p-8 rounded-3xl border border-white/20 shadow-xl hidden md:block">
-              <div className="text-3xl font-display font-bold text-black mb-1 leading-none tracking-tighter">SYIRKAH MODEL</div>
-              <div className="text-sm text-neutral-500 uppercase tracking-widest font-bold font-mono">Islamic Partnership</div>
+            <div 
+              onClick={() => { 
+                setCurrentPage('impact'); 
+                window.scrollTo(0, 0); 
+                downloadQurbanReportPDF();
+              }}
+              className="absolute -bottom-10 -left-10 glass-panel bg-white/90 backdrop-blur-2xl p-8 rounded-3xl border border-white/20 shadow-xl hidden md:block cursor-pointer hover:scale-105 transition-transform"
+            >
+              <div className="text-3xl font-display font-bold text-black mb-1 leading-none tracking-tighter">YASCI QURBAN 2025</div>
+              <div className="text-sm text-neutral-500 uppercase tracking-widest font-black font-mono">7,070 Beneficiaries Across Indonesia</div>
             </div>
           </div>
         </div>
@@ -669,7 +663,7 @@ const BusinessUnits = ({ setCurrentPage }: { setCurrentPage: (p: PageType) => vo
       number: "01",
       title: "Strategy & Operations",
       tagline: "Foundation of Excellence",
-      desc: "Building a strong business foundation, from legality and organizational structure to scalable business models.",
+      desc: "Building a strong business foundation, from legality and organizational structure to scalable business models to ensure long-term growth.",
       id: 'fundamental',
       bgText: "STRAT"
     },
@@ -677,17 +671,33 @@ const BusinessUnits = ({ setCurrentPage }: { setCurrentPage: (p: PageType) => vo
       number: "02",
       title: "Digital & Marketing",
       tagline: "Ecosystem Growth",
-      desc: "Accelerating market share through a digital ecosystem and data-driven marketing technology transformation.",
+      desc: "Data-driven digital marketing strategies to accelerate growth, customer acquisition, and market dominance in the digital age.",
       id: 'digital',
       bgText: "DIGTL"
     },
     {
       number: "03",
-      title: "Finance & Advisory",
+      title: "Innovation & Development",
+      tagline: "Growth Partner",
+      desc: "Expanding networks, building strategic partnerships, and opening new market opportunities to accelerate your business expansion.",
+      id: 'partnerships',
+      bgText: "INNOV"
+    },
+    {
+      number: "04",
+      title: "Finance, Accounting, & Tax",
       tagline: "Strategic Sustainability",
-      desc: "Optimization of cash flow, risk management, taxation, and strategic financial planning.",
+      desc: "Comprehensive corporate financial management, funding strategies, and cash flow optimization for financial health.",
       id: 'finance',
       bgText: "FINAN"
+    },
+    {
+      number: "05",
+      title: "Human Capital",
+      tagline: "People Empowerment",
+      desc: "Talent development, compensation structures, and strategic HR management to create a productive and high-performing team.",
+      id: 'hc',
+      bgText: "HUMAN"
     }
   ];
 
@@ -712,7 +722,7 @@ const BusinessUnits = ({ setCurrentPage }: { setCurrentPage: (p: PageType) => vo
           </p>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-8">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           {units.map((unit, i) => (
             <motion.div
               key={i}
@@ -729,7 +739,7 @@ const BusinessUnits = ({ setCurrentPage }: { setCurrentPage: (p: PageType) => vo
 
               <div className="relative z-10">
                 <div className="text-[10px] font-black text-neutral-300 uppercase tracking-[0.4em] mb-4 group-hover:text-white/40 transition-colors">
-                  {unit.number} / 03
+                  {unit.number} / 05
                 </div>
                 <div className="text-[9px] font-black text-neutral-900 group-hover:text-white/60 mb-12 uppercase tracking-widest bg-neutral-100 group-hover:bg-white/10 px-3 py-1 rounded-full w-fit transition-all">
                   {unit.tagline}
@@ -738,12 +748,22 @@ const BusinessUnits = ({ setCurrentPage }: { setCurrentPage: (p: PageType) => vo
 
               <div className="relative z-10 mb-8">
                 <h3 className="text-4xl font-display font-black text-neutral-900 group-hover:text-white mb-8 uppercase tracking-tighter leading-tight transition-colors duration-500">
-                  {unit.title.split('&').map((part, idx) => (
-                    <span key={idx} className="block">
-                      {idx > 0 && <span className="text-neutral-300 group-hover:text-white/30 mr-3">&</span>}
-                      {part.trim()}
-                    </span>
-                  ))}
+                  {unit.title.includes(',') ? (
+                    unit.title.split(',').map((part, idx) => (
+                      <span key={idx} className="block">
+                        {part.trim()}{idx < unit.title.split(',').length - 1 ? ',' : ''}
+                      </span>
+                    ))
+                  ) : unit.title.includes('&') ? (
+                    unit.title.split('&').map((part, idx) => (
+                      <span key={idx} className="block">
+                        {idx > 0 && <span className="text-neutral-300 group-hover:text-white/30 mr-2">&</span>}
+                        {part.trim()}
+                      </span>
+                    ))
+                  ) : (
+                    unit.title
+                  )}
                 </h3>
                 <p className="text-neutral-500 group-hover:text-neutral-400 font-medium leading-relaxed max-w-[240px] transition-colors duration-500 mb-10">
                   {unit.desc}
@@ -782,8 +802,8 @@ const StrategicNav = ({ setCurrentPage }: { setCurrentPage: (p: PageType) => voi
     {
       title: t.investor,
       desc: t.investorDesc,
-      link: "about-funding",
-      id: "strategic-investor"
+      link: "impact",
+      id: "strategic-impact"
     }
   ];
 
@@ -1035,19 +1055,29 @@ const VisionMission = () => {
 const ServicesSection: React.FC<{ setCurrentPage: (page: PageType) => void }> = ({ setCurrentPage }) => {
   const services = [
     {
-      id: 'about-funding',
-      title: "Funding Partnership",
-      desc: "Syirkah-based Islamic funding, transparent and equitable, to support business growth."
+      id: 'fundamental',
+      title: "Strategy & Operations",
+      desc: "Building a strong business foundation, from legality and organizational structure to scalable business models."
     },
     {
-      id: 'about-pillars',
-      title: "Business Consulting",
-      desc: "Business consultants who help companies set up business foundations, manage finance & HR, and develop digital strategies for sustainable growth."
+      id: 'digital',
+      title: "Digital & Marketing",
+      desc: "Accelerating market share through a digital ecosystem and data-driven marketing technology transformation."
     },
     {
-      id: 'about-funding',
-      title: "Funding Acquisition",
-      desc: "Islamic funding to develop new businesses or enter existing businesses, with measured expansion strategies."
+      id: 'partnerships',
+      title: "Innovation & Development",
+      desc: "Expanding networks, building strategic partnerships, and opening new market opportunities to accelerate your business expansion."
+    },
+    {
+      id: 'finance',
+      title: "Finance, Accounting, & Tax",
+      desc: "Comprehensive corporate financial management, funding strategies, and cash flow optimization for financial health."
+    },
+    {
+      id: 'hc',
+      title: "Human Capital",
+      desc: "Talent development, compensation structures, and strategic HR management to create a productive and high-performing team."
     }
   ];
 
@@ -1088,6 +1118,18 @@ const ServicesSection: React.FC<{ setCurrentPage: (page: PageType) => void }> = 
 const WhyUs = () => {
   const reasons = [
     {
+      icon: <Building2 className="w-6 h-6" />,
+      title: "Who Are We?",
+      desc: "Founded in 2023 and based in South Jakarta, CGLINK Indonesia is a business consulting firm born from collaboration and innovation, providing measurable and sustainable solutions.",
+      id: "who-we-are"
+    },
+    {
+      icon: <ShieldCheck className="w-6 h-6" />,
+      title: "Why Choose Us?",
+      desc: "We believe in Uncompromising Professionalism. Our team helping clients navigate business complexities with transparent and results-oriented philosophy.",
+      id: "why-choose"
+    },
+    {
       icon: <Briefcase className="w-6 h-6" />,
       title: "Visionary & Experienced",
       desc: "Our leadership brings cross-sector expertise—from energy to digital pilgrimage—enabling multifaceted solutions.",
@@ -1098,18 +1140,6 @@ const WhyUs = () => {
       title: "High-Caliber Network",
       desc: "Opening doors through a vast ecosystem of strategic partners, investors, and industry veterans.",
       id: "network"
-    },
-    {
-      icon: <ShieldCheck className="w-6 h-6" />,
-      title: "Ethical Integrity",
-      desc: "Strict adherence to Legal, Logical, and Halal principles, ensuring long-term sustainable credibility.",
-      id: "ethical"
-    },
-    {
-      icon: <BarChart3 className="w-6 h-6" />,
-      title: "Data-Driven Precision",
-      desc: "Moving beyond intuition with research-backed strategies and measurable operational metrics.",
-      id: "data"
     }
   ];
 
@@ -1127,11 +1157,11 @@ const WhyUs = () => {
               CGLINK?
             </h2>
             <p className="text-xl text-neutral-500 font-medium max-w-md leading-relaxed mb-16">
-              We don't just consult; we build legacy. Our unique blend of sharia-compliant values and modern operational excellence creates a formidable competitive edge.
+              We go beyond business to build legacy. Our unique blend of sharia-compliant values and modern operational excellence creates a formidable competitive edge.
             </p>
             <div className="aspect-[16/9] rounded-[3rem] overflow-hidden bg-neutral-100 shadow-2xl relative group border border-neutral-100">
                <img 
-                 src="https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=2669&auto=format&fit=crop" 
+                 src="https://cglinkindonesia.com/wp-content/uploads/2026/05/beranda-scaled.jpg" 
                  alt="Professional Atmosphere" 
                  className="w-full h-full object-cover grayscale transition-all duration-1000 group-hover:grayscale-0 group-hover:scale-105"
                  referrerPolicy="no-referrer"
@@ -1438,8 +1468,8 @@ const Footer = ({ setCurrentPage }: { setCurrentPage: (p: PageType) => void }) =
             <ul className="space-y-6 text-[10px] font-black uppercase tracking-[0.3em]">
               <li><button onClick={() => { setCurrentPage('home'); window.scrollTo(0, 0); }} className="hover:text-neutral-400 transition-colors text-left">Home</button></li>
               <li><button onClick={() => { setCurrentPage('about-vision'); window.scrollTo(0, 0); }} className="hover:text-neutral-400 transition-colors text-left">{t.about}</button></li>
-              <li><button onClick={() => { setCurrentPage('impact'); window.scrollTo(0, 0); }} className="hover:text-neutral-400 transition-colors text-left">Impact</button></li>
-              <li><button onClick={() => { setCurrentPage('venture-thesis'); window.scrollTo(0, 0); }} className="hover:text-neutral-400 transition-colors text-left">{t.investor}</button></li>
+              <li><button onClick={() => { setCurrentPage('impact'); window.scrollTo(0, 0); }} className="hover:text-neutral-400 transition-colors text-left">{t.impact}</button></li>
+              <li><button onClick={() => { setCurrentPage('venture-thesis'); window.scrollTo(0, 0); }} className="hover:text-neutral-400 transition-colors text-left">Venture</button></li>
               <li><button onClick={() => { setCurrentPage('contact'); window.scrollTo(0, 0); }} className="hover:text-neutral-400 transition-colors text-left">{t.contact}</button></li>
             </ul>
           </div>
@@ -1513,11 +1543,11 @@ const AboutUs: React.FC<{ onBack: () => void }> = ({ onBack }) => {
               <p className="mb-8">We combine data, industry experience, and creativity to provide comprehensive services in various main pillars:</p>
               <ul className="space-y-6">
                 {[
-                  { title: "Business Strategy", desc: "Formulating an adaptive roadmap to ensure your business remains relevant and competitive." },
-                  { title: "Financial Management (Finance)", desc: "Optimization of capital structure, risk management, and precise financial planning." },
-                  { title: "Digital Marketing", desc: "Building a strong brand presence through data-driven marketing strategies for maximum conversion results." },
-                  { title: "Business Development", desc: "Identifying new market opportunities and accelerating your product/service penetration." },
-                  { title: "Strategic Partnerships", desc: "Connecting points of potential by building mutually beneficial networks." }
+                  { title: "Strategy & Operations", desc: "Formulating an adaptive roadmap, SOPs, and organizational structure to ensure scalability." },
+                  { title: "Digital & Marketing", desc: "Data-driven growth strategies, digital ecosystems, and performance marketing transformation." },
+                  { title: "Innovation & Development", desc: "Expanding networks, strategic partnerships, and uncovering new market opportunities." },
+                  { title: "Finance, Accounting, & Tax", desc: "Capital structure optimization, precision financial planning, and robust risk management." },
+                  { title: "Human Capital", desc: "Talent acquisition, corporate culture transformation, and high-performance team building." }
                 ].map((item, idx) => (
                   <li key={idx} className="flex gap-4">
                     <CheckCircle2 className="w-6 h-6 text-neutral-900 shrink-0" />
@@ -1527,11 +1557,16 @@ const AboutUs: React.FC<{ onBack: () => void }> = ({ onBack }) => {
               </ul>
             </section>
 
+            <section className="bg-neutral-100/50 p-8 md:p-12 rounded-[2.5rem] border border-neutral-250/20 my-12 text-left">
+              <span className="inline-block px-4 py-1 rounded-full bg-neutral-900 text-white text-[9px] font-black tracking-widest uppercase mb-4">Philosophy</span>
+              <h2 className="text-3xl font-display font-black text-neutral-900 mb-6 uppercase tracking-tighter">Our Work Philosophy</h2>
+              <p className="text-lg text-neutral-600 leading-relaxed font-semibold">
+                We believe in <strong>Professionalism Without Compromise</strong>. Our team consists of highly dedicated experts helping clients navigate business complexities with a transparent and result-oriented sharia-compliant philosophy. We ensure every step we take together is <strong>Legal, Logical, & Halal</strong> to bring you closer to peak sustainable success.
+              </p>
+            </section>
+
             <section>
               <h3 className="text-2xl font-display font-bold text-neutral-900 mb-6 uppercase tracking-tight">Why Choose CGLINK?</h3>
-              <p className="mb-10">
-                We believe in Professionalism Without Compromise. Our team consists of highly dedicated experts to help clients navigate the complexities of the business world. With a transparent and result-oriented work philosophy, we ensure every step we take together brings you closer to the peak of success.
-              </p>
               <blockquote className="border-l-8 border-black pl-8 py-4 my-10 bg-white rounded-r-2xl italic text-lg text-neutral-900 font-bold">
                 "To be a business collaboration partner based on legal, logical, and halal principles through products, services, and professional business development to create sustainable growth and benefits for all parties."
               </blockquote>
@@ -1825,9 +1860,8 @@ export default function App() {
             <SectorMarquee />
             <BusinessStats />
             <CoreValues />
-            <VisionMission />
             <BusinessUnits setCurrentPage={setCurrentPage} />
-            <InvestorRelations setCurrentPage={setCurrentPage} />
+            <ImpactHome setCurrentPage={setCurrentPage} />
             <WhyUs />
             <Testimonials />
             <LatestInsights setCurrentPage={setCurrentPage} />

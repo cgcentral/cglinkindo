@@ -1,6 +1,6 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { motion } from "motion/react";
-import { ArrowLeft, Mail, Briefcase, ArrowRight } from "lucide-react";
+import { ArrowLeft, Mail, Briefcase, ArrowRight, Clock, BookOpen, Linkedin, Instagram, X } from "lucide-react";
 
 export const CareersPage: React.FC<{ onBack: () => void }> = ({ onBack }) => {
   useEffect(() => {
@@ -172,41 +172,182 @@ export const CareersPage: React.FC<{ onBack: () => void }> = ({ onBack }) => {
   );
 };
 
+export interface InsightArticle {
+  id: number;
+  title: string;
+  excerpt: string;
+  date: string;
+  category: string;
+  readTime: string;
+  image: string;
+  content: React.ReactNode;
+}
+
+export const insightsData: InsightArticle[] = [
+  {
+    id: 1,
+    title: "YASCI Qurban 2025: Realisasi Amanah & Transparansi Sosial ke Seluruh Nusantara",
+    excerpt: "Laporan lengkap realisasi program pendistribusian hewan qurban 100% syariah dan halal, menyentuh 7,070 penerima manfaat di wilayah terpencil di Indonesia.",
+    date: "June 2025",
+    category: "Social Impact",
+    readTime: "5 min read",
+    image: "https://cglinkindonesia.com/wp-content/uploads/2026/05/WhatsApp-Image-2025-05-08-at-06.34.06-scaled.jpeg",
+    content: (
+      <div className="space-y-6 text-neutral-600 text-lg leading-relaxed">
+        <p>Program <strong>YASCI Qurban 2025</strong> yang dikelola oleh Yayasan Amal Soleh CG Link telah sukses dilaksanakan pada <strong>6 - 7 Juni 2025</strong> (10-11 Dzulhijjah 1446 H). Program ini merupakan wujud nyata gerakan kepedulian sosial yang berpegang teguh pada prinsip legal, logis, dan halal (halal governance) untuk menghantarkan kebermanfaatan ibadah qurban bagi Saudara kita di berbagai titik pelosok Indonesia.</p>
+        
+        <h2 className="text-2xl font-bold font-display text-neutral-900 mt-8 mb-2 uppercase tracking-tight">Realisasi & Dampak Positif Program</h2>
+        <p>Alhamdulillah, atas dedikasi para donatur dan kerja keras relawan lapangan, penyaluran tahun ini memberikan dampak nyata yang terekam pada angka-angka berikut:</p>
+        <ul className="list-disc pl-6 space-y-2 font-semibold text-neutral-800">
+          <li><strong>7.070 Orang Penerima Manfaat</strong> di 12 entitas (7 Masjid dan 5 Pondok Pesantren)</li>
+          <li><strong>12 Ekor Sapi Berkualitas Tinggi</strong> dengan total bobot basah mencapai <strong>4.702 Kilogram</strong></li>
+          <li><strong>100% Transparansi Dana Realisasi</strong> senilai Rp 301.825.000,- tersalurkan penuh tanpa potongan manajemen.</li>
+        </ul>
+
+        <h2 className="text-2xl font-bold font-display text-neutral-900 mt-8 mb-2 uppercase tracking-tight">Sebaran Wilayah Distribusi</h2>
+        <p>Dalam memastikan pemerataan distribusi, hewan qurban disebar secara door-to-door untuk menjaga martabat penerima manfaat, meliputi wilayah strategis:</p>
+        <div className="grid md:grid-cols-2 gap-4 my-6">
+          <div className="p-6 bg-neutral-50 rounded-[2rem] border border-neutral-100">
+            <span className="text-xs font-black text-neutral-400 font-mono">WILAYAH TIMUR</span>
+            <h4 className="font-bold text-neutral-900 text-lg mt-1">Masjid Ar Rahman (NTT)</h4>
+            <p className="text-xs text-neutral-500 font-medium mt-1 leading-relaxed">Timor Tengah Selatan, NTT • Sapi 400 Kg untuk 392 warga dhuafa.</p>
+          </div>
+          <div className="p-6 bg-neutral-50 rounded-[2rem] border border-neutral-100">
+            <span className="text-xs font-black text-neutral-400 font-mono">BANTEN & JABAR</span>
+            <h4 className="font-bold text-neutral-900 text-lg mt-1">Ponpes Darul Fikar, At-Taqwa, & Al-Istiqomah</h4>
+            <p className="text-xs text-neutral-500 font-medium mt-1 leading-relaxed">Mulai dari komunitas suku Baduy hingga Megamendung, Bogor, dan Cianjur.</p>
+          </div>
+        </div>
+
+        <h2 className="text-2xl font-bold font-display text-neutral-900 mt-8 mb-2 uppercase tracking-tight">Prinsip Halal Governance & Akuntabilitas</h2>
+        <p>Setiap proses pembelian, pengawasan kesehatan hewan, teknik pemotongan hingga rincian pembiayaan diuji secara ketat agar selaras dengan ketetapan syariah Islam. Laporan keuangan kami bersifat terbuka dan diaudit secara menyeluruh untuk menjamin rasa tenang (<i>peace of mind</i>) bagi para shahibul qurban.</p>
+      </div>
+    )
+  }
+];
+
 export const BlogPage: React.FC<{ onBack: () => void }> = ({ onBack }) => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
-  const articles = [
-    {
-      id: 1,
-      title: "Digital Marketing Strategy for MSMEs in 2026",
-      excerpt: "Learn how MSMEs can leverage AI and automation to compete with big brands without fantastic marketing budgets.",
-      date: "March 10, 2026",
-      category: "Digital Marketing"
-    },
-    {
-      id: 2,
-      title: "Importance of Financial Restructuring Facing Economic Uncertainty",
-      excerpt: "Tactical steps that CFOs and business owners must take to secure cash flow and ensure operational sustainability.",
-      date: "February 28, 2026",
-      category: "Corporate Finance"
-    },
-    {
-      id: 3,
-      title: "Building an Agile Work Culture in Traditional Companies",
-      excerpt: "Transforming work culture is more than just changing working hours. Discover how to shift your team's mindset towards true agility.",
-      date: "February 15, 2026",
-      category: "Human Capital"
-    },
-    {
-      id: 4,
-      title: "Strategic Partnerships: Key to Rapid Expansion Without Burning Money",
-      excerpt: "Why customer acquisition through B2B partnerships is often more effective and cheaper than conventional digital advertising.",
-      date: "February 02, 2026",
-      category: "Partnerships"
-    }
-  ];
+  const [selectedArticle, setSelectedArticle] = useState<InsightArticle | null>(null);
+  const [selectedCategory, setSelectedCategory] = useState("All");
+
+  const categories = ["All", "Social Impact"];
+
+  const filteredArticles = selectedCategory === "All"
+    ? insightsData
+    : insightsData.filter(a => a.category.toLowerCase().includes(selectedCategory.toLowerCase()));
+
+  if (selectedArticle) {
+    return (
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        className="min-h-screen bg-white text-neutral-900 pt-32 pb-24 selection:bg-neutral-950 selection:text-white"
+      >
+        <div className="w-full px-6 md:px-16 max-w-5xl mx-auto">
+          {/* Back button */}
+          <button 
+            onClick={() => { setSelectedArticle(null); window.scrollTo(0, 0); }} 
+            className="flex items-center gap-2 text-neutral-400 hover:text-neutral-900 mb-16 transition-colors group font-black uppercase tracking-[0.4em] text-[10px]"
+          >
+            <ArrowLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform" /> 
+            Back to Insights
+          </button>
+
+          <div className="text-left">
+            {/* Header metadata */}
+            <div className="space-y-6 mb-12">
+              <div className="flex flex-wrap items-center gap-4 text-xs font-mono font-bold text-neutral-400">
+                <span className="px-3 py-1 bg-neutral-900 text-white rounded-full uppercase tracking-widest text-[9px]">
+                  {selectedArticle.category}
+                </span>
+                <span>•</span>
+                <span>{selectedArticle.date}</span>
+                <span>•</span>
+                <span>{selectedArticle.readTime}</span>
+              </div>
+              <h1 className="text-4xl md:text-6xl font-display font-black text-neutral-900 tracking-tighter uppercase leading-[1.1]">
+                {selectedArticle.title}
+              </h1>
+              <p className="text-xl text-neutral-500 font-medium leading-relaxed max-w-3xl">
+                {selectedArticle.excerpt}
+              </p>
+            </div>
+
+            {/* Large thumbnail image */}
+            <div className="aspect-[16/9] w-full rounded-[3rem] overflow-hidden mb-16 border border-neutral-100 shadow-2xl bg-neutral-50">
+              <img 
+                src={selectedArticle.image} 
+                alt={selectedArticle.title} 
+                className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-1000"
+                referrerPolicy="no-referrer"
+              />
+            </div>
+
+            {/* Author information & Date details */}
+            <div className="flex flex-wrap items-center gap-10 mb-16 border-b border-t border-neutral-100 py-8">
+              <div className="flex items-center gap-3 shrink-0">
+                <div className="w-10 h-10 rounded-full bg-neutral-900 flex items-center justify-center text-white text-[10px] font-bold">CG</div>
+                <div>
+                  <div className="text-[10px] font-black uppercase tracking-widest text-neutral-400">Written by</div>
+                  <div className="text-sm font-bold text-neutral-900">Editorial Team</div>
+                </div>
+              </div>
+              <div className="flex items-center gap-3 shrink-0">
+                <Clock className="w-5 h-5 text-neutral-400" />
+                <div>
+                  <div className="text-[10px] font-black uppercase tracking-widest text-neutral-400">Published on</div>
+                  <div className="text-sm font-bold text-neutral-900">{selectedArticle.date}</div>
+                </div>
+              </div>
+              <div className="flex items-center gap-3 shrink-0">
+                <BookOpen className="w-5 h-5 text-neutral-400" />
+                <div>
+                  <div className="text-[10px] font-black uppercase tracking-widest text-neutral-400 font-mono">Duration</div>
+                  <div className="text-sm font-bold text-neutral-900">{selectedArticle.readTime}</div>
+                </div>
+              </div>
+            </div>
+
+            {/* Prose text container */}
+            <div className="max-w-none pt-4 text-left">
+              {selectedArticle.content}
+            </div>
+
+            {/* Footer newsletter / engage actions */}
+            <div className="pt-20 border-t border-neutral-100 mt-20 flex justify-between items-center flex-wrap gap-8 bg-neutral-50 p-10 md:p-14 rounded-[3rem]">
+              <div className="text-left max-w-xl">
+                <h4 className="text-base font-black text-neutral-950 font-display mb-2 uppercase tracking-tight">Stay Ahead of Indonesian Business Trends</h4>
+                <p className="text-xs text-neutral-400 font-medium leading-relaxed">Join CGLINK's editorial network to receive practical legal, logical, and halal growth roadmaps directly in your channel.</p>
+              </div>
+              <div className="flex gap-4">
+                <a 
+                  href="https://www.linkedin.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-12 h-12 rounded-full border border-neutral-200 flex items-center justify-center text-neutral-500 bg-white hover:text-black hover:shadow-lg transition-all"
+                >
+                  <Linkedin className="w-4 h-4" />
+                </a>
+                <a 
+                  href="https://www.instagram.com/amalsolehcglink/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-12 h-12 rounded-full border border-neutral-200 flex items-center justify-center text-neutral-500 bg-white hover:text-black hover:shadow-lg transition-all"
+                >
+                  <Instagram className="w-4 h-4" />
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </motion.div>
+    );
+  }
 
   return (
     <motion.div 
@@ -218,36 +359,73 @@ export const BlogPage: React.FC<{ onBack: () => void }> = ({ onBack }) => {
       <div className="w-full px-6 md:px-16">
         <button 
           onClick={onBack}
-          className="flex items-center gap-2 text-neutral-500 hover:text-neutral-900 transition-colors mb-12 group"
+          className="flex items-center gap-2 text-neutral-500 hover:text-neutral-900 transition-colors mb-12 group text-[10px] font-black uppercase tracking-[0.3em]"
         >
           <ArrowLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform" />
           Back to Home
         </button>
         
-        <div className="mb-20">
-          <h1 className="text-5xl md:text-8xl font-display font-black text-neutral-900 mb-6 tracking-tighter leading-none">INSIGHTS & <br/> BLOG</h1>
-          <p className="text-xl text-neutral-500 max-w-2xl font-medium">
+        <div className="mb-20 text-left">
+          <h1 className="text-5xl md:text-8xl font-display font-black text-neutral-900 mb-6 tracking-tighter leading-none uppercase">INSIGHTS & <br/> BLOG</h1>
+          <p className="text-xl text-neutral-500 max-w-2xl font-medium leading-relaxed">
             Latest articles, analysis, and views from our experts around the business world, finance, marketing, and talent management.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
-          {articles.map((article) => (
-            <div key={article.id} className="bg-neutral-50 border border-neutral-100 rounded-[2.5rem] p-10 hover:bg-white hover:shadow-2xl transition-all group cursor-pointer flex flex-col">
-              <div className="flex items-center justify-between mb-8">
-                <span className="text-[10px] font-black uppercase tracking-widest text-neutral-900 bg-neutral-50 px-4 py-1.5 rounded-full">
-                  {article.category}
-                </span>
-                <span className="text-xs font-bold text-neutral-400 uppercase tracking-widest">{article.date}</span>
+        {/* Categories Bar */}
+        <div className="flex flex-wrap gap-3 mb-16">
+          {categories.map(cat => (
+            <button
+              key={cat}
+              onClick={() => setSelectedCategory(cat)}
+              className={`px-6 py-2.5 rounded-full border text-[10px] font-black uppercase tracking-[0.2em] transition-all duration-300 ${
+                (cat === 'All' && selectedCategory === 'All') ||
+                (cat !== 'All' && selectedCategory.toLowerCase().includes(cat.toLowerCase()))
+                  ? 'bg-neutral-900 border-neutral-900 text-white' 
+                  : 'border-neutral-100 hover:bg-neutral-900 hover:text-white text-neutral-500'
+              }`}
+            >
+              {cat}
+            </button>
+          ))}
+        </div>
+
+        {/* Grid of Articles */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+          {filteredArticles.map((article) => (
+            <div 
+              key={article.id} 
+              onClick={() => { setSelectedArticle(article); window.scrollTo(0, 0); }}
+              className="bg-neutral-50 border border-neutral-100 rounded-[2.5rem] overflow-hidden hover:bg-white hover:shadow-2xl transition-all group cursor-pointer flex flex-col text-left"
+            >
+              <div className="aspect-[4/3] w-full overflow-hidden relative border-b border-neutral-100 bg-neutral-100">
+                <img 
+                  src={article.image} 
+                  alt={article.title} 
+                  className="w-full h-full object-cover grayscale opacity-90 transition-all duration-700 group-hover:grayscale-0 group-hover:scale-105"
+                  referrerPolicy="no-referrer"
+                />
+                <div className="absolute top-6 left-6">
+                  <span className="text-[9px] font-black uppercase tracking-widest text-white bg-neutral-950 px-4 py-1.5 rounded-full">
+                    {article.category}
+                  </span>
+                </div>
               </div>
-              <h3 className="text-3xl font-display font-bold text-neutral-900 mb-6 group-hover:text-neutral-500 transition-colors leading-tight">
-                {article.title}
-              </h3>
-              <p className="text-neutral-500 leading-relaxed mb-10 font-medium">
-                {article.excerpt}
-              </p>
-              <div className="mt-auto flex items-center gap-3 text-neutral-900 font-black uppercase tracking-widest text-xs group-hover:gap-4 transition-all">
-                Read More <ArrowRight className="w-4 h-4 text-neutral-900" />
+              <div className="p-8 flex-1 flex flex-col">
+                <div className="text-[10px] font-bold text-neutral-400 uppercase tracking-widest mb-4 flex items-center gap-3">
+                  <span>{article.date}</span>
+                  <span className="w-1.5 h-1.5 rounded-full bg-neutral-200"></span>
+                  <span>{article.readTime}</span>
+                </div>
+                <h3 className="text-xl md:text-2xl font-display font-black text-neutral-900 mb-4 group-hover:text-neutral-500 transition-colors leading-[1.1] uppercase tracking-tight">
+                  {article.title}
+                </h3>
+                <p className="text-neutral-500 text-sm leading-relaxed mb-8 font-medium line-clamp-3">
+                  {article.excerpt}
+                </p>
+                <div className="mt-auto flex items-center gap-3 text-neutral-900 font-black uppercase tracking-widest text-xs group-hover:gap-4 transition-all">
+                  Read More <ArrowRight className="w-4 h-4 text-neutral-900" />
+                </div>
               </div>
             </div>
           ))}
