@@ -50,26 +50,26 @@ import {
   ImpactPage,
   InvestmentThesisPage
 } from "./AboutPages";
-import { downloadQurbanReportPDF } from "./utils/qurbanPdfGenerator";
+
 
 export type PageType = 'home' | 'about' | 'contact' | 'service-fundamental' | 'service-digital' | 'service-partnerships' | 'service-finance' | 'service-hc' | 'careers' | 'blog' | 'about-vision' | 'about-pillars' | 'about-funding' | 'impact' | 'venture-thesis' | 'venture-portfolio';
 
 const translations = {
   nav: {
-    capabilities: "Business Units",
-    about: "About Us",
-    investor: "Impact",
-    contact: "Contact Us",
-    legal: "Legal • Logical • Halal",
-    corporate: "Corporate",
-    whoWeAre: "Who We Are",
-    visionMission: "Vision & Mission",
-    businessPillars: "Business Units",
-    impact: "Impact",
-    venture: "CGLINK Venture",
-    consulting: "CGLINK Consulting",
-    career: "Career",
-    insights: "Insights"
+    capabilities: "BUSINESS UNITS",
+    about: "ABOUT US",
+    investor: "IMPACT",
+    contact: "CONTACT US",
+    legal: "LEGAL • LOGICAL • HALAL",
+    corporate: "CORPORATE",
+    whoWeAre: "WHO WE ARE",
+    visionMission: "VISION & MISSION",
+    businessPillars: "BUSINESS UNITS",
+    impact: "IMPACT",
+    venture: "CGLINK VENTURE",
+    consulting: "CGLINK CONSULTING",
+    career: "CAREER",
+    insights: "INSIGHTS"
   },
   hero: {
     tag: "One Link, Thousands of Opportunities",
@@ -286,27 +286,27 @@ const Navbar = ({ currentPage, setCurrentPage }: { currentPage: PageType, setCur
         >
           <button id="mobile-menu-close" className="absolute top-8 right-8 w-12 h-12 rounded-2xl bg-neutral-50 flex items-center justify-center shadow-sm" onClick={() => setIsMobileMenuOpen(false)}><X className="w-6 h-6" /></button>
           <div className="flex flex-col gap-6 text-2xl font-display font-black uppercase tracking-tighter text-neutral-900 border-b border-neutral-100 pb-10">
-            <button id="mobile-nav-home" onClick={() => { setCurrentPage('home'); setIsMobileMenuOpen(false); window.scrollTo(0, 0); }} className="block text-left">Home</button>
-            <button id="mobile-nav-about" onClick={() => { setCurrentPage('about'); setIsMobileMenuOpen(false); window.scrollTo(0, 0); }} className="block text-left">{t.whoWeAre}</button>
-            <button id="mobile-nav-vision" onClick={() => { setCurrentPage('about-vision'); setIsMobileMenuOpen(false); window.scrollTo(0, 0); }} className="block text-left">{t.visionMission}</button>
+            <button id="mobile-nav-home" onClick={() => { setCurrentPage('home'); setIsMobileMenuOpen(false); window.scrollTo(0, 0); }} className="block text-left uppercase">Home</button>
+            <button id="mobile-nav-about" onClick={() => { setCurrentPage('about'); setIsMobileMenuOpen(false); window.scrollTo(0, 0); }} className="block text-left uppercase">{t.whoWeAre}</button>
+            <button id="mobile-nav-vision" onClick={() => { setCurrentPage('about-vision'); setIsMobileMenuOpen(false); window.scrollTo(0, 0); }} className="block text-left uppercase">{t.visionMission}</button>
             
             <div className="space-y-4 pt-4 border-t border-neutral-50">
-              <div className="text-[10px] font-black text-neutral-400 tracking-[0.3em]">{t.consulting}</div>
+              <div className="text-[10px] font-black text-neutral-400 tracking-[0.3em] uppercase">{t.consulting}</div>
               {servicesData.map(s => (
-                <button key={s.id} id={`mobile-nav-capability-${s.id}`} onClick={() => { setCurrentPage(('service-' + s.id) as PageType); setIsMobileMenuOpen(false); window.scrollTo(0, 0); }} className="block text-left text-xl opacity-70">{s.title}</button>
+                <button key={s.id} id={`mobile-nav-capability-${s.id}`} onClick={() => { setCurrentPage(('service-' + s.id) as PageType); setIsMobileMenuOpen(false); window.scrollTo(0, 0); }} className="block text-left text-xl font-bold uppercase tracking-tight opacity-70">{s.title}</button>
               ))}
             </div>
 
             <div className="space-y-4 pt-4 border-t border-neutral-50">
-              <div className="text-[10px] font-black text-neutral-400 tracking-[0.3em]">{t.venture}</div>
-              <button onClick={() => { setCurrentPage('venture-thesis'); setIsMobileMenuOpen(false); window.scrollTo(0, 0); }} className="block text-left text-xl opacity-70">Investment Thesis</button>
-              <button onClick={() => { setCurrentPage('venture-portfolio'); setIsMobileMenuOpen(false); window.scrollTo(0, 0); }} className="block text-left text-xl opacity-70">Portfolio</button>
+              <div className="text-[10px] font-black text-neutral-400 tracking-[0.3em] uppercase">{t.venture}</div>
+              <button onClick={() => { setCurrentPage('venture-thesis'); setIsMobileMenuOpen(false); window.scrollTo(0, 0); }} className="block text-left text-xl font-bold uppercase tracking-tight opacity-70">Investment Thesis</button>
+              <button onClick={() => { setCurrentPage('venture-portfolio'); setIsMobileMenuOpen(false); window.scrollTo(0, 0); }} className="block text-left text-xl font-bold uppercase tracking-tight opacity-70">Portfolio</button>
             </div>
 
-            <button onClick={() => { setCurrentPage('impact'); setIsMobileMenuOpen(false); window.scrollTo(0, 0); }} className="block text-left">{t.impact}</button>
+            <button onClick={() => { setCurrentPage('impact'); setIsMobileMenuOpen(false); window.scrollTo(0, 0); }} className="block text-left uppercase">{t.impact}</button>
 
-            <button onClick={() => { setCurrentPage('careers'); setIsMobileMenuOpen(false); window.scrollTo(0, 0); }} className="block text-left">{t.career}</button>
-            <button onClick={() => { setCurrentPage('blog'); setIsMobileMenuOpen(false); window.scrollTo(0, 0); }} className="block text-left">{t.insights}</button>
+            <button onClick={() => { setCurrentPage('careers'); setIsMobileMenuOpen(false); window.scrollTo(0, 0); }} className="block text-left uppercase">{t.career}</button>
+            <button onClick={() => { setCurrentPage('blog'); setIsMobileMenuOpen(false); window.scrollTo(0, 0); }} className="block text-left uppercase">{t.insights}</button>
             
             <button 
               id="mobile-nav-contact"
@@ -589,7 +589,6 @@ const ImpactHome = ({ setCurrentPage }: { setCurrentPage: (p: PageType) => void 
                 onClick={() => { 
                   setCurrentPage('impact'); 
                   window.scrollTo(0, 0); 
-                  downloadQurbanReportPDF();
                 }}
                 className="px-8 py-4 bg-black text-white rounded-full font-bold hover:bg-neutral-800 transition-all flex items-center justify-center gap-2 cursor-pointer"
               >
@@ -613,7 +612,6 @@ const ImpactHome = ({ setCurrentPage }: { setCurrentPage: (p: PageType) => void 
               onClick={() => { 
                 setCurrentPage('impact'); 
                 window.scrollTo(0, 0); 
-                downloadQurbanReportPDF();
               }}
             >
               <img 
@@ -627,7 +625,6 @@ const ImpactHome = ({ setCurrentPage }: { setCurrentPage: (p: PageType) => void 
               onClick={() => { 
                 setCurrentPage('impact'); 
                 window.scrollTo(0, 0); 
-                downloadQurbanReportPDF();
               }}
               className="absolute -bottom-10 -left-10 glass-panel bg-white/90 backdrop-blur-2xl p-8 rounded-3xl border border-white/20 shadow-xl hidden md:block cursor-pointer hover:scale-105 transition-transform"
             >

@@ -29,7 +29,7 @@ import {
   Instagram,
   Camera
 } from "lucide-react";
-import { downloadQurbanReportPDF } from "./utils/qurbanPdfGenerator";
+import { downloadUmrohReportPDF } from "./utils/umrohPdfGenerator";
 
 interface PageProps {
   onBack: () => void;
@@ -505,6 +505,22 @@ export const ImpactPage: React.FC<PageProps> = ({ onBack }) => {
       date: "June 2025",
       image: "https://cglinkindonesia.com/wp-content/uploads/2026/05/WhatsApp-Image-2025-05-08-at-06.34.06-scaled.jpeg",
       desc: "Yayasan Amal Soleh CG Link (YASCI) delivered sacrificial meat and hope to 7,070 beneficiaries across Indonesia, reaching communities that rarely receive qurban."
+    },
+    {
+      id: "umroh-2025",
+      title: "Umroh Tamu Allah Spesial 2025: 42 Dakwah Champions Reach Baitullah During Ramadhan",
+      category: "Social Impact",
+      date: "March 2025",
+      image: "https://cglinkindonesia.com/wp-content/uploads/2026/05/umroh-tamu-allah.jpeg",
+      desc: "Umroh Tamu Allah Spesial (UTAS) 2025, organized by Yayasan Amal Soleh CG Link, successfully sent 42 selected jamaah to perform umrah in the holy cities of Makkah and Madinah in Ramadan 1446 H."
+    },
+    {
+      id: "bukber-2026",
+      title: "YASCI Bukber Ifthar 2026: Sharing Ramadhan Blessings Across 17 Islamic Institutions",
+      category: "Social Impact",
+      date: "March 2026",
+      image: "https://images.unsplash.com/photo-1576085898323-218337e3e43c?q=80&w=2340&auto=format&fit=crop",
+      desc: "During Ramadhan 1447 H, Yayasan Amal Soleh CG Link (YASCI) distributed ifthar support across mosques, pesantren, and Islamic foundations throughout Indonesia."
     }
   ];
 
@@ -577,14 +593,6 @@ export const ImpactPage: React.FC<PageProps> = ({ onBack }) => {
                 <p className="text-xl text-neutral-500 font-medium leading-relaxed max-w-3xl">
                   YASCI Qurban 2025, organized by Yayasan Amal Soleh CG Link, has successfully delivered the joy of Eid al-Adha to thousands of recipients across Indonesia. Conducted on 6–7 June 2025 (10–11 Dzulhijjah 1446 H), this qurban distribution program reached communities that rarely receive qurban meat throughout the year.
                 </p>
-                <div className="pt-4 flex flex-wrap gap-4">
-                  <button 
-                    onClick={downloadQurbanReportPDF}
-                    className="flex items-center gap-3 px-8 py-4 bg-red-650 hover:bg-neutral-900 border border-neutral-200 text-white font-bold text-xs uppercase tracking-widest rounded-full transition-all shadow-xl hover:-translate-y-0.5 cursor-pointer"
-                  >
-                    <FileText className="w-4 h-4" /> Download Official PDF Report
-                  </button>
-                </div>
               </div>
 
               {/* Main Banner / Thumbnail */}
@@ -707,6 +715,276 @@ export const ImpactPage: React.FC<PageProps> = ({ onBack }) => {
                 <h3 className="text-2xl font-display font-black text-neutral-900 uppercase tracking-tight pt-6">Building Bridges of Goodness</h3>
                 <p>
                   YASCI Qurban 2025 demonstrates that strategic qurban distribution can extend benefit far beyond a single neighborhood. By partnering with verified Islamic institutions across multiple provinces, Yayasan Amal Soleh CG Link continues to serve as a bridge between qurban donors and communities most in need of this annual blessing.
+                </p>
+              </div>
+
+              <div className="pt-20 border-t border-neutral-100 mt-20 flex justify-between items-center flex-wrap gap-8">
+                <div>
+                  <h4 className="text-sm font-bold text-neutral-950 font-display mb-1">Amplify the Impact</h4>
+                  <p className="text-xs text-neutral-400 font-medium">Follow Yayasan Amal Soleh CGLINK (YASCI) on Instagram to support our daily missions.</p>
+                </div>
+                <a 
+                  href="https://www.instagram.com/amalsolehcglink/" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="px-8 py-4 bg-neutral-900 text-white font-bold text-xs uppercase tracking-widest rounded-full hover:bg-neutral-850 transition-all flex items-center gap-2"
+                >
+                  <Instagram className="w-4 h-4" /> Go to YASCI Instagram
+                </a>
+              </div>
+            </div>
+          ) : selectedReport.id === 'umroh-2025' ? (
+            <div className="text-left">
+              {/* Article Header */}
+              <div className="space-y-6 mb-12">
+                <div className="flex flex-wrap items-center gap-4 text-xs font-mono font-bold text-neutral-400">
+                  <span className="px-3 py-1 bg-neutral-900 text-white rounded-full uppercase tracking-widest text-[9px]">
+                    {selectedReport.category}
+                  </span>
+                  <span>•</span>
+                  <span>{selectedReport.date}</span>
+                  <span>•</span>
+                  <span>6 Min Read</span>
+                </div>
+                <h1 className="text-4xl md:text-6xl font-display font-black text-neutral-900 tracking-tighter uppercase leading-[1.1]">
+                  {selectedReport.title}
+                </h1>
+                <p className="text-xl text-neutral-500 font-medium leading-relaxed max-w-3xl">
+                  Umroh Tamu Allah Spesial (UTAS) 2025, organized by Yayasan Amal Soleh CG Link, successfully sent 42 selected jamaah to perform umrah in the holy cities of Makkah and Madinah in Ramadan 1446 H.
+                </p>
+                <div className="pt-4 flex flex-wrap gap-4">
+                  <button 
+                    onClick={downloadUmrohReportPDF}
+                    className="flex items-center gap-3 px-8 py-4 bg-red-650 hover:bg-neutral-900 border border-neutral-200 text-white font-bold text-xs uppercase tracking-widest rounded-full transition-all shadow-xl hover:-translate-y-0.5 cursor-pointer"
+                  >
+                    <FileText className="w-4 h-4" /> Download Official PDF Report
+                  </button>
+                </div>
+              </div>
+
+              {/* Main Banner / Thumbnail */}
+              <div className="aspect-[16/9] w-full rounded-[3rem] overflow-hidden mb-16 border border-neutral-100 shadow-2xl">
+                <img 
+                  src={selectedReport.image} 
+                  alt={selectedReport.title} 
+                  className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-1000"
+                  referrerPolicy="no-referrer"
+                />
+              </div>
+
+              {/* Realization Metrics Grid */}
+              <div className="my-16 bg-neutral-50 rounded-[3rem] p-10 md:p-16 border border-neutral-100">
+                <h3 className="text-xs font-black uppercase tracking-[0.4em] mb-10 text-neutral-500 text-center">Program Realization at a Glance</h3>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+                  <div className="text-center p-4">
+                    <div className="text-4xl md:text-5xl font-display font-black text-red-600 mb-2">42</div>
+                    <div className="text-[10px] font-black uppercase tracking-wider text-neutral-500 leading-snug">Total Jamaah</div>
+                  </div>
+                  <div className="text-center p-4 border-l border-neutral-200">
+                    <div className="text-4xl md:text-5xl font-display font-black text-neutral-900 mb-2">10</div>
+                    <div className="text-[10px] font-black uppercase tracking-wider text-neutral-500 leading-snug">Provinces Served</div>
+                  </div>
+                  <div className="text-center p-4 border-l border-neutral-200">
+                    <div className="text-4xl md:text-5xl font-display font-black text-neutral-900 mb-2">300m</div>
+                    <div className="text-[10px] font-black uppercase tracking-wider text-neutral-500 leading-snug">Hotel Distance to Haram</div>
+                  </div>
+                  <div className="text-center p-4 border-l border-neutral-200">
+                    <div className="text-4xl md:text-5xl font-display font-black text-neutral-900 mb-2">Rp 0</div>
+                    <div className="text-[10px] font-black uppercase tracking-wider text-neutral-500 leading-snug">Closing balance</div>
+                  </div>
+                </div>
+                
+                <div className="mt-12 pt-8 border-t border-neutral-200/60 flex flex-col sm:flex-row justify-between items-center px-4 gap-4 text-center sm:text-left">
+                  <div>
+                    <div className="text-[10px] font-black uppercase tracking-[0.3em] text-neutral-400">Total Program Cost</div>
+                    <div className="text-2xl font-display font-bold text-neutral-950">Rp 1,218,428,217</div>
+                  </div>
+                  <span className="text-xs text-neutral-400 font-medium">Covering flight packages, local transits, hotel stays, and operational management.</span>
+                </div>
+              </div>
+
+              {/* Editorial Article Body */}
+              <div className="text-neutral-600 text-lg leading-relaxed font-medium space-y-8">
+                <p>
+                  Program <strong>Umroh Tamu Allah Spesial (UTAS) 2025</strong> yang dikelola oleh Yayasan Amal Soleh CG Link telah secara sukses memberangkatkan <strong>42 jamaah pilihan</strong> untuk menunaikan ibadah umroh di tanah suci Makkah dan Madinah pada <strong>4 – 12 Maret 2025</strong> (3 – 10 Ramadhan 1446 H). Program ini merupakan wujud apresiasi dan rasa syukur mendalam bagi pejuang dakwah, pengajar Al-Qur'an, dan pengabdi masjid yang tanpa pamrih berkhidmat di berbagai penjuru Indonesia.
+                </p>
+
+                {/* Table Breakdown */}
+                <div className="bg-neutral-50 border border-neutral-100 rounded-3xl p-8 my-10 overflow-x-auto">
+                  <h4 className="text-xs font-black uppercase tracking-widest text-neutral-500 mb-6 font-display">Jamaah Qualifications & Classifications</h4>
+                  <table className="w-full text-left text-sm whitespace-nowrap">
+                    <thead>
+                      <tr className="border-b border-neutral-200 text-[10px] font-black uppercase tracking-wider text-neutral-500">
+                        <th className="pb-4">Dedication Role</th>
+                        <th className="pb-4">Count</th>
+                        <th className="pb-4">Core Focus</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-neutral-100 font-semibold text-neutral-800">
+                      <tr>
+                        <td className="py-3 pr-4 font-bold text-neutral-950">Guru Ngaji (Quran Teachers)</td>
+                        <td className="py-3 font-mono text-red-650">19 Jamaah</td>
+                        <td className="py-3 text-neutral-500">Educating local children on Quran reading and Islamic character</td>
+                      </tr>
+                      <tr>
+                        <td className="py-3 pr-4 font-bold text-neutral-950">Penggiat Dakwah (Dakwah Activists)</td>
+                        <td className="py-3 font-mono text-red-650">15 Jamaah</td>
+                        <td className="py-3 text-neutral-500">Community service, religious guidance, and grassroots activities</td>
+                      </tr>
+                      <tr>
+                        <td className="py-3 pr-4 font-bold text-neutral-950 font-display">Huffadz (Quran Memorizers)</td>
+                        <td className="py-3 font-mono text-red-650">6 Jamaah</td>
+                        <td className="py-3 text-neutral-500">Preserving the holy Quran text (30 Juz) & teaching in Islamic boarding schools</td>
+                      </tr>
+                      <tr>
+                        <td className="py-3 pr-4 font-bold text-neutral-950">Marbot / Pengurus Masjid</td>
+                        <td className="py-3 font-mono text-red-650">2 Jamaah</td>
+                        <td className="py-3 text-neutral-500 font-sans">Serving local mosques, coordinating daily prayer logistics and administrative tasks</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+
+                <h3 className="text-2xl font-display font-black text-neutral-900 uppercase tracking-tight pt-6">Direct Flights & Near-Haram Accommodations</h3>
+                <p>
+                  To ensure that our elders and dakwah workers can optimize their worship without heavy physical exhaustion, we designed a premium itinerary. Partnering with Salmi Halal Tour, the package included a direct flight with Saudi Arabian Airlines, and near-Haram hotel arrangements within 300 meters (Sawaed Al Khair in Makkah and Al Fayroz Shatta in Madinah).
+                </p>
+
+                <h3 className="text-2xl font-display font-black text-neutral-900 uppercase tracking-tight pt-6">Zero Balance Financial Management</h3>
+                <p>
+                  Transparency is our fundamental covenant. Out of the Rp 1,218,428,217 in generous donor infaq received, every single rupiah was allocated to serve the jamaah: Rp 1.104 billion for the primary umrah packages, Rp 69 million for regional domestic travel to Jakarta, Rp 4.6 million for equipment and cash allowance, and Rp 39.9 million for ground operations. The closing balance is an absolute zero—proving our dedication to bringing dreams closer to Baitullah.
+                </p>
+              </div>
+
+              <div className="pt-20 border-t border-neutral-100 mt-20 flex justify-between items-center flex-wrap gap-8">
+                <div>
+                  <h4 className="text-sm font-bold text-neutral-950 font-display mb-1">Amplify the Impact</h4>
+                  <p className="text-xs text-neutral-400 font-medium">Follow Yayasan Amal Soleh CGLINK (YASCI) on Instagram to support our daily missions.</p>
+                </div>
+                <a 
+                  href="https://www.instagram.com/amalsolehcglink/" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="px-8 py-4 bg-neutral-900 text-white font-bold text-xs uppercase tracking-widest rounded-full hover:bg-neutral-850 transition-all flex items-center gap-2"
+                >
+                  <Instagram className="w-4 h-4" /> Go to YASCI Instagram
+                </a>
+              </div>
+            </div>
+          ) : selectedReport.id === 'bukber-2026' ? (
+            <div className="text-left">
+              {/* Article Header */}
+              <div className="space-y-6 mb-12">
+                <div className="flex flex-wrap items-center gap-4 text-xs font-mono font-bold text-neutral-400">
+                  <span className="px-3 py-1 bg-neutral-900 text-white rounded-full uppercase tracking-widest text-[9px]">
+                    {selectedReport.category}
+                  </span>
+                  <span>•</span>
+                  <span>{selectedReport.date}</span>
+                  <span>•</span>
+                  <span>4 Min Read</span>
+                </div>
+                <h1 className="text-4xl md:text-6xl font-display font-black text-neutral-900 tracking-tighter uppercase leading-[1.1]">
+                  {selectedReport.title}
+                </h1>
+                <p className="text-xl text-neutral-500 font-medium leading-relaxed max-w-3xl">
+                  Throughout the holy month of Ramadhan 1447 H, Yayasan Amal Soleh CG Link (YASCI) ran one of its most extensive community programs to date: distributing ifthar (breaking-fast) support across mosques, pesantren, and Islamic foundations throughout Indonesia.
+                </p>
+              </div>
+
+              {/* Main Banner / Thumbnail */}
+              <div className="aspect-[16/9] w-full rounded-[3rem] overflow-hidden mb-16 border border-neutral-100 shadow-2xl">
+                <img 
+                  src={selectedReport.image} 
+                  alt={selectedReport.title} 
+                  className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-1000"
+                  referrerPolicy="no-referrer"
+                />
+              </div>
+
+              {/* Realization Metrics Grid */}
+              <div className="my-16 bg-neutral-50 rounded-[3rem] p-10 md:p-16 border border-neutral-100">
+                <h3 className="text-xs font-black uppercase tracking-[0.4em] mb-10 text-neutral-500 text-center">Program Realization at a Glance</h3>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+                  <div className="text-center p-4">
+                    <div className="text-4xl md:text-5xl font-display font-black text-red-600 mb-2">17</div>
+                    <div className="text-[10px] font-black uppercase tracking-wider text-neutral-500 leading-snug">Islamic Institutions</div>
+                  </div>
+                  <div className="text-center p-4 border-l border-neutral-200">
+                    <div className="text-4xl md:text-5xl font-display font-black text-neutral-900 mb-2">100%</div>
+                    <div className="text-[10px] font-black uppercase tracking-wider text-neutral-500 leading-snug">Direct Delivery</div>
+                  </div>
+                  <div className="text-center p-4 border-l border-neutral-200">
+                    <div className="text-4xl md:text-5xl font-display font-black text-neutral-900 mb-2">Ramadhan</div>
+                    <div className="text-[10px] font-black uppercase tracking-wider text-neutral-500 leading-snug">1447 H / 2026 M</div>
+                  </div>
+                  <div className="text-center p-4 border-l border-neutral-200">
+                    <div className="text-4xl md:text-5xl font-display font-black text-neutral-900 mb-2">Activists</div>
+                    <div className="text-[10px] font-black uppercase tracking-wider text-neutral-500 leading-snug">Fully supported</div>
+                  </div>
+                </div>
+                
+                <div className="mt-12 pt-8 border-t border-neutral-200/60 flex flex-col sm:flex-row justify-between items-center px-4 gap-4 text-center sm:text-left">
+                  <div>
+                    <div className="text-[10px] font-black uppercase tracking-[0.3em] text-neutral-400">Core Objective</div>
+                    <div className="text-2xl font-display font-bold text-neutral-950">Spiritual & Food Share</div>
+                  </div>
+                  <span className="text-xs text-neutral-400 font-medium">Empowering local mosques, Quran classes, and communities with essential ifthar support.</span>
+                </div>
+              </div>
+
+              {/* Editorial Article Body */}
+              <div className="text-neutral-600 text-lg leading-relaxed font-medium space-y-8">
+                <p>
+                  Throughout the holy month of Ramadhan 1447 H, <strong>Yayasan Amal Soleh CG Link (YASCI)</strong> ran one of its most extensive community programs to date: distributing ifthar (breaking-fast) support across mosques, pesantren, and Islamic foundations throughout Indonesia. The <strong>Bukber Ifthar 2026</strong> initiative brought the joy of communal iftar to congregations that often lacked the resources to organize one themselves.
+                </p>
+
+                <h3 className="text-2xl font-display font-black text-neutral-900 uppercase tracking-tight pt-6">Reaching 17 Islamic Institutions</h3>
+                <p>
+                  The 2026 program partnered with 17 recipient entities, including:
+                </p>
+                
+                {/* 17 Partners Table Grid */}
+                <div className="bg-neutral-50 border border-neutral-100 rounded-3xl p-8 my-10 overflow-x-auto">
+                  <h4 className="text-xs font-black uppercase tracking-widest text-neutral-500 mb-6 font-display">Recipient list of 17 Partner Institutions</h4>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm font-semibold text-neutral-800">
+                    <ul className="space-y-2">
+                      <li className="flex items-center gap-2 font-bold"><span className="w-2 h-2 rounded-full bg-red-650"></span> Masjid Muslim Bilonaire</li>
+                      <li className="flex items-center gap-2 font-bold"><span className="w-2 h-2 rounded-full bg-red-650"></span> Komunitas Jum'at Berkah</li>
+                      <li className="flex items-center gap-2 font-bold"><span className="w-2 h-2 rounded-full bg-red-650"></span> Cinta Quran Berbagi</li>
+                      <li className="flex items-center gap-2 font-bold"><span className="w-2 h-2 rounded-full bg-red-650"></span> Masjid Al Imtyaz Bandung</li>
+                      <li className="flex items-center gap-2 font-bold"><span className="w-2 h-2 rounded-full bg-red-650"></span> Masjid Ar Rahman Batu Putih</li>
+                      <li className="flex items-center gap-2 font-bold"><span className="w-2 h-2 rounded-full bg-red-650"></span> Masjid Muhajirin Makassar</li>
+                      <li className="flex items-center gap-2 font-bold"><span className="w-2 h-2 rounded-full bg-red-650"></span> Masjid Nuruddakwah</li>
+                      <li className="flex items-center gap-2 font-bold"><span className="w-2 h-2 rounded-full bg-red-650"></span> Masjid Nurul Jam'ah</li>
+                      <li className="flex items-center gap-2 font-bold"><span className="w-2 h-2 rounded-full bg-red-650"></span> Masjid Nurul Amin</li>
+                    </ul>
+                    <ul className="space-y-2">
+                      <li className="flex items-center gap-2 font-bold"><span className="w-2 h-2 rounded-full bg-red-650"></span> Masjid Nahdatul Islam</li>
+                      <li className="flex items-center gap-2 font-bold"><span className="w-2 h-2 rounded-full bg-red-650"></span> Masjid H. Riyanto</li>
+                      <li className="flex items-center gap-2 font-bold"><span className="w-2 h-2 rounded-full bg-red-650"></span> Ponpes Darul Fikar</li>
+                      <li className="flex items-center gap-2 font-bold"><span className="w-2 h-2 rounded-full bg-red-650"></span> Baitul Qur'an Nur Zamani</li>
+                      <li className="flex items-center gap-2 font-bold"><span className="w-2 h-2 rounded-full bg-red-650"></span> Yayasan Al-Ikhwan</li>
+                      <li className="flex items-center gap-2 font-bold"><span className="w-2 h-2 rounded-full bg-red-650"></span> DKM Al Kautsar</li>
+                      <li className="flex items-center gap-2 font-bold"><span className="w-2 h-2 rounded-full bg-red-650"></span> DKM Sasama</li>
+                      <li className="flex items-center gap-2 font-bold"><span className="w-2 h-2 rounded-full bg-red-650"></span> Masjid At-Taubah</li>
+                    </ul>
+                  </div>
+                </div>
+
+                <h3 className="text-2xl font-display font-black text-neutral-900 uppercase tracking-tight pt-6">A Nationwide Footprint</h3>
+                <p>
+                  YASCI prioritized geographic diversity. From Makassar in Sulawesi to mosque communities in Bandung and pesantren in West Java, the program intentionally reached congregations beyond the usual urban centers. Recipients included not only mosques but also Islamic boarding schools (pesantren), Quran-learning communities, and Islamic foundations — reflecting YASCI's belief that ifthar support should follow wherever Muslims gather to break their fast.
+                </p>
+
+                <h3 className="text-2xl font-display font-black text-neutral-900 uppercase tracking-tight pt-6">More Than a Meal</h3>
+                <p>
+                  For many recipient institutions, Bukber Ifthar 2026 enabled them to host nightly ifthar gatherings that strengthened their congregations, attracted santri, and welcomed surrounding communities. YASCI views this not merely as food distribution but as investment in the spiritual ecosystem of grassroots dakwah — feeding the body so that the heart and mind can focus on worship during Ramadhan's blessed nights.
+                </p>
+
+                <h3 className="text-2xl font-display font-black text-neutral-900 uppercase tracking-tight pt-6">Continuing the Mission</h3>
+                <p>
+                  YASCI continues building bridges of amal soleh (righteous deeds), connecting donors with the institutions that quietly carry Indonesia's Islamic tradition forward — one ifthar at a time.
                 </p>
               </div>
 
@@ -969,9 +1247,6 @@ export const ImpactPage: React.FC<PageProps> = ({ onBack }) => {
                 onClick={() => { 
                   setSelectedReport(report); 
                   window.scrollTo(0, 0); 
-                  if (report.id === 'qurban-2025') {
-                    downloadQurbanReportPDF();
-                  }
                 }}
                 className="group cursor-pointer text-left"
               >
