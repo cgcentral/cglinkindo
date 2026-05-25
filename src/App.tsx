@@ -67,9 +67,9 @@ const translations = {
     businessPillars: "BUSINESS UNITS",
     impact: "IMPACT",
     venture: "CGLINK VENTURE",
-    consulting: "CGLINK CONSULTING",
+    consulting: "CONSULTANT CGLINK",
     career: "CAREER",
-    insights: "INSIGHTS"
+    insights: "INSIGHT"
   },
   hero: {
     tag: "One Link, Thousands of Opportunities",
@@ -83,10 +83,10 @@ const translations = {
   strategicNav: {
     about: "About CGLINK",
     aboutDesc: "Get to know our vision, mission, and philosophy in building a legal, logical, and halal business ecosystem.",
-    units: "Business Units",
+    units: "CGLINK Consulting",
     unitsDesc: "Explore our integrated strategic business units providing operational, financial, and digital solutions.",
-    investor: "Our Impact",
-    investorDesc: "Creating positive, sustainable contributions for our clients, the economy, and the wider community through real social actions.",
+    investor: "CGLINK Venture",
+    investorDesc: "Discover our venture investment philosophy seeking long-term value and high sustainable yields.",
     learnMore: "Learn More"
   },
   stats: {
@@ -167,12 +167,12 @@ const Navbar = ({ currentPage, setCurrentPage }: { currentPage: PageType, setCur
         </div>
         
         {/* Desktop Menu */}
-        <div className={`hidden lg:flex items-center gap-10 text-[10px] font-bold uppercase tracking-[0.2em] h-full transition-colors duration-500 ${scrolled ? 'text-neutral-500' : (currentPage === 'home' ? 'text-white/70' : 'text-neutral-500')}`}>
+        <div className={`hidden lg:flex items-center gap-5 xl:gap-8 text-[10px] font-bold uppercase tracking-[0.2em] h-full transition-colors duration-500 ${scrolled ? 'text-neutral-500' : (currentPage === 'home' ? 'text-white/70' : 'text-neutral-500')}`}>
           
-          <button id="nav-home" onClick={() => { setCurrentPage('home'); window.scrollTo(0, 0); }} className={`transition-colors ${scrolled ? 'hover:text-black' : (currentPage === 'home' ? 'hover:text-white' : 'hover:text-black')}`}>Home</button>
+          <button id="nav-home" onClick={() => { setCurrentPage('home'); window.scrollTo(0, 0); }} className={`transition-colors font-black ${scrolled ? 'hover:text-black' : (currentPage === 'home' ? 'hover:text-white' : 'hover:text-black')}`}>HOME</button>
 
           <div 
-            className={`relative h-full flex items-center gap-2 cursor-pointer transition-colors group ${scrolled ? 'hover:text-black' : (currentPage === 'home' ? 'hover:text-white' : 'hover:text-black')}`}
+            className={`relative h-full flex items-center gap-1.5 cursor-pointer transition-colors group ${scrolled ? 'hover:text-black' : (currentPage === 'home' ? 'hover:text-white' : 'hover:text-black')}`}
             onMouseEnter={() => setActiveDropdown('about')}
             onMouseLeave={() => setActiveDropdown(null)}
           >
@@ -198,46 +198,53 @@ const Navbar = ({ currentPage, setCurrentPage }: { currentPage: PageType, setCur
             </AnimatePresence>
           </div>
 
+          <button 
+            id="nav-business-unit" 
+            onClick={() => { 
+                if (currentPage === 'home') {
+                  const el = document.getElementById('services-bento');
+                  if (el) el.scrollIntoView({ behavior: 'smooth' });
+                } else {
+                  setCurrentPage('home');
+                  setTimeout(() => {
+                    const el = document.getElementById('services-bento');
+                    if (el) el.scrollIntoView({ behavior: 'smooth' });
+                  }, 100);
+                }
+            }} 
+            className={`transition-colors ${scrolled ? 'hover:text-black' : (currentPage === 'home' ? 'hover:text-white' : 'hover:text-black')}`}
+          >
+            BUSINESS UNIT
+          </button>
+
           <div 
-            className={`relative h-full flex items-center gap-2 cursor-pointer transition-colors group ${scrolled ? 'hover:text-black' : (currentPage === 'home' ? 'hover:text-white' : 'hover:text-black')}`}
-            onMouseEnter={() => setActiveDropdown('capabilities')}
+            className={`relative h-full flex items-center gap-1.5 cursor-pointer transition-colors group ${scrolled ? 'hover:text-black' : (currentPage === 'home' ? 'hover:text-white' : 'hover:text-black')}`}
+            onMouseEnter={() => setActiveDropdown('consulting')}
             onMouseLeave={() => setActiveDropdown(null)}
           >
-            {t.capabilities} <ChevronDown className={`w-3 h-3 transition-transform ${activeDropdown === 'capabilities' ? 'rotate-180' : ''}`} />
+            {t.consulting} <ChevronDown className={`w-3 h-3 transition-transform ${activeDropdown === 'consulting' ? 'rotate-180' : ''}`} />
             <AnimatePresence>
-              {activeDropdown === 'capabilities' && (
+              {activeDropdown === 'consulting' && (
                 <motion.div 
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: 10 }}
-                  className="absolute top-full left-0 w-80"
+                  className="absolute top-full left-0 w-72"
                 >
                   <div className="pt-4">
-                    <div className="bg-white shadow-2xl rounded-2xl border border-neutral-100 p-6 overflow-hidden text-neutral-900">
-                      <div className="space-y-6">
-                        <div>
-                          <div className="text-[10px] font-black text-neutral-300 uppercase mb-3 px-2 tracking-widest">{t.consulting}</div>
-                          <div className="flex flex-col gap-3">
-                            <button onClick={() => { setCurrentPage('about-vision'); window.scrollTo(0, 1500); setActiveDropdown(null); }} className="text-left text-[9px] px-2 font-bold uppercase tracking-wider text-neutral-500 hover:text-black transition-all">Why us?</button>
-                            {servicesData.map(s => (
-                              <button 
-                                key={s.id}
-                                id={`nav-capability-${s.id}`}
-                                onClick={() => { setCurrentPage(('service-' + s.id) as PageType); window.scrollTo(0, 0); setActiveDropdown(null); }}
-                                className="text-left text-[9px] px-2 font-bold uppercase tracking-wider text-neutral-500 hover:text-black transition-all hover:translate-x-1"
-                              >
-                                {s.title}
-                              </button>
-                            ))}
-                          </div>
-                        </div>
-                        <div className="pt-4 border-t border-neutral-50">
-                          <div className="text-[10px] font-black text-neutral-300 uppercase mb-3 px-2 tracking-widest">{t.venture}</div>
-                          <div className="flex flex-col gap-3">
-                            <button onClick={() => { setCurrentPage('venture-thesis'); window.scrollTo(0, 0); setActiveDropdown(null); }} className="text-left text-[9px] px-2 font-bold uppercase tracking-wider text-neutral-500 hover:text-black transition-all hover:translate-x-1">Investment Thesis</button>
-                            <button onClick={() => { setCurrentPage('venture-portfolio'); window.scrollTo(0, 0); setActiveDropdown(null); }} className="text-left text-[9px] px-2 font-bold uppercase tracking-wider text-neutral-500 hover:text-black transition-all hover:translate-x-1">Portfolio</button>
-                          </div>
-                        </div>
+                    <div className="bg-white shadow-2xl rounded-2xl border border-neutral-100 p-6 overflow-hidden text-neutral-900 overflow-y-auto max-h-[400px]">
+                      <div className="flex flex-col gap-3">
+                        <button onClick={() => { setCurrentPage('about-vision'); window.scrollTo(0, 1500); setActiveDropdown(null); }} className="text-left text-[9px] px-2 font-bold uppercase tracking-wider text-neutral-500 hover:text-black transition-all">Why us?</button>
+                        {servicesData.map(s => (
+                          <button 
+                            key={s.id}
+                            id={`nav-consulting-${s.id}`}
+                            onClick={() => { setCurrentPage(('service-' + s.id) as PageType); window.scrollTo(0, 0); setActiveDropdown(null); }}
+                            className="text-left text-[9px] px-2 font-bold uppercase tracking-wider text-neutral-500 hover:text-black transition-all hover:translate-x-1"
+                          >
+                            {s.title}
+                          </button>
+                        ))}
                       </div>
                     </div>
                   </div>
@@ -246,17 +253,45 @@ const Navbar = ({ currentPage, setCurrentPage }: { currentPage: PageType, setCur
             </AnimatePresence>
           </div>
 
-          <button id="nav-impact" onClick={() => { setCurrentPage('impact'); window.scrollTo(0, 0); }} className={`transition-colors ${scrolled ? 'hover:text-black' : (currentPage === 'home' ? 'hover:text-white' : 'hover:text-black')}`}>{t.impact}</button>
+          <div 
+            className={`relative h-full flex items-center gap-1.5 cursor-pointer transition-colors group ${scrolled ? 'hover:text-black' : (currentPage === 'home' ? 'hover:text-white' : 'hover:text-black')}`}
+            onMouseEnter={() => setActiveDropdown('venture')}
+            onMouseLeave={() => setActiveDropdown(null)}
+          >
+            {t.venture} <ChevronDown className={`w-3 h-3 transition-transform ${activeDropdown === 'venture' ? 'rotate-180' : ''}`} />
+            <AnimatePresence>
+              {activeDropdown === 'venture' && (
+                <motion.div 
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: 10 }}
+                  className="absolute top-full left-0 w-64"
+                >
+                  <div className="pt-4">
+                    <div className="bg-white shadow-2xl rounded-2xl border border-neutral-100 p-6 overflow-hidden text-neutral-900">
+                      <div className="flex flex-col gap-3">
+                        <button onClick={() => { setCurrentPage('venture-thesis'); window.scrollTo(0, 0); setActiveDropdown(null); }} className="text-left text-[9px] px-2 font-bold uppercase tracking-wider text-neutral-500 hover:text-black transition-all hover:translate-x-1">Investment Thesis</button>
+                        <button onClick={() => { setCurrentPage('venture-portfolio'); window.scrollTo(0, 0); setActiveDropdown(null); }} className="text-left text-[9px] px-2 font-bold uppercase tracking-wider text-neutral-500 hover:text-black transition-all hover:translate-x-1">Portfolio</button>
+                      </div>
+                    </div>
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
 
           <button id="nav-career" onClick={() => { setCurrentPage('careers'); window.scrollTo(0, 0); }} className={`transition-colors ${scrolled ? 'hover:text-black' : (currentPage === 'home' ? 'hover:text-white' : 'hover:text-black')}`}>{t.career}</button>
+          
           <button id="nav-insights" onClick={() => { setCurrentPage('blog'); window.scrollTo(0, 0); }} className={`transition-colors ${scrolled ? 'hover:text-black' : (currentPage === 'home' ? 'hover:text-white' : 'hover:text-black')}`}>{t.insights}</button>
+
+          <button id="nav-impact" onClick={() => { setCurrentPage('impact'); window.scrollTo(0, 0); }} className={`transition-colors ${scrolled ? 'hover:text-black' : (currentPage === 'home' ? 'hover:text-white' : 'hover:text-black')}`}>{t.impact}</button>
           
           {/* Contact Button */}
           <div className="flex items-center gap-4">
             <button 
               id="nav-contact"
               onClick={() => { setCurrentPage('contact'); window.scrollTo(0, 0); }}
-              className={`px-8 py-3 rounded-2xl transition-all hover:scale-105 shadow-xl active:scale-95 text-[10px] font-black uppercase tracking-widest ${scrolled ? 'bg-neutral-900 text-white hover:bg-black shadow-neutral-200' : (currentPage === 'home' ? 'bg-white text-black hover:bg-neutral-200 shadow-white/5' : 'bg-neutral-900 text-white hover:bg-black shadow-neutral-200')}`}
+              className={`px-6 py-3 rounded-2xl transition-all hover:scale-105 shadow-xl active:scale-95 text-[10px] font-black uppercase tracking-widest ${scrolled ? 'bg-neutral-900 text-white hover:bg-black shadow-neutral-200' : (currentPage === 'home' ? 'bg-white text-black hover:bg-neutral-200 shadow-white/5' : 'bg-neutral-900 text-white hover:bg-black shadow-neutral-200')}`}
             >
               {t.contact}
             </button>
@@ -286,10 +321,34 @@ const Navbar = ({ currentPage, setCurrentPage }: { currentPage: PageType, setCur
         >
           <button id="mobile-menu-close" className="absolute top-8 right-8 w-12 h-12 rounded-2xl bg-neutral-50 flex items-center justify-center shadow-sm" onClick={() => setIsMobileMenuOpen(false)}><X className="w-6 h-6" /></button>
           <div className="flex flex-col gap-6 text-2xl font-display font-black uppercase tracking-tighter text-neutral-900 border-b border-neutral-100 pb-10">
-            <button id="mobile-nav-home" onClick={() => { setCurrentPage('home'); setIsMobileMenuOpen(false); window.scrollTo(0, 0); }} className="block text-left uppercase">Home</button>
-            <button id="mobile-nav-about" onClick={() => { setCurrentPage('about'); setIsMobileMenuOpen(false); window.scrollTo(0, 0); }} className="block text-left uppercase">{t.whoWeAre}</button>
-            <button id="mobile-nav-vision" onClick={() => { setCurrentPage('about-vision'); setIsMobileMenuOpen(false); window.scrollTo(0, 0); }} className="block text-left uppercase">{t.visionMission}</button>
+            <button id="mobile-nav-home" onClick={() => { setCurrentPage('home'); setIsMobileMenuOpen(false); window.scrollTo(0, 0); }} className="block text-left uppercase">HOME</button>
             
+            <div className="space-y-4 pt-4 border-t border-neutral-50">
+              <div className="text-[10px] font-black text-neutral-400 tracking-[0.3em] uppercase">{t.about}</div>
+              <button id="mobile-nav-about" onClick={() => { setCurrentPage('about'); setIsMobileMenuOpen(false); window.scrollTo(0, 0); }} className="block text-left text-xl font-bold uppercase tracking-tight opacity-70">{t.whoWeAre}</button>
+              <button id="mobile-nav-vision" onClick={() => { setCurrentPage('about-vision'); setIsMobileMenuOpen(false); window.scrollTo(0, 0); }} className="block text-left text-xl font-bold uppercase tracking-tight opacity-70">{t.visionMission}</button>
+            </div>
+
+            <button 
+              id="mobile-nav-business-unit" 
+              onClick={() => { 
+                setIsMobileMenuOpen(false);
+                if (currentPage === 'home') {
+                  const el = document.getElementById('services-bento');
+                  if (el) el.scrollIntoView({ behavior: 'smooth' });
+                } else {
+                  setCurrentPage('home');
+                  setTimeout(() => {
+                    const el = document.getElementById('services-bento');
+                    if (el) el.scrollIntoView({ behavior: 'smooth' });
+                  }, 100);
+                }
+              }} 
+              className="block text-left uppercase"
+            >
+              BUSINESS UNIT
+            </button>
+
             <div className="space-y-4 pt-4 border-t border-neutral-50">
               <div className="text-[10px] font-black text-neutral-400 tracking-[0.3em] uppercase">{t.consulting}</div>
               {servicesData.map(s => (
@@ -303,10 +362,11 @@ const Navbar = ({ currentPage, setCurrentPage }: { currentPage: PageType, setCur
               <button onClick={() => { setCurrentPage('venture-portfolio'); setIsMobileMenuOpen(false); window.scrollTo(0, 0); }} className="block text-left text-xl font-bold uppercase tracking-tight opacity-70">Portfolio</button>
             </div>
 
-            <button onClick={() => { setCurrentPage('impact'); setIsMobileMenuOpen(false); window.scrollTo(0, 0); }} className="block text-left uppercase">{t.impact}</button>
-
             <button onClick={() => { setCurrentPage('careers'); setIsMobileMenuOpen(false); window.scrollTo(0, 0); }} className="block text-left uppercase">{t.career}</button>
+            
             <button onClick={() => { setCurrentPage('blog'); setIsMobileMenuOpen(false); window.scrollTo(0, 0); }} className="block text-left uppercase">{t.insights}</button>
+
+            <button onClick={() => { setCurrentPage('impact'); setIsMobileMenuOpen(false); window.scrollTo(0, 0); }} className="block text-left uppercase">{t.impact}</button>
             
             <button 
               id="mobile-nav-contact"
@@ -799,7 +859,7 @@ const StrategicNav = ({ setCurrentPage }: { setCurrentPage: (p: PageType) => voi
     {
       title: t.investor,
       desc: t.investorDesc,
-      link: "impact",
+      link: "venture-thesis",
       id: "strategic-impact"
     }
   ];
