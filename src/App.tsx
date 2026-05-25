@@ -128,7 +128,15 @@ const servicesData = [
   }
 ];
 
-const Navbar = ({ currentPage, setCurrentPage }: { currentPage: PageType, setCurrentPage: (p: PageType) => void }) => {
+const Navbar = ({ 
+  currentPage, 
+  setCurrentPage, 
+  setSelectedArticleId 
+}: { 
+  currentPage: PageType; 
+  setCurrentPage: (p: PageType) => void; 
+  setSelectedArticleId?: (id: number | undefined) => void; 
+}) => {
   const t = translations.nav;
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -171,50 +179,12 @@ const Navbar = ({ currentPage, setCurrentPage }: { currentPage: PageType, setCur
           
           <button id="nav-home" onClick={() => { setCurrentPage('home'); window.scrollTo(0, 0); }} className={`transition-colors font-black ${scrolled ? 'hover:text-black' : (currentPage === 'home' ? 'hover:text-white' : 'hover:text-black')}`}>HOME</button>
 
-          <div 
-            className={`relative h-full flex items-center gap-1.5 cursor-pointer transition-colors group ${scrolled ? 'hover:text-black' : (currentPage === 'home' ? 'hover:text-white' : 'hover:text-black')}`}
-            onMouseEnter={() => setActiveDropdown('about')}
-            onMouseLeave={() => setActiveDropdown(null)}
-          >
-            {t.about} <ChevronDown className={`w-3 h-3 transition-transform ${activeDropdown === 'about' ? 'rotate-180' : ''}`} />
-            <AnimatePresence>
-              {activeDropdown === 'about' && (
-                <motion.div 
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: 10 }}
-                  className="absolute top-full left-0 w-64"
-                >
-                  <div className="pt-4">
-                    <div className="bg-white shadow-2xl rounded-2xl border border-neutral-100 p-6 overflow-hidden text-neutral-900">
-                      <div className="flex flex-col gap-4">
-                        <button id="nav-about-who" onClick={() => { setCurrentPage('about'); window.scrollTo(0, 0); setActiveDropdown(null); }} className="text-left text-[10px] font-bold uppercase tracking-wider text-neutral-500 hover:text-black transition-all hover:translate-x-2">{t.whoWeAre}</button>
-                        <button id="nav-about-vision" onClick={() => { setCurrentPage('about-vision'); window.scrollTo(0, 0); setActiveDropdown(null); }} className="text-left text-[10px] font-bold uppercase tracking-wider text-neutral-500 hover:text-black transition-all hover:translate-x-2">{t.visionMission}</button>
-                      </div>
-                    </div>
-                  </div>
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </div>
-
           <button 
-            id="nav-business-unit" 
-            onClick={() => { 
-                if (currentPage === 'home') {
-                  const el = document.getElementById('services-bento');
-                  if (el) el.scrollIntoView({ behavior: 'smooth' });
-                } else {
-                  setCurrentPage('home');
-                  setTimeout(() => {
-                    const el = document.getElementById('services-bento');
-                    if (el) el.scrollIntoView({ behavior: 'smooth' });
-                  }, 100);
-                }
-            }} 
-            className={`transition-colors ${scrolled ? 'hover:text-black' : (currentPage === 'home' ? 'hover:text-white' : 'hover:text-black')}`}
+            id="nav-about" 
+            onClick={() => { setCurrentPage('about'); window.scrollTo(0, 0); }} 
+            className={`transition-colors font-black ${scrolled ? 'hover:text-black' : (currentPage === 'about' ? 'text-black font-black underline underline-offset-4 decoration-2' : (currentPage === 'home' ? 'text-white/70 hover:text-white' : 'text-neutral-500 hover:text-black'))}`}
           >
-            BUSINESS UNIT
+            {t.about}
           </button>
 
           <div 
@@ -282,7 +252,50 @@ const Navbar = ({ currentPage, setCurrentPage }: { currentPage: PageType, setCur
 
           <button id="nav-career" onClick={() => { setCurrentPage('careers'); window.scrollTo(0, 0); }} className={`transition-colors ${scrolled ? 'hover:text-black' : (currentPage === 'home' ? 'hover:text-white' : 'hover:text-black')}`}>{t.career}</button>
           
-          <button id="nav-insights" onClick={() => { setCurrentPage('blog'); window.scrollTo(0, 0); }} className={`transition-colors ${scrolled ? 'hover:text-black' : (currentPage === 'home' ? 'hover:text-white' : 'hover:text-black')}`}>{t.insights}</button>
+          <div 
+            className={`relative h-full flex items-center gap-1.5 cursor-pointer transition-colors group ${scrolled ? 'hover:text-black' : (currentPage === 'home' ? 'hover:text-white' : 'hover:text-black')}`}
+            onMouseEnter={() => setActiveDropdown('insights')}
+            onMouseLeave={() => setActiveDropdown(null)}
+          >
+            {t.insights} <ChevronDown className={`w-3 h-3 transition-transform ${activeDropdown === 'insights' ? 'rotate-180' : ''}`} />
+            <AnimatePresence>
+              {activeDropdown === 'insights' && (
+                <motion.div 
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: 10 }}
+                  className="absolute top-full left-0 w-64 pt-4"
+                >
+                  <div className="bg-white shadow-2xl rounded-2xl border border-neutral-100 p-6 overflow-hidden text-neutral-900">
+                    <div className="flex flex-col gap-3">
+                      <button 
+                        onClick={() => { 
+                          if (setSelectedArticleId) setSelectedArticleId(undefined);
+                          setCurrentPage('blog'); 
+                          window.scrollTo(0, 0); 
+                          setActiveDropdown(null); 
+                        }} 
+                        className="text-left text-[9px] px-2 font-bold uppercase tracking-wider text-neutral-500 hover:text-black transition-all hover:translate-x-1"
+                      >
+                        All Insights & Blog
+                      </button>
+                      <button 
+                        onClick={() => { 
+                          if (setSelectedArticleId) setSelectedArticleId(4);
+                          setCurrentPage('blog'); 
+                          window.scrollTo(0, 0); 
+                          setActiveDropdown(null); 
+                        }} 
+                        className="text-left text-[9px] px-2 font-bold uppercase tracking-wider text-neutral-500 hover:text-black transition-all hover:translate-x-1"
+                      >
+                        Economic Outlook 2026
+                      </button>
+                    </div>
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
 
           <button id="nav-impact" onClick={() => { setCurrentPage('impact'); window.scrollTo(0, 0); }} className={`transition-colors ${scrolled ? 'hover:text-black' : (currentPage === 'home' ? 'hover:text-white' : 'hover:text-black')}`}>{t.impact}</button>
           
@@ -323,31 +336,7 @@ const Navbar = ({ currentPage, setCurrentPage }: { currentPage: PageType, setCur
           <div className="flex flex-col gap-6 text-2xl font-display font-black uppercase tracking-tighter text-neutral-900 border-b border-neutral-100 pb-10">
             <button id="mobile-nav-home" onClick={() => { setCurrentPage('home'); setIsMobileMenuOpen(false); window.scrollTo(0, 0); }} className="block text-left uppercase">HOME</button>
             
-            <div className="space-y-4 pt-4 border-t border-neutral-50">
-              <div className="text-[10px] font-black text-neutral-400 tracking-[0.3em] uppercase">{t.about}</div>
-              <button id="mobile-nav-about" onClick={() => { setCurrentPage('about'); setIsMobileMenuOpen(false); window.scrollTo(0, 0); }} className="block text-left text-xl font-bold uppercase tracking-tight opacity-70">{t.whoWeAre}</button>
-              <button id="mobile-nav-vision" onClick={() => { setCurrentPage('about-vision'); setIsMobileMenuOpen(false); window.scrollTo(0, 0); }} className="block text-left text-xl font-bold uppercase tracking-tight opacity-70">{t.visionMission}</button>
-            </div>
-
-            <button 
-              id="mobile-nav-business-unit" 
-              onClick={() => { 
-                setIsMobileMenuOpen(false);
-                if (currentPage === 'home') {
-                  const el = document.getElementById('services-bento');
-                  if (el) el.scrollIntoView({ behavior: 'smooth' });
-                } else {
-                  setCurrentPage('home');
-                  setTimeout(() => {
-                    const el = document.getElementById('services-bento');
-                    if (el) el.scrollIntoView({ behavior: 'smooth' });
-                  }, 100);
-                }
-              }} 
-              className="block text-left uppercase"
-            >
-              BUSINESS UNIT
-            </button>
+            <button id="mobile-nav-about" onClick={() => { setCurrentPage('about'); setIsMobileMenuOpen(false); window.scrollTo(0, 0); }} className="block text-left uppercase">{t.about}</button>
 
             <div className="space-y-4 pt-4 border-t border-neutral-50">
               <div className="text-[10px] font-black text-neutral-400 tracking-[0.3em] uppercase">{t.consulting}</div>
@@ -364,7 +353,31 @@ const Navbar = ({ currentPage, setCurrentPage }: { currentPage: PageType, setCur
 
             <button onClick={() => { setCurrentPage('careers'); setIsMobileMenuOpen(false); window.scrollTo(0, 0); }} className="block text-left uppercase">{t.career}</button>
             
-            <button onClick={() => { setCurrentPage('blog'); setIsMobileMenuOpen(false); window.scrollTo(0, 0); }} className="block text-left uppercase">{t.insights}</button>
+            <div className="space-y-4 pt-4 border-t border-neutral-50">
+              <div className="text-[10px] font-black text-neutral-400 tracking-[0.3em] uppercase">{t.insights}</div>
+              <button 
+                onClick={() => { 
+                  if (setSelectedArticleId) setSelectedArticleId(undefined); 
+                  setCurrentPage('blog'); 
+                  setIsMobileMenuOpen(false); 
+                  window.scrollTo(0, 0); 
+                }} 
+                className="block text-left text-xl font-bold uppercase tracking-tight opacity-70"
+              >
+                All Insights
+              </button>
+              <button 
+                onClick={() => { 
+                  if (setSelectedArticleId) setSelectedArticleId(4); 
+                  setCurrentPage('blog'); 
+                  setIsMobileMenuOpen(false); 
+                  window.scrollTo(0, 0); 
+                }} 
+                className="block text-left text-xl font-bold uppercase tracking-tight opacity-70"
+              >
+                Economic Outlook 2026
+              </button>
+            </div>
 
             <button onClick={() => { setCurrentPage('impact'); setIsMobileMenuOpen(false); window.scrollTo(0, 0); }} className="block text-left uppercase">{t.impact}</button>
             
@@ -1294,46 +1307,46 @@ const Testimonials = () => {
   ];
 
   return (
-    <section id="testimonials" className="py-32 relative z-10 bg-neutral-100 border-t border-neutral-200">
+    <section id="testimonials" className="py-20 relative z-10 bg-neutral-50 border-t border-neutral-150">
       <div className="w-full px-6 md:px-16">
-        <div className="text-center mb-20">
+        <div className="text-center mb-12">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 15 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
           >
-            <h2 className="text-4xl md:text-7xl font-display font-black tracking-tighter mb-8 text-neutral-900">WHAT PEOPLE SAY</h2>
-            <div className="w-24 h-1 bg-black mx-auto rounded-full" />
+            <h2 className="text-3xl md:text-4xl font-display font-black tracking-tight text-neutral-900 uppercase">WHAT PEOPLE SAY</h2>
+            <div className="w-12 h-0.5 bg-black mx-auto rounded-full mt-3" />
           </motion.div>
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 auto-rows-[minmax(200px,auto)]">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 auto-rows-auto">
           {testimonials.map((t, i) => (
             <motion.div
               key={i}
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 15 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ delay: i * 0.1, duration: 0.6 }}
-              className={`bg-white p-10 rounded-[2.5rem] flex flex-col justify-between hover:shadow-xl transition-all duration-500 group relative overflow-hidden border border-neutral-100 ${t.colSpan} ${t.rowSpan}`}
+              transition={{ delay: i * 0.05, duration: 0.5 }}
+              className={`bg-white p-6 md:p-8 rounded-[2rem] flex flex-col justify-between hover:shadow-lg transition-all duration-300 group relative overflow-hidden border border-neutral-100 ${t.colSpan}`}
             >
               <div className="relative z-10">
-                <Quote className="w-10 h-10 text-neutral-100 mb-8 group-hover:text-neutral-400 transition-colors" />
-                <p className="text-xl text-neutral-600 leading-relaxed mb-10 font-medium">
+                <Quote className="w-6 h-6 text-neutral-100 mb-4 group-hover:text-neutral-300 transition-colors" />
+                <p className="text-sm text-neutral-600 leading-relaxed mb-6 font-medium">
                   "{t.text}"
                 </p>
               </div>
 
-              <div className="flex items-center gap-5 relative z-10 mt-auto pt-8 border-t border-neutral-50">
+              <div className="flex items-center gap-4 relative z-10 mt-auto pt-6 border-t border-neutral-50">
                 <img 
                   src={t.avatar} 
                   alt={t.name} 
-                  className="w-14 h-14 rounded-2xl object-cover border border-neutral-100"
+                  className="w-11 h-11 rounded-xl object-cover border border-neutral-100 animate-fade-in"
                   referrerPolicy="no-referrer"
                 />
                 <div>
-                  <h4 className="font-black text-neutral-900 text-sm tracking-tight">{t.name}</h4>
-                  <div className="flex items-center gap-2 text-xs mt-1">
+                  <h4 className="font-black text-neutral-900 text-xs tracking-tight">{t.name}</h4>
+                  <div className="flex items-center gap-1.5 text-[10px] mt-0.5">
                     <span className="text-neutral-400 font-bold uppercase tracking-wider">{t.role}</span>
                     <span className="text-neutral-300 font-medium">@{t.company}</span>
                   </div>
@@ -1571,34 +1584,137 @@ const AboutUs: React.FC<{ onBack: () => void }> = ({ onBack }) => {
       <div className="w-full px-6 md:px-16">
         <button 
           onClick={onBack} 
-          className="flex items-center gap-2 text-neutral-500 hover:text-neutral-900 mb-12 transition-colors group"
+          className="flex items-center gap-2 text-neutral-500 hover:text-neutral-900 mb-12 transition-colors group font-black uppercase tracking-widest text-xs"
         >
           <ArrowLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform" /> 
           Back to Home
         </button>
 
-        <div className="bg-neutral-50 p-8 md:p-12 rounded-[3rem] border border-neutral-100 shadow-xl shadow-neutral-200/50">
-          <h1 className="text-4xl md:text-6xl font-display font-black mb-4 text-neutral-900 uppercase tracking-tighter">CGLINK Indonesia</h1>
-          <h2 className="text-xl md:text-2xl text-neutral-500 font-bold mb-12 uppercase tracking-widest">Building Your Business Future with CGLINK Indonesia</h2>
+        <div className="bg-neutral-50 p-8 md:p-16 rounded-[4.5rem] border border-neutral-100 shadow-2xl shadow-neutral-150/30">
+          
+          {/* Hero Segment */}
+          <div className="mb-20 text-center max-w-4xl mx-auto">
+            <span className="inline-block px-4 py-1.5 rounded-full bg-neutral-900 text-white text-[9px] font-black tracking-[0.3em] uppercase mb-6">About CGLINK</span>
+            <h1 className="text-5xl md:text-8xl font-display font-black text-neutral-900 uppercase tracking-tighter mb-6 leading-none">CGLINK Indonesia</h1>
+            <h2 className="text-xl md:text-2xl text-neutral-500 font-bold uppercase tracking-wide leading-tight">Building Your Business Future with CGLINK Indonesia</h2>
+          </div>
 
-          <div className="space-y-12 text-neutral-500 leading-relaxed font-medium">
-            <section>
-              <p className="text-lg">
-                In an era of fast-moving economic transformation, the presence of a strategic partner is no longer just an option, but a necessity. CGLINK Indonesia is here as a growth catalyst for your business.
+          <hr className="border-neutral-200/60 my-16" />
+
+          {/* Core Info Split Grid */}
+          <div className="grid lg:grid-cols-2 gap-16 mb-24 items-start">
+            <div>
+              <span className="text-[10px] font-black text-neutral-400 tracking-widest uppercase mb-3 block">Perspective</span>
+              <h3 className="text-3xl md:text-4xl font-display font-black text-neutral-900 uppercase tracking-tight mb-6">Who We Are?</h3>
+              <p className="text-neutral-600 font-medium leading-relaxed text-lg text-justify">
+                Established in 2023 and based in the business heart of South Jakarta, CGLINK Indonesia is a premier strategic business consulting firm born from a spirit of high collaboration and forward-looking innovation. We understand that every corporate model faces unique variables; that's why we don't just provide standard operational advice, but construct measurable, sustainable solutions.
               </p>
-            </section>
-
-            <section>
-              <h3 className="text-2xl font-display font-bold text-neutral-900 mb-6 uppercase tracking-tight">Who We Are?</h3>
-              <p>
-                Established in 2023 and based in the business heart of South Jakarta, CGLINK Indonesia is a business consulting firm born from a spirit of collaboration and innovation. We understand that every business has unique challenges; that's why we don't just provide advice, but provide measurable and sustainable solutions.
+            </div>
+            
+            <div className="bg-neutral-900 text-white p-10 rounded-[3rem] shadow-xl border border-neutral-800">
+              <span className="inline-block px-3 py-1 rounded-full bg-white/10 text-white/90 text-[8px] font-black tracking-widest uppercase mb-4">Core Philosophy</span>
+              <h3 className="text-2xl font-display font-bold uppercase mb-4 leading-tight">Professionalism Without Compromise</h3>
+              <p className="text-neutral-300 font-semibold leading-relaxed text-base text-justify">
+                We believe that sustainable, long-term growth is exclusively unlocked when upholding absolute legal transparency, logical business strategy, and halal compliance ecosystem limits. Our foundational code guarantees that every path we organize for clients is legal, logical, & halal, bringing you closer to peak institutional durability and community benefit.
               </p>
-            </section>
+            </div>
+          </div>
 
-            <section>
-              <h3 className="text-2xl font-display font-bold text-neutral-900 mb-6 uppercase tracking-tight">Our Core Expertise</h3>
-              <p className="mb-8">We combine data, industry experience, and creativity to provide comprehensive services in various main pillars:</p>
-              <ul className="space-y-6">
+          {/* Vision & Mission Side-by-Side Area */}
+          <div className="grid lg:grid-cols-2 gap-8 mb-24">
+            {/* Vision */}
+            <div className="relative overflow-hidden rounded-[3rem] bg-white p-10 md:p-14 border border-neutral-100 flex flex-col justify-between shadow-sm">
+              <div className="relative z-10">
+                <span className="text-7xl md:text-8xl font-display font-black mb-6 opacity-5 absolute -top-8 -left-4 uppercase select-none">Vision</span>
+                <span className="text-[10px] font-black text-neutral-400 tracking-widest uppercase mb-4 block">Our Statement</span>
+                <h2 className="text-4xl font-display font-black mb-8 relative uppercase text-neutral-900 tracking-tighter">Vision</h2>
+                <p className="text-xl md:text-2xl font-medium leading-normal text-neutral-700 mb-8 italic">
+                  "To be a strategic business collaboration partner based on legal, logical, and halal principles through products, services, and professional business development to create sustainable growth and benefits for all parties."
+                </p>
+                <div className="h-0.5 w-16 bg-neutral-900 mb-8"></div>
+              </div>
+              <div className="mt-4">
+                <h3 className="text-xl md:text-2xl font-display font-black leading-none tracking-tighter text-neutral-300">
+                  ONE LINK,<br />
+                  THOUSANDS OF<br />
+                  OPPORTUNITIES.
+                </h3>
+              </div>
+            </div>
+
+            {/* Mission */}
+            <div className="rounded-[3rem] bg-white p-10 md:p-14 border border-neutral-100 shadow-sm text-left">
+              <span className="text-[10px] font-black text-neutral-400 tracking-widest uppercase mb-4 block">Our Action</span>
+              <h2 className="text-4xl font-display font-black mb-8 uppercase text-neutral-900 tracking-tighter">Mission</h2>
+              <div className="space-y-6">
+                {[
+                  "Organize legal, logical, and halal business products and services.",
+                  "Become a professional and mutually beneficial business collaboration partner.",
+                  "Provide value-added consulting services and business solutions.",
+                  "Develop new businesses and business opportunities professionally and sustainably.",
+                  "Create sustainable growth and benefits for all parties."
+                ].map((misi, idx) => (
+                  <div key={idx} className="flex gap-4 items-start group">
+                    <div className="w-8 h-8 rounded-full border border-neutral-200 flex items-center justify-center shrink-0 font-mono text-xs font-bold group-hover:bg-neutral-900 group-hover:text-white transition-colors text-neutral-400">
+                      0{idx + 1}
+                    </div>
+                    <p className="text-sm md:text-base text-neutral-600 leading-relaxed group-hover:text-neutral-900 transition-colors font-semibold">
+                      {misi}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* VALUES: GRACE Segment */}
+          <div className="mb-24">
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-12 gap-4">
+              <div>
+                <span className="text-[10px] font-black text-neutral-400 tracking-widest uppercase mb-2 block">Foundational Anchors</span>
+                <h2 className="text-4xl md:text-5xl font-display font-black tracking-tighter text-neutral-900 uppercase">VALUES: GRACE</h2>
+              </div>
+              <div className="text-right">
+                <p className="text-neutral-500 font-bold uppercase tracking-widest text-[10px]">Grow • Share • Contribute</p>
+              </div>
+            </div>
+            
+            <div className="grid md:grid-cols-3 gap-8">
+              {[
+                { 
+                  title: "Grow", 
+                  icon: <TrendingUp className="w-6 h-6" />, 
+                  desc: "Increasing capabilities through knowledge, attitude, and mentality based on trust and professionalism." 
+                },
+                { 
+                  title: "Share", 
+                  icon: <Users className="w-6 h-6" />, 
+                  desc: "Sharing stories, experiences, and solutions with clients, partners, and the community fairly, transparently, and responsibly." 
+                },
+                { 
+                  title: "Contribute", 
+                  icon: <Heart className="w-6 h-6" />, 
+                  desc: "Creating a positive impact for clients, the economy, and the community through sustainable activities." 
+                }
+              ].map((item, idx) => (
+                <div key={idx} className="bg-white p-8 rounded-[2.5rem] border border-neutral-100 hover:bg-neutral-900 hover:text-white shadow-sm hover:shadow-xl transition-all duration-500 group">
+                  <div className="w-12 h-12 rounded-xl bg-neutral-50 shadow-sm flex items-center justify-center mb-6 text-neutral-900 group-hover:bg-white/10 group-hover:text-white transition-all">
+                    {item.icon}
+                  </div>
+                  <h4 className="font-display font-bold text-2xl mb-3 text-neutral-900 group-hover:text-white">{item.title}</h4>
+                  <p className="text-neutral-500 text-sm leading-relaxed group-hover:text-neutral-300 font-medium">{item.desc}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Our Core Expertise Checklist section */}
+          <div className="mb-24">
+            <div className="max-w-3xl mx-auto">
+              <span className="text-[10px] font-black text-neutral-400 tracking-widest uppercase mb-4 block text-center font-mono">Service Map</span>
+              <h3 className="text-3xl md:text-4xl font-display font-black text-neutral-900 uppercase tracking-tight mb-8 text-center">Our Core Expertise</h3>
+              <p className="mb-8 text-neutral-500 font-medium leading-relaxed text-center">We configure industry capabilities and strategies to secure complete scalability in each division:</p>
+              <ul className="space-y-6 bg-white p-8 md:p-12 rounded-[3.5rem] border border-neutral-100 shadow-sm">
                 {[
                   { title: "Strategy & Operations", desc: "Formulating an adaptive roadmap, SOPs, and organizational structure to ensure scalability." },
                   { title: "Digital & Marketing", desc: "Data-driven growth strategies, digital ecosystems, and performance marketing transformation." },
@@ -1606,54 +1722,184 @@ const AboutUs: React.FC<{ onBack: () => void }> = ({ onBack }) => {
                   { title: "Finance, Accounting, & Tax", desc: "Capital structure optimization, precision financial planning, and robust risk management." },
                   { title: "Human Capital", desc: "Talent acquisition, corporate culture transformation, and high-performance team building." }
                 ].map((item, idx) => (
-                  <li key={idx} className="flex gap-4">
-                    <CheckCircle2 className="w-6 h-6 text-neutral-900 shrink-0" />
-                    <div><strong className="text-neutral-900">{item.title}:</strong> {item.desc}</div>
+                  <li key={idx} className="flex gap-4 items-start">
+                    <CheckCircle2 className="w-5 h-5 text-neutral-900 shrink-0 mt-0.5" />
+                    <div className="text-sm md:text-base text-neutral-600 leading-normal font-medium">
+                      <strong className="text-neutral-900 font-bold">{item.title}:</strong> {item.desc}
+                    </div>
                   </li>
                 ))}
               </ul>
-            </section>
+            </div>
+          </div>
 
-            <section className="bg-neutral-100/50 p-8 md:p-12 rounded-[2.5rem] border border-neutral-250/20 my-12 text-left">
-              <span className="inline-block px-4 py-1 rounded-full bg-neutral-900 text-white text-[9px] font-black tracking-widest uppercase mb-4">Philosophy</span>
-              <h2 className="text-3xl font-display font-black text-neutral-900 mb-6 uppercase tracking-tighter">Our Work Philosophy</h2>
-              <p className="text-lg text-neutral-600 leading-relaxed font-semibold">
-                We believe in <strong>Professionalism Without Compromise</strong>. Our team consists of highly dedicated experts helping clients navigate business complexities with a transparent and result-oriented sharia-compliant philosophy. We ensure every step we take together is <strong>Legal, Logical, & Halal</strong> to bring you closer to peak sustainable success.
-              </p>
-            </section>
+          <hr className="border-neutral-200/60 my-20" />
 
-            <section>
-              <h3 className="text-2xl font-display font-bold text-neutral-900 mb-6 uppercase tracking-tight">Why Choose CGLINK?</h3>
-              <blockquote className="border-l-8 border-black pl-8 py-4 my-10 bg-white rounded-r-2xl italic text-lg text-neutral-900 font-bold">
-                "To be a business collaboration partner based on legal, logical, and halal principles through products, services, and professional business development to create sustainable growth and benefits for all parties."
-              </blockquote>
-              <p className="text-xl text-neutral-900 font-black mt-12 text-center italic">
-                Ready to take your business to the next level? Let's discuss how CGLINK Indonesia can help perfect your strategy today.
-              </p>
-            </section>
+          {/* SEGMENT 1 — Who We Choose */}
+          <div className="mb-24">
+            <div className="grid lg:grid-cols-12 gap-12 items-start">
+              {/* Left Column (Main Headline) */}
+              <div className="lg:col-span-5 lg:sticky lg:top-36">
+                <span className="text-[10px] font-black text-neutral-400 tracking-[0.2em] uppercase mb-3 block font-mono">SEGMENT 01 — WHO WE CHOOSE</span>
+                <h2 className="text-3xl md:text-5xl font-display font-black text-neutral-900 uppercase tracking-tighter mb-4 leading-tight">We Don't Work With Everyone.</h2>
+                <p className="text-neutral-500 font-bold text-lg leading-relaxed">And that's precisely why our results stay consistent.</p>
+              </div>
 
-            {/* CTA Buttons */}
-            <div className="mt-16 pt-12 border-t border-neutral-100">
-              <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <a 
-                  href="mailto:businesspartner@cglinkindonesia.com"
-                  className="flex items-center justify-center gap-3 px-10 py-5 bg-neutral-900 text-white rounded-2xl font-black uppercase tracking-widest text-sm hover:bg-neutral-800 transition-all hover:scale-105 active:scale-95 shadow-xl"
-                >
-                  <Mail className="w-5 h-5" />
-                  Email Us
-                </a>
-                <a 
-                  href="https://wa.me/62895428355681"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center justify-center gap-3 px-10 py-5 bg-white border border-neutral-200 text-neutral-900 rounded-2xl font-black uppercase tracking-widest text-sm hover:bg-neutral-50 transition-all hover:scale-105 active:scale-95 shadow-sm"
-                >
-                  <MessageCircle className="w-5 h-5" />
-                  WhatsApp
-                </a>
+              {/* Right Column (Criteria Stack) */}
+              <div className="lg:col-span-7 space-y-6">
+                {[
+                  {
+                    num: "01",
+                    label: "VALUES",
+                    title: "Aligned Values",
+                    desc: "Halal, ethical, and transparent business. We believe growth without values isn't growth — it's just numbers without barakah."
+                  },
+                  {
+                    num: "02",
+                    label: "MINDSET",
+                    title: "Built to Grow, Not to Rush",
+                    desc: "Ready to invest the time and energy real transformation demands. We don't promise overnight results — and we don't work with anyone looking for them."
+                  },
+                  {
+                    num: "03",
+                    label: "POSTURE",
+                    title: "Openness to Change",
+                    desc: "Willing to be challenged. Willing to self-reflect. Willing to adopt a growth mindset. Real growth requires the honesty to admit what isn't yet optimal."
+                  }
+                ].map((item, index) => (
+                  <div key={index} className="bg-white p-8 rounded-[2.5rem] border border-neutral-100 hover:border-neutral-200 shadow-sm transition-all duration-300">
+                    <div className="flex justify-between items-center mb-4 border-b border-neutral-50 pb-4">
+                      <span className="text-[10px] font-black text-neutral-400 font-mono tracking-widest">{item.label}</span>
+                      <span className="text-lg font-display font-black text-neutral-900 font-mono">{item.num}</span>
+                    </div>
+                    <h4 className="font-display font-black text-xl text-neutral-900 mb-2 uppercase">{item.title}</h4>
+                    <p className="text-neutral-600 text-sm leading-relaxed font-semibold">{item.desc}</p>
+                  </div>
+                ))}
               </div>
             </div>
           </div>
+
+          {/* SEGMENT 2 — CGLINK Roadmap */}
+          <div className="mb-24 bg-neutral-950 text-white p-8 md:p-14 rounded-[4rem] shadow-2xl relative overflow-hidden border border-neutral-900">
+            <div className="absolute top-0 right-0 w-96 h-96 bg-neutral-900/40 rounded-full filter blur-[100px] pointer-events-none"></div>
+            
+            <div className="relative z-10 max-w-4xl mb-12">
+              <span className="text-[9px] font-black tracking-[0.3em] uppercase mb-4 inline-block text-neutral-400 font-mono">SEGMENT 02 — CGLINK ROADMAP</span>
+              <h2 className="text-3xl md:text-5xl font-display font-black uppercase tracking-tighter mb-4">A Continuous Journey. Tangible Impact. Built for the Hereafter.</h2>
+              <p className="text-neutral-400 font-semibold text-sm md:text-base leading-relaxed">
+                CGLINK's long-term roadmap is designed to be gradual, measurable, and oriented toward barakah, benefit, and sustainability.
+              </p>
+            </div>
+
+            {/* Roadmap Grid */}
+            <div className="relative z-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 border-b border-neutral-800 pb-12 mb-12">
+              {[
+                { year: "2023", title: "Basic Fundamental", desc: "Laying a strong foundation of understanding, systems, and work culture." },
+                { year: "2024", title: "Syariah Circle Development", desc: "Building a sharia-based growth ecosystem through community, education, and collaboration." },
+                { year: "2025", title: "Foundation & Governance", desc: "Strengthening organizational structure, governance, and systems rooted in integrity." },
+                { year: "2026", title: "Growth & Commercial Engine", desc: "Developing scalable, value-driven core business units." },
+                { year: "2027", title: "Positioning & Specialization", desc: "Sharpening our market position and deepening strategic specialization." },
+                { year: "2028", title: "Expansion & Investment", desc: "Strategic business expansion and investment to broaden our impact." },
+                { year: "2029", title: "Systemization & Scale", desc: "Building automation and standardization systems for greater scale." },
+                { year: "2030", title: "Market Leadership & Ecosystem", desc: "Becoming a market leader and building an ecosystem of widespread benefit." }
+              ].map((step, idx) => (
+                <div key={idx} className="bg-neutral-900/60 hover:bg-neutral-900 p-6 rounded-[2rem] border border-neutral-800 hover:border-neutral-700 transition-all duration-300">
+                  <div className="text-2xl font-display font-black text-white font-mono mb-2">{step.year}</div>
+                  <h4 className="font-display font-bold text-xs uppercase text-neutral-300 tracking-tight mb-2">{step.title}</h4>
+                  <p className="text-neutral-500 text-xs leading-relaxed font-semibold">{step.desc}</p>
+                </div>
+              ))}
+            </div>
+
+            {/* Bottom Strip */}
+            <div className="relative z-10 grid md:grid-cols-2 gap-8 items-center text-xs md:text-sm">
+              <div className="text-neutral-400 leading-relaxed font-semibold">
+                Every step we take today is an investment for the future — for a better world and an eternal hereafter.
+              </div>
+              <div className="md:text-right">
+                <div className="inline-block bg-white/5 border border-white/10 px-6 py-4 rounded-2xl text-left md:text-right">
+                  <span className="text-[10px] font-black text-neutral-400 font-mono tracking-widest uppercase block mb-1">TARGET STATE</span>
+                  <div className="text-white font-bold tracking-tight">
+                    FINAL GOAL: Business sustainability, a life of barakah, and a real contribution to the ummah.
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* SEGMENT 3 — Our Stance: MCG */}
+          <div className="mb-24">
+            <div className="text-center mb-12">
+              <span className="text-[10px] font-black text-neutral-400 tracking-[0.2em] uppercase mb-3 block font-mono">SEGMENT 03 — GLOBAL STANDARD</span>
+              <h2 className="text-3xl md:text-4xl font-display font-black text-neutral-900 uppercase tracking-tighter">Our Stance: MCG</h2>
+              <div className="w-12 h-0.5 bg-neutral-900 mx-auto mt-4 rounded-full"></div>
+            </div>
+
+            <div className="grid md:grid-cols-3 gap-8">
+              {[
+                {
+                  letter: "M",
+                  title: "Mutual Benefit",
+                  desc: "Every partnership is built on shared value and mutual gain for all parties involved."
+                },
+                {
+                  letter: "C",
+                  title: "Compliance & Effectiveness",
+                  desc: "Operating within legal, logical, and halal frameworks — with measurable impact."
+                },
+                {
+                  letter: "G",
+                  title: "Governance",
+                  desc: "Structured, accountable, and transparent across every business process."
+                }
+              ].map((item, idx) => (
+                <div key={idx} className="bg-white p-8 rounded-[3rem] border border-neutral-100 hover:border-neutral-200 shadow-sm transition-all duration-300 relative overflow-hidden group">
+                  <div className="absolute -top-6 -right-2 text-8xl font-black font-display opacity-5 select-none text-neutral-900 group-hover:opacity-10 transition-opacity duration-300">
+                    {item.letter}
+                  </div>
+                  <div className="w-12 h-12 rounded-2xl border border-neutral-150 flex items-center justify-center mb-6 font-display font-black text-xl text-neutral-900 bg-neutral-50">
+                    {item.letter}
+                  </div>
+                  <h4 className="font-display font-black text-lg text-neutral-900 mb-2 uppercase tracking-tight">{item.title}</h4>
+                  <p className="text-neutral-500 text-sm leading-relaxed font-semibold">{item.desc}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <hr className="border-neutral-200/60 my-20" />
+
+          {/* Bottom Pitch */}
+          <div className="text-center max-w-2xl mx-auto mb-16">
+            <h3 className="text-2xl font-display font-bold text-neutral-900 mb-6 uppercase tracking-tight">Why Choose CGLINK?</h3>
+            <p className="text-neutral-500 leading-relaxed font-semibold text-lg italic">
+              "Ready to take your business to the next level? Let's discuss how CGLINK Indonesia can help perfect your strategy today."
+            </p>
+          </div>
+
+          {/* CTA Buttons */}
+          <div className="border-t border-neutral-200/60 pt-12">
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <a 
+                href="mailto:businesspartner@cglinkindonesia.com"
+                className="flex items-center justify-center gap-3 px-10 py-5 bg-neutral-900 text-white rounded-2xl font-black uppercase tracking-widest text-xs hover:bg-neutral-800 transition-all hover:scale-105 active:scale-95 shadow-xl shadow-neutral-900/10"
+              >
+                <Mail className="w-5 h-5" />
+                Email Us
+              </a>
+              <a 
+                href="https://wa.me/62895428355681"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center justify-center gap-3 px-10 py-5 bg-white border border-neutral-200 text-neutral-900 rounded-2xl font-black uppercase tracking-widest text-xs hover:bg-neutral-50 transition-all hover:scale-105 active:scale-95 shadow-sm"
+              >
+                <MessageSquare className="w-5 h-5" />
+                WhatsApp
+              </a>
+            </div>
+          </div>
+
         </div>
       </div>
     </motion.div>
@@ -1897,10 +2143,11 @@ const FloatingActions = () => {
 
 export default function App() {
   const [currentPage, setCurrentPage] = useState<PageType>('home');
+  const [selectedArticleId, setSelectedArticleId] = useState<number | undefined>(undefined);
 
   return (
     <div className="min-h-screen flex flex-col bg-white text-neutral-900 selection:bg-neutral-200 font-sans">
-      <Navbar currentPage={currentPage} setCurrentPage={setCurrentPage} />
+      <Navbar currentPage={currentPage} setCurrentPage={setCurrentPage} setSelectedArticleId={setSelectedArticleId} />
       
       <AnimatePresence mode="wait">
         {currentPage === 'home' && (
@@ -1913,11 +2160,8 @@ export default function App() {
             className="flex-1"
           >
             <Hero setCurrentPage={setCurrentPage} />
-            <StrategicNav setCurrentPage={setCurrentPage} />
             <SectorMarquee />
             <BusinessStats />
-            <CoreValues />
-            <BusinessUnits setCurrentPage={setCurrentPage} />
             <ImpactHome setCurrentPage={setCurrentPage} />
             <WhyUs />
             <Testimonials />
@@ -1967,7 +2211,15 @@ export default function App() {
           <CareersPage key="careers" onBack={() => { setCurrentPage('home'); window.scrollTo(0, 0); }} />
         )}
         {currentPage === 'blog' && (
-          <BlogPage key="blog" onBack={() => { setCurrentPage('home'); window.scrollTo(0, 0); }} />
+          <BlogPage 
+            key="blog" 
+            initialArticleId={selectedArticleId} 
+            onBack={() => { 
+              setCurrentPage('home'); 
+              setSelectedArticleId(undefined); 
+              window.scrollTo(0, 0); 
+            }} 
+          />
         )}
         {currentPage === 'contact' && (
           <ContactPage key="contact" onBack={() => { setCurrentPage('home'); window.scrollTo(0, 0); }} />
