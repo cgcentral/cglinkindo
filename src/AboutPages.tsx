@@ -30,6 +30,8 @@ import {
   Camera
 } from "lucide-react";
 import { downloadUmrohReportPDF } from "./utils/umrohPdfGenerator";
+import { CGLinkLogo, SPNLogo, BTWMisterCaturLogo, CGTourTravelLogo, CGLinkImgLogo, SPNImgLogo, AffiliateBukuLogo, YoutubeChannelLogo, CGTourTravelImgLogo } from "./components/BusinessLogos";
+import { Youtube, ExternalLink } from "lucide-react";
 
 interface PageProps {
   onBack: () => void;
@@ -360,126 +362,202 @@ export const PilarBisnisPage: React.FC<PageProps> = ({ onBack }) => {
 
         {/* Pilar Bisnis Section */}
         <motion.div variants={itemVariants} className="mb-32">
-          <h2 className="text-3xl md:text-5xl font-display font-black mb-16 border-l-4 border-neutral-900 pl-6 text-neutral-900 uppercase tracking-tighter">Business Pillars</h2>
-          <div className="space-y-12">
-            {/* BTW Mister Catur */}
-            <div className="bg-neutral-50 p-8 md:p-12 rounded-[3.5rem] border border-neutral-100 relative overflow-hidden group">
-              <div className="grid lg:grid-cols-2 gap-12 items-center text-left">
-                <div>
-                  <h3 className="text-3xl md:text-4xl font-display font-bold mb-6 text-neutral-900">BTW Mister Catur</h3>
-                  <p className="text-neutral-600 text-lg leading-relaxed mb-8 font-medium">
-                    A digital media channel focusing on business content, motivation, and life values. Through this platform, we not only share practical insights but also open up opportunities for collaboration and sponsorship.
+          <h2 className="text-3xl md:text-5xl font-display font-black mb-16 border-l-4 border-neutral-900 pl-6 text-neutral-900 uppercase tracking-tighter">Business Units</h2>
+          <div className="space-y-16">
+            
+            {/* 1. BUSINESS CONSULTING */}
+            <div className="bg-neutral-50 p-8 md:p-12 rounded-[3.5rem] border border-neutral-100 group relative overflow-hidden text-left">
+              <div className="grid lg:grid-cols-12 gap-12 items-center">
+                <div className="lg:col-span-4 flex items-center justify-center p-6 bg-white rounded-3xl border border-neutral-100 shadow-sm aspect-square max-w-[280px] mx-auto group-hover:shadow-md transition-all">
+                  <CGLinkImgLogo className="w-full h-full max-h-[160px]" />
+                </div>
+                <div className="lg:col-span-8">
+                  <span className="text-[10px] font-black tracking-widest text-[#C5A059] uppercase block mb-3">Corporate Advisory & Operations</span>
+                  <h3 className="text-3xl md:text-4xl font-display font-bold mb-4 text-neutral-900 uppercase tracking-tight">Business Consulting</h3>
+                  <p className="text-neutral-600 text-base leading-relaxed mb-6 font-medium">
+                    Since 2023, CGLINK Indonesia has operated as a premium business consulting advisor in Jakarta. We provide legal standing structures, operational design, management standardizations, and risk audits to support scalable and sustainable business compliance.
                   </p>
-                  <ul className="grid sm:grid-cols-2 gap-4 mb-10 text-left">
+                  <ul className="grid sm:grid-cols-2 gap-4 mb-8 text-left">
                     {[
-                      "Focus on business, motivation, and Islamic values.",
-                      "Wide audience reach through YouTube & social media.",
-                      "Has appeared in several podcasts & media coverage",
-                      "Open for collaboration & sponsorship."
+                      "Fully compliant legal & corporate setup support.",
+                      "Operational roadmap design & operating standards.",
+                      "Transparent advisory based on legal, logical, and halal.",
+                      "High-caliber networking with premium ecosystem partners."
                     ].map((bullet, i) => (
-                      <li key={i} className="flex gap-3 items-start text-neutral-500">
-                        <CheckCircle2 className="w-5 h-5 text-neutral-900 shrink-0 mt-0.5" />
-                        <span className="text-sm font-bold">{bullet}</span>
+                      <li key={i} className="flex gap-3 items-start text-neutral-500 text-sm">
+                        <CheckCircle2 className="w-4 h-4 text-neutral-900 shrink-0 mt-0.5" />
+                        <span className="font-bold">{bullet}</span>
                       </li>
                     ))}
                   </ul>
                   <a 
-                    href="https://btwmistercatur.com" 
+                    href="https://cglinkindonesia.com" 
                     target="_blank" 
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-3 px-8 py-4 bg-neutral-900 text-white rounded-full font-bold hover:bg-neutral-800 transition-all group/btn"
+                    className="inline-flex items-center gap-2 px-6 py-3 bg-neutral-900 text-white rounded-full font-bold text-sm hover:bg-neutral-800 transition-all group/btn"
                   >
-                    Visit btwmistercatur.com
-                    <ArrowRight className="w-5 h-5 group-hover/btn:translate-x-1 transition-transform" />
+                    <span>Visit cglinkindonesia.com</span>
+                    <ExternalLink className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" />
                   </a>
                 </div>
-                <div className="relative aspect-video rounded-3xl overflow-hidden shadow-2xl border border-neutral-200">
-                  <img 
-                    src="https://cglinkindonesia.com/wp-content/uploads/2026/05/remake-single-image-bisnis-udah-jalan-feed.jpg" 
-                    alt="BTW Mister Catur" 
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                    referrerPolicy="no-referrer"
-                  />
+              </div>
+            </div>
+
+            {/* 2. B2C SERVICES (CG TOUR & TRAVEL) */}
+            <div className="bg-neutral-50 p-8 md:p-12 rounded-[3.5rem] border border-neutral-100 group relative overflow-hidden text-left">
+              <div className="grid lg:grid-cols-12 gap-12 items-center">
+                <div className="lg:col-span-4 flex items-center justify-center p-6 bg-white rounded-3xl border border-neutral-100 shadow-sm aspect-square max-w-[280px] mx-auto group-hover:shadow-md transition-all">
+                  <CGTourTravelImgLogo className="w-full h-full max-h-[160px]" />
+                </div>
+                <div className="lg:col-span-8">
+                  <span className="text-[10px] font-black tracking-widest text-[#C5A059] uppercase block mb-3">Consumer Services (B2C)</span>
+                  <h3 className="text-3xl md:text-4xl font-display font-bold mb-4 text-neutral-900 uppercase tracking-tight">CG Tour & Travel</h3>
+                  <p className="text-neutral-600 text-base leading-relaxed mb-6 font-medium">
+                    Our dedicated B2C division, CG Tour & Travel, delivers highly reliable, comfortable, and trustworthy Umrah and Islamic tour solutions. We partner with top aviation, hospitality, and local transport operators in Saudi Arabia to guide pilgrims on an uncompromising journey to Baitullah.
+                  </p>
+                  <ul className="grid sm:grid-cols-2 gap-4 mb-8 text-left">
+                    {[
+                      "Trustworthy Sharia-compliant sacred journey services.",
+                      "Official licensed partner networks in Makkah & Madinah.",
+                      "Excellent accommodation & guide companionship.",
+                      "Flexible customized Umrah holiday flight packages."
+                    ].map((bullet, i) => (
+                      <li key={i} className="flex gap-3 items-start text-neutral-500 text-sm">
+                        <CheckCircle2 className="w-4 h-4 text-neutral-900 shrink-0 mt-0.5" />
+                        <span className="font-bold">{bullet}</span>
+                      </li>
+                    ))}
+                  </ul>
+                  <a 
+                    href="https://cgtourtravel.com" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 px-6 py-3 bg-neutral-900 text-white rounded-full font-bold text-sm hover:bg-neutral-800 transition-all group/btn"
+                  >
+                    <span>Visit cgtourtravel.com</span>
+                    <ExternalLink className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" />
+                  </a>
                 </div>
               </div>
             </div>
 
-            {/* CG Tour & Travel */}
-            <div className="bg-neutral-50 p-8 md:p-12 rounded-[3.5rem] border border-neutral-100 group text-left">
-              <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-8 mb-8">
-                <div>
-                  <h3 className="text-3xl font-display font-bold mb-2 text-neutral-900">CG Tour & Travel</h3>
-                  <p className="text-neutral-900 font-bold uppercase tracking-widest text-xs">Amanah Umrah Travel Services</p>
+            {/* 3. ENERGY (SATYA PETROLEUM NUSANTARA) */}
+            <div className="bg-neutral-50 p-8 md:p-12 rounded-[3.5rem] border border-neutral-100 group relative overflow-hidden text-left">
+              <div className="grid lg:grid-cols-12 gap-12 items-center">
+                <div className="lg:col-span-4 flex items-center justify-center p-6 bg-white rounded-3xl border border-neutral-100 shadow-sm aspect-square max-w-[280px] mx-auto group-hover:shadow-md transition-all">
+                  <SPNImgLogo className="w-full h-full max-h-[160px]" />
                 </div>
-                <a 
-                  href="https://cgtourtravel.com" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="px-6 py-3 border border-neutral-900 text-neutral-900 rounded-full hover:bg-neutral-900 hover:text-white transition-all font-bold flex items-center gap-2"
-                >
-                  cgtourtravel.com <ArrowRight className="w-4 h-4" />
-                </a>
+                <div className="lg:col-span-8">
+                  <span className="text-[10px] font-black tracking-widest text-[#27AE60] uppercase block mb-3">Resource & Energy Division</span>
+                  <h3 className="text-3xl md:text-4xl font-display font-bold mb-4 text-neutral-900 uppercase tracking-tight">Satya Petroleum Nusantara</h3>
+                  <p className="text-neutral-600 text-base leading-relaxed mb-6 font-medium">
+                    Through PT Satya Petroleum Nusantara, we operate as an official authorized fuel distribution agent for Pertamina Patra Niaga. SPN specializes in high-volume industrial and marine fuel trading (HSD / Minyak Solar B35) with strict compliance, safety, and operational excellence.
+                  </p>
+                  <ul className="grid sm:grid-cols-2 gap-4 mb-8 text-left">
+                    {[
+                      "Official authorized agent of Pertamina Patra Niaga.",
+                      "Industrial High-Speed Diesel (HSD / Solar B35) compliance.",
+                      "Fast, direct, and transparent oil logistics delivery.",
+                      "Strict adherence to safety and quality regulations."
+                    ].map((bullet, i) => (
+                      <li key={i} className="flex gap-3 items-start text-neutral-500 text-sm">
+                        <CheckCircle2 className="w-4 h-4 text-[#27AE60] shrink-0 mt-0.5" />
+                        <span className="font-bold">{bullet}</span>
+                      </li>
+                    ))}
+                  </ul>
+                  <a 
+                    href="https://satyapetroleumnusantara.com" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 px-6 py-3 bg-[#27AE60] text-white rounded-full font-bold text-sm hover:bg-[#1e824c] transition-all group/btn"
+                  >
+                    <span>Visit satyapetroleumnusantara.com</span>
+                    <ExternalLink className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" />
+                  </a>
+                </div>
               </div>
-              <p className="text-neutral-500 text-lg leading-relaxed mb-8 max-w-3xl font-medium">
-                Trustworthy, comfortable, and reliable Umrah travel services. We accompany pilgrims with professional travel management and support from official partners to ensure smooth worship.
-              </p>
-              <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                {[
-                  "Trustworthy & Sharia compliant.",
-                  "Modern travel facilities.",
-                  "Professional pilgrim assistance.",
-                  "Reliable network of official partners."
-                ].map((bullet, i) => (
-                  <div key={i} className="p-6 rounded-2xl bg-white border border-neutral-100 shadow-sm hover:shadow-md transition-all">
-                    <p className="text-neutral-600 font-bold text-sm tracking-tight">{bullet}</p>
+            </div>
+
+            {/* 4. AFFILIATE PROGRAM: BUKU PULANG SEBELUM BERLARI */}
+            <div className="bg-neutral-50 p-8 md:p-12 rounded-[3.5rem] border border-neutral-100 group relative overflow-hidden text-left">
+              <div className="grid lg:grid-cols-12 gap-12 items-center">
+                <div className="lg:col-span-4 flex items-center justify-center p-6 bg-white rounded-3xl border border-neutral-100 shadow-sm aspect-square max-w-[280px] mx-auto group-hover:shadow-md transition-all">
+                  <AffiliateBukuLogo className="w-full h-full max-h-[160px]" />
+                </div>
+                <div className="lg:col-span-8">
+                  <span className="text-[10px] font-black tracking-widest text-[#1E3799] uppercase block mb-3">Affiliate Partnership Network</span>
+                  <h3 className="text-3xl md:text-4xl font-display font-bold mb-4 text-neutral-900 uppercase tracking-tight">Affiliate Buku Pulang Sebelum Berlari</h3>
+                  <p className="text-neutral-600 text-base leading-relaxed mb-6 font-medium">
+                    Program affiliate resmi untuk Buku "Pulang Sebelum Berlari" karya Mister Catur. Kami membuka kemitraan bagi para pembaca, komunitas kreator, pengulas, dan rekan bisnis untuk memperluas distribusi buku inspirasional ini melalui skema bagi hasil yang menarik dan sistem pelacakan digital yang transparan.
+                  </p>
+                  <ul className="grid sm:grid-cols-2 gap-4 mb-8 text-left">
+                    {[
+                      "Skema bagi hasil bagi hasil komisi digital yang transparan.",
+                      "Alat pelacakan konversi & dashboard afiliasi modern.",
+                      "Membantu menyebarkan literasi kepemimpinan & kebijaksanaan hidup.",
+                      "Dukungan materi promosi digital lengkap siap pakai."
+                    ].map((bullet, i) => (
+                      <li key={i} className="flex gap-3 items-start text-neutral-500 text-sm">
+                        <CheckCircle2 className="w-4 h-4 text-[#1E3799] shrink-0 mt-0.5" />
+                        <span className="font-bold">{bullet}</span>
+                      </li>
+                    ))}
+                  </ul>
+                  <a 
+                    href="https://btwmistercatur.com/affiliate/" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 px-6 py-3 bg-[#1E3799] text-white rounded-full font-bold text-sm hover:bg-[#0c2461] transition-all group/btn"
+                  >
+                    <span>Visit Affiliate Portal</span>
+                    <ExternalLink className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" />
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            {/* 5. MEDIA CHANNEL */}
+            <div className="bg-neutral-50 p-8 md:p-12 rounded-[3.5rem] border border-neutral-100 group relative overflow-hidden text-left">
+              <div className="grid lg:grid-cols-12 gap-12 items-center">
+                <div className="lg:col-span-4 flex items-center justify-center p-6 bg-white rounded-3xl border border-neutral-100 shadow-sm aspect-square max-w-[280px] mx-auto group-hover:shadow-md transition-all relative">
+                  <YoutubeChannelLogo className="w-full h-full max-h-[160px]" />
+                  <div className="absolute bottom-4 right-4 bg-red-600 text-white rounded-2xl px-3 py-1.5 flex items-center gap-1.5 text-xs font-black tracking-wider uppercase shadow-lg">
+                    <Youtube className="w-4 h-4 fill-white" /> Live Media
                   </div>
-                ))}
+                </div>
+                <div className="lg:col-span-8">
+                  <span className="text-[10px] font-black tracking-widest text-[#eb2f06] uppercase block mb-3">YouTube Broadcast & Production</span>
+                  <h3 className="text-3xl md:text-4xl font-display font-bold mb-4 text-neutral-900 uppercase tracking-tight">BTW Mister Catur YouTube Media</h3>
+                  <p className="text-neutral-600 text-base leading-relaxed mb-6 font-medium">
+                    The multimedia content powerhouse of CGLINK, led by the interactive YouTube program "Break Time With Mister Catur & Friends". Our platform focuses on business coaching, life wisdom, leadership mentorship, and Islamic motivation, serving over thousands of active listeners across social channels.
+                  </p>
+                  <ul className="grid sm:grid-cols-2 gap-4 mb-8 text-left">
+                    {[
+                      "High-impact business podcasting & interviews.",
+                      "Highly engaged listener base centered on growth values.",
+                      "Collaborative video sponsorships & product placement.",
+                      "Broadcast-quality video editing & content production."
+                    ].map((bullet, i) => (
+                      <li key={i} className="flex gap-3 items-start text-neutral-500 text-sm">
+                        <CheckCircle2 className="w-4 h-4 text-red-600 shrink-0 mt-0.5" />
+                        <span className="font-bold">{bullet}</span>
+                      </li>
+                    ))}
+                  </ul>
+                  <a 
+                    href="https://www.youtube.com/channel/UCkTtWkZY0dL9NOl3Q3vXfSQ" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 px-6 py-3 bg-[#eb2f06] text-white rounded-full font-bold text-sm hover:bg-red-700 transition-all group/btn"
+                  >
+                    <span>Watch on YouTube</span>
+                    <ExternalLink className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" />
+                  </a>
+                </div>
               </div>
             </div>
 
-            <div className="grid md:grid-cols-2 gap-12 text-left">
-              {/* Program Affiliate */}
-              <div className="bg-neutral-900 text-white p-12 rounded-[3.5rem] shadow-2xl">
-                <h3 className="text-2xl font-display font-black mb-6 uppercase tracking-tight">Affiliate Program</h3>
-                <p className="text-neutral-400 leading-relaxed mb-8 font-medium">
-                  CGLINK opens opportunities for partners to expand product distribution through an affiliate program. With a structured system, we help partners reach a wider market.
-                </p>
-                <ul className="space-y-4">
-                  {[
-                    "Easy to join & transparent.",
-                    "Digital sales system support.",
-                    "Wide distribution network.",
-                    "Potential additional income."
-                  ].map((bullet, i) => (
-                    <li key={i} className="flex gap-3 items-center text-neutral-300">
-                      <div className="w-1.5 h-1.5 rounded-full bg-neutral-400"></div>
-                      <span className="font-medium">{bullet}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-
-              {/* Yayasan Amal Soleh */}
-              <div className="bg-neutral-50 p-12 rounded-[3.5rem] border border-neutral-100">
-                <h3 className="text-2xl font-display font-black mb-6 uppercase tracking-tight text-neutral-900">Amal Soleh Foundation</h3>
-                <p className="text-neutral-500 leading-relaxed mb-8 font-medium">
-                  CGLINK is committed to not only building businesses but also making a real contribution to society through the CGLINK Amal Soleh Foundation (YASCI).
-                </p>
-                <ul className="space-y-4">
-                  {[
-                    "Education & literacy programs.",
-                    "Social & humanitarian support.",
-                    "Community economic empowerment.",
-                    "Collaboration with social partners."
-                  ].map((bullet, i) => (
-                    <li key={i} className="flex gap-3 items-center text-neutral-600">
-                      <div className="w-1.5 h-1.5 rounded-full bg-neutral-900"></div>
-                      <span className="font-bold">{bullet}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </div>
           </div>
         </motion.div>
 

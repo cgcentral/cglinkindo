@@ -33,7 +33,9 @@ import {
   MessageSquare,
   Bot,
   ArrowUp,
-  AlignRight
+  AlignRight,
+  Youtube,
+  ExternalLink
 } from "lucide-react";
 import { 
   ServiceFundamentalPage, 
@@ -43,6 +45,7 @@ import {
   ServiceHCPage 
 } from "./ServicePages";
 import { CareersPage, BlogPage, insightsData } from "./AdditionalPages";
+import { CGLinkLogo, SPNLogo, BTWMisterCaturLogo, CGTourTravelLogo, CGLinkImgLogo, SPNImgLogo, AffiliateBukuLogo, YoutubeChannelLogo } from "./components/BusinessLogos";
 import { 
   VisionMissionPage, 
   PilarBisnisPage, 
@@ -65,7 +68,7 @@ const translations = {
     whoWeAre: "WHO WE ARE",
     visionMission: "VISION & MISSION",
     businessPillars: "BUSINESS UNITS",
-    impact: "BUSINESS OUTLOOK",
+    impact: "IMPACT",
     venture: "CGLINK VENTURE",
     consulting: "CONSULTANT CGLINK",
     career: "CAREER",
@@ -204,7 +207,6 @@ const Navbar = ({
                   <div className="pt-4">
                     <div className="bg-white shadow-2xl rounded-2xl border border-neutral-100 p-6 overflow-hidden text-neutral-900 overflow-y-auto max-h-[400px]">
                       <div className="flex flex-col gap-3">
-                        <button onClick={() => { setCurrentPage('about-vision'); window.scrollTo(0, 1500); setActiveDropdown(null); }} className="text-left text-[9px] px-2 font-bold uppercase tracking-wider text-neutral-500 hover:text-black transition-all">Why us?</button>
                         {servicesData.map(s => (
                           <button 
                             key={s.id}
@@ -240,6 +242,7 @@ const Navbar = ({
                   <div className="pt-4">
                     <div className="bg-white shadow-2xl rounded-2xl border border-neutral-100 p-6 overflow-hidden text-neutral-900">
                       <div className="flex flex-col gap-3">
+                        <button onClick={() => { setCurrentPage('about-pillars'); window.scrollTo(0, 0); setActiveDropdown(null); }} className="text-left text-[9px] px-2 font-bold uppercase tracking-wider text-neutral-500 hover:text-black transition-all hover:translate-x-1">Business Units</button>
                         <button onClick={() => { setCurrentPage('venture-thesis'); window.scrollTo(0, 0); setActiveDropdown(null); }} className="text-left text-[9px] px-2 font-bold uppercase tracking-wider text-neutral-500 hover:text-black transition-all hover:translate-x-1">Investment Thesis</button>
                         <button onClick={() => { setCurrentPage('venture-portfolio'); window.scrollTo(0, 0); setActiveDropdown(null); }} className="text-left text-[9px] px-2 font-bold uppercase tracking-wider text-neutral-500 hover:text-black transition-all hover:translate-x-1">Portfolio</button>
                       </div>
@@ -288,7 +291,7 @@ const Navbar = ({
                         }} 
                         className="text-left text-[9px] px-2 font-bold uppercase tracking-wider text-neutral-500 hover:text-black transition-all hover:translate-x-1"
                       >
-                        Economic Outlook 2026
+                        Business Outlook 2026
                       </button>
                     </div>
                   </div>
@@ -300,8 +303,7 @@ const Navbar = ({
           <button 
             id="nav-impact" 
             onClick={() => { 
-              if (setSelectedArticleId) setSelectedArticleId(4);
-              setCurrentPage('blog'); 
+              setCurrentPage('impact'); 
               window.scrollTo(0, 0); 
             }} 
             className={`transition-colors ${scrolled ? 'hover:text-black' : (currentPage === 'home' ? 'hover:text-white' : 'hover:text-black')}`}
@@ -350,16 +352,6 @@ const Navbar = ({
 
             <div className="space-y-4 pt-4 border-t border-neutral-50">
               <div className="text-[10px] font-black text-neutral-400 tracking-[0.3em] uppercase">{t.consulting}</div>
-              <button 
-                onClick={() => { 
-                  setCurrentPage('about-vision'); 
-                  setIsMobileMenuOpen(false); 
-                  window.scrollTo(0, 0); 
-                }} 
-                className="block text-left text-xl font-bold uppercase tracking-tight opacity-70"
-              >
-                Why Us?
-              </button>
               {servicesData.map(s => (
                 <button key={s.id} id={`mobile-nav-capability-${s.id}`} onClick={() => { setCurrentPage(('service-' + s.id) as PageType); setIsMobileMenuOpen(false); window.scrollTo(0, 0); }} className="block text-left text-xl font-bold uppercase tracking-tight opacity-70">{s.title}</button>
               ))}
@@ -367,6 +359,7 @@ const Navbar = ({
 
             <div className="space-y-4 pt-4 border-t border-neutral-50">
               <div className="text-[10px] font-black text-neutral-400 tracking-[0.3em] uppercase">{t.venture}</div>
+              <button onClick={() => { setCurrentPage('about-pillars'); setIsMobileMenuOpen(false); window.scrollTo(0, 0); }} className="block text-left text-xl font-bold uppercase tracking-tight opacity-70">Business Units</button>
               <button onClick={() => { setCurrentPage('venture-thesis'); setIsMobileMenuOpen(false); window.scrollTo(0, 0); }} className="block text-left text-xl font-bold uppercase tracking-tight opacity-70">Investment Thesis</button>
               <button onClick={() => { setCurrentPage('venture-portfolio'); setIsMobileMenuOpen(false); window.scrollTo(0, 0); }} className="block text-left text-xl font-bold uppercase tracking-tight opacity-70">Portfolio</button>
             </div>
@@ -395,14 +388,13 @@ const Navbar = ({
                 }} 
                 className="block text-left text-xl font-bold uppercase tracking-tight opacity-70"
               >
-                Economic Outlook 2026
+                Business Outlook 2026
               </button>
             </div>
 
             <button 
               onClick={() => { 
-                if (setSelectedArticleId) setSelectedArticleId(4);
-                setCurrentPage('blog'); 
+                setCurrentPage('impact'); 
                 setIsMobileMenuOpen(false); 
                 window.scrollTo(0, 0); 
               }} 
@@ -750,18 +742,41 @@ const ImpactHome = ({
   );
 };
 
-const SectorMarquee = () => {
-  const sectors = ["FINANCE", "LOGISTICS", "RETAIL", "TECH", "MANUFACTURING", "HOSPITALITY", "REAL ESTATE", "ENERGY"];
+const SectorMarquee = ({ setCurrentPage }: { setCurrentPage: (p: PageType) => void }) => {
+  const items = [
+    { name: "CONSULTANT", icon: <Building2 className="w-6 h-6 md:w-7 md:h-7 text-[#C5A059]" /> },
+    { name: "ENERGY", icon: <Zap className="w-6 h-6 md:w-7 md:h-7 text-[#27AE60]" /> },
+    { name: "MEDIA", icon: <Youtube className="w-6 h-6 md:w-7 md:h-7 text-[#eb2f06]" /> },
+    { name: "TOUR & TRAVEL", icon: <Plane className="w-6 h-6 md:w-7 md:h-7 text-[#C5A059]" /> },
+    { name: "AFFILIATE PROGRAM", icon: <Users className="w-6 h-6 md:w-7 md:h-7 text-[#1E3799]" /> },
+    { name: "B2C", icon: <ShoppingCart className="w-6 h-6 md:w-7 md:h-7 text-neutral-800" /> }
+  ];
+
+  // Repeat the items to make the animation continuous and seamless
+  const marqueeItems = [...items, ...items, ...items, ...items];
+
   return (
-    <div className="w-full py-16 bg-white overflow-hidden relative border-b border-neutral-100">
-      <div className="flex animate-marquee whitespace-nowrap">
-        {[...sectors, ...sectors].map((s, i) => (
-          <span 
+    <div 
+      onClick={() => {
+        setCurrentPage('about-pillars');
+        window.scrollTo(0, 0);
+      }}
+      className="w-full py-12 bg-white overflow-hidden relative border-b border-neutral-100 cursor-pointer hover:bg-neutral-50/50 transition-colors duration-300 group z-20"
+    >
+      <div className="flex animate-marquee whitespace-nowrap items-center">
+        {marqueeItems.map((item, i) => (
+          <div 
             key={i} 
-            className="text-2xl md:text-4xl font-display font-bold text-neutral-200 mx-16 tracking-tighter uppercase inline-block italic"
+            className="flex items-center gap-4 mx-8 md:mx-12 shrink-0 inline-flex"
           >
-            {s} •
-          </span>
+            <div className="p-2.5 bg-neutral-50 rounded-2xl group-hover:scale-110 transition-transform duration-300 border border-neutral-100 flex items-center justify-center">
+              {item.icon}
+            </div>
+            <span className="text-xl md:text-3xl font-display font-black text-neutral-800 tracking-tighter uppercase">
+              {item.name}
+            </span>
+            <span className="text-neutral-300 text-lg md:text-2xl ml-8">•</span>
+          </div>
         ))}
       </div>
     </div>
@@ -1057,7 +1072,7 @@ const Hero = ({ setCurrentPage }: { setCurrentPage: (p: PageType) => void }) => 
                 {t.cta1}
               </button>
               <button 
-                onClick={() => { setCurrentPage('about-vision'); window.scrollTo(0, 0); }}
+                onClick={() => { setCurrentPage('about'); window.scrollTo(0, 0); }}
                 className="px-14 py-5 border border-white/20 text-white backdrop-blur-md font-black uppercase tracking-widest text-[10px] rounded-full hover:bg-white/10 transition-all active:scale-95"
               >
                 {t.cta2}
@@ -1552,7 +1567,7 @@ const Footer = ({
       <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-white/10 to-transparent" />
       
       <div className="w-full px-6 md:px-16 container mx-auto">
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-20 mb-32">
+        <div className="grid md:grid-cols-2 lg:grid-cols-5 gap-12 lg:gap-16 mb-32">
           <div className="lg:col-span-2">
             <div className="flex items-center gap-4 mb-12">
               <div className="w-12 h-12 rounded-xl bg-white flex items-center justify-center overflow-hidden">
@@ -1565,7 +1580,7 @@ const Footer = ({
               </div>
               <span className="font-display font-black text-2xl tracking-tighter uppercase text-white">CGLINK</span>
             </div>
-            <h2 className="text-4xl md:text-7xl font-display font-black tracking-tighter mb-12 uppercase leading-[0.85]">
+            <h2 className="text-4xl md:text-5xl font-display font-black tracking-tighter mb-12 uppercase leading-[0.85]">
               Let's build <br />
               <span className="text-neutral-500 italic font-light">The Future</span> <br />
               Together.
@@ -1584,8 +1599,8 @@ const Footer = ({
             <div className="text-[10px] font-black uppercase tracking-[0.5em] text-neutral-500 mb-10">Navigation</div>
             <ul className="space-y-6 text-[10px] font-black uppercase tracking-[0.3em]">
               <li><button onClick={() => { setCurrentPage('home'); window.scrollTo(0, 0); }} className="hover:text-neutral-400 transition-colors text-left">Home</button></li>
-              <li><button onClick={() => { setCurrentPage('about-vision'); window.scrollTo(0, 0); }} className="hover:text-neutral-400 transition-colors text-left">{t.about}</button></li>
-              <li><button onClick={() => { if (setSelectedArticleId) setSelectedArticleId(4); setCurrentPage('blog'); window.scrollTo(0, 0); }} className="hover:text-neutral-400 transition-colors text-left">{t.impact}</button></li>
+              <li><button onClick={() => { setCurrentPage('about'); window.scrollTo(0, 0); }} className="hover:text-neutral-400 transition-colors text-left">{t.about}</button></li>
+              <li><button onClick={() => { setCurrentPage('impact'); window.scrollTo(0, 0); }} className="hover:text-neutral-400 transition-colors text-left">{t.impact}</button></li>
               <li><button onClick={() => { setCurrentPage('venture-thesis'); window.scrollTo(0, 0); }} className="hover:text-neutral-400 transition-colors text-left">Venture</button></li>
               <li><button onClick={() => { setCurrentPage('contact'); window.scrollTo(0, 0); }} className="hover:text-neutral-400 transition-colors text-left">{t.contact}</button></li>
             </ul>
@@ -1600,6 +1615,22 @@ const Footer = ({
               Indonesia
             </div>
             <div className="text-white font-bold text-xs">businesspartner@cglinkindonesia.com</div>
+          </div>
+
+          <div>
+            <div className="text-[10px] font-black uppercase tracking-[0.5em] text-neutral-500 mb-10">Maps Location</div>
+            <div className="w-full h-[160px] rounded-2xl overflow-hidden border border-white/10 shadow-xl bg-neutral-900 group">
+              <iframe 
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3965.8959933523397!2d106.76991767504987!3d-6.277403093711407!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69f1003ed1e5e7%3A0xa427427426dcf26f!2sCGLINK%20Indonesia!5e0!3m2!1sen!2sid!4v1779726358643!5m2!1sen!2sid" 
+                width="100%" 
+                height="100%" 
+                style={{ border: 0 }} 
+                allowFullScreen 
+                loading="lazy" 
+                referrerPolicy="no-referrer-when-downgrade"
+                className="opacity-75 group-hover:opacity-100 transition-opacity duration-300 pointer-events-auto"
+              />
+            </div>
           </div>
         </div>
 
@@ -2207,7 +2238,7 @@ export default function App() {
             className="flex-1"
           >
             <Hero setCurrentPage={setCurrentPage} />
-            <SectorMarquee />
+            <SectorMarquee setCurrentPage={setCurrentPage} />
             <BusinessStats />
             <ImpactHome setCurrentPage={setCurrentPage} setSelectedArticleId={setSelectedArticleId} />
             <WhyUs />
@@ -2217,12 +2248,10 @@ export default function App() {
           </motion.main>
         )}
         {currentPage === 'about' && (
-          <div className="flex-1 opacity-0 animate-in fade-in duration-500 fill-mode-forwards">
-            <AboutUs key="about" onBack={() => { setCurrentPage('home'); window.scrollTo(0, 0); }} />
-          </div>
+          <AboutUs key="about" onBack={() => { setCurrentPage('home'); window.scrollTo(0, 0); }} />
         )}
         {currentPage === 'about-vision' && (
-          <VisionMissionPage key="about-vision" onBack={() => { setCurrentPage('home'); window.scrollTo(0, 0); }} />
+          <AboutUs key="about-vision" onBack={() => { setCurrentPage('home'); window.scrollTo(0, 0); }} />
         )}
         {currentPage === 'about-pillars' && (
           <PilarBisnisPage key="about-pillars" onBack={() => { setCurrentPage('home'); window.scrollTo(0, 0); }} />

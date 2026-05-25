@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { motion } from "motion/react";
-import { ArrowLeft, Mail, Briefcase, ArrowRight, Clock, BookOpen, Linkedin, Instagram, X, CheckCircle2, Download } from "lucide-react";
+import { ArrowLeft, Mail, Briefcase, ArrowRight, Clock, BookOpen, Linkedin, Instagram, X, CheckCircle2, Download, MessageSquare } from "lucide-react";
+import { downloadOutlookReportPDF } from "./utils/outlookPdfGenerator";
 
 export const CareersPage: React.FC<{ onBack: () => void }> = ({ onBack }) => {
   useEffect(() => {
@@ -173,179 +174,72 @@ export const CareersPage: React.FC<{ onBack: () => void }> = ({ onBack }) => {
 };
 
 export const OutlookReportForm: React.FC = () => {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [submitted, setSubmitted] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [isDownloaded, setIsDownloaded] = useState(false);
-  const [hasSubscribers, setHasSubscribers] = useState(false);
+  const [downloading, setDownloading] = useState(false);
+  const [downloadSuccess, setDownloadSuccess] = useState(false);
 
-  useEffect(() => {
-    const existing = localStorage.getItem("cglink_outlook_subscribers");
-    if (existing) {
-      try {
-        const parsed = JSON.parse(existing);
-        if (Array.isArray(parsed) && parsed.length > 0) {
-          setHasSubscribers(true);
-        }
-      } catch (e) {
-        // ignore
-      }
-    }
-  }, [submitted]);
-
-  const handleDownload = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!name || !email) return;
-    setLoading(true);
+  const startDownload = () => {
+    setDownloading(true);
     setTimeout(() => {
       try {
-        const existing = localStorage.getItem("cglink_outlook_subscribers");
-        const list = existing ? JSON.parse(existing) : [];
-        const newEntry = {
-          name,
-          email,
-          date: new Date().toISOString(),
-        };
-        if (Array.isArray(list)) {
-          if (!list.some((entry: any) => entry.email.trim().toLowerCase() === email.trim().toLowerCase())) {
-            list.push(newEntry);
-          }
-          localStorage.setItem("cglink_outlook_subscribers", JSON.stringify(list));
-        }
+        downloadOutlookReportPDF();
+        setDownloadSuccess(true);
       } catch (err) {
-        console.error("Storage error:", err);
+        console.error("Failed to generate PDF:", err);
       }
-      setLoading(false);
-      setSubmitted(true);
-    }, 1200);
-  };
-
-  const handleExportCSV = () => {
-    const existing = localStorage.getItem("cglink_outlook_subscribers");
-    if (!existing) {
-      return;
-    }
-    try {
-      const list = JSON.parse(existing);
-      if (!Array.isArray(list) || list.length === 0) {
-        return;
-      }
-      const headers = ["Nama", "Email", "Tanggal Daftar"];
-      const rows = list.map((entry: any) => [
-        `"${(entry.name || '').replace(/"/g, '""')}"`,
-        `"${(entry.email || '').replace(/"/g, '""')}"`,
-        `"${entry.date ? new Date(entry.date).toLocaleString() : ''}"`
-      ]);
-
-      const csvContent = "data:text/csv;charset=utf-8,\uFEFF" 
-        + [headers.join(","), ...rows.map((r: any) => r.join(","))].join("\n");
-      
-      const encodedUri = encodeURI(csvContent);
-      const link = document.createElement("a");
-      link.setAttribute("href", encodedUri);
-      link.setAttribute("download", "cglink_subscribers_outlook_2026.csv");
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-    } catch (err) {
-      console.error("CSV Export error:", err);
-    }
+      setDownloading(false);
+    }, 1000);
   };
 
   return (
-    <div className="bg-neutral-50 border border-neutral-100 p-8 md:p-12 rounded-[3.5rem] shadow-xl my-12 text-left max-w-2xl mx-auto">
-      {!submitted ? (
-        <>
-          <span className="text-[10px] font-black text-neutral-400 font-mono tracking-widest uppercase mb-2 block">Premium Access</span>
-          <h3 className="text-2xl font-display font-black text-neutral-900 mb-2 uppercase tracking-tight">Unduh Laporan Lengkap (PDF)</h3>
-          <p className="text-sm text-neutral-500 mb-8 font-medium">Laporan Membaca Ekonomi Indonesia 2026 tersedia gratis dalam format PDF. Silakan isi form di bawah untuk mengunduh laporan.</p>
-          
-          <form onSubmit={handleDownload} className="space-y-4">
-            <div className="space-y-2">
-              <label className="text-[10px] font-black uppercase tracking-widest text-neutral-400 font-mono">Nama Lengkap</label>
-              <input 
-                type="text" 
-                required 
-                value={name} 
-                onChange={(e) => setName(e.target.value)}
-                className="w-full bg-white border border-neutral-200 rounded-2xl px-6 py-4 text-neutral-900 focus:outline-none focus:border-black transition-colors shadow-sm font-semibold" 
-                placeholder="John Doe" 
-              />
-            </div>
-            <div className="space-y-2">
-              <label className="text-[10px] font-black uppercase tracking-widest text-neutral-400 font-mono">Email Utama</label>
-              <input 
-                type="email" 
-                required 
-                value={email} 
-                onChange={(e) => setEmail(e.target.value)}
-                className="w-full bg-white border border-neutral-200 rounded-2xl px-6 py-4 text-neutral-900 focus:outline-none focus:border-black transition-colors shadow-sm font-semibold" 
-                placeholder="john@company.com" 
-              />
-            </div>
+    <div className="bg-neutral-50 border border-neutral-100 p-8 md:p-12 rounded-[3.5rem] shadow-xl my-12 text-left max-w-2xl mx-auto relative overflow-hidden">
+      <div className="absolute top-0 right-0 w-32 h-32 bg-[#C5A059]/5 rounded-full blur-2xl pointer-events-none" />
+      
+      <span className="text-[10px] font-black text-[#C5A059] font-mono tracking-widest uppercase mb-2 block">Direct Premium Access</span>
+      <h3 className="text-2xl md:text-3xl font-display font-black text-neutral-900 mb-3 uppercase tracking-tight">Unduh Laporan Outlook & Konsultasi</h3>
+      <p className="text-sm text-neutral-500 mb-8 font-medium leading-relaxed">
+        Laporan Premium <strong>"Membaca Ekonomi & Outlook Bisnis Indonesia 2026"</strong> tersedia untuk langsung diunduh tanpa perlu registrasi form. Dapatkan insight hukum korporasi, standarisasi operasional, dan peta jalan logistik energi secara gratis.
+      </p>
 
-            <button 
-              type="submit" 
-              disabled={loading}
-              className="w-full py-5 bg-neutral-900 hover:bg-neutral-800 text-white rounded-2xl font-black uppercase tracking-widest text-xs transition-all hover:scale-[1.02] active:scale-[0.98] mt-6 disabled:opacity-75 flex items-center justify-center gap-2 shadow-xl"
-            >
-              {loading ? (
-                <>
-                  <div className="w-4 h-4 border-2 border-white/20 border-t-white rounded-full animate-spin" />
-                  Memproses Unduhan...
-                </>
-              ) : (
-                "Unduh Laporan Gratis"
-              )}
-            </button>
-          </form>
-
-          {hasSubscribers && (
-            <div className="mt-8 pt-6 border-t border-neutral-200/60 flex justify-between items-center bg-white p-4 rounded-xl shadow-xs">
-              <span className="text-[10px] font-bold uppercase tracking-wider text-neutral-400 font-mono">Admin Database Subscriptions:</span>
-              <button 
-                onClick={handleExportCSV}
-                className="text-[9px] font-black uppercase tracking-widest text-neutral-500 hover:text-black hover:underline transition-colors font-mono"
-              >
-                📥 Export CSV List
-              </button>
-            </div>
+      <div className="grid sm:grid-cols-2 gap-4">
+        {/* Button 1: Download PDF */}
+        <button
+          onClick={startDownload}
+          disabled={downloading}
+          className="w-full py-5 px-6 bg-neutral-900 hover:bg-neutral-800 disabled:bg-neutral-200 text-white disabled:text-neutral-500 rounded-2xl font-black uppercase tracking-widest text-[10px] transition-all hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center gap-2.5 shadow-xl"
+        >
+          {downloading ? (
+            <>
+              <div className="w-4 h-4 border-2 border-white/20 border-t-white rounded-full animate-spin" />
+              Menyiapkan PDF...
+            </>
+          ) : (
+            <>
+              <Download className="w-4 h-4" />
+              Unduh PDF Gratis
+            </>
           )}
-        </>
-      ) : (
-        <div className="text-center py-6">
-          <div className="w-16 h-16 bg-emerald-500/10 border border-emerald-500/20 text-emerald-600 rounded-full flex items-center justify-center mx-auto mb-6">
-            <CheckCircle2 className="w-8 h-8" />
-          </div>
-          <h3 className="text-2xl font-display font-black text-neutral-900 mb-2 uppercase tracking-tight">Terima Kasih, {name}!</h3>
-          <p className="text-sm text-neutral-500 mb-8 font-semibold">Laporan premium <strong>"Membaca Ekonomi Indonesia 2026"</strong> siap diunduh. File PDF juga telah dikirim langsung ke <span className="text-neutral-900 underline">{email}</span>.</p>
-          
-          <button
-            onClick={() => {
-              setIsDownloaded(true);
-            }}
-            className="inline-flex items-center gap-2 px-10 py-5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-2xl font-black uppercase tracking-widest text-xs transition-all hover:scale-105"
-          >
-            <Download className="w-4 h-4" />
-            Unduh PDF Sekarang
-          </button>
+        </button>
 
-          {isDownloaded && (
-            <p className="text-xs text-emerald-600 font-bold tracking-wide mt-4 uppercase">
-              ✓ Laporan Terunduh Secara Simultan!
-            </p>
-          )}
+        {/* Button 2: Consultation WhatsApp */}
+        <a
+          href="https://wa.me/62895428355681?text=Halo%20CGLINK%20Indonesia%20Advisory%2C%20saya%20tertarik%20untuk%20berkonsultasi%20mengenai%20Economic%20%26%20Business%20Outlook%202026."
+          target="_blank"
+          rel="noopener noreferrer"
+          className="w-full py-5 px-6 bg-[#C5A059] hover:bg-[#b08e48] text-white rounded-2xl font-black uppercase tracking-widest text-[10px] transition-all hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center gap-2.5 shadow-xl text-center"
+        >
+          <MessageSquare className="w-4 h-4" />
+          Konsultasi Bisnis
+        </a>
+      </div>
 
-          <div className="mt-8 pt-6 border-t border-neutral-200/60 flex justify-center">
-            <button 
-              onClick={handleExportCSV}
-              className="text-[9px] font-black uppercase tracking-widest text-neutral-500 hover:text-black hover:underline transition-colors font-mono"
-            >
-              📥 Export CSV List
-            </button>
-          </div>
-        </div>
+      {downloadSuccess && (
+        <motion.p 
+          initial={{ opacity: 0, y: 5 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="text-xs text-emerald-600 font-bold tracking-wide mt-5 text-center uppercase"
+        >
+          ✓ Laporan PDF CGLINK_Business_Outlook_2026 Berhasil Diunduh!
+        </motion.p>
       )}
     </div>
   );
