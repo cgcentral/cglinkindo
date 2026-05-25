@@ -178,15 +178,79 @@ export const OutlookReportForm: React.FC = () => {
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
   const [isDownloaded, setIsDownloaded] = useState(false);
+  const [hasSubscribers, setHasSubscribers] = useState(false);
+
+  useEffect(() => {
+    const existing = localStorage.getItem("cglink_outlook_subscribers");
+    if (existing) {
+      try {
+        const parsed = JSON.parse(existing);
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          setHasSubscribers(true);
+        }
+      } catch (e) {
+        // ignore
+      }
+    }
+  }, [submitted]);
 
   const handleDownload = (e: React.FormEvent) => {
     e.preventDefault();
     if (!name || !email) return;
     setLoading(true);
     setTimeout(() => {
+      try {
+        const existing = localStorage.getItem("cglink_outlook_subscribers");
+        const list = existing ? JSON.parse(existing) : [];
+        const newEntry = {
+          name,
+          email,
+          date: new Date().toISOString(),
+        };
+        if (Array.isArray(list)) {
+          if (!list.some((entry: any) => entry.email.trim().toLowerCase() === email.trim().toLowerCase())) {
+            list.push(newEntry);
+          }
+          localStorage.setItem("cglink_outlook_subscribers", JSON.stringify(list));
+        }
+      } catch (err) {
+        console.error("Storage error:", err);
+      }
       setLoading(false);
       setSubmitted(true);
     }, 1200);
+  };
+
+  const handleExportCSV = () => {
+    const existing = localStorage.getItem("cglink_outlook_subscribers");
+    if (!existing) {
+      return;
+    }
+    try {
+      const list = JSON.parse(existing);
+      if (!Array.isArray(list) || list.length === 0) {
+        return;
+      }
+      const headers = ["Nama", "Email", "Tanggal Daftar"];
+      const rows = list.map((entry: any) => [
+        `"${(entry.name || '').replace(/"/g, '""')}"`,
+        `"${(entry.email || '').replace(/"/g, '""')}"`,
+        `"${entry.date ? new Date(entry.date).toLocaleString() : ''}"`
+      ]);
+
+      const csvContent = "data:text/csv;charset=utf-8,\uFEFF" 
+        + [headers.join(","), ...rows.map((r: any) => r.join(","))].join("\n");
+      
+      const encodedUri = encodeURI(csvContent);
+      const link = document.createElement("a");
+      link.setAttribute("href", encodedUri);
+      link.setAttribute("download", "cglink_subscribers_outlook_2026.csv");
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    } catch (err) {
+      console.error("CSV Export error:", err);
+    }
   };
 
   return (
@@ -236,6 +300,18 @@ export const OutlookReportForm: React.FC = () => {
               )}
             </button>
           </form>
+
+          {hasSubscribers && (
+            <div className="mt-8 pt-6 border-t border-neutral-200/60 flex justify-between items-center bg-white p-4 rounded-xl shadow-xs">
+              <span className="text-[10px] font-bold uppercase tracking-wider text-neutral-400 font-mono">Admin Database Subscriptions:</span>
+              <button 
+                onClick={handleExportCSV}
+                className="text-[9px] font-black uppercase tracking-widest text-neutral-500 hover:text-black hover:underline transition-colors font-mono"
+              >
+                📥 Export CSV List
+              </button>
+            </div>
+          )}
         </>
       ) : (
         <div className="text-center py-6">
@@ -260,6 +336,15 @@ export const OutlookReportForm: React.FC = () => {
               ✓ Laporan Terunduh Secara Simultan!
             </p>
           )}
+
+          <div className="mt-8 pt-6 border-t border-neutral-200/60 flex justify-center">
+            <button 
+              onClick={handleExportCSV}
+              className="text-[9px] font-black uppercase tracking-widest text-neutral-500 hover:text-black hover:underline transition-colors font-mono"
+            >
+              📥 Export CSV List
+            </button>
+          </div>
         </div>
       )}
     </div>
@@ -285,7 +370,7 @@ export const insightsData: InsightArticle[] = [
     date: "Mei 2026",
     category: "Economic Outlook",
     readTime: "7 min read",
-    image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=2426&auto=format&fit=crop",
+    image: "https://cglinkindonesia.com/wp-content/uploads/2026/05/WhatsApp-Image-2026-05-25-at-15.19.32.jpeg",
     content: (
       <div className="space-y-6 text-neutral-600 text-lg leading-relaxed">
         <p className="text-xl font-medium text-neutral-800 leading-normal mb-8 text-justify">
