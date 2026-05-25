@@ -646,7 +646,7 @@ export const BlogPage: React.FC<{ onBack: () => void; initialArticleId?: number 
               <img 
                 src={selectedArticle.image} 
                 alt={selectedArticle.title} 
-                className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-1000"
+                className={`w-full h-full transition-all duration-500 ${selectedArticle.id === 4 ? "object-fill" : "object-cover grayscale hover:grayscale-0"}`}
                 referrerPolicy="no-referrer"
               />
             </div>
@@ -765,7 +765,7 @@ export const BlogPage: React.FC<{ onBack: () => void; initialArticleId?: number 
                 <img 
                   src={article.image} 
                   alt={article.title} 
-                  className="w-full h-full object-cover grayscale opacity-90 transition-all duration-700 group-hover:grayscale-0 group-hover:scale-105"
+                  className={`w-full h-full transition-all duration-500 hover:scale-105 ${article.id === 4 ? "object-fill opacity-100" : "object-cover grayscale opacity-90 group-hover:grayscale-0"}`}
                   referrerPolicy="no-referrer"
                 />
                 <div className="absolute top-6 left-6">

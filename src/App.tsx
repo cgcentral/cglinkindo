@@ -58,14 +58,14 @@ const translations = {
   nav: {
     capabilities: "BUSINESS UNITS",
     about: "ABOUT US",
-    investor: "IMPACT",
+    investor: "BUSINESS OUTLOOK",
     contact: "CONTACT US",
     legal: "LEGAL • LOGICAL • HALAL",
     corporate: "CORPORATE",
     whoWeAre: "WHO WE ARE",
     visionMission: "VISION & MISSION",
     businessPillars: "BUSINESS UNITS",
-    impact: "IMPACT",
+    impact: "BUSINESS OUTLOOK",
     venture: "CGLINK VENTURE",
     consulting: "CONSULTANT CGLINK",
     career: "CAREER",
@@ -297,7 +297,17 @@ const Navbar = ({
             </AnimatePresence>
           </div>
 
-          <button id="nav-impact" onClick={() => { setCurrentPage('impact'); window.scrollTo(0, 0); }} className={`transition-colors ${scrolled ? 'hover:text-black' : (currentPage === 'home' ? 'hover:text-white' : 'hover:text-black')}`}>{t.impact}</button>
+          <button 
+            id="nav-impact" 
+            onClick={() => { 
+              if (setSelectedArticleId) setSelectedArticleId(4);
+              setCurrentPage('blog'); 
+              window.scrollTo(0, 0); 
+            }} 
+            className={`transition-colors ${scrolled ? 'hover:text-black' : (currentPage === 'home' ? 'hover:text-white' : 'hover:text-black')}`}
+          >
+            {t.impact}
+          </button>
           
           {/* Contact Button */}
           <div className="flex items-center gap-4">
@@ -340,6 +350,16 @@ const Navbar = ({
 
             <div className="space-y-4 pt-4 border-t border-neutral-50">
               <div className="text-[10px] font-black text-neutral-400 tracking-[0.3em] uppercase">{t.consulting}</div>
+              <button 
+                onClick={() => { 
+                  setCurrentPage('about-vision'); 
+                  setIsMobileMenuOpen(false); 
+                  window.scrollTo(0, 0); 
+                }} 
+                className="block text-left text-xl font-bold uppercase tracking-tight opacity-70"
+              >
+                Why Us?
+              </button>
               {servicesData.map(s => (
                 <button key={s.id} id={`mobile-nav-capability-${s.id}`} onClick={() => { setCurrentPage(('service-' + s.id) as PageType); setIsMobileMenuOpen(false); window.scrollTo(0, 0); }} className="block text-left text-xl font-bold uppercase tracking-tight opacity-70">{s.title}</button>
               ))}
@@ -364,7 +384,7 @@ const Navbar = ({
                 }} 
                 className="block text-left text-xl font-bold uppercase tracking-tight opacity-70"
               >
-                All Insights
+                All Insights & Blog
               </button>
               <button 
                 onClick={() => { 
@@ -379,7 +399,17 @@ const Navbar = ({
               </button>
             </div>
 
-            <button onClick={() => { setCurrentPage('impact'); setIsMobileMenuOpen(false); window.scrollTo(0, 0); }} className="block text-left uppercase">{t.impact}</button>
+            <button 
+              onClick={() => { 
+                if (setSelectedArticleId) setSelectedArticleId(4);
+                setCurrentPage('blog'); 
+                setIsMobileMenuOpen(false); 
+                window.scrollTo(0, 0); 
+              }} 
+              className="block text-left uppercase"
+            >
+              {t.impact}
+            </button>
             
             <button 
               id="mobile-nav-contact"
@@ -633,7 +663,13 @@ const LatestInsights = ({ setCurrentPage }: { setCurrentPage: (p: PageType) => v
   );
 };
 
-const ImpactHome = ({ setCurrentPage }: { setCurrentPage: (p: PageType) => void }) => {
+const ImpactHome = ({ 
+  setCurrentPage, 
+  setSelectedArticleId 
+}: { 
+  setCurrentPage: (p: PageType) => void;
+  setSelectedArticleId?: (id: number | undefined) => void;
+}) => {
   return (
     <section className="py-32 relative z-10 bg-neutral-50 text-black overflow-hidden group">
       <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-neutral-100 rounded-full blur-[120px] -mr-32 -mt-32 transition-transform duration-1000 group-hover:scale-110" />
@@ -641,38 +677,39 @@ const ImpactHome = ({ setCurrentPage }: { setCurrentPage: (p: PageType) => void 
         <div className="grid lg:grid-cols-2 gap-16 items-center">
           <div>
             <div className="inline-flex items-center gap-2 mb-6 px-4 py-1.5 bg-neutral-900 text-white rounded-full text-[9px] font-black uppercase tracking-widest animate-pulse">
-              <span>★</span> New Report Released
+              <span>★</span> Free Premium Report
             </div>
-            <h2 className="text-4xl md:text-7xl font-display font-black tracking-tighter mb-8 leading-none">
-              OUR <br />
-              IMPACT
+            <h2 className="text-4xl md:text-6xl font-display font-black tracking-tighter mb-8 uppercase leading-tight">
+              BUSINESS <br />
+              OUTLOOK 2026
             </h2>
-            <p className="text-xl text-neutral-600 leading-relaxed max-w-lg mb-4">
-              Aligned with our core value to "Contribute," CGLINK is dedicated to creating a positive, sustainable impact for our clients, the economy, and the wider community.
+            <p className="text-xl text-neutral-600 leading-relaxed max-w-lg mb-6">
+              Ada gap menarik terjadi di Indonesia saat ini. Di satu sisi, indikator makro tumbuh solid hingga 5,16%. Di sisi lain, pengusaha melaporkan tantangan konversi riil dan penurunan daya beli. Unduh laporan premium kami untuk membedah fakta riil ini.
             </p>
             <div className="mb-10 p-6 bg-white border border-neutral-100 rounded-2xl max-w-lg text-left shadow-sm">
               <span className="text-[9px] font-black uppercase tracking-widest text-neutral-400">Featured Report</span>
-              <h4 className="text-lg font-bold font-display text-neutral-900 mt-1 mb-2">YASCI Qurban 2025 Beneficiary Report</h4>
-              <p className="text-sm text-neutral-500 font-medium">Reaching 7,070 recipients across Indonesia with verified halal and sharia governance.</p>
+              <h4 className="text-lg font-bold font-display text-neutral-900 mt-1 mb-2">Membaca Ekonomi Indonesia 2026</h4>
+              <p className="text-sm text-neutral-500 font-medium">Berdasarkan data resmi BPS, BI, Gaikindo, dan Kantar Worldpanel. Kupas tuntas 9 dimensi paling vital bagi pengusaha.</p>
             </div>
             
             <div className="flex flex-col sm:flex-row gap-4">
               <button 
-                id="impact-explore"
+                id="outlook-download"
                 onClick={() => { 
-                  setCurrentPage('impact'); 
+                  if (setSelectedArticleId) setSelectedArticleId(4);
+                  setCurrentPage('blog'); 
                   window.scrollTo(0, 0); 
                 }}
-                className="px-8 py-4 bg-black text-white rounded-full font-bold hover:bg-neutral-800 transition-all flex items-center justify-center gap-2 cursor-pointer"
+                className="px-8 py-4 bg-black text-white hover:bg-neutral-800 rounded-2xl font-black uppercase tracking-widest text-[10px] transition-all flex items-center justify-center gap-2 cursor-pointer shadow-xl hover:scale-[1.02] active:scale-[0.98]"
               >
-                Read Report & Impact Actions <ArrowRight className="w-4 h-4" />
+                Unduh Laporan Gratis <ArrowRight className="w-4 h-4" />
               </button>
               <button 
-                id="impact-contact"
+                id="outlook-contact"
                 onClick={() => { setCurrentPage('contact'); window.scrollTo(0, 0); }}
-                className="px-8 py-4 border border-black/10 rounded-full font-bold hover:bg-black/5 transition-all cursor-pointer"
+                className="px-8 py-4 border border-black/10 hover:bg-black/5 rounded-2xl font-black uppercase tracking-widest text-[10px] transition-all cursor-pointer hover:scale-[1.02] active:scale-[0.98]"
               >
-                Collaborate with Us
+                Konsultasi Strategis
               </button>
             </div>
           </div>
@@ -683,33 +720,37 @@ const ImpactHome = ({ setCurrentPage }: { setCurrentPage: (p: PageType) => void 
               viewport={{ once: true }}
               className="aspect-square rounded-[3rem] overflow-hidden shadow-2xl cursor-pointer"
               onClick={() => { 
-                setCurrentPage('impact'); 
+                if (setSelectedArticleId) setSelectedArticleId(4);
+                setCurrentPage('blog'); 
                 window.scrollTo(0, 0); 
               }}
             >
               <img 
-                src="https://cglinkindonesia.com/wp-content/uploads/2026/05/WhatsApp-Image-2025-05-08-at-06.34.06-scaled.jpeg" 
-                alt="YASCI Qurban 2025 Beneficiary Report Thumbnail" 
-                className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-1000"
+                src="https://cglinkindonesia.com/wp-content/uploads/2026/05/WhatsApp-Image-2026-05-25-at-15.19.32.jpeg" 
+                alt="Economic & Business Outlook 2026 Report cover thumbnail" 
+                className="w-full h-full object-fill transition-all duration-500"
                 referrerPolicy="no-referrer"
               />
             </motion.div>
             <div 
               onClick={() => { 
-                setCurrentPage('impact'); 
+                if (setSelectedArticleId) setSelectedArticleId(4);
+                setCurrentPage('blog'); 
                 window.scrollTo(0, 0); 
               }}
               className="absolute -bottom-10 -left-10 glass-panel bg-white/90 backdrop-blur-2xl p-8 rounded-3xl border border-white/20 shadow-xl hidden md:block cursor-pointer hover:scale-105 transition-transform"
             >
-              <div className="text-3xl font-display font-bold text-black mb-1 leading-none tracking-tighter">YASCI QURBAN 2025</div>
-              <div className="text-sm text-neutral-500 uppercase tracking-widest font-black font-mono">7,070 Beneficiaries Across Indonesia</div>
+              <div className="text-3xl font-display font-bold text-black mb-1 leading-none tracking-tighter">ECONOMIC OUTLOOK 2026</div>
+              <div className="text-sm text-neutral-500 uppercase tracking-widest font-black font-mono">Pertumbuhan 5,16% — Menembus Realitas Pasar</div>
             </div>
           </div>
         </div>
       </div>
     </section>
   );
-};const SectorMarquee = () => {
+};
+
+const SectorMarquee = () => {
   const sectors = ["FINANCE", "LOGISTICS", "RETAIL", "TECH", "MANUFACTURING", "HOSPITALITY", "REAL ESTATE", "ENERGY"];
   return (
     <div className="w-full py-16 bg-white overflow-hidden relative border-b border-neutral-100">
@@ -1498,7 +1539,13 @@ const BusinessCheckup = () => {
   );
 };
 
-const Footer = ({ setCurrentPage }: { setCurrentPage: (p: PageType) => void }) => {
+const Footer = ({ 
+  setCurrentPage, 
+  setSelectedArticleId 
+}: { 
+  setCurrentPage: (p: PageType) => void; 
+  setSelectedArticleId?: (id: number | undefined) => void;
+}) => {
   const t = translations.nav;
   return (
     <footer className="py-32 bg-zinc-950 text-white selection:bg-white selection:text-black relative overflow-hidden">
@@ -1538,7 +1585,7 @@ const Footer = ({ setCurrentPage }: { setCurrentPage: (p: PageType) => void }) =
             <ul className="space-y-6 text-[10px] font-black uppercase tracking-[0.3em]">
               <li><button onClick={() => { setCurrentPage('home'); window.scrollTo(0, 0); }} className="hover:text-neutral-400 transition-colors text-left">Home</button></li>
               <li><button onClick={() => { setCurrentPage('about-vision'); window.scrollTo(0, 0); }} className="hover:text-neutral-400 transition-colors text-left">{t.about}</button></li>
-              <li><button onClick={() => { setCurrentPage('impact'); window.scrollTo(0, 0); }} className="hover:text-neutral-400 transition-colors text-left">{t.impact}</button></li>
+              <li><button onClick={() => { if (setSelectedArticleId) setSelectedArticleId(4); setCurrentPage('blog'); window.scrollTo(0, 0); }} className="hover:text-neutral-400 transition-colors text-left">{t.impact}</button></li>
               <li><button onClick={() => { setCurrentPage('venture-thesis'); window.scrollTo(0, 0); }} className="hover:text-neutral-400 transition-colors text-left">Venture</button></li>
               <li><button onClick={() => { setCurrentPage('contact'); window.scrollTo(0, 0); }} className="hover:text-neutral-400 transition-colors text-left">{t.contact}</button></li>
             </ul>
@@ -2162,7 +2209,7 @@ export default function App() {
             <Hero setCurrentPage={setCurrentPage} />
             <SectorMarquee />
             <BusinessStats />
-            <ImpactHome setCurrentPage={setCurrentPage} />
+            <ImpactHome setCurrentPage={setCurrentPage} setSelectedArticleId={setSelectedArticleId} />
             <WhyUs />
             <Testimonials />
             <LatestInsights setCurrentPage={setCurrentPage} />
@@ -2227,7 +2274,7 @@ export default function App() {
       </AnimatePresence>
       
       <FloatingActions />
-      <Footer setCurrentPage={setCurrentPage} />
+      <Footer setCurrentPage={setCurrentPage} setSelectedArticleId={setSelectedArticleId} />
     </div>
   );
 }
