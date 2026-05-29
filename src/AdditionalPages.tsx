@@ -558,28 +558,14 @@ export const OutlookReportForm: React.FC = () => {
     
     const targetWithParams = `${targetWebhook}?${queryParams}`;
     
-    // Send via GET
+    // Send via GET (only once per submission to prevent duplicates)
     fetch(targetWithParams, {
       method: "GET",
       mode: "no-cors"
     }).then(() => {
-      console.log("Real-time GET sheet sync triggered.");
+      console.log("Real-time GET sheet sync triggered successfully.");
     }).catch(err => {
       console.error("GET sheet sync error:", err);
-    });
-
-    // Send via POST as backup
-    fetch(targetWebhook, {
-      method: "POST",
-      mode: "no-cors",
-      headers: {
-        "Content-Type": "text/plain;charset=utf-8"
-      },
-      body: JSON.stringify(newLead)
-    }).then(() => {
-      console.log("Real-time POST sheet sync triggered.");
-    }).catch(err => {
-      console.error("POST sheet sync error:", err);
     });
   };
 

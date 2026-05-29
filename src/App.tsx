@@ -2229,6 +2229,21 @@ export default function App() {
   const [currentPage, setCurrentPage] = useState<PageType>('home');
   const [selectedArticleId, setSelectedArticleId] = useState<number | undefined>(undefined);
 
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const pageParam = params.get('page');
+    const outlookParam = params.get('outlook');
+    if (pageParam === 'outlook' || pageParam === 'business-outlook' || outlookParam === 'true') {
+      setCurrentPage('blog');
+      setSelectedArticleId(4); // ID for the Economic & Business Outlook 2026 article
+      
+      // Delay slightly to ensure elements are rendered before scrolling
+      setTimeout(() => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }, 100);
+    }
+  }, []);
+
   return (
     <div className="min-h-screen flex flex-col bg-white text-neutral-900 selection:bg-neutral-200 font-sans">
       <Navbar currentPage={currentPage} setCurrentPage={setCurrentPage} setSelectedArticleId={setSelectedArticleId} />
