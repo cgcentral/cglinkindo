@@ -239,21 +239,61 @@ const LeadsDatabaseAdmin: React.FC<{
     }
   };
 
-  const appsScriptCode = `function doPost(e) {
+  const appsScriptCode = `function doGet(e) {
+  return handleRequest(e);
+}
+
+function doPost(e) {
+  return handleRequest(e);
+}
+
+function handleRequest(e) {
   try {
-    var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
-    var data = JSON.parse(e.postData.contents);
+    var ss = SpreadsheetApp.getActiveSpreadsheet();
+    if (!ss) {
+      return ContentService.createTextOutput(JSON.stringify({ 
+        status: "error", 
+        message: "Spreadsheet tidak terdeteksi. Hubungkan via Ekstensi > Apps Script." 
+      })).setMimeType(ContentService.MimeType.JSON);
+    }
+    var sheet = ss.getActiveSheet();
     
-    // Menambahkan baris baru berisi: Tanggal, Nama, Email, WhatsApp
-    sheet.appendRow([
-      new Date(),
-      data.name || "",
-      data.email || "",
-      data.whatsapp || ""
-    ]);
+    var name = "";
+    var email = "";
+    var whatsapp = "";
     
-    return ContentService.createTextOutput(JSON.stringify({ status: "success" }))
-      .setMimeType(ContentService.MimeType.JSON);
+    // Metode A: Dari parameter URL/Form (Sangat andal untuk GET/POST)
+    if (e && e.parameter && e.parameter.name) {
+      name = e.parameter.name;
+      email = e.parameter.email;
+      whatsapp = e.parameter.whatsapp;
+    }
+    
+    // Metode B: Dari JSON payload mentah jika ada
+    if (!name && e && e.postData && e.postData.contents) {
+      try {
+        var data = JSON.parse(e.postData.contents);
+        name = data.name || "";
+        email = data.email || "";
+        whatsapp = data.whatsapp || "";
+      } catch (err) {
+        // Silently skip JSON parse if it's form-encoded
+      }
+    }
+    
+    if (name || email || whatsapp) {
+      sheet.appendRow([
+        new Date(),
+        name || "",
+        email || "",
+        whatsapp || ""
+      ]);
+      return ContentService.createTextOutput(JSON.stringify({ status: "success" }))
+        .setMimeType(ContentService.MimeType.JSON);
+    } else {
+      return ContentService.createTextOutput(JSON.stringify({ status: "ignored", message: "Data kosong" }))
+        .setMimeType(ContentService.MimeType.JSON);
+    }
   } catch (error) {
     return ContentService.createTextOutput(JSON.stringify({ status: "error", message: error.toString() }))
       .setMimeType(ContentService.MimeType.JSON);
@@ -430,7 +470,7 @@ export const OutlookReportForm: React.FC = () => {
   const [downloadSuccess, setDownloadSuccess] = useState(false);
   const [showAdminDb, setShowAdminDb] = useState(false);
   const [submissionsList, setSubmissionsList] = useState<any[]>([]);
-  const [webhookUrl, setWebhookUrl] = useState("https://script.google.com/macros/s/AKfycbxmbrAceWcSyvbeRNshMHQ2DN_GyNe_EoYbKjYRvPIPvxvdx_a-KsaP5C7CGen8zCAQ/exec");
+  const [webhookUrl, setWebhookUrl] = useState("https://script.google.com/macros/s/AKfycbwCu1ja_TraCJ65t1dBQqC9TwCRFTTSDxEZt9EHR_oGr8EMujFd_MDjejSNpL76dHNZ/exec");
   const [testSent, setTestSent] = useState(false);
   const [showCopyCode, setShowCopyCode] = useState(false);
 
@@ -463,11 +503,11 @@ export const OutlookReportForm: React.FC = () => {
 
     // Load spreadsheet webhook URL
     const savedWebhook = localStorage.getItem("outlook_webhook_url");
-    if (savedWebhook && !savedWebhook.includes("AKfycbyN3UT-gJN6Jk_uP1qhtsc_0H3WZUu3OlTDABeD5enRf3ey7OrRB5IVAFnGEq1bgyLE")) {
+    if (savedWebhook && savedWebhook.includes("AKfycbwCu1ja_TraCJ65t1dBQqC9TwCRFTTSDxEZt9EHR_oGr8EMujFd_MDjejSNpL76dHNZ")) {
       setWebhookUrl(savedWebhook);
     } else {
       localStorage.removeItem("outlook_webhook_url");
-      setWebhookUrl("https://script.google.com/macros/s/AKfycbxmbrAceWcSyvbeRNshMHQ2DN_GyNe_EoYbKjYRvPIPvxvdx_a-KsaP5C7CGen8zCAQ/exec");
+      setWebhookUrl("https://script.google.com/macros/s/AKfycbwCu1ja_TraCJ65t1dBQqC9TwCRFTTSDxEZt9EHR_oGr8EMujFd_MDjejSNpL76dHNZ/exec");
     }
   }, []);
 
@@ -507,19 +547,39 @@ export const OutlookReportForm: React.FC = () => {
     setIsSubmitted(true);
 
     // Automatically trigger Google Spreadsheet Webhook / App Script sync
-    const targetWebhook = "https://script.google.com/macros/s/AKfycbxmbrAceWcSyvbeRNshMHQ2DN_GyNe_EoYbKjYRvPIPvxvdx_a-KsaP5C7CGen8zCAQ/exec";
+    const targetWebhook = "https://script.google.com/macros/s/AKfycbwCu1ja_TraCJ65t1dBQqC9TwCRFTTSDxEZt9EHR_oGr8EMujFd_MDjejSNpL76dHNZ/exec";
     
+    // Format query parameters for GET request (Most reliable, never triggers CORS pre-flight)
+    const queryParams = new URLSearchParams({
+      name: newLead.name,
+      email: newLead.email,
+      whatsapp: newLead.whatsapp
+    }).toString();
+    
+    const targetWithParams = `${targetWebhook}?${queryParams}`;
+    
+    // Send via GET
+    fetch(targetWithParams, {
+      method: "GET",
+      mode: "no-cors"
+    }).then(() => {
+      console.log("Real-time GET sheet sync triggered.");
+    }).catch(err => {
+      console.error("GET sheet sync error:", err);
+    });
+
+    // Send via POST as backup
     fetch(targetWebhook, {
       method: "POST",
-      mode: "no-cors", // Bypasses browser CORS preflight blocks for redirecting Google Apps Scripts
+      mode: "no-cors",
       headers: {
-        "Content-Type": "text/plain;charset=utf-8" // Plain text is standard for no-cors posts and contains raw JSON body beautifully
+        "Content-Type": "text/plain;charset=utf-8"
       },
       body: JSON.stringify(newLead)
     }).then(() => {
-      console.log("Real-time spreadsheet sync triggered successfully.");
+      console.log("Real-time POST sheet sync triggered.");
     }).catch(err => {
-      console.error("Failed to sync automatically to Google Spreadsheet:", err);
+      console.error("POST sheet sync error:", err);
     });
   };
 
