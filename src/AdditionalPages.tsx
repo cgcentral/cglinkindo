@@ -430,7 +430,7 @@ export const OutlookReportForm: React.FC = () => {
   const [downloadSuccess, setDownloadSuccess] = useState(false);
   const [showAdminDb, setShowAdminDb] = useState(false);
   const [submissionsList, setSubmissionsList] = useState<any[]>([]);
-  const [webhookUrl, setWebhookUrl] = useState("https://script.google.com/macros/s/AKfycbyN3UT-gJN6Jk_uP1qhtsc_0H3WZUu3OlTDABeD5enRf3ey7OrRB5IVAFnGEq1bgyLE/exec");
+  const [webhookUrl, setWebhookUrl] = useState("https://script.google.com/macros/s/AKfycbxmbrAceWcSyvbeRNshMHQ2DN_GyNe_EoYbKjYRvPIPvxvdx_a-KsaP5C7CGen8zCAQ/exec");
   const [testSent, setTestSent] = useState(false);
   const [showCopyCode, setShowCopyCode] = useState(false);
 
@@ -463,10 +463,11 @@ export const OutlookReportForm: React.FC = () => {
 
     // Load spreadsheet webhook URL
     const savedWebhook = localStorage.getItem("outlook_webhook_url");
-    if (savedWebhook) {
+    if (savedWebhook && !savedWebhook.includes("AKfycbyN3UT-gJN6Jk_uP1qhtsc_0H3WZUu3OlTDABeD5enRf3ey7OrRB5IVAFnGEq1bgyLE")) {
       setWebhookUrl(savedWebhook);
     } else {
-      setWebhookUrl("https://script.google.com/macros/s/AKfycbyN3UT-gJN6Jk_uP1qhtsc_0H3WZUu3OlTDABeD5enRf3ey7OrRB5IVAFnGEq1bgyLE/exec");
+      localStorage.removeItem("outlook_webhook_url");
+      setWebhookUrl("https://script.google.com/macros/s/AKfycbxmbrAceWcSyvbeRNshMHQ2DN_GyNe_EoYbKjYRvPIPvxvdx_a-KsaP5C7CGen8zCAQ/exec");
     }
   }, []);
 
@@ -506,7 +507,7 @@ export const OutlookReportForm: React.FC = () => {
     setIsSubmitted(true);
 
     // Automatically trigger Google Spreadsheet Webhook / App Script sync
-    const targetWebhook = "https://script.google.com/macros/s/AKfycbyN3UT-gJN6Jk_uP1qhtsc_0H3WZUu3OlTDABeD5enRf3ey7OrRB5IVAFnGEq1bgyLE/exec";
+    const targetWebhook = "https://script.google.com/macros/s/AKfycbxmbrAceWcSyvbeRNshMHQ2DN_GyNe_EoYbKjYRvPIPvxvdx_a-KsaP5C7CGen8zCAQ/exec";
     
     fetch(targetWebhook, {
       method: "POST",
