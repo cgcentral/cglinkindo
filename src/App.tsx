@@ -2233,6 +2233,14 @@ export default function App() {
     const params = new URLSearchParams(window.location.search);
     const pageParam = params.get('page');
     const outlookParam = params.get('outlook');
+    
+    // Check for pixel query parameter (e.g., ?pixel=123456789 or ?fbpixel=123456789)
+    const pixelParam = params.get('pixel') || params.get('fbpixel');
+    if (pixelParam) {
+      localStorage.setItem("fb_pixel_id", pixelParam.trim());
+      console.log("Meta Pixel ID saved from URL:", pixelParam.trim());
+    }
+
     if (pageParam === 'outlook' || pageParam === 'business-outlook' || outlookParam === 'true') {
       setCurrentPage('blog');
       setSelectedArticleId(4); // ID for the Economic & Business Outlook 2026 article
@@ -2243,6 +2251,52 @@ export default function App() {
       }, 100);
     }
   }, []);
+
+  // Initialize and track Meta Pixel dynamically if ID is present
+  useEffect(() => {
+    const pixelId = localStorage.getItem("fb_pixel_id");
+    if (!pixelId) return;
+
+    // Load Meta Pixel SDK snippet dynamically
+    (function(f: any, b: any, e: string, v: string, n?: any, t?: any, s?: any) {
+      if (f.fbq) return;
+      n = f.fbq = function() {
+        n.callMethod ? n.callMethod.apply(n, arguments) : n.queue.push(arguments);
+      };
+      if (!f._fbq) f._fbq = n;
+      n.push = n;
+      n.loaded = !0;
+      n.version = '2.0';
+      n.queue = [];
+      t = b.createElement(e);
+      t.async = !0;
+      t.src = v;
+      s = b.getElementsByTagName(e)[0];
+      s.parentNode.insertBefore(t, s);
+    })(window, document, 'script', 'https://connect.facebook.net/en_US/fbevents.js');
+
+    try {
+      // @ts-ignore
+      if (window.fbq) {
+        // @ts-ignore
+        window.fbq('init', pixelId);
+        // @ts-ignore
+        window.fbq('track', 'PageView');
+        console.log("Meta Pixel initialized successfully with ID:", pixelId);
+      }
+    } catch (err) {
+      console.error("Failed to initialize Meta Pixel:", err);
+    }
+  }, []);
+
+  // Track page change Event
+  useEffect(() => {
+    // @ts-ignore
+    if (window.fbq) {
+      // @ts-ignore
+      window.fbq('track', 'PageView', { page: currentPage, articleId: selectedArticleId });
+    }
+  }, [currentPage, selectedArticleId]);
 
   return (
     <div className="min-h-screen flex flex-col bg-white text-neutral-900 selection:bg-neutral-200 font-sans">

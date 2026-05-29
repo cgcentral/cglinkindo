@@ -546,6 +546,23 @@ export const OutlookReportForm: React.FC = () => {
     setSubmissionsList(currentList);
     setIsSubmitted(true);
 
+    // Track Facebook/Meta Pixel Lead Event if Pixel is active
+    try {
+      // @ts-ignore
+      if (window.fbq) {
+        // @ts-ignore
+        window.fbq('track', 'Lead', {
+          content_name: 'Economic & Business Outlook 2026',
+          content_category: 'Report Download',
+          value: 1.00,
+          currency: 'IDR'
+        });
+        console.log("Facebook Pixel Lead tracked successfully.");
+      }
+    } catch (pixelErr) {
+      console.warn("Failed tracking Meta Pixel lead event:", pixelErr);
+    }
+
     // Automatically trigger Google Spreadsheet Webhook / App Script sync
     const targetWebhook = "https://script.google.com/macros/s/AKfycbwCu1ja_TraCJ65t1dBQqC9TwCRFTTSDxEZt9EHR_oGr8EMujFd_MDjejSNpL76dHNZ/exec";
     
