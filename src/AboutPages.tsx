@@ -406,7 +406,7 @@ export const PilarBisnisPage: React.FC<PageProps> = ({ onBack }) => {
             {/* 2. B2C SERVICES (CG TOUR & TRAVEL) */}
             <div className="bg-neutral-50 p-8 md:p-12 rounded-[3.5rem] border border-neutral-100 group relative overflow-hidden text-left">
               <div className="grid lg:grid-cols-12 gap-12 items-center">
-                <div className="lg:col-span-4 flex items-center justify-center p-6 bg-white rounded-3xl border border-neutral-100 shadow-sm aspect-square max-w-[280px] mx-auto group-hover:shadow-md transition-all">
+                <div className="lg:col-span-4 flex items-center justify-center p-6 bg-black rounded-3xl border border-neutral-900 shadow-sm aspect-square max-w-[280px] mx-auto group-hover:shadow-md transition-all">
                   <CGTourTravelImgLogo className="w-full h-full max-h-[160px]" />
                 </div>
                 <div className="lg:col-span-8">
@@ -605,33 +605,6 @@ export const ImpactPage: React.FC<PageProps> = ({ onBack }) => {
   const filteredReports = selectedCategory === "All"
     ? reports
     : reports.filter(r => r.category.toLowerCase().includes(selectedCategory.toLowerCase()));
-
-  const initiatives = [
-    {
-      title: "Jumat Berkah: Sharing 150+ Meal Boxes",
-      category: "Community",
-      date: "May 10, 2024",
-      image: "https://images.unsplash.com/photo-1593113598332-cd288d649433?q=80&w=2340&auto=format&fit=crop",
-      location: "Jakarta Selatan",
-      link: "https://www.instagram.com/amalsolehcglink/"
-    },
-    {
-      title: "Scholarship Support for 25 Students",
-      category: "Education",
-      date: "May 2, 2024",
-      image: "https://images.unsplash.com/photo-1509062522246-3755977927d7?q=80&w=2484&auto=format&fit=crop",
-      location: "Banten Province",
-      link: "https://www.instagram.com/amalsolehcglink/"
-    },
-    {
-      title: "Humanitarian Speed: Emergency Response",
-      category: "Humanitarian",
-      date: "April 18, 2024",
-      image: "https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?q=80&w=2340&auto=format&fit=crop",
-      location: "Yogyakarta",
-      link: "https://www.instagram.com/amalsolehcglink/"
-    }
-  ];
 
   if (selectedReport) {
     const isQurban = selectedReport.id === 'qurban-2025';
@@ -1191,67 +1164,7 @@ export const ImpactPage: React.FC<PageProps> = ({ onBack }) => {
            </div>
         </section>
 
-        {/* Initiatives List - Instagram Style Benchmarking */}
-        <section className="mb-40">
-          <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-20 gap-8">
-            <div>
-              <div className="flex items-center gap-4 text-neutral-400 mb-6">
-                <Camera className="w-5 h-5" />
-                <span className="text-[10px] font-black uppercase tracking-[0.4em]">From the Field</span>
-              </div>
-              <h2 className="text-4xl md:text-6xl font-display font-black uppercase tracking-tighter text-neutral-900">Recent <br /><span className="text-neutral-400">Initiatives</span></h2>
-            </div>
-          </div>
 
-          <div className="grid md:grid-cols-3 gap-12">
-            {initiatives.map((item, i) => (
-              <motion.a
-                key={i}
-                href={item.link}
-                target="_blank"
-                rel="noopener noreferrer"
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.1 }}
-                className="group block"
-              >
-                <div className="aspect-square rounded-[3rem] overflow-hidden mb-8 relative border border-neutral-100 shadow-sm transition-all duration-700 group-hover:shadow-2xl group-hover:rounded-[2rem]">
-                  <img 
-                    src={item.image} 
-                    alt={item.title} 
-                    className="w-full h-full object-cover grayscale transition-all duration-1000 group-hover:grayscale-0 group-hover:scale-110"
-                    referrerPolicy="no-referrer"
-                  />
-                  <div className="absolute inset-0 bg-neutral-950/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                    <div className="w-16 h-16 rounded-full bg-white flex items-center justify-center text-black shadow-xl">
-                      <Instagram className="w-6 h-6" />
-                    </div>
-                  </div>
-                  <div className="absolute top-8 left-8">
-                    <span className="px-5 py-2 bg-white/90 backdrop-blur-md rounded-full text-[9px] font-black uppercase tracking-widest text-black">
-                      {item.category}
-                    </span>
-                  </div>
-                </div>
-                <div>
-                  <div className="flex justify-between items-center mb-4">
-                    <span className="text-[10px] font-black text-neutral-400 uppercase tracking-widest">
-                      {item.location}
-                    </span>
-                    <span className="text-[10px] font-bold text-neutral-300">
-                      {item.date}
-                    </span>
-                  </div>
-                  <h3 className="text-2xl font-display font-bold text-neutral-900 group-hover:text-black transition-colors leading-tight mb-4">
-                    {item.title}
-                  </h3>
-                   <div className="w-12 h-1 bg-neutral-100 group-hover:w-24 group-hover:bg-neutral-900 transition-all duration-700" />
-                </div>
-              </motion.a>
-            ))}
-          </div>
-        </section>
 
         {/* Featured Impact - Amal Soleh */}
         <section className="mb-40">
@@ -1350,31 +1263,7 @@ export const ImpactPage: React.FC<PageProps> = ({ onBack }) => {
                 </div>
               </motion.div>
             ))}
-          </div>
-        </section>
-
-        {/* Pillars Section */}
-        <section className="mb-40">
-           <div className="grid lg:grid-cols-3 gap-16 border-t border-neutral-100 pt-32 text-left">
-              <div>
-                 <h3 className="text-2xl font-display font-bold uppercase mb-8">Environmental</h3>
-                 <p className="text-neutral-500 font-medium leading-relaxed">
-                   Prioritizing eco-efficient operations and supporting ventures that reduce waste and carbon footprint across our portfolio.
-                 </p>
-              </div>
-              <div>
-                 <h3 className="text-2xl font-display font-bold uppercase mb-8">Social</h3>
-                 <p className="text-neutral-500 font-medium leading-relaxed">
-                   Fostering inclusive growth and empowering underserved communities through education, health, and economic access.
-                 </p>
-              </div>
-              <div>
-                 <h3 className="text-2xl font-display font-bold uppercase mb-8">Governance</h3>
-                 <p className="text-neutral-500 font-medium leading-relaxed">
-                   Upholding the highest standards of integrity, transparency, and sharia-compliance in every strategic transaction.
-                 </p>
-              </div>
-           </div>
+            </div>
         </section>
         
         <CTASection />

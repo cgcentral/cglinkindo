@@ -179,9 +179,9 @@ export const OutlookReportForm: React.FC = () => {
 
   const startDownload = () => {
     setDownloading(true);
-    setTimeout(() => {
+    setTimeout(async () => {
       try {
-        downloadOutlookReportPDF();
+        await downloadOutlookReportPDF();
         setDownloadSuccess(true);
       } catch (err) {
         console.error("Failed to generate PDF:", err);
@@ -219,10 +219,9 @@ export const OutlookReportForm: React.FC = () => {
             </>
           )}
         </button>
-
-        {/* Button 2: Consultation WhatsApp */}
+              {/* Button 2: Consultation WhatsApp */}
         <a
-          href="https://wa.me/62895428355681?text=Halo%20CGLINK%20Indonesia%20Advisory%2C%20saya%20tertarik%20untuk%20berkonsultasi%20mengenai%20Economic%20%26%20Business%20Outlook%202026."
+          href="https://wa.me/6285121372871?text=Halo%20CGLINK%20Indonesia%20Advisory%2C%20saya%20tertarik%20untuk%20berkonsultasi%20mengenai%20Economic%20%26%20Business%20Outlook%202026."
           target="_blank"
           rel="noopener noreferrer"
           className="w-full py-5 px-6 bg-[#C5A059] hover:bg-[#b08e48] text-white rounded-2xl font-black uppercase tracking-widest text-[10px] transition-all hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center gap-2.5 shadow-xl text-center"
@@ -264,7 +263,7 @@ export const insightsData: InsightArticle[] = [
     date: "Mei 2026",
     category: "Economic Outlook",
     readTime: "7 min read",
-    image: "https://cglinkindonesia.com/wp-content/uploads/2026/05/WhatsApp-Image-2026-05-25-at-15.19.32.jpeg",
+    image: "https://cglinkindonesia.com/wp-content/uploads/2026/05/unnamed.jpg",
     content: (
       <div className="space-y-6 text-neutral-600 text-lg leading-relaxed">
         <p className="text-xl font-medium text-neutral-800 leading-normal mb-8 text-justify">
@@ -274,7 +273,7 @@ export const insightsData: InsightArticle[] = [
           Di satu sisi, data makro terlihat solid. PDB tumbuh, surplus perdagangan masih berjalan, inflasi terkendali, dan Indonesia masih menjadi salah satu ekonomi dengan pertumbuhan tertinggi di antara negara-negara G20.
         </p>
         <p className="text-justify">
-          Di sisi lain, banyak pengusaha dari berbagai skala dan sektor melaporkan hal yang berbeda. Konversi turun. Tiket rata-rata mengecil. Konsumen lebih lama mempertimbangkan, atau tidak jadi beli sama sekali.
+          Di sisi lain, many pengusaha dari berbagai skala dan sektor melaporkan hal yang berbeda. Konversi turun. Tiket rata-rata mengecil. Konsumen lebih lama mempertimbangkan, atau tidak jadi beli sama sekali.
         </p>
         <p className="text-justify">
           Keduanya bisa benar secara bersamaan. Dan justru di sinilah letak pentingnya membaca ekonomi secara lebih dalam — tidak berhenti di angka headline.
@@ -335,140 +334,6 @@ export const insightsData: InsightArticle[] = [
         <OutlookReportForm />
       </div>
     )
-  },
-  {
-    id: 1,
-    title: "YASCI Qurban 2025: Realisasi Amanah & Transparansi Sosial ke Seluruh Nusantara",
-    excerpt: "Laporan lengkap realisasi program pendistribusian hewan qurban 100% syariah dan halal, menyentuh 7,070 penerima manfaat di wilayah terpencil di Indonesia.",
-    date: "June 2025",
-    category: "Social Impact",
-    readTime: "5 min read",
-    image: "https://cglinkindonesia.com/wp-content/uploads/2026/05/WhatsApp-Image-2025-05-08-at-06.34.06-scaled.jpeg",
-    content: (
-      <div className="space-y-6 text-neutral-600 text-lg leading-relaxed">
-        <p>Program <strong>YASCI Qurban 2025</strong> yang dikelola oleh Yayasan Amal Soleh CG Link telah sukses dilaksanakan pada <strong>6 - 7 Juni 2025</strong> (10-11 Dzulhijjah 1446 H). Program ini merupakan wujud nyata gerakan kepedulian sosial yang berpegang teguh pada prinsip legal, logis, dan halal (halal governance) untuk menghantarkan kebermanfaatan ibadah qurban bagi Saudara kita di berbagai titik pelosok Indonesia.</p>
-        
-        <h2 className="text-2xl font-bold font-display text-neutral-900 mt-8 mb-2 uppercase tracking-tight">Realisasi & Dampak Positif Program</h2>
-        <p>Alhamdulillah, atas dedikasi para donatur dan kerja keras relawan lapangan, penyaluran tahun ini memberikan dampak nyata yang terekam pada angka-angka berikut:</p>
-        <ul className="list-disc pl-6 space-y-2 font-semibold text-neutral-800">
-          <li><strong>7.070 Orang Penerima Manfaat</strong> di 12 entitas (7 Masjid dan 5 Pondok Pesantren)</li>
-          <li><strong>12 Ekor Sapi Berkualitas Tinggi</strong> dengan total bobot basah mencapai <strong>4.702 Kilogram</strong></li>
-          <li><strong>100% Transparansi Dana Realisasi</strong> senilai Rp 301.825.000,- tersalurkan penuh tanpa potongan manajemen.</li>
-        </ul>
-
-        <h2 className="text-2xl font-bold font-display text-neutral-900 mt-8 mb-2 uppercase tracking-tight">Sebaran Wilayah Distribusi</h2>
-        <p>Dalam memastikan pemerataan distribusi, hewan qurban disebar secara door-to-door untuk menjaga martabat penerima manfaat, meliputi wilayah strategis:</p>
-        <div className="grid md:grid-cols-2 gap-4 my-6">
-          <div className="p-6 bg-neutral-50 rounded-[2rem] border border-neutral-100">
-            <span className="text-xs font-black text-neutral-400 font-mono">WILAYAH TIMUR</span>
-            <h4 className="font-bold text-neutral-900 text-lg mt-1">Masjid Ar Rahman (NTT)</h4>
-            <p className="text-xs text-neutral-500 font-medium mt-1 leading-relaxed">Timor Tengah Selatan, NTT • Sapi 400 Kg untuk 392 warga dhuafa.</p>
-          </div>
-          <div className="p-6 bg-neutral-50 rounded-[2rem] border border-neutral-100">
-            <span className="text-xs font-black text-neutral-400 font-mono">BANTEN & JABAR</span>
-            <h4 className="font-bold text-neutral-900 text-lg mt-1">Ponpes Darul Fikar, At-Taqwa, & Al-Istiqomah</h4>
-            <p className="text-xs text-neutral-500 font-medium mt-1 leading-relaxed">Mulai dari komunitas suku Baduy hingga Megamendung, Bogor, dan Cianjur.</p>
-          </div>
-        </div>
-
-        <h2 className="text-2xl font-bold font-display text-neutral-900 mt-8 mb-2 uppercase tracking-tight">Prinsip Halal Governance & Akuntabilitas</h2>
-        <p>Setiap proses pembelian, pengawasan kesehatan hewan, teknik pemotongan hingga rincian pembiayaan diuji secara ketat agar selaras dengan ketetapan syariah Islam. Laporan keuangan kami bersifat terbuka dan diaudit secara menyeluruh untuk menjamin rasa tenang (<i>peace of mind</i>) bagi para shahibul qurban.</p>
-      </div>
-    )
-  },
-  {
-    id: 2,
-    title: "Umroh Tamu Allah Spesial 2025: 42 Dakwah Champions Reach Baitullah During Ramadhan",
-    excerpt: "Umroh Tamu Allah Spesial (UTAS) 2025, organized by Yayasan Amal Soleh CG Link, successfully sent 42 selected jamaah to perform umrah in the holy cities of Makkah and Madinah during the month of Ramadhan.",
-    date: "March 2025",
-    category: "Social Impact",
-    readTime: "6 min read",
-    image: "https://cglinkindonesia.com/wp-content/uploads/2026/05/umroh-tamu-allah.jpeg",
-    content: (
-      <div className="space-y-6 text-neutral-600 text-lg leading-relaxed">
-        <p>Program <strong>Umroh Tamu Allah Spesial (UTAS) 2025</strong> yang dikelola oleh Yayasan Amal Soleh CG Link telah secara sukses memberangkatkan <strong>42 jamaah pilihan</strong> untuk menunaikan ibadah umroh di tanah suci Makkah dan Madinah pada <strong>4 – 12 Maret 2025</strong> (3 – 10 Ramadhan 1446 H). Program ini merupakan wujud apresiasi dan rasa syukur mendalam bagi pejuang dakwah, pengajar Al-Qur'an, dan pengabdi masjid yang tanpa pamrih berkhidmat di berbagai penjuru Indonesia.</p>
-
-        <h2 className="text-2xl font-bold font-display text-neutral-900 mt-8 mb-2 uppercase tracking-tight">Highlight Program & Kualifikasi Jamaah</h2>
-        <p>Program UTAS 2025 memprioritaskan hamba-hamba Allah pengabdi dakwah yang dedikasinya sering kali tidak terlihat atau minim penghargaan finansial secara formal:</p>
-        <ul className="list-disc pl-6 space-y-2 font-semibold text-neutral-800">
-          <li><strong>19 Guru Ngaji</strong> (Pendidik Al-Qur'an & karakter anak bangsa)</li>
-          <li><strong>15 Penggiat Dakwah</strong> (Relawan sosial & penyebar syiar Islam)</li>
-          <li><strong>6 Huffadz</strong> (Penjaga hafalan Al-Qur'an 30 juz)</li>
-          <li><strong>2 Pengurus Masjid</strong> (Marbot & takmir penjaga baitullah lokal)</li>
-        </ul>
-        <p>Seluruh jamaah tersebut berasal dari sebaran geografis <strong>10 provinsi di Indonesia</strong>, meliputi Jawa Barat (22), Jawa Timur (8), Lampung (3), Yogyakarta (2), Jawa Tengah (2), serta masing-masing satu utusan dari DKI Jakarta, Banten, NTB, NTT, dan Batam.</p>
-
-        <h2 className="text-2xl font-bold font-display text-neutral-900 mt-8 mb-2 uppercase tracking-tight">Spiritual Itinerary & Fasilitas Premium Best-in-Class</h2>
-        <p>Melalui proses seleksi kompetitif terhadap empat operator terbaik, program UTAS 2025 bermitra dengan <strong>Salmi Halal Tour</strong> untuk menyajikan perjalanan ibadah bernilai tinggi (best-value) & premium:</p>
-        <ul className="list-disc pl-6 space-y-2 font-semibold text-neutral-800">
-          <li>Penerbangan langsung (Direct Flight) menggunakan maskapai <strong>Saudi Arabian Airlines</strong>.</li>
-          <li>Akomodasi hotel bintang yang sangat dekat dari Masjidil Haram (Sawaed Al Khair) dan Masjid Nabawi (Al Fayroz Shatta) dengan jarak di bawah 300 meter.</li>
-          <li>Pelaksanaan ibadah umroh sebanyak dua kali, pembimbingan halaqah Quran, refleksi syahdu (muhasabah) langsung di depan Baitullah, ziarah eksklusif ke Raudhah, serta buka puasa bersama di Date Garden Madinah.</li>
-        </ul>
-
-        <h2 className="text-2xl font-bold font-display text-neutral-900 mt-8 mb-2 uppercase tracking-tight">Akuntabilitas & Realisasi Anggaran 100% Transparan</h2>
-        <p>Program ini berhasil mengumpulkan total dana infaq donatur sebesar <strong>Rp 1.218.428.217,-</strong> yang dialokasikan seutuhnya tanpa potongan manajemen untuk kesuksesan jamaah:</p>
-        <ul className="list-disc pl-6 space-y-2 font-semibold text-neutral-800">
-          <li><strong>Paket Umroh Utama:</strong> Rp 1.104.000.000,- (Akomodasi, visa, tiket pesawat, katering)</li>
-          <li><strong>Transportasi Domestik:</strong> Rp 69.000.000,- (Tiket pesawat lokal ke Jakarta, bus penjemputan)</li>
-          <li><strong>Uang Saku & Perlengkapan:</strong> Rp 4.600.000,-</li>
-          <li><strong>Operasional & Logistik Lapangan:</strong> Rp 39.900.000,-</li>
-        </ul>
-        <p>Saldo akhir penutupan buku program bernilai <strong>Rp 0,- (Zero Balance)</strong>, membuktikan bahwa setiap rupiah donasi yang masuk tersalurkan penuh dan berdampak langsung untuk merajut mimpi para pejuang dakwah menuju Baitullah.</p>
-      </div>
-    )
-  },
-  {
-    id: 3,
-    title: "YASCI Bukber Ifthar 2026: Sharing Ramadhan Blessings Across 17 Islamic Institutions",
-    excerpt: "Throughout the holy month of Ramadhan 1447 H, Yayasan Amal Soleh CG Link (YASCI) ran one of its most extensive community programs to date: distributing ifthar support across mosques, pesantren, and Islamic foundations throughout Indonesia.",
-    date: "March 2026",
-    category: "Social Impact",
-    readTime: "4 min read",
-    image: "https://images.unsplash.com/photo-1576085898323-218337e3e43c?q=80&w=2340&auto=format&fit=crop",
-    content: (
-      <div className="space-y-6 text-neutral-600 text-lg leading-relaxed">
-        <p>Throughout the holy month of Ramadhan 1447 H, <strong>Yayasan Amal Soleh CG Link (YASCI)</strong> ran one of its most extensive community programs to date: distributing ifthar (breaking-fast) support across mosques, pesantren, and Islamic foundations throughout Indonesia. The <strong>Bukber Ifthar 2026</strong> initiative brought the joy of communal iftar to congregations that often lacked the resources to organize one themselves.</p>
-        
-        <h2 className="text-2xl font-bold font-display text-neutral-900 mt-8 mb-2 uppercase tracking-tight">Reaching 17 Islamic Institutions</h2>
-        <p>The 2026 program partnered with 17 recipient entities, including:</p>
-        <div className="bg-neutral-50 border border-neutral-100 rounded-3xl p-8 my-6 overflow-x-auto">
-          <h4 className="text-xs font-black uppercase tracking-widest text-neutral-500 mb-6 font-display">Recipient Partner Institutions</h4>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm font-semibold text-neutral-800">
-            <ul className="space-y-2">
-              <li className="flex items-center gap-2"><span className="w-2 h-2 rounded-full bg-red-650"></span> Masjid Muslim Bilonaire</li>
-              <li className="flex items-center gap-2"><span className="w-2 h-2 rounded-full bg-red-650"></span> Komunitas Jum'at Berkah</li>
-              <li className="flex items-center gap-2"><span className="w-2 h-2 rounded-full bg-red-650"></span> Cinta Quran Berbagi</li>
-              <li className="flex items-center gap-2"><span className="w-2 h-2 rounded-full bg-red-650"></span> Masjid Al Imtyaz Bandung</li>
-              <li className="flex items-center gap-2"><span className="w-2 h-2 rounded-full bg-red-650"></span> Masjid Ar Rahman Batu Putih</li>
-              <li className="flex items-center gap-2"><span className="w-2 h-2 rounded-full bg-red-650"></span> Masjid Muhajirin Makassar</li>
-              <li className="flex items-center gap-2"><span className="w-2 h-2 rounded-full bg-red-650"></span> Masjid Nuruddakwah</li>
-              <li className="flex items-center gap-2"><span className="w-2 h-2 rounded-full bg-red-650"></span> Masjid Nurul Jam'ah</li>
-              <li className="flex items-center gap-2"><span className="w-2 h-2 rounded-full bg-red-650"></span> Masjid Nurul Amin</li>
-            </ul>
-            <ul className="space-y-2">
-              <li className="flex items-center gap-2"><span className="w-2 h-2 rounded-full bg-red-650"></span> Masjid Nahdatul Islam</li>
-              <li className="flex items-center gap-2"><span className="w-2 h-2 rounded-full bg-red-650"></span> Masjid H. Riyanto</li>
-              <li className="flex items-center gap-2"><span className="w-2 h-2 rounded-full bg-red-650"></span> Ponpes Darul Fikar</li>
-              <li className="flex items-center gap-2"><span className="w-2 h-2 rounded-full bg-red-650"></span> Baitul Qur'an Nur Zamani</li>
-              <li className="flex items-center gap-2"><span className="w-2 h-2 rounded-full bg-red-650"></span> Yayasan Al-Ikhwan</li>
-              <li className="flex items-center gap-2"><span className="w-2 h-2 rounded-full bg-red-650"></span> DKM Al Kautsar</li>
-              <li className="flex items-center gap-2"><span className="w-2 h-2 rounded-full bg-red-650"></span> DKM Sasama</li>
-              <li className="flex items-center gap-2"><span className="w-2 h-2 rounded-full bg-red-650"></span> Masjid At-Taubah</li>
-            </ul>
-          </div>
-        </div>
-
-        <h2 className="text-2xl font-bold font-display text-neutral-900 mt-8 mb-2 uppercase tracking-tight">A Nationwide Footprint</h2>
-        <p>YASCI prioritized geographic diversity. From Makassar in Sulawesi to mosque communities in Bandung and pesantren in West Java, the program intentionally reached congregations beyond the usual urban centers. Recipients included not only mosques but also Islamic boarding schools (pesantren), Quran-learning communities, and Islamic foundations — reflecting YASCI's belief that ifthar support should follow wherever Muslims gather to break their fast.</p>
-
-        <h2 className="text-2xl font-bold font-display text-neutral-900 mt-8 mb-2 uppercase tracking-tight">More Than a Meal</h2>
-        <p>For many recipient institutions, Bukber Ifthar 2026 enabled them to host nightly ifthar gatherings that strengthened their congregations, attracted santri, and welcomed surrounding communities. YASCI views this not merely as food distribution but as investment in the spiritual ecosystem of grassroots dakwah — feeding the body so that the heart and mind can focus on worship during Ramadhan's blessed nights.</p>
-
-        <h2 className="text-2xl font-bold font-display text-neutral-900 mt-8 mb-2 uppercase tracking-tight">Continuing the Mission</h2>
-        <p>YASCI continues building bridges of amal soleh (righteous deeds), connecting donors with the institutions that quietly carry Indonesia's Islamic tradition forward — one ifthar at a time.</p>
-      </div>
-    )
   }
 ];
 
@@ -491,7 +356,7 @@ export const BlogPage: React.FC<{ onBack: () => void; initialArticleId?: number 
     }
   }, [initialArticleId]);
 
-  const categories = ["All", "Economic Outlook", "Social Impact"];
+  const categories = ["All", "Economic Outlook"];
 
   const filteredArticles = selectedCategory === "All"
     ? insightsData
@@ -583,7 +448,7 @@ export const BlogPage: React.FC<{ onBack: () => void; initialArticleId?: number 
               </div>
               <div className="flex gap-4">
                 <a 
-                  href="https://www.linkedin.com"
+                  href="https://www.linkedin.com/company/cglink-indonesia/?viewAsMember=true"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="w-12 h-12 rounded-full border border-neutral-200 flex items-center justify-center text-neutral-500 bg-white hover:text-black hover:shadow-lg transition-all"

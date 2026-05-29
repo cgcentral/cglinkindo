@@ -45,6 +45,7 @@ import {
   ServiceHCPage 
 } from "./ServicePages";
 import { CareersPage, BlogPage, insightsData } from "./AdditionalPages";
+import { WhyUsPage } from "./WhyUsPage";
 import { CGLinkLogo, SPNLogo, BTWMisterCaturLogo, CGTourTravelLogo, CGLinkImgLogo, SPNImgLogo, AffiliateBukuLogo, YoutubeChannelLogo } from "./components/BusinessLogos";
 import { 
   VisionMissionPage, 
@@ -55,7 +56,7 @@ import {
 } from "./AboutPages";
 
 
-export type PageType = 'home' | 'about' | 'contact' | 'service-fundamental' | 'service-digital' | 'service-partnerships' | 'service-finance' | 'service-hc' | 'careers' | 'blog' | 'about-vision' | 'about-pillars' | 'about-funding' | 'impact' | 'venture-thesis' | 'venture-portfolio';
+export type PageType = 'home' | 'about' | 'contact' | 'service-fundamental' | 'service-digital' | 'service-partnerships' | 'service-finance' | 'service-hc' | 'careers' | 'blog' | 'about-vision' | 'about-pillars' | 'about-funding' | 'impact' | 'venture-thesis' | 'venture-portfolio' | 'why-us';
 
 const translations = {
   nav: {
@@ -70,7 +71,7 @@ const translations = {
     businessPillars: "BUSINESS UNITS",
     impact: "IMPACT",
     venture: "CGLINK VENTURE",
-    consulting: "CONSULTANT CGLINK",
+    consulting: "CGLINK Consulting",
     career: "CAREER",
     insights: "INSIGHT"
   },
@@ -151,6 +152,19 @@ const Navbar = ({
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  const getLinkClass = (isActive: boolean) => {
+    const base = "transition-all duration-300 font-black h-full flex items-center gap-1.5 cursor-pointer relative uppercase py-2 ";
+    if (scrolled || currentPage !== 'home') {
+      return base + (isActive 
+        ? "text-black border-b-2 border-neutral-900 font-extrabold" 
+        : "text-neutral-500 hover:text-black font-semibold hover:translate-y-[-1px]");
+    } else {
+      return base + (isActive 
+        ? "text-white border-b-2 border-white font-extrabold" 
+        : "text-white/70 hover:text-white font-semibold hover:translate-y-[-1px]");
+    }
+  };
+
   return (
     <>
     <nav className={`fixed top-0 left-0 right-0 z-[2000] px-6 md:px-16 transition-all duration-700 pointer-events-none ${scrolled ? 'h-20 bg-white shadow-sm border-b border-neutral-100' : 'h-28 bg-transparent'}`}>
@@ -159,7 +173,7 @@ const Navbar = ({
           className="flex items-center gap-4 cursor-pointer group"
           onClick={() => { setCurrentPage('home'); window.scrollTo(0, 0); setIsMobileMenuOpen(false); }}
         >
-          <div className={`w-12 h-12 rounded-2xl overflow-hidden flex items-center justify-center transition-all duration-500 group-hover:scale-110 ${scrolled || currentPage !== 'home' ? 'bg-neutral-900' : 'bg-white/10 backdrop-blur-md border border-white/20'}`}>
+          <div className="w-12 h-12 rounded-2xl overflow-hidden flex items-center justify-center transition-all duration-500 group-hover:scale-110 bg-black border border-neutral-900 shadow-md">
             <img 
               src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTkBJLgZzym06yUvjh7cVL7xPXsDLzq3Q8TMw&s" 
               alt="CGLINK Logo" 
@@ -178,24 +192,65 @@ const Navbar = ({
         </div>
         
         {/* Desktop Menu */}
-        <div className={`hidden lg:flex items-center gap-5 xl:gap-8 text-[10px] font-bold uppercase tracking-[0.2em] h-full transition-colors duration-500 ${scrolled ? 'text-neutral-500' : (currentPage === 'home' ? 'text-white/70' : 'text-neutral-500')}`}>
+        <div className={`hidden lg:flex items-center gap-5 xl:gap-8 text-[11px] font-bold uppercase tracking-[0.2em] h-full transition-colors duration-500`}>
           
-          <button id="nav-home" onClick={() => { setCurrentPage('home'); window.scrollTo(0, 0); }} className={`transition-colors font-black ${scrolled ? 'hover:text-black' : (currentPage === 'home' ? 'hover:text-white' : 'hover:text-black')}`}>HOME</button>
-
           <button 
-            id="nav-about" 
-            onClick={() => { setCurrentPage('about'); window.scrollTo(0, 0); }} 
-            className={`transition-colors font-black ${scrolled ? 'hover:text-black' : (currentPage === 'about' ? 'text-black font-black underline underline-offset-4 decoration-2' : (currentPage === 'home' ? 'text-white/70 hover:text-white' : 'text-neutral-500 hover:text-black'))}`}
+            id="nav-home" 
+            onClick={() => { setCurrentPage('home'); window.scrollTo(0, 0); }} 
+            className={getLinkClass(currentPage === 'home')}
           >
-            {t.about}
+            HOME
           </button>
 
           <div 
-            className={`relative h-full flex items-center gap-1.5 cursor-pointer transition-colors group ${scrolled ? 'hover:text-black' : (currentPage === 'home' ? 'hover:text-white' : 'hover:text-black')}`}
+            className={getLinkClass(currentPage === 'about' || currentPage === 'about-vision' || currentPage === 'about-funding' || currentPage === 'about-pillars')}
+            onMouseEnter={() => setActiveDropdown('about')}
+            onMouseLeave={() => setActiveDropdown(null)}
+          >
+            <span>{t.about}</span> <ChevronDown className={`w-3 h-3 transition-transform ${activeDropdown === 'about' ? 'rotate-180' : ''}`} />
+            <AnimatePresence>
+              {activeDropdown === 'about' && (
+                <motion.div 
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: 10 }}
+                  className="absolute top-full left-0 w-64 pt-4"
+                >
+                  <div className="bg-white shadow-2xl rounded-2xl border border-neutral-100 p-6 overflow-hidden text-neutral-900">
+                    <div className="flex flex-col gap-3">
+                      <button 
+                        onClick={() => { 
+                          setCurrentPage('about'); 
+                          window.scrollTo(0, 0); 
+                          setActiveDropdown(null); 
+                        }} 
+                        className={`text-left text-[9px] px-2 font-bold uppercase tracking-wider transition-all hover:translate-x-1 ${currentPage === 'about' ? 'text-[#C5A059]' : 'text-neutral-500 hover:text-black'}`}
+                      >
+                        Vision & Mission
+                      </button>
+                      <button 
+                        onClick={() => { 
+                          setCurrentPage('about-pillars'); 
+                          window.scrollTo(0, 0); 
+                          setActiveDropdown(null); 
+                        }} 
+                        className={`text-left text-[9px] px-2 font-bold uppercase tracking-wider transition-all hover:translate-x-1 ${currentPage === 'about-pillars' ? 'text-[#C5A059]' : 'text-neutral-500 hover:text-black'}`}
+                      >
+                        Business Units
+                      </button>
+                    </div>
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+
+          <div 
+            className={getLinkClass(currentPage.startsWith('service-') || currentPage === 'why-us')}
             onMouseEnter={() => setActiveDropdown('consulting')}
             onMouseLeave={() => setActiveDropdown(null)}
           >
-            {t.consulting} <ChevronDown className={`w-3 h-3 transition-transform ${activeDropdown === 'consulting' ? 'rotate-180' : ''}`} />
+            <span>{t.consulting}</span> <ChevronDown className={`w-3 h-3 transition-transform ${activeDropdown === 'consulting' ? 'rotate-180' : ''}`} />
             <AnimatePresence>
               {activeDropdown === 'consulting' && (
                 <motion.div 
@@ -207,12 +262,23 @@ const Navbar = ({
                   <div className="pt-4">
                     <div className="bg-white shadow-2xl rounded-2xl border border-neutral-100 p-6 overflow-hidden text-neutral-900 overflow-y-auto max-h-[400px]">
                       <div className="flex flex-col gap-3">
+                        <button 
+                          onClick={() => { 
+                            setCurrentPage('why-us'); 
+                            window.scrollTo(0, 0); 
+                            setActiveDropdown(null); 
+                          }} 
+                          className={`text-left text-[9px] px-2 font-bold uppercase tracking-wider transition-all hover:translate-x-1 ${currentPage === 'why-us' ? 'text-[#C5A059]' : 'text-neutral-500 hover:text-black'}`}
+                        >
+                          Why Us
+                        </button>
+                        <div className="h-px bg-neutral-100/60 my-0.5"></div>
                         {servicesData.map(s => (
                           <button 
                             key={s.id}
                             id={`nav-consulting-${s.id}`}
                             onClick={() => { setCurrentPage(('service-' + s.id) as PageType); window.scrollTo(0, 0); setActiveDropdown(null); }}
-                            className="text-left text-[9px] px-2 font-bold uppercase tracking-wider text-neutral-500 hover:text-black transition-all hover:translate-x-1"
+                            className={`text-left text-[9px] px-2 font-bold uppercase tracking-wider transition-all hover:translate-x-1 ${currentPage === 'service-' + s.id ? 'text-[#C5A059]' : 'text-neutral-500 hover:text-black'}`}
                           >
                             {s.title}
                           </button>
@@ -226,11 +292,11 @@ const Navbar = ({
           </div>
 
           <div 
-            className={`relative h-full flex items-center gap-1.5 cursor-pointer transition-colors group ${scrolled ? 'hover:text-black' : (currentPage === 'home' ? 'hover:text-white' : 'hover:text-black')}`}
+            className={getLinkClass(currentPage === 'venture-thesis' || currentPage === 'venture-portfolio')}
             onMouseEnter={() => setActiveDropdown('venture')}
             onMouseLeave={() => setActiveDropdown(null)}
           >
-            {t.venture} <ChevronDown className={`w-3 h-3 transition-transform ${activeDropdown === 'venture' ? 'rotate-180' : ''}`} />
+            <span>{t.venture}</span> <ChevronDown className={`w-3 h-3 transition-transform ${activeDropdown === 'venture' ? 'rotate-180' : ''}`} />
             <AnimatePresence>
               {activeDropdown === 'venture' && (
                 <motion.div 
@@ -242,9 +308,8 @@ const Navbar = ({
                   <div className="pt-4">
                     <div className="bg-white shadow-2xl rounded-2xl border border-neutral-100 p-6 overflow-hidden text-neutral-900">
                       <div className="flex flex-col gap-3">
-                        <button onClick={() => { setCurrentPage('about-pillars'); window.scrollTo(0, 0); setActiveDropdown(null); }} className="text-left text-[9px] px-2 font-bold uppercase tracking-wider text-neutral-500 hover:text-black transition-all hover:translate-x-1">Business Units</button>
-                        <button onClick={() => { setCurrentPage('venture-thesis'); window.scrollTo(0, 0); setActiveDropdown(null); }} className="text-left text-[9px] px-2 font-bold uppercase tracking-wider text-neutral-500 hover:text-black transition-all hover:translate-x-1">Investment Thesis</button>
-                        <button onClick={() => { setCurrentPage('venture-portfolio'); window.scrollTo(0, 0); setActiveDropdown(null); }} className="text-left text-[9px] px-2 font-bold uppercase tracking-wider text-neutral-500 hover:text-black transition-all hover:translate-x-1">Portfolio</button>
+                        <button onClick={() => { setCurrentPage('venture-thesis'); window.scrollTo(0, 0); setActiveDropdown(null); }} className={`text-left text-[9px] px-2 font-bold uppercase tracking-wider transition-all hover:translate-x-1 ${currentPage === 'venture-thesis' ? 'text-[#C5A059]' : 'text-neutral-500 hover:text-black'}`}>Investment Thesis</button>
+                        <button onClick={() => { setCurrentPage('venture-portfolio'); window.scrollTo(0, 0); setActiveDropdown(null); }} className={`text-left text-[9px] px-2 font-bold uppercase tracking-wider transition-all hover:translate-x-1 ${currentPage === 'venture-portfolio' ? 'text-[#C5A059]' : 'text-neutral-500 hover:text-black'}`}>Portfolio</button>
                       </div>
                     </div>
                   </div>
@@ -253,52 +318,25 @@ const Navbar = ({
             </AnimatePresence>
           </div>
 
-          <button id="nav-career" onClick={() => { setCurrentPage('careers'); window.scrollTo(0, 0); }} className={`transition-colors ${scrolled ? 'hover:text-black' : (currentPage === 'home' ? 'hover:text-white' : 'hover:text-black')}`}>{t.career}</button>
-          
-          <div 
-            className={`relative h-full flex items-center gap-1.5 cursor-pointer transition-colors group ${scrolled ? 'hover:text-black' : (currentPage === 'home' ? 'hover:text-white' : 'hover:text-black')}`}
-            onMouseEnter={() => setActiveDropdown('insights')}
-            onMouseLeave={() => setActiveDropdown(null)}
+          <button 
+            id="nav-career" 
+            onClick={() => { setCurrentPage('careers'); window.scrollTo(0, 0); }} 
+            className={getLinkClass(currentPage === 'careers')}
           >
-            {t.insights} <ChevronDown className={`w-3 h-3 transition-transform ${activeDropdown === 'insights' ? 'rotate-180' : ''}`} />
-            <AnimatePresence>
-              {activeDropdown === 'insights' && (
-                <motion.div 
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: 10 }}
-                  className="absolute top-full left-0 w-64 pt-4"
-                >
-                  <div className="bg-white shadow-2xl rounded-2xl border border-neutral-100 p-6 overflow-hidden text-neutral-900">
-                    <div className="flex flex-col gap-3">
-                      <button 
-                        onClick={() => { 
-                          if (setSelectedArticleId) setSelectedArticleId(undefined);
-                          setCurrentPage('blog'); 
-                          window.scrollTo(0, 0); 
-                          setActiveDropdown(null); 
-                        }} 
-                        className="text-left text-[9px] px-2 font-bold uppercase tracking-wider text-neutral-500 hover:text-black transition-all hover:translate-x-1"
-                      >
-                        All Insights & Blog
-                      </button>
-                      <button 
-                        onClick={() => { 
-                          if (setSelectedArticleId) setSelectedArticleId(4);
-                          setCurrentPage('blog'); 
-                          window.scrollTo(0, 0); 
-                          setActiveDropdown(null); 
-                        }} 
-                        className="text-left text-[9px] px-2 font-bold uppercase tracking-wider text-neutral-500 hover:text-black transition-all hover:translate-x-1"
-                      >
-                        Business Outlook 2026
-                      </button>
-                    </div>
-                  </div>
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </div>
+            {t.career}
+          </button>
+          
+          <button 
+            id="nav-insights"
+            onClick={() => { 
+              if (setSelectedArticleId) setSelectedArticleId(undefined);
+              setCurrentPage('blog'); 
+              window.scrollTo(0, 0); 
+            }} 
+            className={getLinkClass(currentPage === 'blog')}
+          >
+            {t.insights}
+          </button>
 
           <button 
             id="nav-impact" 
@@ -306,7 +344,7 @@ const Navbar = ({
               setCurrentPage('impact'); 
               window.scrollTo(0, 0); 
             }} 
-            className={`transition-colors ${scrolled ? 'hover:text-black' : (currentPage === 'home' ? 'hover:text-white' : 'hover:text-black')}`}
+            className={getLinkClass(currentPage === 'impact')}
           >
             {t.impact}
           </button>
@@ -346,51 +384,41 @@ const Navbar = ({
         >
           <button id="mobile-menu-close" className="absolute top-8 right-8 w-12 h-12 rounded-2xl bg-neutral-50 flex items-center justify-center shadow-sm" onClick={() => setIsMobileMenuOpen(false)}><X className="w-6 h-6" /></button>
           <div className="flex flex-col gap-6 text-2xl font-display font-black uppercase tracking-tighter text-neutral-900 border-b border-neutral-100 pb-10">
-            <button id="mobile-nav-home" onClick={() => { setCurrentPage('home'); setIsMobileMenuOpen(false); window.scrollTo(0, 0); }} className="block text-left uppercase">HOME</button>
+            <button id="mobile-nav-home" onClick={() => { setCurrentPage('home'); setIsMobileMenuOpen(false); window.scrollTo(0, 0); }} className={`block text-left uppercase ${currentPage === 'home' ? 'text-[#C5A059]' : 'text-neutral-900'}`}>HOME</button>
             
-            <button id="mobile-nav-about" onClick={() => { setCurrentPage('about'); setIsMobileMenuOpen(false); window.scrollTo(0, 0); }} className="block text-left uppercase">{t.about}</button>
+            <div className="space-y-4 pt-4 border-t border-neutral-50">
+              <div className="text-[10px] font-black text-neutral-400 tracking-[0.3em] uppercase">{t.about}</div>
+              <button onClick={() => { setCurrentPage('about'); setIsMobileMenuOpen(false); window.scrollTo(0, 0); }} className={`block text-left text-xl font-bold uppercase tracking-tight ${currentPage === 'about' ? 'text-[#C5A059] opacity-100' : 'opacity-70 text-neutral-900'}`}>Vision & Mission</button>
+              <button onClick={() => { setCurrentPage('about-pillars'); setIsMobileMenuOpen(false); window.scrollTo(0, 0); }} className={`block text-left text-xl font-bold uppercase tracking-tight ${currentPage === 'about-pillars' ? 'text-[#C5A059] opacity-100' : 'opacity-70 text-neutral-900'}`}>Business Units</button>
+            </div>
 
             <div className="space-y-4 pt-4 border-t border-neutral-50">
               <div className="text-[10px] font-black text-neutral-400 tracking-[0.3em] uppercase">{t.consulting}</div>
+              <button onClick={() => { setCurrentPage('why-us'); setIsMobileMenuOpen(false); window.scrollTo(0, 0); }} className={`block text-left text-xl font-bold uppercase tracking-tight ${currentPage === 'why-us' ? 'text-[#C5A059] opacity-100' : 'opacity-70 text-neutral-900'}`}>Why Choose Us</button>
               {servicesData.map(s => (
-                <button key={s.id} id={`mobile-nav-capability-${s.id}`} onClick={() => { setCurrentPage(('service-' + s.id) as PageType); setIsMobileMenuOpen(false); window.scrollTo(0, 0); }} className="block text-left text-xl font-bold uppercase tracking-tight opacity-70">{s.title}</button>
+                <button key={s.id} id={`mobile-nav-capability-${s.id}`} onClick={() => { setCurrentPage(('service-' + s.id) as PageType); setIsMobileMenuOpen(false); window.scrollTo(0, 0); }} className={`block text-left text-xl font-bold uppercase tracking-tight ${currentPage === 'service-' + s.id ? 'text-[#C5A059] opacity-100' : 'opacity-70 text-neutral-900'}`}>{s.title}</button>
               ))}
             </div>
 
             <div className="space-y-4 pt-4 border-t border-neutral-50">
               <div className="text-[10px] font-black text-neutral-400 tracking-[0.3em] uppercase">{t.venture}</div>
-              <button onClick={() => { setCurrentPage('about-pillars'); setIsMobileMenuOpen(false); window.scrollTo(0, 0); }} className="block text-left text-xl font-bold uppercase tracking-tight opacity-70">Business Units</button>
-              <button onClick={() => { setCurrentPage('venture-thesis'); setIsMobileMenuOpen(false); window.scrollTo(0, 0); }} className="block text-left text-xl font-bold uppercase tracking-tight opacity-70">Investment Thesis</button>
-              <button onClick={() => { setCurrentPage('venture-portfolio'); setIsMobileMenuOpen(false); window.scrollTo(0, 0); }} className="block text-left text-xl font-bold uppercase tracking-tight opacity-70">Portfolio</button>
+              <button onClick={() => { setCurrentPage('venture-thesis'); setIsMobileMenuOpen(false); window.scrollTo(0, 0); }} className={`block text-left text-xl font-bold uppercase tracking-tight ${currentPage === 'venture-thesis' ? 'text-[#C5A059] opacity-100' : 'opacity-70 text-neutral-900'}`}>Investment Thesis</button>
+              <button onClick={() => { setCurrentPage('venture-portfolio'); setIsMobileMenuOpen(false); window.scrollTo(0, 0); }} className={`block text-left text-xl font-bold uppercase tracking-tight ${currentPage === 'venture-portfolio' ? 'text-[#C5A059] opacity-100' : 'opacity-70 text-neutral-900'}`}>Portfolio</button>
             </div>
 
-            <button onClick={() => { setCurrentPage('careers'); setIsMobileMenuOpen(false); window.scrollTo(0, 0); }} className="block text-left uppercase">{t.career}</button>
-            
-            <div className="space-y-4 pt-4 border-t border-neutral-50">
-              <div className="text-[10px] font-black text-neutral-400 tracking-[0.3em] uppercase">{t.insights}</div>
-              <button 
-                onClick={() => { 
-                  if (setSelectedArticleId) setSelectedArticleId(undefined); 
-                  setCurrentPage('blog'); 
-                  setIsMobileMenuOpen(false); 
-                  window.scrollTo(0, 0); 
-                }} 
-                className="block text-left text-xl font-bold uppercase tracking-tight opacity-70"
-              >
-                All Insights & Blog
-              </button>
-              <button 
-                onClick={() => { 
-                  if (setSelectedArticleId) setSelectedArticleId(4); 
-                  setCurrentPage('blog'); 
-                  setIsMobileMenuOpen(false); 
-                  window.scrollTo(0, 0); 
-                }} 
-                className="block text-left text-xl font-bold uppercase tracking-tight opacity-70"
-              >
-                Business Outlook 2026
-              </button>
-            </div>
+            <button onClick={() => { setCurrentPage('careers'); setIsMobileMenuOpen(false); window.scrollTo(0, 0); }} className={`block text-left uppercase ${currentPage === 'careers' ? 'text-[#C5A059]' : 'text-neutral-900'}`}>{t.career}</button>
+                      <button 
+               id="mobile-nav-insights"
+               onClick={() => { 
+                 if (setSelectedArticleId) setSelectedArticleId(undefined); 
+                 setCurrentPage('blog'); 
+                 setIsMobileMenuOpen(false); 
+                 window.scrollTo(0, 0); 
+               }} 
+               className={`block text-left uppercase ${currentPage === 'blog' ? 'text-[#C5A059]' : 'text-neutral-900'}`}
+             >
+               {t.insights}
+             </button>
 
             <button 
               onClick={() => { 
@@ -398,7 +426,7 @@ const Navbar = ({
                 setIsMobileMenuOpen(false); 
                 window.scrollTo(0, 0); 
               }} 
-              className="block text-left uppercase"
+              className={`block text-left uppercase ${currentPage === 'impact' ? 'text-[#C5A059]' : 'text-neutral-900'}`}
             >
               {t.impact}
             </button>
@@ -710,7 +738,7 @@ const ImpactHome = ({
               initial={{ opacity: 0, x: 20 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
-              className="aspect-square rounded-[3rem] overflow-hidden shadow-2xl cursor-pointer"
+              className="aspect-[16/10] rounded-3xl md:rounded-[3rem] overflow-hidden shadow-2xl cursor-pointer"
               onClick={() => { 
                 if (setSelectedArticleId) setSelectedArticleId(4);
                 setCurrentPage('blog'); 
@@ -718,9 +746,9 @@ const ImpactHome = ({
               }}
             >
               <img 
-                src="https://cglinkindonesia.com/wp-content/uploads/2026/05/WhatsApp-Image-2026-05-25-at-15.19.32.jpeg" 
+                src="https://cglinkindonesia.com/wp-content/uploads/2026/05/unnamed.jpg" 
                 alt="Economic & Business Outlook 2026 Report cover thumbnail" 
-                className="w-full h-full object-fill transition-all duration-500"
+                className="w-full h-full object-cover transition-all duration-500 hover:scale-[1.03]"
                 referrerPolicy="no-referrer"
               />
             </motion.div>
@@ -1570,7 +1598,7 @@ const Footer = ({
         <div className="grid md:grid-cols-2 lg:grid-cols-5 gap-12 lg:gap-16 mb-32">
           <div className="lg:col-span-2">
             <div className="flex items-center gap-4 mb-12">
-              <div className="w-12 h-12 rounded-xl bg-white flex items-center justify-center overflow-hidden">
+              <div className="w-12 h-12 rounded-xl bg-black border border-neutral-900 flex items-center justify-center overflow-hidden shadow-md">
                 <img 
                   src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTkBJLgZzym06yUvjh7cVL7xPXsDLzq3Q8TMw&s" 
                   alt="CGLINK Logo" 
@@ -1589,7 +1617,7 @@ const Footer = ({
               <a href="https://www.instagram.com/cglink_/?hl=en" target="_blank" rel="noopener noreferrer" className="w-12 h-12 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center hover:bg-white hover:text-black transition-all">
                 <Instagram className="w-5 h-5" />
               </a>
-              <a href="https://id.linkedin.com/company/catur-gunandi-link-indonesia?trk=ppro_cprof" target="_blank" rel="noopener noreferrer" className="w-12 h-12 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center hover:bg-white hover:text-black transition-all">
+              <a href="https://www.linkedin.com/company/cglink-indonesia/?viewAsMember=true" target="_blank" rel="noopener noreferrer" className="w-12 h-12 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center hover:bg-white hover:text-black transition-all">
                 <Linkedin className="w-5 h-5" />
               </a>
             </div>
@@ -1600,8 +1628,11 @@ const Footer = ({
             <ul className="space-y-6 text-[10px] font-black uppercase tracking-[0.3em]">
               <li><button onClick={() => { setCurrentPage('home'); window.scrollTo(0, 0); }} className="hover:text-neutral-400 transition-colors text-left">Home</button></li>
               <li><button onClick={() => { setCurrentPage('about'); window.scrollTo(0, 0); }} className="hover:text-neutral-400 transition-colors text-left">{t.about}</button></li>
+              <li><button onClick={() => { setCurrentPage('why-us'); window.scrollTo(0, 0); }} className="hover:text-neutral-400 transition-colors text-left">{t.consulting}</button></li>
+              <li><button onClick={() => { setCurrentPage('venture-thesis'); window.scrollTo(0, 0); }} className="hover:text-neutral-400 transition-colors text-left">{t.venture}</button></li>
+              <li><button onClick={() => { setCurrentPage('careers'); window.scrollTo(0, 0); }} className="hover:text-neutral-400 transition-colors text-left">{t.career}</button></li>
+              <li><button onClick={() => { setCurrentPage('blog'); window.scrollTo(0, 0); }} className="hover:text-neutral-400 transition-colors text-left">{t.insights}</button></li>
               <li><button onClick={() => { setCurrentPage('impact'); window.scrollTo(0, 0); }} className="hover:text-neutral-400 transition-colors text-left">{t.impact}</button></li>
-              <li><button onClick={() => { setCurrentPage('venture-thesis'); window.scrollTo(0, 0); }} className="hover:text-neutral-400 transition-colors text-left">Venture</button></li>
               <li><button onClick={() => { setCurrentPage('contact'); window.scrollTo(0, 0); }} className="hover:text-neutral-400 transition-colors text-left">{t.contact}</button></li>
             </ul>
           </div>
@@ -1786,31 +1817,6 @@ const AboutUs: React.FC<{ onBack: () => void }> = ({ onBack }) => {
             </div>
           </div>
 
-          {/* Our Core Expertise Checklist section */}
-          <div className="mb-24">
-            <div className="max-w-3xl mx-auto">
-              <span className="text-[10px] font-black text-neutral-400 tracking-widest uppercase mb-4 block text-center font-mono">Service Map</span>
-              <h3 className="text-3xl md:text-4xl font-display font-black text-neutral-900 uppercase tracking-tight mb-8 text-center">Our Core Expertise</h3>
-              <p className="mb-8 text-neutral-500 font-medium leading-relaxed text-center">We configure industry capabilities and strategies to secure complete scalability in each division:</p>
-              <ul className="space-y-6 bg-white p-8 md:p-12 rounded-[3.5rem] border border-neutral-100 shadow-sm">
-                {[
-                  { title: "Strategy & Operations", desc: "Formulating an adaptive roadmap, SOPs, and organizational structure to ensure scalability." },
-                  { title: "Digital & Marketing", desc: "Data-driven growth strategies, digital ecosystems, and performance marketing transformation." },
-                  { title: "Innovation & Development", desc: "Expanding networks, strategic partnerships, and uncovering new market opportunities." },
-                  { title: "Finance, Accounting, & Tax", desc: "Capital structure optimization, precision financial planning, and robust risk management." },
-                  { title: "Human Capital", desc: "Talent acquisition, corporate culture transformation, and high-performance team building." }
-                ].map((item, idx) => (
-                  <li key={idx} className="flex gap-4 items-start">
-                    <CheckCircle2 className="w-5 h-5 text-neutral-900 shrink-0 mt-0.5" />
-                    <div className="text-sm md:text-base text-neutral-600 leading-normal font-medium">
-                      <strong className="text-neutral-900 font-bold">{item.title}:</strong> {item.desc}
-                    </div>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
-
           <hr className="border-neutral-200/60 my-20" />
 
           {/* SEGMENT 1 — Who We Choose */}
@@ -1818,7 +1824,7 @@ const AboutUs: React.FC<{ onBack: () => void }> = ({ onBack }) => {
             <div className="grid lg:grid-cols-12 gap-12 items-start">
               {/* Left Column (Main Headline) */}
               <div className="lg:col-span-5 lg:sticky lg:top-36">
-                <span className="text-[10px] font-black text-neutral-400 tracking-[0.2em] uppercase mb-3 block font-mono">SEGMENT 01 — WHO WE CHOOSE</span>
+                <span className="text-[10px] font-black text-[#C5A059] tracking-[0.2em] uppercase mb-3 block font-mono">Who We Choose</span>
                 <h2 className="text-3xl md:text-5xl font-display font-black text-neutral-900 uppercase tracking-tighter mb-4 leading-tight">We Don't Work With Everyone.</h2>
                 <p className="text-neutral-500 font-bold text-lg leading-relaxed">And that's precisely why our results stay consistent.</p>
               </div>
@@ -1863,7 +1869,7 @@ const AboutUs: React.FC<{ onBack: () => void }> = ({ onBack }) => {
             <div className="absolute top-0 right-0 w-96 h-96 bg-neutral-900/40 rounded-full filter blur-[100px] pointer-events-none"></div>
             
             <div className="relative z-10 max-w-4xl mb-12">
-              <span className="text-[9px] font-black tracking-[0.3em] uppercase mb-4 inline-block text-neutral-400 font-mono">SEGMENT 02 — CGLINK ROADMAP</span>
+              <span className="text-[9px] font-black tracking-[0.3em] uppercase mb-4 inline-block text-[#C5A059] font-mono">CGLINK Roadmap</span>
               <h2 className="text-3xl md:text-5xl font-display font-black uppercase tracking-tighter mb-4">A Continuous Journey. Tangible Impact. Built for the Hereafter.</h2>
               <p className="text-neutral-400 font-semibold text-sm md:text-base leading-relaxed">
                 CGLINK's long-term roadmap is designed to be gradual, measurable, and oriented toward barakah, benefit, and sustainability.
@@ -1909,8 +1915,8 @@ const AboutUs: React.FC<{ onBack: () => void }> = ({ onBack }) => {
           {/* SEGMENT 3 — Our Stance: MCG */}
           <div className="mb-24">
             <div className="text-center mb-12">
-              <span className="text-[10px] font-black text-neutral-400 tracking-[0.2em] uppercase mb-3 block font-mono">SEGMENT 03 — GLOBAL STANDARD</span>
-              <h2 className="text-3xl md:text-4xl font-display font-black text-neutral-900 uppercase tracking-tighter">Our Stance: MCG</h2>
+              <span className="text-[10px] font-black text-[#C5A059] tracking-[0.2em] uppercase mb-3 block font-mono">Our Stance — MCG</span>
+              <h2 className="text-3xl md:text-4xl font-display font-black text-neutral-900 uppercase tracking-tighter">Our Stance — MCG</h2>
               <div className="w-12 h-0.5 bg-neutral-900 mx-auto mt-4 rounded-full"></div>
             </div>
 
@@ -1967,7 +1973,7 @@ const AboutUs: React.FC<{ onBack: () => void }> = ({ onBack }) => {
                 Email Us
               </a>
               <a 
-                href="https://wa.me/62895428355681"
+                href="https://wa.me/6285121372871"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center justify-center gap-3 px-10 py-5 bg-white border border-neutral-200 text-neutral-900 rounded-2xl font-black uppercase tracking-widest text-xs hover:bg-neutral-50 transition-all hover:scale-105 active:scale-95 shadow-sm"
@@ -2071,7 +2077,7 @@ const ContactPage: React.FC<{ onBack: () => void }> = ({ onBack }) => {
                     </div>
                     <div>
                       <h4 className="text-neutral-900 font-bold mb-1">Quick Consultation</h4>
-                      <a href="https://wa.me/62895428355681" target="_blank" rel="noopener noreferrer" className="text-neutral-500 hover:text-black transition-colors font-medium underline underline-offset-4">Whatsapp: +62 895-4283-55681</a>
+                      <a href="https://wa.me/6285121372871" target="_blank" rel="noopener noreferrer" className="text-neutral-500 hover:text-black transition-colors font-medium underline underline-offset-4">Whatsapp: +62 851-2137-2871</a>
                     </div>
                   </div>
 
@@ -2091,7 +2097,7 @@ const ContactPage: React.FC<{ onBack: () => void }> = ({ onBack }) => {
               <section>
                 <h3 className="text-2xl font-display font-bold text-neutral-900 mb-6 uppercase tracking-tight">Follow Our Journey</h3>
                 <div className="flex gap-4">
-                  <a href="https://id.linkedin.com/company/catur-gunandi-link-indonesia?trk=ppro_cprof" target="_blank" rel="noopener noreferrer" className="w-12 h-12 rounded-xl bg-neutral-50 border border-neutral-100 flex items-center justify-center text-neutral-400 hover:text-black hover:bg-white hover:shadow-lg transition-all">
+                  <a href="https://www.linkedin.com/company/cglink-indonesia/?viewAsMember=true" target="_blank" rel="noopener noreferrer" className="w-12 h-12 rounded-xl bg-neutral-50 border border-neutral-100 flex items-center justify-center text-neutral-400 hover:text-black hover:bg-white hover:shadow-lg transition-all">
                     <Linkedin className="w-5 h-5" />
                   </a>
                   <a href="https://www.instagram.com/cglink_/?hl=en" target="_blank" rel="noopener noreferrer" className="w-12 h-12 rounded-xl bg-neutral-50 border border-neutral-100 flex items-center justify-center text-neutral-400 hover:text-black hover:bg-white hover:shadow-lg transition-all">
@@ -2192,7 +2198,7 @@ const FloatingActions = () => {
   return (
     <div className="fixed bottom-8 right-8 z-[1000]">
       <a 
-        href="https://wa.me/62895428355681" 
+        href="https://wa.me/6285121372871" 
         target="_blank" 
         rel="noopener noreferrer"
         className="flex items-center gap-3 group"
@@ -2299,6 +2305,9 @@ export default function App() {
         )}
         {currentPage === 'contact' && (
           <ContactPage key="contact" onBack={() => { setCurrentPage('home'); window.scrollTo(0, 0); }} />
+        )}
+        {currentPage === 'why-us' && (
+          <WhyUsPage key="why-us" onBack={() => { setCurrentPage('home'); window.scrollTo(0, 0); }} />
         )}
       </AnimatePresence>
       

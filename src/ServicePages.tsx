@@ -20,7 +20,7 @@ const CTASection = () => (
         Email Us
       </a>
       <a 
-        href="https://wa.me/62895428355681"
+        href="https://wa.me/6285121372871"
         target="_blank"
         rel="noopener noreferrer"
         className="flex items-center justify-center gap-3 px-10 py-5 bg-white border border-neutral-900 text-neutral-900 rounded-2xl font-black uppercase tracking-widest text-xs hover:bg-neutral-50 transition-all hover:scale-105 shadow-sm"
