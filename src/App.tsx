@@ -700,8 +700,9 @@ const ImpactHome = ({
               <span>★</span> Free Premium Report
             </div>
             <h2 className="text-4xl md:text-6xl font-display font-black tracking-tighter mb-8 uppercase leading-tight">
-              BUSINESS <br />
-              OUTLOOK 2026
+              Indonesia's <br />
+              Economic & <br />
+              Business Outlook 2026
             </h2>
             <p className="text-xl text-neutral-600 leading-relaxed max-w-lg mb-6">
               Ada gap menarik terjadi di Indonesia saat ini. Di satu sisi, indikator makro tumbuh solid hingga 5,16%. Di sisi lain, pengusaha melaporkan tantangan konversi riil dan penurunan daya beli. Unduh laporan premium kami untuk membedah fakta riil ini.
@@ -760,7 +761,7 @@ const ImpactHome = ({
               }}
               className="absolute -bottom-10 -left-10 glass-panel bg-white/90 backdrop-blur-2xl p-8 rounded-3xl border border-white/20 shadow-xl hidden md:block cursor-pointer hover:scale-105 transition-transform"
             >
-              <div className="text-3xl font-display font-bold text-black mb-1 leading-none tracking-tighter">ECONOMIC OUTLOOK 2026</div>
+              <div className="text-2xl font-display font-bold text-black mb-1 leading-none tracking-tighter">INDONESIA'S ECONOMIC & BUSINESS OUTLOOK 2026</div>
               <div className="text-sm text-neutral-500 uppercase tracking-widest font-black font-mono">Pertumbuhan 5,16% — Menembus Realitas Pasar</div>
             </div>
           </div>
@@ -1628,7 +1629,7 @@ const Footer = ({
             <ul className="space-y-6 text-[10px] font-black uppercase tracking-[0.3em]">
               <li><button onClick={() => { setCurrentPage('home'); window.scrollTo(0, 0); }} className="hover:text-neutral-400 transition-colors text-left">Home</button></li>
               <li><button onClick={() => { setCurrentPage('about'); window.scrollTo(0, 0); }} className="hover:text-neutral-400 transition-colors text-left">{t.about}</button></li>
-              <li><button onClick={() => { setCurrentPage('why-us'); window.scrollTo(0, 0); }} className="hover:text-neutral-400 transition-colors text-left">{t.consulting}</button></li>
+              <li><button onClick={() => { setCurrentPage('why-us'); window.scrollTo(0, 0); }} className="hover:text-neutral-400 transition-colors text-left font-extrabold">{t.consulting.toUpperCase()}</button></li>
               <li><button onClick={() => { setCurrentPage('venture-thesis'); window.scrollTo(0, 0); }} className="hover:text-neutral-400 transition-colors text-left">{t.venture}</button></li>
               <li><button onClick={() => { setCurrentPage('careers'); window.scrollTo(0, 0); }} className="hover:text-neutral-400 transition-colors text-left">{t.career}</button></li>
               <li><button onClick={() => { setCurrentPage('blog'); window.scrollTo(0, 0); }} className="hover:text-neutral-400 transition-colors text-left">{t.insights}</button></li>

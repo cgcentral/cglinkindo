@@ -319,47 +319,6 @@ export const PilarBisnisPage: React.FC<PageProps> = ({ onBack }) => {
           </p>
         </motion.div>
 
-        <motion.div variants={itemVariants} className="mb-32">
-          <h2 className="text-3xl md:text-5xl font-display font-black mb-16 border-l-4 border-neutral-900 pl-6 text-neutral-900 uppercase tracking-tighter">Core Services</h2>
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {[
-              { 
-                title: "Strategy & Operations", 
-                icon: <Building2 className="w-8 h-8" />, 
-                desc: "Building a strong business foundation, from legality and organizational structure to scalable business models." 
-              },
-              { 
-                title: "Digital & Marketing", 
-                icon: <Zap className="w-8 h-8" />, 
-                desc: "Data-driven marketing strategies to accelerate market share and brand presence in the digital age." 
-              },
-              { 
-                title: "Innovation & Development", 
-                icon: <Handshake className="w-8 h-8" />, 
-                desc: "Expanding networks and strategic partnerships to open new market opportunities." 
-              },
-              { 
-                title: "Finance, Accounting, & Tax", 
-                icon: <Coins className="w-8 h-8" />, 
-                desc: "Precision financial management and funding strategies for strategic sustainability." 
-              },
-              { 
-                title: "Human Capital", 
-                icon: <Users className="w-8 h-8" />, 
-                desc: "Talent transformation and building innovative work ecosystems for high performance." 
-              }
-            ].map((item, idx) => (
-              <div key={idx} className="bg-neutral-50 p-10 rounded-[2.5rem] border border-neutral-100 hover:bg-white hover:shadow-xl transition-all group relative overflow-hidden">
-                <div className="w-16 h-16 rounded-2xl bg-white shadow-sm flex items-center justify-center mb-10 text-neutral-900 group-hover:bg-neutral-900 group-hover:text-white transition-all">
-                  {item.icon}
-                </div>
-                <h3 className="text-2xl font-display font-bold mb-4 text-neutral-900">{item.title}</h3>
-                <p className="text-neutral-500 leading-relaxed font-medium">{item.desc}</p>
-              </div>
-            ))}
-          </div>
-        </motion.div>
-
         {/* Pilar Bisnis Section */}
         <motion.div variants={itemVariants} className="mb-32">
           <h2 className="text-3xl md:text-5xl font-display font-black mb-16 border-l-4 border-neutral-900 pl-6 text-neutral-900 uppercase tracking-tighter">Business Units</h2>
