@@ -505,19 +505,21 @@ export const OutlookReportForm: React.FC = () => {
     setSubmissionsList(currentList);
     setIsSubmitted(true);
 
-    // Automatically trigger Google Spreadsheet Webhook / App Script sync if set
-    if (webhookUrl.trim()) {
-      fetch(webhookUrl.trim(), {
-        method: "POST",
-        mode: "no-cors", // Bypasses browser CORS preflight blocks for redirecting Google Apps Scripts
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify(newLead)
-      }).catch(err => {
-        console.error("Failed to sync automatically to Google Spreadsheet webhook:", err);
-      });
-    }
+    // Automatically trigger Google Spreadsheet Webhook / App Script sync
+    const targetWebhook = "https://script.google.com/macros/s/AKfycbyN3UT-gJN6Jk_uP1qhtsc_0H3WZUu3OlTDABeD5enRf3ey7OrRB5IVAFnGEq1bgyLE/exec";
+    
+    fetch(targetWebhook, {
+      method: "POST",
+      mode: "no-cors", // Bypasses browser CORS preflight blocks for redirecting Google Apps Scripts
+      headers: {
+        "Content-Type": "text/plain;charset=utf-8" // Plain text is standard for no-cors posts and contains raw JSON body beautifully
+      },
+      body: JSON.stringify(newLead)
+    }).then(() => {
+      console.log("Real-time spreadsheet sync triggered successfully.");
+    }).catch(err => {
+      console.error("Failed to sync automatically to Google Spreadsheet:", err);
+    });
   };
 
   const startDownload = () => {
@@ -630,34 +632,10 @@ export const OutlookReportForm: React.FC = () => {
         )}
 
         <div className="mt-12 pt-6 border-t border-neutral-100 flex flex-wrap justify-between items-center gap-4 text-xs font-bold font-mono text-neutral-400">
-          <button onClick={handleEditIdentity} className="hover:text-black transition-colors uppercase tracking-wider cursor-pointer">
-            ← Ganti Identitas
-          </button>
-
-          <button
-            type="button"
-            onClick={() => setShowAdminDb(!showAdminDb)}
-            className="flex items-center gap-1.5 hover:text-black transition-colors uppercase tracking-wider cursor-pointer font-sans"
-          >
-            <Database className="w-4 h-4" />
-            {showAdminDb ? "Sembunyikan Database Leads" : "Lihat Database Leads"}
+          <button onClick={handleEditIdentity} className="hover:text-black transition-colors uppercase tracking-wider cursor-pointer font-sans">
+            ← Ganti Identitas / Isi Form Baru
           </button>
         </div>
-
-        {/* Database Leads view block */}
-        {showAdminDb && (
-          <LeadsDatabaseAdmin
-            webhookUrl={webhookUrl}
-            setWebhookUrl={setWebhookUrl}
-            submissionsList={submissionsList}
-            exportToCSV={exportToCSV}
-            clearSubmissions={clearSubmissions}
-            testSent={testSent}
-            setTestSent={setTestSent}
-            showCopyCode={showCopyCode}
-            setShowCopyCode={setShowCopyCode}
-          />
-        )}
       </div>
     );
   }
@@ -739,31 +717,6 @@ export const OutlookReportForm: React.FC = () => {
         </button>
       </form>
 
-      {/* Admin Database inspector list */}
-      <div className="mt-8 pt-6 border-t border-neutral-100 flex justify-end">
-        <button
-          type="button"
-          onClick={() => setShowAdminDb(!showAdminDb)}
-          className="flex items-center gap-1.5 text-xs font-bold font-mono text-neutral-400 hover:text-black transition-colors uppercase tracking-wider cursor-pointer"
-        >
-          <Database className="w-3.5 h-3.5" />
-          {showAdminDb ? "Sembunyikan Database Leads" : "Lihat Database Leads"}
-        </button>
-      </div>
-
-      {showAdminDb && (
-        <LeadsDatabaseAdmin
-          webhookUrl={webhookUrl}
-          setWebhookUrl={setWebhookUrl}
-          submissionsList={submissionsList}
-          exportToCSV={exportToCSV}
-          clearSubmissions={clearSubmissions}
-          testSent={testSent}
-          setTestSent={setTestSent}
-          showCopyCode={showCopyCode}
-          setShowCopyCode={setShowCopyCode}
-        />
-      )}
     </div>
   );
 };
