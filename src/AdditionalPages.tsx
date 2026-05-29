@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { motion } from "motion/react";
-import { ArrowLeft, Mail, Briefcase, ArrowRight, Clock, BookOpen, Linkedin, Instagram, X, CheckCircle2, Download, MessageSquare, User, Phone, Database, Trash2 } from "lucide-react";
+import { ArrowLeft, Mail, Briefcase, ArrowRight, Clock, BookOpen, Linkedin, Instagram, X, CheckCircle2, Download, MessageSquare, User, Phone, Database, Trash2, ChevronDown, ChevronUp, TrendingUp, AlertTriangle, Layers, ShieldCheck, FileText, Check } from "lucide-react";
 import { downloadOutlookReportPDF } from "./utils/outlookPdfGenerator";
 
 export const CareersPage: React.FC<{ onBack: () => void }> = ({ onBack }) => {
@@ -886,6 +886,9 @@ export const BlogPage: React.FC<{ onBack: () => void; initialArticleId?: number 
   const [selectedArticle, setSelectedArticle] = useState<InsightArticle | null>(null);
   const [selectedCategory, setSelectedCategory] = useState("All");
 
+  const [activePreviewTab, setActivePreviewTab] = useState("squeezed");
+  const [activeDim, setActiveDim] = useState<number>(1);
+
   useEffect(() => {
     if (initialArticleId) {
       const art = insightsData.find(a => a.id === initialArticleId);
@@ -903,7 +906,435 @@ export const BlogPage: React.FC<{ onBack: () => void; initialArticleId?: number 
     ? insightsData
     : insightsData.filter(a => a.category.toLowerCase().includes(selectedCategory.toLowerCase()));
 
+  const sembilanDimensi = [
+    {
+      id: 1,
+      title: "Pilar Pertumbuhan PDB",
+      short: "Berasal dari mana angka 5,16%? Seberapa solid fondasinya di 2026?",
+      icon: <TrendingUp className="w-5 h-5 text-neutral-800" />,
+      detail: "Membongkar pilar utama penopang pertumbuhan 5,16% PDB nasional. Laporan ini membedah perbedaan kontreks antara kontribusi konsumsi domestik, belanja infrastruktur pemerintah, dengan geliat belanja riil sektor swasta mandiri."
+    },
+    {
+      id: 2,
+      title: "Polarisasi Sektor Ritel",
+      short: "Kategori industri mana yang tumbuh positif vs melambat tajam?",
+      icon: <Layers className="w-5 h-5 text-neutral-800" />,
+      detail: "Analisis pergeseran pola belanja kelas atas (premium) yang cenderung tangguh dibanding segmen mass-market yang sedang memprioritaskan pengurangan ukuran belanja bulanan mereka secara taktis."
+    },
+    {
+      id: 3,
+      title: "Biaya Rantai Pasok",
+      short: "Implikasi kurs rupiah terhadap margin operasional & manufaktur.",
+      icon: <Database className="w-5 h-5 text-neutral-800" />,
+      detail: "Menganalisis dampak depresiasi kumulatif mata uang terhadap produsen hulu yang mengandalkan bahan baku luar negeri serta cara mereka menyesuaikan struktur margin tanpa mengorbankan volume penjualan."
+    },
+    {
+      id: 4,
+      title: "Dampak Inflasi Kumulatif",
+      short: "Bagaimana inflasi 5 tahun menekan sisa dana likuid masyarakat.",
+      icon: <AlertTriangle className="w-5 h-5 text-neutral-800" />,
+      detail: "Kami mendedikasikan bab khusus untuk membedah mengapa inflasi tahunan terkendali terasa bertolak belakang di lapangan: akumulasi kenaikan biaya hidup harian selama lima tahun telah melampaui rata-rata pertumbuhan upah minimum regional."
+    },
+    {
+      id: 5,
+      title: "FMCG Sachetization",
+      short: "Taktik memicu volume penjualan di segmen daya beli ketat.",
+      icon: <Clock className="w-5 h-5 text-neutral-800" />,
+      detail: "Bagaimana produsen FMCG andalan nasional menyiasati daya beli saku harian dengan memperkecil ukuran kemasan kemasan mikro (downsizing) demi mengamankan pangsa pasar di grosir tradisional."
+    },
+    {
+      id: 6,
+      title: "Otomotif & Kredit",
+      short: "Analisis melesunya pasar kendaraan & pengetatan kredit leasing.",
+      icon: <BookOpen className="w-5 h-5 text-neutral-800" />,
+      detail: "Data riil di balik stagnannya penjualan unit roda empat dan roda dua. Mengapa regulator & penyedia jasa sewa pembiayaan menerapkan proteksi batas risiko kredit yang lebih ketat di kuartal terakhir."
+    },
+    {
+      id: 7,
+      title: "Real Estate & Properti",
+      short: "Pergeseran tren kepemilikan apartemen menuju sewa harian.",
+      icon: <Briefcase className="w-5 h-5 text-neutral-800" />,
+      detail: "Mengapa generasi milenial lebih memilih beralih ke skema sewa fleksibel atau rumah tapak komuter pinggiran dibanding membebani diri dalam komitmen KPR apartemen urban berbiaya tinggi di pusat kota."
+    },
+    {
+      id: 8,
+      title: "Informalisasi Kerja",
+      short: "Ledakan pekerja mandiri dan implikasinya pada pendapatan bulanan.",
+      icon: <User className="w-5 h-5 text-neutral-800" />,
+      detail: "Mengulas fenomena bergesernya status pekerja dari sektor formal berpendapatan tetap menjadi sektor informal gig-economy, yang secara langsung mengecilkan stabilitas arus kas konsumsi rutin bulanan."
+    },
+    {
+      id: 9,
+      title: "Panduan Mitigasi Bisnis",
+      short: "Langkah konkrit memicu laju konversi penjualan di masa transisi.",
+      icon: <ShieldCheck className="w-5 h-5 text-neutral-800" />,
+      detail: "Rekomendasi taktis untuk pemilik usaha swasta: Menghitung ulang harga kemasan, merancang penawaran bundling bernilai relevan, hingga mengubah target akuisisi ke segmen pasar defensif."
+    }
+  ];
+
   if (selectedArticle) {
+    if (selectedArticle.id === 4) {
+      return (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          className="min-h-screen bg-neutral-50 text-neutral-900 pt-28 pb-24 selection:bg-neutral-950 selection:text-white"
+        >
+          {/* Header Progress Bar */}
+          <div className="fixed top-0 left-0 right-0 h-1.5 bg-neutral-200 z-50">
+            <div className="h-full bg-neutral-900 w-3/4 animate-pulse" />
+          </div>
+
+          <div className="w-full px-4 md:px-16 max-w-6xl mx-auto">
+            {/* Navigation and Back link */}
+            <div className="flex justify-between items-center mb-12 border-b border-neutral-200 pb-6">
+              <button 
+                onClick={() => { setSelectedArticle(null); window.scrollTo(0, 0); }} 
+                className="flex items-center gap-2 text-neutral-400 hover:text-neutral-900 transition-colors group font-black uppercase tracking-[0.4em] text-[10px]"
+              >
+                <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" /> 
+                Kembali ke Insights
+              </button>
+              <div className="hidden sm:flex items-center gap-2 text-[10px] font-black text-[#C5A059] uppercase tracking-widest bg-[#C5A059]/10 px-4 py-1.5 rounded-full">
+                <ShieldCheck className="w-3.5 h-3.5" /> Laporan Strategis Original
+              </div>
+            </div>
+
+            {/* Premium Landing Hero Heading */}
+            <div className="text-center max-w-4xl mx-auto space-y-6 mb-16">
+              <span className="inline-block px-4 py-1.5 bg-neutral-900 text-white rounded-full text-[9px] font-black uppercase tracking-[0.25em] shadow-md">
+                INDONESIAN ECONOMIC FORECAST 
+              </span>
+              <h1 className="text-4xl md:text-7xl font-display font-black text-neutral-950 tracking-tighter uppercase leading-[0.95]">
+                {selectedArticle.title}
+              </h1>
+              <p className="text-lg md:text-xl text-neutral-500 font-medium leading-relaxed max-w-3xl mx-auto">
+                Sebuah telaah independen yang menjembatani perbedaan antara angka makro di atas kertas dengan data riil laju konversi, sisa kas, dan prioritas saku pembeli di lapangan.
+              </p>
+              
+              <div className="pt-4 flex flex-wrap justify-center gap-4 text-xs font-mono font-bold text-neutral-400">
+                <span className="flex items-center gap-1.5 font-sans uppercase tracking-wider bg-white px-3 py-1.5 rounded-xl border border-neutral-200 text-neutral-600"><Clock className="w-3.5 h-3.5 text-neutral-400" /> Analisis Komparatif Lengkap</span>
+                <span className="flex items-center gap-1.5 font-sans uppercase tracking-wider bg-white px-3 py-1.5 rounded-xl border border-neutral-200 text-neutral-600"><FileText className="w-3.5 h-3.5 text-[#C5A059]" /> Format PDF Instan</span>
+              </div>
+            </div>
+
+            {/* Interactive Comparative Section: Macro vs Micro Dilemma */}
+            <div className="grid md:grid-cols-2 gap-8 mb-20">
+              <div className="p-8 md:p-10 bg-white border border-neutral-200 rounded-[2.5rem] shadow-sm relative overflow-hidden flex flex-col justify-between">
+                <div className="absolute top-0 right-0 w-32 h-32 bg-emerald-500/5 rounded-full blur-2xl" />
+                <div>
+                  <div className="flex items-center gap-2 text-emerald-600 font-bold text-xs uppercase tracking-widest mb-4">
+                    <TrendingUp className="w-4 h-4" /> MAKRO EKONOMI (SOLID/AGREGAT)
+                  </div>
+                  <h3 className="text-2xl font-black font-display text-neutral-950 uppercase mb-4 leading-none">Pertumbuhan Terlihat Sempurna</h3>
+                  <p className="text-neutral-500 text-sm leading-relaxed mb-6 font-medium">
+                    Secara angka agregat nasional, Indonesia menunjukkan hasil luar biasa. PDB stabil di kisaran 5,16%, tingkat inflasi terkendali dengan baik, dan neraca dagang mencatat surplus puluhan bulan berturut-turut. Ini adalah data resmi yang sering didengar di publik.
+                  </p>
+                </div>
+                <div className="bg-neutral-50 p-6 rounded-2xl border border-neutral-100 flex items-center justify-between">
+                  <div>
+                    <div className="text-[10px] font-bold text-neutral-400 uppercase">PDB TAHUNAN</div>
+                    <div className="text-2xl font-black text-emerald-600">+5,16%</div>
+                  </div>
+                  <div className="text-right">
+                    <div className="text-[10px] font-bold text-neutral-400 uppercase">STATUS INFLASI</div>
+                    <div className="text-sm font-black text-neutral-800">Sangat Terkendali</div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="p-8 md:p-10 bg-white border border-neutral-200 rounded-[2.5rem] shadow-sm relative overflow-hidden flex flex-col justify-between">
+                <div className="absolute top-0 right-0 w-32 h-32 bg-amber-500/5 rounded-full blur-2xl" />
+                <div>
+                  <div className="flex items-center gap-2 text-amber-600 font-bold text-xs uppercase tracking-widest mb-4">
+                    <AlertTriangle className="w-4 h-4" /> REALITAS PASAR MIKRO (RELIABLE)
+                  </div>
+                  <h3 className="text-2xl font-black font-display text-[#C5A059] uppercase mb-4 leading-none">Mengapa Konversi Terasa Berbeda?</h3>
+                  <p className="text-neutral-500 text-sm leading-relaxed mb-6 font-medium">
+                    Di tingkat operasional riil, pengusaha melaporkan tantangan konversi berbeda. Keputusan membeli memakan waktu dua kali lebih lama, volume transaksi rata-rata menyusut, dan biaya akuisisi konsumen meningkat seiring pengetatan sisa kas saku pembeli kelas menengah.
+                  </p>
+                </div>
+                <div className="bg-neutral-50 p-6 rounded-2xl border border-neutral-100 flex items-center justify-between">
+                  <div>
+                    <div className="text-[10px] font-bold text-neutral-400 uppercase">TRANSAKSI RITEL</div>
+                    <div className="text-xl font-black text-amber-600">Siklus Lebih Panjang</div>
+                  </div>
+                  <div className="text-right">
+                    <div className="text-[10px] font-bold text-neutral-400 uppercase">TANTANGAN UTAMA</div>
+                    <div className="text-sm font-black text-neutral-850">Efek Kumulatif Biaya Hidup</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Sembilan Dimensi - Deep Interactive Grid Explored */}
+            <div className="mb-20">
+              <div className="text-center max-w-2xl mx-auto space-y-4 mb-12">
+                <span className="text-[10px] font-black text-[#C5A059] font-mono tracking-widest uppercase bg-[#C5A059]/5 px-4 py-1 rounded-full">Explore The Report Contents</span>
+                <h2 className="text-3xl md:text-5xl font-display font-black text-neutral-950 uppercase leading-none">9 Dimensi Riil Penentu Strategi</h2>
+                <p className="text-sm text-neutral-500 font-medium">
+                  Klik setiap blok dimensi strategis di bawah ini untuk melihat pratinjau topik analisis data primer yang dibedah mendalam di dalam laporan PDF:
+                </p>
+              </div>
+
+              <div className="grid md:grid-cols-12 gap-8 items-start">
+                {/* Dimensions Grid List */}
+                <div className="md:col-span-7 grid sm:grid-cols-2 gap-4">
+                  {sembilanDimensi.map((dim) => (
+                    <button
+                      key={dim.id}
+                      onClick={() => setActiveDim(dim.id)}
+                      className={`p-5 rounded-2xl text-left border transition-all duration-300 flex flex-col justify-between h-40 relative overflow-hidden group cursor-pointer ${
+                        activeDim === dim.id
+                          ? "bg-neutral-900 border-neutral-900 text-white shadow-xl scale-[1.02]"
+                          : "bg-white border-neutral-200 hover:border-neutral-400 text-neutral-800 hover:bg-neutral-50"
+                      }`}
+                    >
+                      <div className="flex justify-between items-start w-full">
+                        <div className={`p-2 rounded-xl ${activeDim === dim.id ? "bg-white/10" : "bg-neutral-100"}`}>
+                          {dim.icon}
+                        </div>
+                        <span className={`text-[10px] font-black font-mono tracking-widest ${activeDim === dim.id ? "text-[#C5A059]" : "text-neutral-400"}`}>
+                          0{dim.id}
+                        </span>
+                      </div>
+                      <div>
+                        <h4 className="text-base font-black font-display uppercase tracking-tight line-clamp-1">{dim.title}</h4>
+                        <p className={`text-[11px] leading-snug mt-1 font-medium ${activeDim === dim.id ? "text-neutral-300" : "text-neutral-400"}`}>
+                          {dim.short}
+                        </p>
+                      </div>
+                    </button>
+                  ))}
+                </div>
+
+                {/* Dimension Detail Viewer Panel */}
+                <div className="md:col-span-5 bg-white border border-neutral-200 p-8 rounded-[3rem] sticky top-36 shadow-lg min-h-[22rem] flex flex-col justify-between">
+                  {(() => {
+                    const activeObj = sembilanDimensi.find(d => d.id === activeDim) || sembilanDimensi[0];
+                    return (
+                      <div className="space-y-6 flex-1 flex flex-col justify-between">
+                        <div>
+                          <div className="flex items-center justify-between border-b border-neutral-100 pb-4 mb-4">
+                            <span className="text-[10px] font-black text-[#C5A059] font-mono tracking-widest uppercase">DIMENSI DETAIL 0{activeObj.id}</span>
+                            <div className="w-2.5 h-2.5 rounded-full bg-neutral-900" />
+                          </div>
+                          <h3 className="text-2xl font-black font-display text-neutral-950 uppercase mb-4">{activeObj.title}</h3>
+                          <p className="text-sm text-neutral-500 font-medium leading-relaxed">{activeObj.detail}</p>
+                        </div>
+                        <div className="bg-neutral-50 p-4 rounded-2xl border border-neutral-100 mt-auto">
+                          <p className="text-[11px] text-[#C5A059] font-bold tracking-wide uppercase flex items-center gap-1.5">
+                            <ShieldCheck className="w-4 h-4 shrink-0" /> Tersedia Lengkap Di Dokumen PDF
+                          </p>
+                        </div>
+                      </div>
+                    );
+                  })()}
+                </div>
+              </div>
+            </div>
+
+            {/* Snackable Sneak Peek Tabs Terminal */}
+            <div className="bg-white border border-neutral-200 rounded-[3rem] p-8 md:p-12 mb-20 shadow-sm relative overflow-hidden">
+              <div className="absolute top-0 right-0 w-48 h-48 bg-[#C5A059]/5 rounded-full blur-3xl pointer-events-none" />
+              
+              <div className="max-w-2xl text-left space-y-4 mb-10">
+                <span className="text-[10px] font-black text-neutral-400 font-mono tracking-widest uppercase">• REAL-TIME INSIGHT PREVIEW •</span>
+                <h3 className="text-2xl md:text-4xl font-display font-black text-neutral-950 uppercase leading-none">PRATINJAU DOKUMEN PRESET</h3>
+                <p className="text-sm text-neutral-500 font-medium">
+                  Lihat sekilas visualisai serta garis besar poin bahasan yang telah terorganisir rapi di lembar data:
+                </p>
+              </div>
+
+              {/* Tabs selector */}
+              <div className="flex flex-wrap border-b border-neutral-100 gap-2 mb-8 pb-4">
+                {[
+                  { id: "squeezed", label: "🎯 Squeezed Middle" },
+                  { id: "fmcg", label: "📊 Pasar Konsumer" },
+                  { id: "retail", label: "🏘️ Properti & Auto" }
+                ].map((t) => (
+                  <button
+                    key={t.id}
+                    onClick={() => setActivePreviewTab(t.id)}
+                    className={`px-6 py-3 rounded-xl text-xs font-black uppercase tracking-wider transition-all cursor-pointer ${
+                      activePreviewTab === t.id
+                        ? "bg-neutral-900 text-white shadow-md scale-102"
+                        : "text-neutral-500 hover:text-black hover:bg-neutral-50"
+                    }`}
+                  >
+                    {t.label}
+                  </button>
+                ))}
+              </div>
+
+              {/* Dynamic Preview Container */}
+              <div className="grid md:grid-cols-12 gap-8 items-center bg-neutral-50 p-6 md:p-8 rounded-2xl border border-neutral-100">
+                <div className="md:col-span-7 space-y-4 text-left">
+                  {activePreviewTab === "squeezed" && (
+                    <>
+                      <h4 className="text-xl font-black font-display uppercase tracking-tight text-neutral-950">
+                        Squeezed Middle-Class (Kelas Menengah Terhimpit)
+                      </h4>
+                      <p className="text-sm text-neutral-600 leading-relaxed font-medium">
+                        Data menunjukkan kelas menengah Indonesia sedang mengalami tren pengalihan fokus anggaran. Alokasi ditransfer dari komitmen investasi jangka panjang / akumulasi aset berwujud ke arah pengeluaran rekreasional mikro harian. Ini menyebabkan penyusutan sisa kas bersih yang sangat krusial bagi ketahanan konsumsi.
+                      </p>
+                      <div className="pt-2 flex flex-wrap gap-4">
+                        <span className="text-[10px] font-bold bg-[#C5A059]/10 text-[#C5A059] px-3 py-1 bg-white rounded-lg uppercase">85% Menghemat Dana Cadangan</span>
+                        <span className="text-[10px] font-bold bg-neutral-900/10 text-neutral-800 px-3 py-1 bg-white rounded-lg uppercase">Prioritas Saku Berubah</span>
+                      </div>
+                    </>
+                  )}
+                  {activePreviewTab === "fmcg" && (
+                    <>
+                      <h4 className="text-xl font-black font-display uppercase tracking-tight text-neutral-950">
+                        Sachetization & Downsizing Tren Ritel
+                      </h4>
+                      <p className="text-sm text-neutral-600 leading-relaxed font-medium">
+                        Guna menyikapi likuiditas harian yang terbatasi secara kumulatif, produsen FMCG beralih ke strategi kemasan mikro atau sachet untuk menjaga volume pasar mereka. Pilihan konsumen berpindah drastis dari kemasan bernilai bulk menuju unit kecil yang terjangkau secara tunai harian.
+                      </p>
+                      <div className="pt-2 flex flex-wrap gap-4">
+                        <span className="text-[10px] font-bold bg-[#C5A059]/10 text-[#C5A059] px-3 py-1 bg-white rounded-lg uppercase">Downsizing Dominan Ritel</span>
+                        <span className="text-[10px] font-bold bg-neutral-900/10 text-neutral-800 px-3 py-1 bg-white rounded-lg uppercase">64% Alternatif Merek Hemat</span>
+                      </div>
+                    </>
+                  )}
+                  {activePreviewTab === "retail" && (
+                    <>
+                      <h4 className="text-xl font-black font-display uppercase tracking-tight text-neutral-950">
+                        Stagnasi Real Estate & Siklus Pembelian Otomotif
+                      </h4>
+                      <p className="text-sm text-neutral-600 leading-relaxed font-medium">
+                        Penjualan kendaraan bermotor yang cenderung dingin adalah indikator kuat penundaan pengadaan aset bernilai tinggi (high-ticket items) oleh segmen rumah tangga produktif. Mereka memilih skema sewa fleksibel guna menghindari liabilitas jangka panjang.
+                      </p>
+                      <div className="pt-2 flex flex-wrap gap-4">
+                        <span className="text-[10px] font-bold bg-[#C5A059]/10 text-[#C5A059] px-3 py-1 bg-white rounded-lg uppercase">Penjualan Wholesale Melambat</span>
+                        <span className="text-[10px] font-bold bg-neutral-900/10 text-neutral-800 px-3 py-1 bg-white rounded-lg uppercase">Cicilan Jangka Panjang Dihindari</span>
+                      </div>
+                    </>
+                  )}
+                </div>
+
+                <div className="md:col-span-5 bg-white p-6 rounded-2xl border border-neutral-200">
+                  <div className="space-y-4">
+                    <div className="flex items-center justify-between border-b border-neutral-100 pb-2">
+                      <span className="text-[9px] font-bold text-neutral-400 font-mono">BPS & BI DATA MAPPING</span>
+                      <span className="text-[9px] font-bold text-emerald-600 font-mono">STATUS: HIGH RES</span>
+                    </div>
+                    
+                    {/* Simulated elegant data container */}
+                    <div className="space-y-3">
+                      <div>
+                        <div className="flex justify-between text-xs font-bold text-neutral-800 mb-1">
+                          <span>Sisa Kas Likuid (Surplus)</span>
+                          <span className="text-amber-600 font-mono">-14.2%</span>
+                        </div>
+                        <div className="w-full bg-neutral-100 h-2 rounded-full overflow-hidden">
+                          <div className="bg-amber-500 h-full w-2/3" />
+                        </div>
+                      </div>
+
+                      <div>
+                        <div className="flex justify-between text-xs font-bold text-neutral-800 mb-1">
+                          <span>Konsumsi Hiburan Skala Kecil</span>
+                          <span className="text-emerald-600 font-mono">+24.5%</span>
+                        </div>
+                        <div className="w-full bg-neutral-100 h-2 rounded-full overflow-hidden">
+                          <div className="bg-emerald-500 h-full w-[85%]" />
+                        </div>
+                      </div>
+
+                      <div>
+                        <div className="flex justify-between text-xs font-bold text-neutral-800 mb-1">
+                          <span>Konversi Lead Penjualan Riil</span>
+                          <span className="text-amber-600 font-mono">Extended Cycle</span>
+                        </div>
+                        <div className="w-full bg-neutral-100 h-2 rounded-full overflow-hidden">
+                          <div className="bg-amber-500 h-full w-[45%]" />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* High-Converting CTA Container with Embedded Form */}
+            <div id="download-report-section" className="scroll-mt-32 max-w-4xl mx-auto">
+              <div className="bg-white border-2 border-neutral-900 rounded-[3.5rem] overflow-hidden shadow-2xl relative">
+                
+                {/* Premium Accent Header Band */}
+                <div className="bg-neutral-950 text-white px-8 py-5 md:px-12 flex justify-between items-center flex-wrap gap-4 border-b border-neutral-900">
+                  <div className="flex items-center gap-2">
+                    <div className="w-2.5 h-2.5 rounded-full bg-[#C5A059] animate-ping" />
+                    <span className="text-[10px] font-black uppercase tracking-[0.2em] text-neutral-300">
+                      AKSES INSTAN SPREADSHEET LANGSUNG • AKTIF
+                    </span>
+                  </div>
+                  <span className="text-[9px] font-black font-mono text-[#C5A059] border border-[#C5A059]/30 px-3 py-1 rounded-full uppercase">
+                    E-BOOK DOWNLOADER PERSISTENT
+                  </span>
+                </div>
+
+                <div className="p-8 md:p-14 text-center">
+                  <div className="max-w-2xl mx-auto mb-10 text-center">
+                    <span className="text-[10px] font-black text-[#C5A059] font-mono tracking-widest uppercase mb-2 block">
+                      Dapatkan Dokumen Pembacaan Ekonomi Lengkap
+                    </span>
+                    <h3 className="text-3xl md:text-5xl font-display font-black text-neutral-950 uppercase leading-none tracking-tight">
+                      Mulai Unduh Laporan Sekarang
+                    </h3>
+                    <p className="text-sm text-neutral-500 mt-3 font-medium leading-relaxed">
+                      Lengkapi form di bawah untuk mengirim data langsung ke spreadsheet secara realtime dan dapatkan tautan unduhan dokumen PDF Premium <strong>"Membaca Ekonomi Indonesia 2026"</strong>.
+                    </p>
+                  </div>
+
+                  {/* EMBEDDED OUTLOOK REPORT FORM - Visualized seamlessly */}
+                  <div className="max-w-xl mx-auto">
+                    <OutlookReportForm />
+                  </div>
+
+                  <div className="mt-10 flex justify-center items-center gap-6 flex-wrap text-[10px] font-black uppercase tracking-wider text-neutral-400">
+                    <span className="flex items-center gap-1.5"><ShieldCheck className="w-4 h-4 text-emerald-600" /> Pengiriman Realtime Terintegrasi</span>
+                    <span className="flex items-center gap-1.5"><CheckCircle2 className="w-4 h-4 text-[#C5A059]" /> Proteksi Privasi Enkripsi Aman</span>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+            {/* Aesthetic Landing Page Footer */}
+            <div className="pt-20 border-t border-neutral-200 mt-20 flex justify-between items-center flex-wrap gap-8">
+              <div className="text-left max-w-xl">
+                <h4 className="text-base font-black text-neutral-950 font-display mb-1 uppercase tracking-tight">CGLINK Indonesia Editorial System</h4>
+                <p className="text-xs text-neutral-400 font-medium leading-relaxed">
+                  Kami mengintegrasikan data primer dari instansi pembuat keputusan guna membantu pelaku bisnis swasta bertumbuh secara Legal, Logis, dan Halal.
+                </p>
+              </div>
+              <div className="flex gap-4">
+                <a 
+                  href="https://www.linkedin.com/company/cglink-indonesia/?viewAsMember=true"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-12 h-12 rounded-full border border-neutral-200 flex items-center justify-center text-neutral-500 bg-white hover:text-black hover:shadow-lg transition-all"
+                >
+                  <Linkedin className="w-4 h-4" />
+                </a>
+                <a 
+                  href="https://www.instagram.com/amalsolehcglink/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-12 h-12 rounded-full border border-neutral-200 flex items-center justify-center text-neutral-500 bg-white hover:text-black hover:shadow-lg transition-all"
+                >
+                  <Instagram className="w-4 h-4" />
+                </a>
+              </div>
+            </div>
+          </div>
+        </motion.div>
+      );
+    }
+
     return (
       <motion.div
         initial={{ opacity: 0 }}
@@ -921,7 +1352,7 @@ export const BlogPage: React.FC<{ onBack: () => void; initialArticleId?: number 
             Back to Insights
           </button>
 
-          <div className="text-left">
+          <div className="text-left col-span-1">
             {/* Header metadata */}
             <div className="space-y-6 mb-12">
               <div className="flex flex-wrap items-center gap-4 text-xs font-mono font-bold text-neutral-400">
@@ -977,7 +1408,7 @@ export const BlogPage: React.FC<{ onBack: () => void; initialArticleId?: number 
             </div>
 
             {/* Prose text container */}
-            <div className="max-w-none pt-4 text-left">
+            <div className="max-w-none pt-4 text-left font-sans">
               {selectedArticle.content}
             </div>
 
