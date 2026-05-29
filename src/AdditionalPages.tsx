@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { motion } from "motion/react";
-import { ArrowLeft, Mail, Briefcase, ArrowRight, Clock, BookOpen, Linkedin, Instagram, X, CheckCircle2, Download, MessageSquare } from "lucide-react";
+import { ArrowLeft, Mail, Briefcase, ArrowRight, Clock, BookOpen, Linkedin, Instagram, X, CheckCircle2, Download, MessageSquare, User, Phone, Database, Trash2 } from "lucide-react";
 import { downloadOutlookReportPDF } from "./utils/outlookPdfGenerator";
 
 export const CareersPage: React.FC<{ onBack: () => void }> = ({ onBack }) => {
@@ -173,9 +173,352 @@ export const CareersPage: React.FC<{ onBack: () => void }> = ({ onBack }) => {
   );
 };
 
+const LeadsDatabaseAdmin: React.FC<{
+  webhookUrl: string;
+  setWebhookUrl: (url: string) => void;
+  submissionsList: any[];
+  exportToCSV: () => void;
+  clearSubmissions: () => void;
+  testSent: boolean;
+  setTestSent: (sent: boolean) => void;
+  showCopyCode: boolean;
+  setShowCopyCode: React.Dispatch<React.SetStateAction<boolean>>;
+}> = ({
+  webhookUrl,
+  setWebhookUrl,
+  submissionsList,
+  exportToCSV,
+  clearSubmissions,
+  testSent,
+  setTestSent,
+  showCopyCode,
+  setShowCopyCode
+}) => {
+  const [localUrl, setLocalUrl] = useState(webhookUrl);
+  const [saveSuccess, setSaveSuccess] = useState(false);
+  const [testError, setTestError] = useState("");
+
+  useEffect(() => {
+    setLocalUrl(webhookUrl);
+  }, [webhookUrl]);
+
+  const handleSaveWebhook = () => {
+    localStorage.setItem("outlook_webhook_url", localUrl.trim());
+    setWebhookUrl(localUrl.trim());
+    setSaveSuccess(true);
+    setTimeout(() => setSaveSuccess(false), 2000);
+  };
+
+  const handleSendTestData = async () => {
+    setTestError("");
+    setTestSent(false);
+    if (!localUrl.trim()) {
+      setTestError("Silakan masukkan URL Webhook terlebih dahulu.");
+      return;
+    }
+
+    try {
+      const dummyData = {
+        name: "Mister Catur (Test)",
+        email: "test-cglink@perusahaan.com",
+        whatsapp: "08123456789",
+        timestamp: new Date().toISOString()
+      };
+
+      await fetch(localUrl.trim(), {
+        method: "POST",
+        mode: "no-cors",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(dummyData)
+      });
+
+      setTestSent(true);
+      setTimeout(() => setTestSent(false), 4000);
+    } catch (e: any) {
+      setTestError("Koneksi gagal: " + e.message);
+    }
+  };
+
+  const appsScriptCode = `function doPost(e) {
+  try {
+    var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+    var data = JSON.parse(e.postData.contents);
+    
+    // Menambahkan baris baru berisi: Tanggal, Nama, Email, WhatsApp
+    sheet.appendRow([
+      new Date(),
+      data.name || "",
+      data.email || "",
+      data.whatsapp || ""
+    ]);
+    
+    return ContentService.createTextOutput(JSON.stringify({ status: "success" }))
+      .setMimeType(ContentService.MimeType.JSON);
+  } catch (error) {
+    return ContentService.createTextOutput(JSON.stringify({ status: "error", message: error.toString() }))
+      .setMimeType(ContentService.MimeType.JSON);
+  }
+}`;
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, height: 0 }}
+      animate={{ opacity: 1, height: "auto" }}
+      className="mt-6 p-6 bg-white border border-neutral-200 rounded-3xl text-left"
+    >
+      {/* Spreadsheet Sync Header & Config */}
+      <div className="mb-6 p-5 bg-gradient-to-br from-neutral-50 to-neutral-100 rounded-2xl border border-neutral-200/60 shadow-inner">
+        <h4 className="text-xs font-black uppercase tracking-wider text-neutral-800 flex items-center gap-2 mb-2">
+          <Database className="w-4 h-4 text-[#C5A059]" /> Integrasi Google Spreadsheet Otomatis (Autosync)
+        </h4>
+        <p className="text-[11px] text-neutral-500 mb-4 leading-relaxed">
+          Kirim otomatis data leads (Nama, Email, dan No. WA) langsung ke Google Spreadsheet Anda setiap kali pengunjung mengisi form unduhan.
+        </p>
+
+        <div className="space-y-3">
+          <div>
+            <label className="block text-[9px] font-black uppercase tracking-wider text-neutral-400 mb-1.5">
+              URL Web App / Webhook Apps Script
+            </label>
+            <div className="flex flex-col sm:flex-row gap-2">
+              <input
+                type="text"
+                value={localUrl}
+                onChange={(e) => setLocalUrl(e.target.value)}
+                placeholder="https://script.google.com/macros/s/.../exec"
+                className="flex-1 px-3 py-2 bg-white border border-neutral-300 rounded-xl text-xs focus:border-black outline-none font-mono"
+              />
+              <div className="flex gap-2 shrink-0">
+                <button
+                  type="button"
+                  onClick={handleSaveWebhook}
+                  className="px-4 py-2 bg-neutral-900 hover:bg-neutral-800 text-white rounded-xl text-[10px] font-black uppercase tracking-wider transition-colors cursor-pointer"
+                >
+                  {saveSuccess ? "✓ Tersimpan" : "Simpan URL"}
+                </button>
+                <button
+                  type="button"
+                  onClick={handleSendTestData}
+                  className="px-4 py-2 bg-neutral-200 hover:bg-neutral-300 text-neutral-800 rounded-xl text-[10px] font-black uppercase tracking-wider transition-colors cursor-pointer"
+                >
+                  Kirim Data Tes
+                </button>
+              </div>
+            </div>
+            {testSent && (
+              <p className="text-[10px] text-emerald-600 font-bold uppercase mt-1.5">
+                ✓ Data uji coba terkirim! Silakan cek spreadsheet Anda.
+              </p>
+            )}
+            {testError && (
+              <p className="text-[10px] text-rose-600 font-bold uppercase mt-1.5">
+                ⚠️ {testError}
+              </p>
+            )}
+          </div>
+
+          <div className="pt-2">
+            <button
+              type="button"
+              onClick={() => setShowCopyCode(!showCopyCode)}
+              className="text-[10px] font-bold text-[#C5A059] hover:underline uppercase tracking-wide cursor-pointer flex items-center gap-1"
+            >
+              <span>{showCopyCode ? "Sembunyikan Petunjuk Setup Google Sheets" : "→ Lihat Cara Setup Google Sheets (Gratis & Mudah)"}</span>
+            </button>
+
+            {showCopyCode && (
+              <motion.div
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: "auto" }}
+                className="mt-3 text-[11px] text-neutral-600 space-y-2.5 bg-white p-4 rounded-xl border border-neutral-250 shadow-sm font-sans"
+              >
+                <ol className="list-decimal pl-4 space-y-1.5">
+                  <li>Buat atau buka spreadsheet baru di Google Sheets Anda.</li>
+                  <li>Di menu atas, klik <strong>Ekstensi (Extensions)</strong> &gt; <strong>Apps Script</strong>.</li>
+                  <li>Hapus semua kode default di dalam editor tersebut, lalu tempel kode script di bawah.</li>
+                  <li>Di kanan atas editor, klik tombol <strong>Terapkan (Deploy)</strong> &gt; <strong>Penerapan Baru (New Deployment)</strong>.</li>
+                  <li>Klik ikon roda gigi pengaturan di sebelah tulisan "Pilih jenis", lalu pilih <strong>Aplikasi Web (Web App)</strong>.</li>
+                  <li>Ubah pengaturan <strong>"Yang memiliki akses" (Who has access)</strong> menjadi <strong>"Siapa saja" (Anyone)</strong>.</li>
+                  <li>Klik <strong>Terapkan (Deploy)</strong>, berikan izin akses (Authorize Access) menggunakan akun Google Anda jika diminta, lalu salin <strong>URL Aplikasi Web (Web App URL)</strong> yang didapatkan.</li>
+                  <li>Tempelkan URL tersebut ke kolom <strong>URL Web App</strong> di atas lalu klik <strong>Simpan URL</strong>.</li>
+                </ol>
+
+                <div className="pt-2">
+                  <div className="flex justify-between items-center bg-neutral-900 px-3 py-1.5 rounded-t-lg">
+                    <span className="text-[9px] font-mono font-bold text-neutral-400">Google Apps Script Code</span>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        navigator.clipboard.writeText(appsScriptCode);
+                        alert("Kode script berhasil disalin!");
+                      }}
+                      className="text-[9px] text-white hover:text-neutral-300 font-bold uppercase"
+                    >
+                      Salin Kode Script
+                    </button>
+                  </div>
+                  <pre className="p-3 bg-neutral-950 text-neutral-100 font-mono text-[9px] rounded-b-lg overflow-x-auto max-h-40">
+                    {appsScriptCode}
+                  </pre>
+                </div>
+              </motion.div>
+            )}
+          </div>
+        </div>
+      </div>
+
+      {/* Local Export & List of Leads */}
+      <div className="flex justify-between items-center mb-4 pb-2 border-b border-neutral-150">
+        <span className="text-[10px] font-black uppercase tracking-widest text-[#C5A059] flex items-center gap-1.5">
+          <Database className="w-3.5 h-3.5" /> Database Lokal Browser ({submissionsList.length} Leads)
+        </span>
+        <div className="flex gap-2">
+          <button
+            onClick={exportToCSV}
+            disabled={submissionsList.length === 0}
+            className="px-3 py-1.5 bg-neutral-100 hover:bg-neutral-200 disabled:opacity-50 text-neutral-800 rounded-lg text-[9px] font-black uppercase tracking-wider cursor-pointer font-bold"
+          >
+            Ekspor CSV
+          </button>
+          <button
+            onClick={clearSubmissions}
+            disabled={submissionsList.length === 0}
+            className="px-3 py-1.5 bg-rose-50 hover:bg-rose-100 disabled:opacity-50 text-rose-600 rounded-lg text-[9px] font-black uppercase tracking-wider cursor-pointer font-bold"
+          >
+            Hapus Semua
+          </button>
+        </div>
+      </div>
+
+      {submissionsList.length === 0 ? (
+        <p className="text-xs text-neutral-400 text-center py-6">Belum ada email atau data masuk yang tersimpan.</p>
+      ) : (
+        <div className="overflow-x-auto max-h-60 overflow-y-auto">
+          <table className="w-full text-left text-[11px] font-mono whitespace-nowrap">
+            <thead>
+              <tr className="bg-neutral-50 text-neutral-500 uppercase border-b border-neutral-100">
+                <th className="p-2 font-bold font-sans">Tanggal</th>
+                <th className="p-2 font-bold font-sans">Nama</th>
+                <th className="p-2 font-bold font-sans">Email</th>
+                <th className="p-2 font-bold font-sans">WhatsApp</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-neutral-100">
+              {submissionsList.slice().reverse().map((sub, i) => (
+                <tr key={i} className="hover:bg-neutral-50">
+                  <td className="p-2 text-neutral-400">{new Date(sub.timestamp).toLocaleDateString("id-ID")}</td>
+                  <td className="p-2 font-bold text-neutral-800">{sub.name}</td>
+                  <td className="p-2 text-neutral-600 font-sans break-all">{sub.email}</td>
+                  <td className="p-2 text-neutral-600">{sub.whatsapp}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
+    </motion.div>
+  );
+};
+
 export const OutlookReportForm: React.FC = () => {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [whatsapp, setWhatsapp] = useState("");
+  const [formError, setFormError] = useState("");
+  const [isSubmitted, setIsSubmitted] = useState(false);
   const [downloading, setDownloading] = useState(false);
   const [downloadSuccess, setDownloadSuccess] = useState(false);
+  const [showAdminDb, setShowAdminDb] = useState(false);
+  const [submissionsList, setSubmissionsList] = useState<any[]>([]);
+  const [webhookUrl, setWebhookUrl] = useState("https://script.google.com/macros/s/AKfycbyN3UT-gJN6Jk_uP1qhtsc_0H3WZUu3OlTDABeD5enRf3ey7OrRB5IVAFnGEq1bgyLE/exec");
+  const [testSent, setTestSent] = useState(false);
+  const [showCopyCode, setShowCopyCode] = useState(false);
+
+  useEffect(() => {
+    // Load existing registered customer details if they previously registered
+    const savedUserData = localStorage.getItem("outlook_user_data");
+    if (savedUserData) {
+      try {
+        const parsed = JSON.parse(savedUserData);
+        if (parsed.name && parsed.email && parsed.whatsapp) {
+          setName(parsed.name);
+          setEmail(parsed.email);
+          setWhatsapp(parsed.whatsapp);
+          setIsSubmitted(true);
+        }
+      } catch (e) {
+        console.error("Error parsing saved user data:", e);
+      }
+    }
+
+    // Load full database of leads
+    const savedSubmissions = localStorage.getItem("outlook_submissions");
+    if (savedSubmissions) {
+      try {
+        setSubmissionsList(JSON.parse(savedSubmissions));
+      } catch (e) {
+        console.error("Error parsing submissions list:", e);
+      }
+    }
+
+    // Load spreadsheet webhook URL
+    const savedWebhook = localStorage.getItem("outlook_webhook_url");
+    if (savedWebhook) {
+      setWebhookUrl(savedWebhook);
+    } else {
+      setWebhookUrl("https://script.google.com/macros/s/AKfycbyN3UT-gJN6Jk_uP1qhtsc_0H3WZUu3OlTDABeD5enRf3ey7OrRB5IVAFnGEq1bgyLE/exec");
+    }
+  }, []);
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setFormError("");
+
+    if (!name.trim()) {
+      setFormError("Nama lengkap wajib diisi.");
+      return;
+    }
+    if (!email.trim() || !email.includes("@")) {
+      setFormError("Alamat email tidak valid.");
+      return;
+    }
+    if (!whatsapp.trim()) {
+      setFormError("Nomor WhatsApp wajib diisi.");
+      return;
+    }
+
+    const newLead = {
+      name: name.trim(),
+      email: email.trim(),
+      whatsapp: whatsapp.trim(),
+      timestamp: new Date().toISOString()
+    };
+
+    // Save lead's personalized session context
+    localStorage.setItem("outlook_user_data", JSON.stringify(newLead));
+
+    // Append to global leads list
+    const currentList = JSON.parse(localStorage.getItem("outlook_submissions") || "[]");
+    currentList.push(newLead);
+    localStorage.setItem("outlook_submissions", JSON.stringify(currentList));
+
+    setSubmissionsList(currentList);
+    setIsSubmitted(true);
+
+    // Automatically trigger Google Spreadsheet Webhook / App Script sync if set
+    if (webhookUrl.trim()) {
+      fetch(webhookUrl.trim(), {
+        method: "POST",
+        mode: "no-cors", // Bypasses browser CORS preflight blocks for redirecting Google Apps Scripts
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(newLead)
+      }).catch(err => {
+        console.error("Failed to sync automatically to Google Spreadsheet webhook:", err);
+      });
+    }
+  };
 
   const startDownload = () => {
     setDownloading(true);
@@ -190,55 +533,236 @@ export const OutlookReportForm: React.FC = () => {
     }, 1000);
   };
 
+  const handleEditIdentity = () => {
+    localStorage.removeItem("outlook_user_data");
+    setIsSubmitted(false);
+    setDownloadSuccess(false);
+  };
+
+  const exportToCSV = () => {
+    if (submissionsList.length === 0) return;
+    let csvContent = "data:text/csv;charset=utf-8,";
+    csvContent += "Tanggal,Nama,Email,No. WhatsApp\n";
+
+    submissionsList.forEach((sub) => {
+      const date = new Date(sub.timestamp).toLocaleString("id-ID");
+      const nameEscaped = sub.name.replace(/"/g, '""');
+      const emailEscaped = sub.email.replace(/"/g, '""');
+      const waEscaped = sub.whatsapp.replace(/"/g, '""');
+      csvContent += `"${date}","${nameEscaped}","${emailEscaped}","${waEscaped}"\n`;
+    });
+
+    const encodedUri = encodeURI(csvContent);
+    const link = document.createElement("a");
+    link.setAttribute("href", encodedUri);
+    link.setAttribute("download", `CGLINK_Outlook2026_Leads_${new Date().toISOString().slice(0, 10)}.csv`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
+  const clearSubmissions = () => {
+    if (window.confirm("Apakah Anda yakin ingin menghapus seluruh database email & data leads masuk?")) {
+      localStorage.removeItem("outlook_submissions");
+      setSubmissionsList([]);
+    }
+  };
+
+  if (isSubmitted) {
+    const waText = encodeURIComponent(
+      `Halo CGLINK Indonesia Advisory, saya *${name}* (${email}) baru saja mengunduh e-book Economic & Business Outlook 2026. Saya ingin melakukan konfirmasi dan berkonsultasi mengenai laporan ini.`
+    );
+    const waUrl = `https://wa.me/6285121372871?text=${waText}`;
+
+    return (
+      <div className="bg-neutral-50 border border-neutral-100 p-8 md:p-12 rounded-[3.5rem] shadow-xl my-12 text-left max-w-2xl mx-auto relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-32 h-32 bg-emerald-500/5 rounded-full blur-2xl pointer-events-none" />
+
+        <span className="text-[10px] font-black text-emerald-600 font-mono tracking-widest uppercase mb-2 block">✓ Akses Berhasil Terbuka</span>
+        <h3 className="text-2xl md:text-3xl font-display font-black text-neutral-900 mb-2 uppercase tracking-tight">Terima Kasih, {name}!</h3>
+        <p className="text-sm text-neutral-500 mb-8 font-medium leading-relaxed">
+          Tautan unduhan dokumen Premium <strong>"Membaca Ekonomi & Outlook Bisnis Indonesia 2026"</strong> sekarang aktif. Silakan unduh dokumen Anda di bawah ini dan lakukan konfirmasi instan via WhatsApp untuk sesi konsultasi strategi.
+        </p>
+
+        <div className="grid sm:grid-cols-2 gap-4">
+          {/* Button 1: Download PDF */}
+          <button
+            onClick={startDownload}
+            disabled={downloading}
+            className="w-full py-5 px-6 bg-neutral-900 hover:bg-neutral-800 disabled:bg-neutral-200 text-white disabled:text-neutral-500 rounded-2xl font-black uppercase tracking-widest text-[10px] transition-all hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center gap-2.5 shadow-xl cursor-pointer"
+          >
+            {downloading ? (
+              <>
+                <div className="w-4 h-4 border-2 border-white/20 border-t-white rounded-full animate-spin" />
+                Mengunduh PDF...
+              </>
+            ) : (
+              <>
+                <Download className="w-4 h-4" />
+                Unduh PDF Laporan
+              </>
+            )}
+          </button>
+
+          {/* Button 2: WhatsApp Confirmation */}
+          <a
+            href={waUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="w-full py-5 px-6 bg-[#27AE60] hover:bg-[#219653] text-white rounded-2xl font-black uppercase tracking-widest text-[10px] transition-all hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center gap-2.5 shadow-xl text-center cursor-pointer"
+          >
+            <MessageSquare className="w-4 h-4" />
+            Konfirmasi Via WA
+          </a>
+        </div>
+
+        {downloadSuccess && (
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="bg-emerald-50 border border-emerald-100 p-5 rounded-2xl mt-8 flex items-center gap-3"
+          >
+            <CheckCircle2 className="w-5 h-5 text-emerald-600 shrink-0" />
+            <p className="text-[11px] text-emerald-800 font-bold tracking-wide uppercase">
+              ✓ Laporan Berhasil Diunduh! Sila cek direktori unduhan (PDF format).
+            </p>
+          </motion.div>
+        )}
+
+        <div className="mt-12 pt-6 border-t border-neutral-100 flex flex-wrap justify-between items-center gap-4 text-xs font-bold font-mono text-neutral-400">
+          <button onClick={handleEditIdentity} className="hover:text-black transition-colors uppercase tracking-wider cursor-pointer">
+            ← Ganti Identitas
+          </button>
+
+          <button
+            type="button"
+            onClick={() => setShowAdminDb(!showAdminDb)}
+            className="flex items-center gap-1.5 hover:text-black transition-colors uppercase tracking-wider cursor-pointer font-sans"
+          >
+            <Database className="w-4 h-4" />
+            {showAdminDb ? "Sembunyikan Database Leads" : "Lihat Database Leads"}
+          </button>
+        </div>
+
+        {/* Database Leads view block */}
+        {showAdminDb && (
+          <LeadsDatabaseAdmin
+            webhookUrl={webhookUrl}
+            setWebhookUrl={setWebhookUrl}
+            submissionsList={submissionsList}
+            exportToCSV={exportToCSV}
+            clearSubmissions={clearSubmissions}
+            testSent={testSent}
+            setTestSent={setTestSent}
+            showCopyCode={showCopyCode}
+            setShowCopyCode={setShowCopyCode}
+          />
+        )}
+      </div>
+    );
+  }
+
   return (
     <div className="bg-neutral-50 border border-neutral-100 p-8 md:p-12 rounded-[3.5rem] shadow-xl my-12 text-left max-w-2xl mx-auto relative overflow-hidden">
       <div className="absolute top-0 right-0 w-32 h-32 bg-[#C5A059]/5 rounded-full blur-2xl pointer-events-none" />
-      
-      <span className="text-[10px] font-black text-[#C5A059] font-mono tracking-widest uppercase mb-2 block">Direct Premium Access</span>
-      <h3 className="text-2xl md:text-3xl font-display font-black text-neutral-900 mb-3 uppercase tracking-tight">Unduh Laporan Outlook & Konsultasi</h3>
+
+      <span className="text-[10px] font-black text-[#C5A059] font-mono tracking-widest uppercase mb-2 block font-semibold">Premium Report Access</span>
+      <h3 className="text-2xl md:text-3xl font-display font-black text-neutral-900 mb-3 uppercase tracking-tight">Buka Akses Unduhan Laporan</h3>
       <p className="text-sm text-neutral-500 mb-8 font-medium leading-relaxed">
-        Laporan Premium <strong>"Membaca Ekonomi & Outlook Bisnis Indonesia 2026"</strong> tersedia untuk langsung diunduh tanpa perlu registrasi form. Dapatkan insight hukum korporasi, standarisasi operasional, dan peta jalan logistik energi secara gratis.
+        Laporan Premium <strong>"Membaca Ekonomi & Outlook Bisnis Indonesia 2026"</strong> tersedia untuk langsung diunduh secara gratis. Silakan lengkapi identitas Anda di bawah ini untuk mengaktifkan tautan download PDF dan opsi konfirmasi konsultasi secara instan.
       </p>
 
-      <div className="grid sm:grid-cols-2 gap-4">
-        {/* Button 1: Download PDF */}
+      <form onSubmit={handleSubmit} className="space-y-6">
+        <div>
+          <label className="block text-[10px] font-black uppercase tracking-wider text-neutral-400 mb-2">Nama Lengkap</label>
+          <div className="relative">
+            <span className="absolute inset-y-0 left-0 pl-4 flex items-center text-neutral-400 pointer-events-none">
+              <User className="w-4 h-4" />
+            </span>
+            <input
+              type="text"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              placeholder="Masukkan nama lengkap Anda"
+              className="w-full pl-11 pr-4 py-4 bg-white border border-neutral-200 rounded-2xl text-sm focus:border-black focus:ring-1 focus:ring-black outline-none transition-all"
+              required
+            />
+          </div>
+        </div>
+
+        <div>
+          <label className="block text-[10px] font-black uppercase tracking-wider text-neutral-400 mb-2">Alamat Email Bisnis</label>
+          <div className="relative">
+            <span className="absolute inset-y-0 left-0 pl-4 flex items-center text-neutral-400 pointer-events-none">
+              <Mail className="w-4 h-4" />
+            </span>
+            <input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="nama@perusahaan.com"
+              className="w-full pl-11 pr-4 py-4 bg-white border border-neutral-200 rounded-2xl text-sm focus:border-black focus:ring-1 focus:ring-black outline-none transition-all"
+              required
+            />
+          </div>
+        </div>
+
+        <div>
+          <label className="block text-[10px] font-black uppercase tracking-wider text-neutral-400 mb-2">Nomor WhatsApp</label>
+          <div className="relative">
+            <span className="absolute inset-y-0 left-0 pl-4 flex items-center text-neutral-400 pointer-events-none">
+              <Phone className="w-4 h-4" />
+            </span>
+            <input
+              type="text"
+              value={whatsapp}
+              onChange={(e) => setWhatsapp(e.target.value)}
+              placeholder="0812xxxxxxxx atau +628xxxxxxxx"
+              className="w-full pl-11 pr-4 py-4 bg-white border border-neutral-200 rounded-2xl text-sm focus:border-black focus:ring-1 focus:ring-black outline-none transition-all"
+              required
+            />
+          </div>
+        </div>
+
+        {formError && (
+          <p className="text-xs text-rose-600 font-bold tracking-wide uppercase">
+            ⚠️ {formError}
+          </p>
+        )}
+
         <button
-          onClick={startDownload}
-          disabled={downloading}
-          className="w-full py-5 px-6 bg-neutral-900 hover:bg-neutral-800 disabled:bg-neutral-200 text-white disabled:text-neutral-500 rounded-2xl font-black uppercase tracking-widest text-[10px] transition-all hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center gap-2.5 shadow-xl"
+          type="submit"
+          className="w-full py-5 px-6 bg-neutral-900 hover:bg-neutral-800 text-white rounded-2xl font-black uppercase tracking-widest text-[11px] transition-all hover:scale-[1.01] active:scale-[0.99] flex items-center justify-center gap-2 shadow-xl cursor-pointer"
         >
-          {downloading ? (
-            <>
-              <div className="w-4 h-4 border-2 border-white/20 border-t-white rounded-full animate-spin" />
-              Menyiapkan PDF...
-            </>
-          ) : (
-            <>
-              <Download className="w-4 h-4" />
-              Unduh PDF Gratis
-            </>
-          )}
+          <span>Buka Akses Laporan Premium</span>
+          <ArrowRight className="w-4 h-4" />
         </button>
-              {/* Button 2: Consultation WhatsApp */}
-        <a
-          href="https://wa.me/6285121372871?text=Halo%20CGLINK%20Indonesia%20Advisory%2C%20saya%20tertarik%20untuk%20berkonsultasi%20mengenai%20Economic%20%26%20Business%20Outlook%202026."
-          target="_blank"
-          rel="noopener noreferrer"
-          className="w-full py-5 px-6 bg-[#C5A059] hover:bg-[#b08e48] text-white rounded-2xl font-black uppercase tracking-widest text-[10px] transition-all hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center gap-2.5 shadow-xl text-center"
+      </form>
+
+      {/* Admin Database inspector list */}
+      <div className="mt-8 pt-6 border-t border-neutral-100 flex justify-end">
+        <button
+          type="button"
+          onClick={() => setShowAdminDb(!showAdminDb)}
+          className="flex items-center gap-1.5 text-xs font-bold font-mono text-neutral-400 hover:text-black transition-colors uppercase tracking-wider cursor-pointer"
         >
-          <MessageSquare className="w-4 h-4" />
-          Konsultasi Bisnis
-        </a>
+          <Database className="w-3.5 h-3.5" />
+          {showAdminDb ? "Sembunyikan Database Leads" : "Lihat Database Leads"}
+        </button>
       </div>
 
-      {downloadSuccess && (
-        <motion.p 
-          initial={{ opacity: 0, y: 5 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="text-xs text-emerald-600 font-bold tracking-wide mt-5 text-center uppercase"
-        >
-          ✓ Laporan PDF CGLINK_Business_Outlook_2026 Berhasil Diunduh!
-        </motion.p>
+      {showAdminDb && (
+        <LeadsDatabaseAdmin
+          webhookUrl={webhookUrl}
+          setWebhookUrl={setWebhookUrl}
+          submissionsList={submissionsList}
+          exportToCSV={exportToCSV}
+          clearSubmissions={clearSubmissions}
+          testSent={testSent}
+          setTestSent={setTestSent}
+          showCopyCode={showCopyCode}
+          setShowCopyCode={setShowCopyCode}
+        />
       )}
     </div>
   );
