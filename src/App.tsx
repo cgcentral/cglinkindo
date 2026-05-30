@@ -2242,7 +2242,18 @@ export default function App() {
       console.log("Meta Pixel ID saved from URL:", pixelParam.trim());
     }
 
-    if (pageParam === 'outlook' || pageParam === 'business-outlook' || outlookParam === 'true') {
+    const hash = window.location.hash.toLowerCase();
+    const pathname = window.location.pathname.toLowerCase();
+
+    if (
+      pageParam === 'outlook' || 
+      pageParam === 'business-outlook' || 
+      outlookParam === 'true' ||
+      hash === '#outlook' ||
+      hash === '#business-outlook' ||
+      pathname === '/outlook' ||
+      pathname === '/business-outlook'
+    ) {
       setCurrentPage('blog');
       setSelectedArticleId(4); // ID for the Economic & Business Outlook 2026 article
       
