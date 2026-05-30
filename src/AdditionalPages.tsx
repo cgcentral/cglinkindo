@@ -1321,7 +1321,7 @@ export const BlogPage: React.FC<{ onBack: () => void; initialArticleId?: number 
                   <Linkedin className="w-4 h-4" />
                 </a>
                 <a 
-                  href="https://www.instagram.com/amalsolehcglink/"
+                  href="https://www.instagram.com/cglinkindonesia/"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="w-12 h-12 rounded-full border border-neutral-200 flex items-center justify-center text-neutral-500 bg-white hover:text-black hover:shadow-lg transition-all"
@@ -1428,7 +1428,7 @@ export const BlogPage: React.FC<{ onBack: () => void; initialArticleId?: number 
                   <Linkedin className="w-4 h-4" />
                 </a>
                 <a 
-                  href="https://www.instagram.com/amalsolehcglink/"
+                  href="https://www.instagram.com/cglinkindonesia/"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="w-12 h-12 rounded-full border border-neutral-200 flex items-center justify-center text-neutral-500 bg-white hover:text-black hover:shadow-lg transition-all"

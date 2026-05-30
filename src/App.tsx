@@ -1615,7 +1615,7 @@ const Footer = ({
               Together.
             </h2>
             <div className="flex gap-6">
-              <a href="https://www.instagram.com/cglink_/?hl=en" target="_blank" rel="noopener noreferrer" className="w-12 h-12 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center hover:bg-white hover:text-black transition-all">
+              <a href="https://www.instagram.com/cglinkindonesia/" target="_blank" rel="noopener noreferrer" className="w-12 h-12 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center hover:bg-white hover:text-black transition-all">
                 <Instagram className="w-5 h-5" />
               </a>
               <a href="https://www.linkedin.com/company/cglink-indonesia/?viewAsMember=true" target="_blank" rel="noopener noreferrer" className="w-12 h-12 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center hover:bg-white hover:text-black transition-all">
@@ -2101,7 +2101,7 @@ const ContactPage: React.FC<{ onBack: () => void }> = ({ onBack }) => {
                   <a href="https://www.linkedin.com/company/cglink-indonesia/?viewAsMember=true" target="_blank" rel="noopener noreferrer" className="w-12 h-12 rounded-xl bg-neutral-50 border border-neutral-100 flex items-center justify-center text-neutral-400 hover:text-black hover:bg-white hover:shadow-lg transition-all">
                     <Linkedin className="w-5 h-5" />
                   </a>
-                  <a href="https://www.instagram.com/cglink_/?hl=en" target="_blank" rel="noopener noreferrer" className="w-12 h-12 rounded-xl bg-neutral-50 border border-neutral-100 flex items-center justify-center text-neutral-400 hover:text-black hover:bg-white hover:shadow-lg transition-all">
+                  <a href="https://www.instagram.com/cglinkindonesia/" target="_blank" rel="noopener noreferrer" className="w-12 h-12 rounded-xl bg-neutral-50 border border-neutral-100 flex items-center justify-center text-neutral-400 hover:text-black hover:bg-white hover:shadow-lg transition-all">
                     <Instagram className="w-5 h-5" />
                   </a>
                 </div>

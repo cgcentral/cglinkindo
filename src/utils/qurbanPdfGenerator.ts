@@ -665,7 +665,7 @@ export const downloadQurbanReportPDF = () => {
 
   doc.setFontSize(8);
   doc.setTextColor(100, 100, 100);
-  doc.text("www.cglinkindonesia.com  •  @amalsolehcglink", 105, 260, { align: "center" });
+  doc.text("www.cglinkindonesia.com  •  @cglinkindonesia", 105, 260, { align: "center" });
 
 
   // Save to file downloadable name

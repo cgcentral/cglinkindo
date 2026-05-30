@@ -734,7 +734,7 @@ export const ImpactPage: React.FC<PageProps> = ({ onBack }) => {
                   <p className="text-xs text-neutral-400 font-medium">Follow Yayasan Amal Soleh CGLINK (YASCI) on Instagram to support our daily missions.</p>
                 </div>
                 <a 
-                  href="https://www.instagram.com/amalsolehcglink/" 
+                  href="https://www.instagram.com/cglinkindonesia/" 
                   target="_blank" 
                   rel="noopener noreferrer"
                   className="px-8 py-4 bg-neutral-900 text-white font-bold text-xs uppercase tracking-widest rounded-full hover:bg-neutral-850 transition-all flex items-center gap-2"
@@ -872,7 +872,7 @@ export const ImpactPage: React.FC<PageProps> = ({ onBack }) => {
                   <p className="text-xs text-neutral-400 font-medium">Follow Yayasan Amal Soleh CGLINK (YASCI) on Instagram to support our daily missions.</p>
                 </div>
                 <a 
-                  href="https://www.instagram.com/amalsolehcglink/" 
+                  href="https://www.instagram.com/cglinkindonesia/" 
                   target="_blank" 
                   rel="noopener noreferrer"
                   className="px-8 py-4 bg-neutral-900 text-white font-bold text-xs uppercase tracking-widest rounded-full hover:bg-neutral-850 transition-all flex items-center gap-2"
@@ -1004,7 +1004,7 @@ export const ImpactPage: React.FC<PageProps> = ({ onBack }) => {
                   <p className="text-xs text-neutral-400 font-medium">Follow Yayasan Amal Soleh CGLINK (YASCI) on Instagram to support our daily missions.</p>
                 </div>
                 <a 
-                  href="https://www.instagram.com/amalsolehcglink/" 
+                  href="https://www.instagram.com/cglinkindonesia/" 
                   target="_blank" 
                   rel="noopener noreferrer"
                   className="px-8 py-4 bg-neutral-900 text-white font-bold text-xs uppercase tracking-widest rounded-full hover:bg-neutral-850 transition-all flex items-center gap-2"
@@ -1079,7 +1079,7 @@ export const ImpactPage: React.FC<PageProps> = ({ onBack }) => {
                 We are committed to not just building businesses, but making a tangible difference in society. Through our foundation, Yayasan Amal Soleh CGLINK (YASCI), we bring this commitment to life by driving various social, educational, and community empowerment programs.
               </p>
               <a 
-                href="https://www.instagram.com/amalsolehcglink/" 
+                href="https://www.instagram.com/cglinkindonesia/" 
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-3 px-8 py-4 bg-neutral-900 text-white rounded-full font-bold text-xs uppercase tracking-widest hover:bg-neutral-850 transition-all shadow-xl shadow-neutral-200"
