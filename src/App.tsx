@@ -2244,16 +2244,22 @@ export default function App() {
 
     const hash = window.location.hash.toLowerCase();
     const pathname = window.location.pathname.toLowerCase();
+    const cleanPath = pathname.trim().replace(/\/$/, ''); // Remove trailing slash if any
 
-    if (
+    const matchesOutlook = 
       pageParam === 'outlook' || 
       pageParam === 'business-outlook' || 
       outlookParam === 'true' ||
-      hash === '#outlook' ||
-      hash === '#business-outlook' ||
-      pathname === '/outlook' ||
-      pathname === '/business-outlook'
-    ) {
+      hash.includes('outlook') ||
+      hash.includes('business-outlook') ||
+      cleanPath === '/outlook' ||
+      cleanPath === '/business-outlook' ||
+      cleanPath.endsWith('/outlook') ||
+      cleanPath.endsWith('/business-outlook') ||
+      pathname.includes('outlook') ||
+      pathname.includes('business-outlook');
+
+    if (matchesOutlook) {
       setCurrentPage('blog');
       setSelectedArticleId(4); // ID for the Economic & Business Outlook 2026 article
       
