@@ -312,7 +312,7 @@ export const PilarBisnisPage: React.FC<PageProps> = ({ onBack }) => {
         </motion.button>
         <motion.div variants={itemVariants} className="w-full mb-24">
           <h1 className="text-5xl md:text-8xl font-display font-black mb-6 tracking-tighter text-neutral-900">
-            BUSINESS PILLARS
+            BUSINESS UNIT
           </h1>
           <p className="text-xl text-neutral-500 leading-relaxed max-w-2xl font-medium">
             Our service structure is designed to provide comprehensive support for your business growth through strategic partnerships and expert consulting.
@@ -321,7 +321,6 @@ export const PilarBisnisPage: React.FC<PageProps> = ({ onBack }) => {
 
         {/* Pilar Bisnis Section */}
         <motion.div variants={itemVariants} className="mb-32">
-          <h2 className="text-3xl md:text-5xl font-display font-black mb-16 border-l-4 border-neutral-900 pl-6 text-neutral-900 uppercase tracking-tighter">Business Units</h2>
           <div className="space-y-16">
             
             {/* 1. BUSINESS CONSULTING */}
@@ -362,7 +361,43 @@ export const PilarBisnisPage: React.FC<PageProps> = ({ onBack }) => {
               </div>
             </div>
 
-            {/* 2. B2C SERVICES (CG TOUR & TRAVEL) */}
+            {/* 2. CGLINK VENTURE */}
+            <div className="bg-neutral-50 p-8 md:p-12 rounded-[3.5rem] border border-neutral-100 group relative overflow-hidden text-left">
+              <div className="grid lg:grid-cols-12 gap-12 items-center">
+                <div className="lg:col-span-4 flex items-center justify-center p-6 bg-white rounded-3xl border border-neutral-100 shadow-sm aspect-square max-w-[280px] mx-auto group-hover:shadow-md transition-all">
+                  <CGLinkImgLogo className="w-full h-full max-h-[160px]" />
+                </div>
+                <div className="lg:col-span-8">
+                  <span className="text-[10px] font-black tracking-widest text-[#C5A059] uppercase block mb-3">Strategic Investment Unit</span>
+                  <h3 className="text-3xl md:text-4xl font-display font-bold mb-4 text-neutral-900 uppercase tracking-tight">CGLINK Venture</h3>
+                  <p className="text-neutral-600 text-base leading-relaxed mb-6 font-medium">
+                    As the dedicated investment unit of our ecosystem, CGLINK Venture provides strategic capital to businesses that align with our core values. We specialize in project-based funding and acquisition funding to support the growth, scalability, and sustainability of enterprises that strictly operate on halal, legal, and logical principles.
+                  </p>
+                  <ul className="grid sm:grid-cols-2 gap-4 mb-8 text-left">
+                    {[
+                      "Strategic project-based funding for scalable ventures.",
+                      "Targeted acquisition capital for sustainable business growth.",
+                      "Strict investment criteria rooted in legal, logical, and halal standards.",
+                      "Value-add partnerships and high-caliber networking."
+                    ].map((bullet, i) => (
+                      <li key={i} className="flex gap-3 items-start text-neutral-500 text-sm">
+                        <CheckCircle2 className="w-4 h-4 text-[#C5A059] shrink-0 mt-0.5" />
+                        <span className="font-bold">{bullet}</span>
+                      </li>
+                    ))}
+                  </ul>
+                  <a 
+                    href="mailto:businesspartner@cglinkindonesia.com" 
+                    className="inline-flex items-center gap-2 px-6 py-3 bg-neutral-900 text-white rounded-full font-bold text-sm hover:bg-neutral-800 transition-all group/btn"
+                  >
+                    <span>Contact CGLINK Venture</span>
+                    <ArrowRight className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" />
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            {/* 3. B2C SERVICES (CG TOUR & TRAVEL) */}
             <div className="bg-neutral-50 p-8 md:p-12 rounded-[3.5rem] border border-neutral-100 group relative overflow-hidden text-left">
               <div className="grid lg:grid-cols-12 gap-12 items-center">
                 <div className="lg:col-span-4 flex items-center justify-center p-6 bg-black rounded-3xl border border-neutral-900 shadow-sm aspect-square max-w-[280px] mx-auto group-hover:shadow-md transition-all">
@@ -400,7 +435,7 @@ export const PilarBisnisPage: React.FC<PageProps> = ({ onBack }) => {
               </div>
             </div>
 
-            {/* 3. ENERGY (SATYA PETROLEUM NUSANTARA) */}
+            {/* 4. ENERGY (SATYA PETROLEUM NUSANTARA) */}
             <div className="bg-neutral-50 p-8 md:p-12 rounded-[3.5rem] border border-neutral-100 group relative overflow-hidden text-left">
               <div className="grid lg:grid-cols-12 gap-12 items-center">
                 <div className="lg:col-span-4 flex items-center justify-center p-6 bg-white rounded-3xl border border-neutral-100 shadow-sm aspect-square max-w-[280px] mx-auto group-hover:shadow-md transition-all">
@@ -438,7 +473,7 @@ export const PilarBisnisPage: React.FC<PageProps> = ({ onBack }) => {
               </div>
             </div>
 
-            {/* 4. AFFILIATE PROGRAM: BUKU PULANG SEBELUM BERLARI */}
+            {/* 5. AFFILIATE PROGRAM: BUKU PULANG SEBELUM BERLARI */}
             <div className="bg-neutral-50 p-8 md:p-12 rounded-[3.5rem] border border-neutral-100 group relative overflow-hidden text-left">
               <div className="grid lg:grid-cols-12 gap-12 items-center">
                 <div className="lg:col-span-4 flex items-center justify-center p-6 bg-white rounded-3xl border border-neutral-100 shadow-sm aspect-square max-w-[280px] mx-auto group-hover:shadow-md transition-all">
@@ -476,7 +511,7 @@ export const PilarBisnisPage: React.FC<PageProps> = ({ onBack }) => {
               </div>
             </div>
 
-            {/* 5. MEDIA CHANNEL */}
+            {/* 6. MEDIA CHANNEL */}
             <div className="bg-neutral-50 p-8 md:p-12 rounded-[3.5rem] border border-neutral-100 group relative overflow-hidden text-left">
               <div className="grid lg:grid-cols-12 gap-12 items-center">
                 <div className="lg:col-span-4 flex items-center justify-center p-6 bg-white rounded-3xl border border-neutral-100 shadow-sm aspect-square max-w-[280px] mx-auto group-hover:shadow-md transition-all relative">

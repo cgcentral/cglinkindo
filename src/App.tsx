@@ -94,7 +94,7 @@ const translations = {
     learnMore: "Learn More"
   },
   stats: {
-    pillars: "Business Pillars",
+    pillars: "Business Unit",
     sectors: "Portfolio Sectors",
     network: "Active Network",
     excellence: "Excellence Rate"
@@ -449,7 +449,7 @@ const Navbar = ({
 const BusinessStats = () => {
   const t = translations.stats;
   const stats = [
-    { label: t.pillars, value: "05" },
+    { label: t.pillars, value: "06" },
     { label: t.sectors, value: "04" },
     { label: t.network, value: "500+" },
     { label: t.excellence, value: "100%" }
@@ -705,12 +705,12 @@ const ImpactHome = ({
               Business Outlook 2026
             </h2>
             <p className="text-xl text-neutral-600 leading-relaxed max-w-lg mb-6">
-              Ada gap menarik terjadi di Indonesia saat ini. Di satu sisi, indikator makro tumbuh solid hingga 5,16%. Di sisi lain, pengusaha melaporkan tantangan konversi riil dan penurunan daya beli. Unduh laporan premium kami untuk membedah fakta riil ini.
+              An intriguing gap is occurring in Indonesia today. On one hand, macro indicators show solid growth up to 5.16%. On the other hand, business owners report real conversion challenges and declining purchasing power. Download our premium report to dissect this reality.
             </p>
             <div className="mb-10 p-6 bg-white border border-neutral-100 rounded-2xl max-w-lg text-left shadow-sm">
               <span className="text-[9px] font-black uppercase tracking-widest text-neutral-400">Featured Report</span>
-              <h4 className="text-lg font-bold font-display text-neutral-900 mt-1 mb-2">Membaca Ekonomi Indonesia 2026</h4>
-              <p className="text-sm text-neutral-500 font-medium">Berdasarkan data resmi BPS, BI, Gaikindo, dan Kantar Worldpanel. Kupas tuntas 9 dimensi paling vital bagi pengusaha.</p>
+              <h4 className="text-lg font-bold font-display text-neutral-900 mt-1 mb-2">Deciphering Indonesia's Economy 2026</h4>
+              <p className="text-sm text-neutral-500 font-medium">Based on official data from BPS, BI, Gaikindo, and Kantar Worldpanel. Unpacking the 9 most vital dimensions for business owners.</p>
             </div>
             
             <div className="flex flex-col sm:flex-row gap-4">
@@ -723,14 +723,14 @@ const ImpactHome = ({
                 }}
                 className="px-8 py-4 bg-black text-white hover:bg-neutral-800 rounded-2xl font-black uppercase tracking-widest text-[10px] transition-all flex items-center justify-center gap-2 cursor-pointer shadow-xl hover:scale-[1.02] active:scale-[0.98]"
               >
-                Unduh Laporan Gratis <ArrowRight className="w-4 h-4" />
+                Download Free Report <ArrowRight className="w-4 h-4" />
               </button>
               <button 
                 id="outlook-contact"
                 onClick={() => { setCurrentPage('contact'); window.scrollTo(0, 0); }}
                 className="px-8 py-4 border border-black/10 hover:bg-black/5 rounded-2xl font-black uppercase tracking-widest text-[10px] transition-all cursor-pointer hover:scale-[1.02] active:scale-[0.98]"
               >
-                Konsultasi Strategis
+                Strategic Consultation
               </button>
             </div>
           </div>
@@ -762,7 +762,7 @@ const ImpactHome = ({
               className="absolute -bottom-10 -left-10 glass-panel bg-white/90 backdrop-blur-2xl p-8 rounded-3xl border border-white/20 shadow-xl hidden md:block cursor-pointer hover:scale-105 transition-transform"
             >
               <div className="text-2xl font-display font-bold text-black mb-1 leading-none tracking-tighter">INDONESIA'S ECONOMIC & BUSINESS OUTLOOK 2026</div>
-              <div className="text-sm text-neutral-500 uppercase tracking-widest font-black font-mono">Pertumbuhan 5,16% — Menembus Realitas Pasar</div>
+              <div className="text-sm text-neutral-500 uppercase tracking-widest font-black font-mono">5.16% Growth — Navigating Market Realities</div>
             </div>
           </div>
         </div>
@@ -2226,25 +2226,20 @@ const FloatingActions = () => {
   );
 };
 
-export default function App() {
-  const [currentPage, setCurrentPage] = useState<PageType>('home');
-  const [selectedArticleId, setSelectedArticleId] = useState<number | undefined>(undefined);
+// Helper function to detect initial route synchronously on mount to avoid layout jumps or rendering overrides
+const getInitialRoute = (): { page: PageType; articleId: number | undefined } => {
+  if (typeof window === 'undefined') {
+    return { page: 'home', articleId: undefined };
+  }
 
-  useEffect(() => {
+  try {
     const params = new URLSearchParams(window.location.search);
     const pageParam = params.get('page');
     const outlookParam = params.get('outlook');
-    
-    // Check for pixel query parameter (e.g., ?pixel=123456789 or ?fbpixel=123456789)
-    const pixelParam = params.get('pixel') || params.get('fbpixel');
-    if (pixelParam) {
-      localStorage.setItem("fb_pixel_id", pixelParam.trim());
-      console.log("Meta Pixel ID saved from URL:", pixelParam.trim());
-    }
-
     const hash = window.location.hash.toLowerCase();
     const pathname = window.location.pathname.toLowerCase();
-    const cleanPath = pathname.trim().replace(/\/$/, ''); // Remove trailing slash if any
+    const cleanPath = pathname.trim().replace(/\/$/, '');
+    const href = window.location.href.toLowerCase();
 
     const matchesOutlook = 
       pageParam === 'outlook' || 
@@ -2257,18 +2252,40 @@ export default function App() {
       cleanPath.endsWith('/outlook') ||
       cleanPath.endsWith('/business-outlook') ||
       pathname.includes('outlook') ||
-      pathname.includes('business-outlook');
+      pathname.includes('business-outlook') ||
+      href.includes('outlook');
 
     if (matchesOutlook) {
-      setCurrentPage('blog');
-      setSelectedArticleId(4); // ID for the Economic & Business Outlook 2026 article
-      
-      // Delay slightly to ensure elements are rendered before scrolling
+      return { page: 'blog', articleId: 4 };
+    }
+  } catch (e) {
+    console.error("Error parsing initial route:", e);
+  }
+
+  return { page: 'home', articleId: undefined };
+};
+
+export default function App() {
+  const initialRoute = getInitialRoute();
+  const [currentPage, setCurrentPage] = useState<PageType>(initialRoute.page);
+  const [selectedArticleId, setSelectedArticleId] = useState<number | undefined>(initialRoute.articleId);
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    
+    // Check for pixel query parameter (e.g., ?pixel=123456789 or ?fbpixel=123456789)
+    const pixelParam = params.get('pixel') || params.get('fbpixel');
+    if (pixelParam) {
+      localStorage.setItem("fb_pixel_id", pixelParam.trim());
+      console.log("Meta Pixel ID saved from URL:", pixelParam.trim());
+    }
+
+    if (initialRoute.page === 'blog') {
       setTimeout(() => {
         window.scrollTo({ top: 0, behavior: 'smooth' });
       }, 100);
     }
-  }, []);
+  }, [initialRoute.page]);
 
   // Initialize and track Meta Pixel dynamically if ID is present
   useEffect(() => {
