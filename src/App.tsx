@@ -245,6 +245,16 @@ const Navbar = ({
             </AnimatePresence>
           </div>
 
+          <a 
+            id="nav-tour-travel"
+            href="https://cgtourtravel.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            className={getLinkClass(false)}
+          >
+            CG TOUR TRAVEL
+          </a>
+
           <div 
             className={getLinkClass(currentPage.startsWith('service-') || currentPage === 'why-us')}
             onMouseEnter={() => setActiveDropdown('consulting')}
@@ -391,6 +401,17 @@ const Navbar = ({
               <button onClick={() => { setCurrentPage('about'); setIsMobileMenuOpen(false); window.scrollTo(0, 0); }} className={`block text-left text-xl font-bold uppercase tracking-tight ${currentPage === 'about' ? 'text-[#C5A059] opacity-100' : 'opacity-70 text-neutral-900'}`}>Vision & Mission</button>
               <button onClick={() => { setCurrentPage('about-pillars'); setIsMobileMenuOpen(false); window.scrollTo(0, 0); }} className={`block text-left text-xl font-bold uppercase tracking-tight ${currentPage === 'about-pillars' ? 'text-[#C5A059] opacity-100' : 'opacity-70 text-neutral-900'}`}>Business Units</button>
             </div>
+
+            <a 
+              id="mobile-nav-tour-travel"
+              href="https://cgtourtravel.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={() => setIsMobileMenuOpen(false)}
+              className="block text-left text-xl font-bold uppercase tracking-tight opacity-70 hover:opacity-100 text-neutral-900 hover:text-[#C5A059] transition-all pt-4 border-t border-neutral-50"
+            >
+              CG Tour Travel
+            </a>
 
             <div className="space-y-4 pt-4 border-t border-neutral-50">
               <div className="text-[10px] font-black text-neutral-400 tracking-[0.3em] uppercase">{t.consulting}</div>
@@ -690,6 +711,9 @@ const ImpactHome = ({
   setCurrentPage: (p: PageType) => void;
   setSelectedArticleId?: (id: number | undefined) => void;
 }) => {
+  const waGreeting = encodeURIComponent("Halo admin! saya ingin konsultasi dengan CGLINK INDONESIA apakah bisa dibantu?");
+  const waUrl = `https://wa.me/6285121372871?text=${waGreeting}`;
+
   return (
     <section className="py-32 relative z-10 bg-neutral-50 text-black overflow-hidden group">
       <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-neutral-100 rounded-full blur-[120px] -mr-32 -mt-32 transition-transform duration-1000 group-hover:scale-110" />
@@ -697,40 +721,38 @@ const ImpactHome = ({
         <div className="grid lg:grid-cols-2 gap-16 items-center">
           <div>
             <div className="inline-flex items-center gap-2 mb-6 px-4 py-1.5 bg-neutral-900 text-white rounded-full text-[9px] font-black uppercase tracking-widest animate-pulse">
-              <span>★</span> Free Premium Report
+              <span>★</span> Strategic Advisory
             </div>
             <h2 className="text-4xl md:text-6xl font-display font-black tracking-tighter mb-8 uppercase leading-tight">
-              Indonesia's <br />
-              Economic & <br />
-              Business Outlook 2026
+              CGLINK <br />
+              Indonesia <br />
+              Consulting
             </h2>
             <p className="text-xl text-neutral-600 leading-relaxed max-w-lg mb-6">
-              An intriguing gap is occurring in Indonesia today. On one hand, macro indicators show solid growth up to 5.16%. On the other hand, business owners report real conversion challenges and declining purchasing power. Download our premium report to dissect this reality.
+              Navigate market complexities with absolute confidence. From strategic operations and digital marketing to human capital and finance, CGLINK Indonesia provides legal, logical, and halal solutions to accelerate your business growth.
             </p>
             <div className="mb-10 p-6 bg-white border border-neutral-100 rounded-2xl max-w-lg text-left shadow-sm">
-              <span className="text-[9px] font-black uppercase tracking-widest text-neutral-400">Featured Report</span>
-              <h4 className="text-lg font-bold font-display text-neutral-900 mt-1 mb-2">Deciphering Indonesia's Economy 2026</h4>
-              <p className="text-sm text-neutral-500 font-medium">Based on official data from BPS, BI, Gaikindo, and Kantar Worldpanel. Unpacking the 9 most vital dimensions for business owners.</p>
+              <span className="text-[9px] font-black uppercase tracking-widest text-neutral-400">Consultation Program</span>
+              <h4 className="text-lg font-bold font-display text-neutral-900 mt-1 mb-2">Grow Your Business Profitably</h4>
+              <p className="text-sm text-neutral-500 font-medium">Connect directly with our senior advisory team. Get tailored advice on structuring, scaling, compliance, and comprehensive market expansion.</p>
             </div>
             
             <div className="flex flex-col sm:flex-row gap-4">
-              <button 
+              <a 
                 id="outlook-download"
-                onClick={() => { 
-                  if (setSelectedArticleId) setSelectedArticleId(4);
-                  setCurrentPage('blog'); 
-                  window.scrollTo(0, 0); 
-                }}
+                href={waUrl}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="px-8 py-4 bg-black text-white hover:bg-neutral-800 rounded-2xl font-black uppercase tracking-widest text-[10px] transition-all flex items-center justify-center gap-2 cursor-pointer shadow-xl hover:scale-[1.02] active:scale-[0.98]"
               >
-                Download Free Report <ArrowRight className="w-4 h-4" />
-              </button>
+                Consult with Us Now <ArrowRight className="w-4 h-4" />
+              </a>
               <button 
                 id="outlook-contact"
-                onClick={() => { setCurrentPage('contact'); window.scrollTo(0, 0); }}
+                onClick={() => { setCurrentPage('about-pillars'); window.scrollTo(0, 0); }}
                 className="px-8 py-4 border border-black/10 hover:bg-black/5 rounded-2xl font-black uppercase tracking-widest text-[10px] transition-all cursor-pointer hover:scale-[1.02] active:scale-[0.98]"
               >
-                Strategic Consultation
+                Explore Business Units
               </button>
             </div>
           </div>
@@ -741,28 +763,24 @@ const ImpactHome = ({
               viewport={{ once: true }}
               className="aspect-[16/10] rounded-3xl md:rounded-[3rem] overflow-hidden shadow-2xl cursor-pointer"
               onClick={() => { 
-                if (setSelectedArticleId) setSelectedArticleId(4);
-                setCurrentPage('blog'); 
-                window.scrollTo(0, 0); 
+                window.open(waUrl, '_blank');
               }}
             >
               <img 
-                src="https://cglinkindonesia.com/wp-content/uploads/2026/05/unnamed.jpg" 
-                alt="Economic & Business Outlook 2026 Report cover thumbnail" 
+                src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?q=80&w=2000&auto=format&fit=crop" 
+                alt="CGLINK Indonesia Strategic Consultation session" 
                 className="w-full h-full object-cover transition-all duration-500 hover:scale-[1.03]"
                 referrerPolicy="no-referrer"
               />
             </motion.div>
             <div 
               onClick={() => { 
-                if (setSelectedArticleId) setSelectedArticleId(4);
-                setCurrentPage('blog'); 
-                window.scrollTo(0, 0); 
+                window.open(waUrl, '_blank');
               }}
               className="absolute -bottom-10 -left-10 glass-panel bg-white/90 backdrop-blur-2xl p-8 rounded-3xl border border-white/20 shadow-xl hidden md:block cursor-pointer hover:scale-105 transition-transform"
             >
-              <div className="text-2xl font-display font-bold text-black mb-1 leading-none tracking-tighter">INDONESIA'S ECONOMIC & BUSINESS OUTLOOK 2026</div>
-              <div className="text-sm text-neutral-500 uppercase tracking-widest font-black font-mono">5.16% Growth — Navigating Market Realities</div>
+              <div className="text-2xl font-display font-bold text-black mb-1 leading-none tracking-tighter">CGLINK ADVISORY SERVICES</div>
+              <div className="text-sm text-neutral-500 uppercase tracking-widest font-black font-mono">Legal, Logical, and Halal Business Solutions</div>
             </div>
           </div>
         </div>
@@ -1629,6 +1647,7 @@ const Footer = ({
             <ul className="space-y-6 text-[10px] font-black uppercase tracking-[0.3em]">
               <li><button onClick={() => { setCurrentPage('home'); window.scrollTo(0, 0); }} className="hover:text-neutral-400 transition-colors text-left">Home</button></li>
               <li><button onClick={() => { setCurrentPage('about'); window.scrollTo(0, 0); }} className="hover:text-neutral-400 transition-colors text-left">{t.about}</button></li>
+              <li><a href="https://cgtourtravel.com" target="_blank" rel="noopener noreferrer" className="hover:text-neutral-400 transition-colors text-left block">CG Tour Travel</a></li>
               <li><button onClick={() => { setCurrentPage('why-us'); window.scrollTo(0, 0); }} className="hover:text-neutral-400 transition-colors text-left font-extrabold">{t.consulting.toUpperCase()}</button></li>
               <li><button onClick={() => { setCurrentPage('venture-thesis'); window.scrollTo(0, 0); }} className="hover:text-neutral-400 transition-colors text-left">{t.venture}</button></li>
               <li><button onClick={() => { setCurrentPage('careers'); window.scrollTo(0, 0); }} className="hover:text-neutral-400 transition-colors text-left">{t.career}</button></li>
