@@ -57,7 +57,7 @@ import {
 } from "./AboutPages";
 
 
-export type PageType = 'home' | 'about' | 'contact' | 'screening' | 'service-fundamental' | 'service-digital' | 'service-partnerships' | 'service-finance' | 'service-hc' | 'careers' | 'blog' | 'about-vision' | 'about-pillars' | 'about-funding' | 'impact' | 'venture-thesis' | 'venture-portfolio' | 'why-us';
+export type PageType = 'home' | 'about' | 'contact' | 'initial-screening' | 'service-fundamental' | 'service-digital' | 'service-partnerships' | 'service-finance' | 'service-hc' | 'careers' | 'blog' | 'about-vision' | 'about-pillars' | 'about-funding' | 'impact' | 'venture-thesis' | 'venture-portfolio' | 'why-us';
 
 const translations = {
   nav: {
@@ -364,7 +364,7 @@ const Navbar = ({
           <div className="flex items-center gap-4">
             <button 
               id="nav-screening"
-              onClick={() => { setCurrentPage('screening'); window.scrollTo(0, 0); }}
+              onClick={() => { setCurrentPage('initial-screening'); window.scrollTo(0, 0); }}
               className={`px-5 py-3 rounded-2xl border border-[#C5A059]/30 text-[#C5A059] font-black text-[10px] uppercase tracking-widest hover:bg-[#C5A059]/10 transition-all hover:scale-105 active:scale-95`}
             >
               Initial Screening
@@ -462,7 +462,7 @@ const Navbar = ({
             
             <button 
               id="mobile-nav-screening"
-              onClick={() => { setCurrentPage('screening'); setIsMobileMenuOpen(false); window.scrollTo(0, 0); }}
+              onClick={() => { setCurrentPage('initial-screening'); setIsMobileMenuOpen(false); window.scrollTo(0, 0); }}
               className="mt-4 px-10 py-5 border-2 border-dashed border-[#C5A059] text-[#C5A059] rounded-3xl text-xl font-black uppercase tracking-widest text-center hover:bg-[#C5A059]/10"
             >
               Initial Screening
@@ -1668,7 +1668,7 @@ const Footer = ({
               <li><button onClick={() => { setCurrentPage('careers'); window.scrollTo(0, 0); }} className="hover:text-neutral-400 transition-colors text-left">{t.career}</button></li>
               <li><button onClick={() => { setCurrentPage('blog'); window.scrollTo(0, 0); }} className="hover:text-neutral-400 transition-colors text-left">{t.insights}</button></li>
               <li><button onClick={() => { setCurrentPage('impact'); window.scrollTo(0, 0); }} className="hover:text-neutral-400 transition-colors text-left">{t.impact}</button></li>
-              <li><button onClick={() => { setCurrentPage('screening'); window.scrollTo(0, 0); }} className="hover:text-neutral-400 transition-colors text-left text-[#C5A059]">Initial Screening</button></li>
+              <li><button onClick={() => { setCurrentPage('initial-screening'); window.scrollTo(0, 0); }} className="hover:text-neutral-400 transition-colors text-left text-[#C5A059]">Initial Screening</button></li>
               <li><button onClick={() => { setCurrentPage('contact'); window.scrollTo(0, 0); }} className="hover:text-neutral-400 transition-colors text-left">{t.contact}</button></li>
             </ul>
           </div>
@@ -2092,7 +2092,7 @@ const ContactPage: React.FC<{ onBack: () => void; setCurrentPage?: (page: PageTy
               </p>
             </div>
             <button 
-              onClick={() => { setCurrentPage('screening'); window.scrollTo(0, 0); }}
+              onClick={() => { setCurrentPage('initial-screening'); window.scrollTo(0, 0); }}
               className="w-full md:w-auto px-8 py-4 bg-[#C5A059] hover:bg-[#b08e4d] text-neutral-950 rounded-2xl font-black text-xs uppercase tracking-widest transition-all hover:scale-105 active:scale-95 shrink-0 relative z-10 shadow-lg text-center"
             >
               Mulai Screening Sekarang
@@ -2313,17 +2313,23 @@ const getInitialRoute = (): { page: PageType; articleId: number | undefined } =>
       return { page: 'blog', articleId: 4 };
     }
 
-    // Automatic subdomain routing: If hostname is screening.cglinkindonesia.com (or similar), default to screening page!
+    // Automatic subdomain routing: If hostname is screening.cglinkindonesia.com (or similar), default to initial-screening page!
     const hostname = window.location.hostname.toLowerCase();
     if (hostname.startsWith('screening.')) {
-      return { page: 'screening', articleId: undefined };
+      return { page: 'initial-screening', articleId: undefined };
     }
 
-    // Direct support for other pages via pathname (e.g., /screening, /about, /contact)
+    // Direct support for other pages via pathname (e.g., /initial-screening, /about, /contact)
     if (cleanPath) {
       const pageFromPath = cleanPath.replace(/^\//, ''); // remove leading slash
+      
+      // Let's support both 'screening' and 'initial-screening' for backward compatibility
+      if (pageFromPath === 'screening') {
+        return { page: 'initial-screening', articleId: undefined };
+      }
+
       const validPages: PageType[] = [
-        'about', 'contact', 'screening', 'service-fundamental', 'service-digital', 
+        'about', 'contact', 'initial-screening', 'service-fundamental', 'service-digital', 
         'service-partnerships', 'service-finance', 'service-hc', 'careers', 'blog', 
         'about-vision', 'about-pillars', 'about-funding', 'impact', 'venture-thesis', 
         'venture-portfolio', 'why-us'
@@ -2335,14 +2341,17 @@ const getInitialRoute = (): { page: PageType; articleId: number | undefined } =>
 
     // Direct support for other pages via ?page= query parameter
     if (pageParam) {
+      // Backward compatibility for ?page=screening
+      const activePageParam = pageParam === 'screening' ? 'initial-screening' : pageParam;
+      
       const validPages: PageType[] = [
-        'home', 'about', 'contact', 'screening', 'service-fundamental', 'service-digital', 
+        'home', 'about', 'contact', 'initial-screening', 'service-fundamental', 'service-digital', 
         'service-partnerships', 'service-finance', 'service-hc', 'careers', 'blog', 
         'about-vision', 'about-pillars', 'about-funding', 'impact', 'venture-thesis', 
         'venture-portfolio', 'why-us'
       ];
-      if (validPages.includes(pageParam as PageType)) {
-        return { page: pageParam as PageType, articleId: undefined };
+      if (validPages.includes(activePageParam as PageType)) {
+        return { page: activePageParam as PageType, articleId: undefined };
       }
     }
   } catch (e) {
@@ -2497,8 +2506,8 @@ export default function App() {
         {currentPage === 'contact' && (
           <ContactPage key="contact" onBack={() => { setCurrentPage('home'); window.scrollTo(0, 0); }} setCurrentPage={setCurrentPage} />
         )}
-        {currentPage === 'screening' && (
-          <ScreeningForm key="screening" onBack={() => { setCurrentPage('home'); window.scrollTo(0, 0); }} currentPageSetter={setCurrentPage} />
+        {currentPage === 'initial-screening' && (
+          <ScreeningForm key="initial-screening" onBack={() => { setCurrentPage('home'); window.scrollTo(0, 0); }} currentPageSetter={setCurrentPage} />
         )}
         {currentPage === 'why-us' && (
           <WhyUsPage key="why-us" onBack={() => { setCurrentPage('home'); window.scrollTo(0, 0); }} />
