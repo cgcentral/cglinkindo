@@ -2319,6 +2319,20 @@ const getInitialRoute = (): { page: PageType; articleId: number | undefined } =>
       return { page: 'screening', articleId: undefined };
     }
 
+    // Direct support for other pages via pathname (e.g., /screening, /about, /contact)
+    if (cleanPath) {
+      const pageFromPath = cleanPath.replace(/^\//, ''); // remove leading slash
+      const validPages: PageType[] = [
+        'about', 'contact', 'screening', 'service-fundamental', 'service-digital', 
+        'service-partnerships', 'service-finance', 'service-hc', 'careers', 'blog', 
+        'about-vision', 'about-pillars', 'about-funding', 'impact', 'venture-thesis', 
+        'venture-portfolio', 'why-us'
+      ];
+      if (validPages.includes(pageFromPath as PageType)) {
+        return { page: pageFromPath as PageType, articleId: undefined };
+      }
+    }
+
     // Direct support for other pages via ?page= query parameter
     if (pageParam) {
       const validPages: PageType[] = [
