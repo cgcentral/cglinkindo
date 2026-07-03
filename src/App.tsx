@@ -2313,6 +2313,12 @@ const getInitialRoute = (): { page: PageType; articleId: number | undefined } =>
       return { page: 'blog', articleId: 4 };
     }
 
+    // Automatic subdomain routing: If hostname is screening.cglinkindonesia.com (or similar), default to screening page!
+    const hostname = window.location.hostname.toLowerCase();
+    if (hostname.startsWith('screening.')) {
+      return { page: 'screening', articleId: undefined };
+    }
+
     // Direct support for other pages via ?page= query parameter
     if (pageParam) {
       const validPages: PageType[] = [
