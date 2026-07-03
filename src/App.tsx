@@ -46,6 +46,7 @@ import {
 } from "./ServicePages";
 import { CareersPage, BlogPage, insightsData } from "./AdditionalPages";
 import { WhyUsPage } from "./WhyUsPage";
+import { ScreeningForm } from "./components/ScreeningForm";
 import { CGLinkLogo, SPNLogo, BTWMisterCaturLogo, CGTourTravelLogo, CGLinkImgLogo, SPNImgLogo, AffiliateBukuLogo, YoutubeChannelLogo } from "./components/BusinessLogos";
 import { 
   VisionMissionPage, 
@@ -56,7 +57,7 @@ import {
 } from "./AboutPages";
 
 
-export type PageType = 'home' | 'about' | 'contact' | 'service-fundamental' | 'service-digital' | 'service-partnerships' | 'service-finance' | 'service-hc' | 'careers' | 'blog' | 'about-vision' | 'about-pillars' | 'about-funding' | 'impact' | 'venture-thesis' | 'venture-portfolio' | 'why-us';
+export type PageType = 'home' | 'about' | 'contact' | 'screening' | 'service-fundamental' | 'service-digital' | 'service-partnerships' | 'service-finance' | 'service-hc' | 'careers' | 'blog' | 'about-vision' | 'about-pillars' | 'about-funding' | 'impact' | 'venture-thesis' | 'venture-portfolio' | 'why-us';
 
 const translations = {
   nav: {
@@ -362,6 +363,13 @@ const Navbar = ({
           {/* Contact Button */}
           <div className="flex items-center gap-4">
             <button 
+              id="nav-screening"
+              onClick={() => { setCurrentPage('screening'); window.scrollTo(0, 0); }}
+              className={`px-5 py-3 rounded-2xl border border-[#C5A059]/30 text-[#C5A059] font-black text-[10px] uppercase tracking-widest hover:bg-[#C5A059]/10 transition-all hover:scale-105 active:scale-95`}
+            >
+              Initial Screening
+            </button>
+            <button 
               id="nav-contact"
               onClick={() => { setCurrentPage('contact'); window.scrollTo(0, 0); }}
               className={`px-6 py-3 rounded-2xl transition-all hover:scale-105 shadow-xl active:scale-95 text-[10px] font-black uppercase tracking-widest ${scrolled ? 'bg-neutral-900 text-white hover:bg-black shadow-neutral-200' : (currentPage === 'home' ? 'bg-white text-black hover:bg-neutral-200 shadow-white/5' : 'bg-neutral-900 text-white hover:bg-black shadow-neutral-200')}`}
@@ -453,9 +461,16 @@ const Navbar = ({
             </button>
             
             <button 
+              id="mobile-nav-screening"
+              onClick={() => { setCurrentPage('screening'); setIsMobileMenuOpen(false); window.scrollTo(0, 0); }}
+              className="mt-4 px-10 py-5 border-2 border-dashed border-[#C5A059] text-[#C5A059] rounded-3xl text-xl font-black uppercase tracking-widest text-center hover:bg-[#C5A059]/10"
+            >
+              Initial Screening
+            </button>
+            <button 
               id="mobile-nav-contact"
               onClick={() => { setCurrentPage('contact'); setIsMobileMenuOpen(false); window.scrollTo(0, 0); }}
-              className="mt-4 px-10 py-5 bg-neutral-900 text-white rounded-3xl text-xl font-black uppercase tracking-widest text-center"
+              className="mt-2 px-10 py-5 bg-neutral-900 text-white rounded-3xl text-xl font-black uppercase tracking-widest text-center"
             >
               {t.contact}
             </button>
@@ -1653,6 +1668,7 @@ const Footer = ({
               <li><button onClick={() => { setCurrentPage('careers'); window.scrollTo(0, 0); }} className="hover:text-neutral-400 transition-colors text-left">{t.career}</button></li>
               <li><button onClick={() => { setCurrentPage('blog'); window.scrollTo(0, 0); }} className="hover:text-neutral-400 transition-colors text-left">{t.insights}</button></li>
               <li><button onClick={() => { setCurrentPage('impact'); window.scrollTo(0, 0); }} className="hover:text-neutral-400 transition-colors text-left">{t.impact}</button></li>
+              <li><button onClick={() => { setCurrentPage('screening'); window.scrollTo(0, 0); }} className="hover:text-neutral-400 transition-colors text-left text-[#C5A059]">Initial Screening</button></li>
               <li><button onClick={() => { setCurrentPage('contact'); window.scrollTo(0, 0); }} className="hover:text-neutral-400 transition-colors text-left">{t.contact}</button></li>
             </ul>
           </div>
@@ -2010,7 +2026,7 @@ const AboutUs: React.FC<{ onBack: () => void }> = ({ onBack }) => {
   );
 };
 
-const ContactPage: React.FC<{ onBack: () => void }> = ({ onBack }) => {
+const ContactPage: React.FC<{ onBack: () => void; setCurrentPage?: (page: PageType) => void }> = ({ onBack, setCurrentPage }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
 
@@ -2064,6 +2080,25 @@ const ContactPage: React.FC<{ onBack: () => void }> = ({ onBack }) => {
           <ArrowLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform" /> 
           Back to Home
         </button>
+
+        {setCurrentPage && (
+          <div className="bg-neutral-900 border border-[#C5A059]/40 text-white rounded-[2.5rem] p-8 md:p-10 mb-12 shadow-xl flex flex-col md:flex-row items-center justify-between gap-6 relative overflow-hidden text-left">
+            <div className="absolute top-0 right-0 w-64 h-64 bg-[#C5A059]/10 rounded-full blur-3xl pointer-events-none" />
+            <div className="text-left relative z-10">
+              <span className="text-xs font-mono font-black tracking-widest text-[#C5A059] uppercase block mb-2">Rekomendasi Konsultan</span>
+              <h3 className="text-xl md:text-2xl font-display font-black uppercase tracking-tight mb-2">Diagnosis Bisnis Mendalam (Free)</h3>
+              <p className="text-neutral-300 text-sm max-w-2xl font-medium leading-relaxed">
+                Dapatkan diagnosis menyeluruh dengan mengisi formulir initial screening kemitraan kami. Konsultan CGLINK akan membedah profil finansial, perpajakan, marketing, dan operasional Anda sebelum sesi pertemuan.
+              </p>
+            </div>
+            <button 
+              onClick={() => { setCurrentPage('screening'); window.scrollTo(0, 0); }}
+              className="w-full md:w-auto px-8 py-4 bg-[#C5A059] hover:bg-[#b08e4d] text-neutral-950 rounded-2xl font-black text-xs uppercase tracking-widest transition-all hover:scale-105 active:scale-95 shrink-0 relative z-10 shadow-lg text-center"
+            >
+              Mulai Screening Sekarang
+            </button>
+          </div>
+        )}
 
         <div className="grid lg:grid-cols-2 gap-16">
           {/* Left Column: Info & Value Proposition */}
@@ -2277,6 +2312,19 @@ const getInitialRoute = (): { page: PageType; articleId: number | undefined } =>
     if (matchesOutlook) {
       return { page: 'blog', articleId: 4 };
     }
+
+    // Direct support for other pages via ?page= query parameter
+    if (pageParam) {
+      const validPages: PageType[] = [
+        'home', 'about', 'contact', 'screening', 'service-fundamental', 'service-digital', 
+        'service-partnerships', 'service-finance', 'service-hc', 'careers', 'blog', 
+        'about-vision', 'about-pillars', 'about-funding', 'impact', 'venture-thesis', 
+        'venture-portfolio', 'why-us'
+      ];
+      if (validPages.includes(pageParam as PageType)) {
+        return { page: pageParam as PageType, articleId: undefined };
+      }
+    }
   } catch (e) {
     console.error("Error parsing initial route:", e);
   }
@@ -2427,7 +2475,10 @@ export default function App() {
           />
         )}
         {currentPage === 'contact' && (
-          <ContactPage key="contact" onBack={() => { setCurrentPage('home'); window.scrollTo(0, 0); }} />
+          <ContactPage key="contact" onBack={() => { setCurrentPage('home'); window.scrollTo(0, 0); }} setCurrentPage={setCurrentPage} />
+        )}
+        {currentPage === 'screening' && (
+          <ScreeningForm key="screening" onBack={() => { setCurrentPage('home'); window.scrollTo(0, 0); }} currentPageSetter={setCurrentPage} />
         )}
         {currentPage === 'why-us' && (
           <WhyUsPage key="why-us" onBack={() => { setCurrentPage('home'); window.scrollTo(0, 0); }} />
